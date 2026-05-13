@@ -1,4 +1,4 @@
-import { loadPlantData } from "./csv-utils.js";
+import { loadActivePagePlants } from "./csv-utils.js";
 import { t, getCurrentLang, setupLanguageButtons } from "./lang.js";
 import { makeSelectSearchable } from "./searchable-select.js";
 
@@ -32,7 +32,7 @@ async function populate() {
   const selector = document.getElementById("plant-selector");
   const varietySelector = document.getElementById("plant-selector-variety");
   const openBtn = document.getElementById("open-view");
-  const nfcReadBtn = document.getElementById("nfc-read-button");
+  const nfcReadBtn = document.getElementById("nfc-read-btn");
   const listBtn = document.getElementById("plant-list-btn");
   const backBtn = document.getElementById("back-btn");
   const errorMsg = document.getElementById("error-message");
@@ -47,9 +47,7 @@ async function populate() {
   let plants = []; // Declare plants outside try block so it's accessible in event handlers
 
   try {
-    plants = await loadPlantData();
-    // Keep only plants that are active on the page
-    plants = plants.filter(p => p.Active_in_page === 'Y');
+    plants = await loadActivePagePlants();
     console.log("loading plants in plantpage.js");
     // Use Name_HU for Hungarian, Name_EN for English
     const lang = getCurrentLang();
