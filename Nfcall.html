@@ -2420,6 +2420,8 @@ async function populate() {
   function getVarietyText() {
     if (customVarietyMode && nameVarietyCustomInput.value) {
       return nameVarietyCustomInput.value;
+    } else if (selectedVarietyData) {
+      return selectedVarietyData.Name_Variety || "";
     } else {
       return nameVarietySelector.options[nameVarietySelector.selectedIndex]?.text || 
              nameVarietySelector.value;
