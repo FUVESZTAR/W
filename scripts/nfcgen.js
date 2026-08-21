@@ -336,7 +336,7 @@ async function populate() {
         if (variety && !varietiesSet.has(variety)) {
           varietiesSet.add(variety);
           const opt = document.createElement("option");
-          opt.value = String(plant.Plant_ID || "");
+          opt.value = plant.Plant_ID != null ? String(plant.Plant_ID) : "";
           opt.textContent = variety;
           nameVarietySelector.appendChild(opt);
         }
@@ -386,7 +386,9 @@ async function populate() {
     nameVarietyCustomInput.style.display = "none";
     nameVarietyCustomInput.value = "";
     
-    const varietyPlant = plants.find(plant => String(plant.Plant_ID || "") === value);
+    const varietyPlant = plants.find(plant => (
+      plant.Plant_ID != null ? String(plant.Plant_ID) : ""
+    ) === value);
     
     console.log("Selected variety plant:", varietyPlant);
     
@@ -834,9 +836,7 @@ function calculateSize(text) {
     if (paramplantId) {
       // Find the option whose plant has the matching plantId
       const matchOpt = Array.from(nameVarietySelector.options).find(opt => {
-        if (!opt.value || opt.value === '__custom__') return false;
-        const idx = parseInt(opt.value);
-        return String(plants[idx]?.Plant_ID) === paramplantId;
+        return opt.value && opt.value !== '__custom__' && String(opt.value) === paramplantId;
       });
       if (matchOpt) {
         nameVarietySelector.value = matchOpt.value;
