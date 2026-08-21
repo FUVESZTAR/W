@@ -2034,8 +2034,10 @@ function makeSelectSearchable(selectEl, searchId) {
   // Clear search field when user makes a selection
   selectEl.addEventListener('change', () => {
     searchInput.value = '';
-    // Re-snapshot so allOptions reflects current set (important for variety select)
-    snapshot();
+    // Do NOT re-snapshot here: snapshot() would capture only the currently
+    // filtered subset if the user picked from a search-filtered list, causing
+    // allOptions to lose the full option set and making further selections
+    // impossible. allOptions is kept up-to-date exclusively via refresh().
     applyFilter();
   });
 
@@ -2255,7 +2257,7 @@ async function populate() {
       nameVarietyCustomInput.value = "";
       nameVarietyCustomInput.focus();
       plantIdInput.removeAttribute("readonly");
-      plantIdInput.value = nextPlantId != null ? nextPlantId : "";
+      plantIdInput.value = "";
       updatePreviews();
       return;
     }
