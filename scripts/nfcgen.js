@@ -336,7 +336,7 @@ async function populate() {
         if (variety && !varietiesSet.has(variety)) {
           varietiesSet.add(variety);
           const opt = document.createElement("option");
-          opt.value = idx;
+          opt.value = String(plant.Plant_ID || "");
           opt.textContent = variety;
           nameVarietySelector.appendChild(opt);
         }
@@ -386,13 +386,13 @@ async function populate() {
     nameVarietyCustomInput.style.display = "none";
     nameVarietyCustomInput.value = "";
     
-    const varietyIndex = parseInt(value);
-    const varietyPlant = plants[varietyIndex];
+    const varietyPlant = plants.find(plant => String(plant.Plant_ID || "") === value);
     
     console.log("Selected variety plant:", varietyPlant);
     
     if (varietyPlant) {
       selectedVarietyData = varietyPlant;
+      selectedPlantIndex = plants.indexOf(varietyPlant);
       
       // Update all fields from this variety's data
       plantIdInput.value = varietyPlant.Plant_ID || "";
