@@ -2230,7 +2230,7 @@ async function populate() {
   // Variety selector change event
   nameVarietySelector.addEventListener("change", async () => {
     const value = nameVarietySelector.value;
-    console.log("Variety selected, value:", value);
+    console.log("Variety selected after change, value:", value);
     
     if (value === "") {
       // Clear variety selection
@@ -2276,7 +2276,8 @@ async function populate() {
     ) === value);
     
     console.log("Selected variety plant:", varietyPlant);
-    
+    varietyValue = getVarietyText(); 
+    console.log("Selected variety varietyValue:", varietyValue);
     if (varietyPlant) {
       selectedVarietyData = varietyPlant;
       selectedPlantIndex = plants.indexOf(varietyPlant);
@@ -2288,7 +2289,6 @@ async function populate() {
       datumInput.value = dateString;
       nfcTypInput.value = "n";
       egyebInput.value = "";
-      varietyValue = selectedVarietyData;
       console.log("Selected variety out:", varietyPlant);
       updatePreviews();
     }
@@ -2458,7 +2458,7 @@ function calculateSize(text) {
     const plantId = plantIdInput.value;
     nfcIdValue = nfcIdInput.value;
     const plantName = plantNameInput;
-    const nameVariety = varietyValue; // getVarietyText(); 
+    const nameVariety = getVarietyText(); 
     const latinName = latinNameInput.value;
     const datum = datumInput.value;
     const nfcTyp = nfcTypInput.value;
