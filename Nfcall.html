@@ -2239,6 +2239,7 @@ async function populate() {
       nameVarietyCustomInput.style.display = "none";
       nameVarietyCustomInput.value = "";
       updatePreviews();
+      console.log("Variety empty, out:", value);
       return;
     }
     
@@ -2260,6 +2261,7 @@ async function populate() {
       plantIdInput.removeAttribute("readonly");
       plantIdInput.value = "";
       updatePreviews();
+      console.log("Variety custom, out:", value);
       return;
     }
     
@@ -2287,7 +2289,7 @@ async function populate() {
       nfcTypInput.value = "n";
       egyebInput.value = "";
       varietyValue = selectedVarietyData;
-      
+      console.log("Selected variety out:", varietyPlant);
       updatePreviews();
     }
   });
