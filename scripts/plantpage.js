@@ -19,10 +19,10 @@ nfcGenBtn.addEventListener('click', () => {
 */
 const nfcGenBtn = document.getElementById("nfc-gen-button");
 nfcGenBtn.addEventListener('click', () => {
-  const nameEl = document.getElementById('plant-selector');
+  /*const nameEl = document.getElementById('plant-selector');
   const varEl = document.getElementById('plant-selector-variety');
   const name = nameEl ? nameEl.value : '';
-  const nr = varEl ? varEl.value : '';
+  const nr = varEl ? varEl.value : '';*/
   window.location.href = "Nfcall.html";
 });
 
