@@ -38,7 +38,7 @@ async function populate() {
   const errorMsg = document.getElementById("error-message");
   const nfcListBtn = document.getElementById("nfc-list-btn");
   const nfcGenBtn = document.getElementById("nfc-btn");
-  
+  nfcGenBtn.disabled = false;
   openBtn.disabled = true;
   varietySelector.disabled = true;
 
