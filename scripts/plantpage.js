@@ -81,7 +81,7 @@ async function populate() {
     if (!selectedName) {
       varietySelector.disabled = true;
       openBtn.disabled = true;
-      .disabled = true;
+      nfcGenBtn.disabled = true;
       return;
     }
 
@@ -109,7 +109,7 @@ async function populate() {
 
     varietySelector.disabled = false;
     openBtn.disabled = false;
-    .disabled = false;
+    nfcGenBtn.disabled = false;
     varietySearch.refresh();
   }
 
@@ -117,7 +117,7 @@ async function populate() {
 
   varietySelector.addEventListener("change", () => {
     openBtn.disabled = !selector.value;
-    .disabled = false;
+    nfcGenBtn.disabled = false;
   });
 
   openBtn.addEventListener("click", () => {
