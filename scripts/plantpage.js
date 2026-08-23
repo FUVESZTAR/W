@@ -40,7 +40,6 @@ async function populate() {
   const nfcGenBtn = document.getElementById("nfc-gen-button");
   
   openBtn.disabled = true;
-  nfcGenBtn.disabled = false;
   varietySelector.disabled = true;
 
   const plantSearch   = makeSelectSearchable(selector, 'plant-selector-search');
@@ -81,7 +80,6 @@ async function populate() {
     if (!selectedName) {
       varietySelector.disabled = true;
       openBtn.disabled = true;
-      nfcGenBtn.disabled = true;
       return;
     }
 
@@ -109,7 +107,6 @@ async function populate() {
 
     varietySelector.disabled = false;
     openBtn.disabled = false;
-    nfcGenBtn.disabled = false;
     varietySearch.refresh();
   }
 
@@ -117,7 +114,6 @@ async function populate() {
 
   varietySelector.addEventListener("change", () => {
     openBtn.disabled = !selector.value;
-    nfcGenBtn.disabled = false;
   });
 
   openBtn.addEventListener("click", () => {
