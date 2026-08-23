@@ -17,14 +17,6 @@ nfcGenBtn.addEventListener('click', () => {
   window.location.href = url;
 });
 */
-const nfcGenBtn = document.getElementById("nfc-gen-button");
-nfcGenBtn.addEventListener('click', () => {
-  /*const nameEl = document.getElementById('plant-selector');
-  const varEl = document.getElementById('plant-selector-variety');
-  const name = nameEl ? nameEl.value : '';
-  const nr = varEl ? varEl.value : '';*/
-  window.location.href = "Nfcall.html";
-});
 
 function fillUniqueSelector(selectEl, values, placeholder) {
   const sorted = [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
@@ -45,6 +37,8 @@ async function populate() {
   const backBtn = document.getElementById("back-btn");
   const errorMsg = document.getElementById("error-message");
   const nfcListBtn = document.getElementById("nfc-list-btn");
+  const nfcGenBtn = document.getElementById("nfc-gen-button");
+  
   openBtn.disabled = true;
   nfcGenBtn.disabled = false;
   varietySelector.disabled = true;
@@ -87,7 +81,7 @@ async function populate() {
     if (!selectedName) {
       varietySelector.disabled = true;
       openBtn.disabled = true;
-      nfcGenBtn.disabled = true;
+      .disabled = true;
       return;
     }
 
@@ -115,7 +109,7 @@ async function populate() {
 
     varietySelector.disabled = false;
     openBtn.disabled = false;
-    nfcGenBtn.disabled = false;
+    .disabled = false;
     varietySearch.refresh();
   }
 
@@ -123,7 +117,7 @@ async function populate() {
 
   varietySelector.addEventListener("change", () => {
     openBtn.disabled = !selector.value;
-    nfcGenBtn.disabled = false;
+    .disabled = false;
   });
 
   openBtn.addEventListener("click", () => {
@@ -154,11 +148,17 @@ async function populate() {
       window.location.href = "NFCListPage.html";
     });
   }
-    if (listBtn) {
+  if (listBtn) {
     listBtn.addEventListener("click", () => {
       window.location.href = "PlantListPage.html";
     });
   }
+   if (nfcGenBtn) {
+    nfcGenBtn.addEventListener("click", () => {
+      window.location.href = "Nfcall.html";
+    });
+  }
+
     // Back button
   if (backBtn) {
   backBtn.addEventListener("click", () => {
