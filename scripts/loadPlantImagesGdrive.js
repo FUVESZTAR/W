@@ -8,7 +8,9 @@
 //    malus_domestica_gala_1.jpg, malus_domestica_gala_2.jpg, ...
 //    i.e. normalizeName(LatinName + "_" + Name_Variety) + "_" + running number
 
-const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbzAZaTSIj9omSf2c4jNA25HczPa-erWNHUJAM5kkRftddnZ7sVvR8OXU-jFP6bkP6e7/exec';
+//const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbzAZaTSIj9omSf2c4jNA25HczPa-erWNHUJAM5kkRftddnZ7sVvR8OXU-jFP6bkP6e7/exec';
+
+const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbyxCdzSsMMe7lanDWZlsbSzCPSjeMeyqJw8ZKQQGWayBH1sD4Ua2dgSB3uV5Qjy970/exec';
 
 function driveImageUrl(fileId, size = 'w1000') {
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=${size}`;
