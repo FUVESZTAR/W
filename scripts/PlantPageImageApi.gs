@@ -147,3 +147,5 @@ function jsonResponse(data) {
     .setMimeType(ContentService.MimeType.JSON);
 
 }
+
+function test() { Logger.log(findImages('malus_domestica')); }
