@@ -7,86 +7,217 @@
 // 3. Upload images into that single folder, named like:
 //    malus_domestica_gala_1.jpg, malus_domestica_gala_2.jpg, ...
 //    i.e. normalizeName(LatinName + "_" + Name_Variety) + "_" + running number
-const DRIVE_API_KEY     = 'YOUR_API_KEY_HERE';
-const DRIVE_FOLDER_ID   = 'YOUR_PLANTIMAGE_FOLDER_ID_HERE';
-const DRIVE_API_BASE    = 'https://www.googleapis.com/drive/v3/files';
+
+const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbzAZaTSIj9omSf2c4jNA25HczPa-erWNHUJAM5kkRftddnZ7sVvR8OXU-jFP6bkP6e7/exec';
 
 function driveImageUrl(fileId, size = 'w1000') {
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=${size}`;
 }
 
-// Fetch the full file list for the flat plantImage folder once, then
-// reuse it for every plant lookup in this session.
-let _driveFileListPromise = null;
-async function getDriveFileList() {
-  if (_driveFileListPromise) return _driveFileListPromise;
-
-  _driveFileListPromise = (async () => {
-    let files = [];
-    let pageToken = '';
-    do {
-      const q = encodeURIComponent(
-        `'${DRIVE_FOLDER_ID}' in parents and mimeType contains 'image/' and trashed = false`
-      );
-      const url = `${DRIVE_API_BASE}?q=${q}&fields=nextPageToken,files(id,name)&pageSize=1000&key=${DRIVE_API_KEY}${pageToken ? `&pageToken=${pageToken}` : ''}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Drive file listing failed: ${res.status}`);
-      const data = await res.json();
-      files = files.concat(data.files || []);
-      pageToken = data.nextPageToken || '';
-    } while (pageToken);
-    console.log(`Drive: cached ${files.length} file(s) from plantImage folder`);
-    return files;
-  })();
-
-  return _driveFileListPromise;
-}
 
 async function loadPlantImage(plant) {
+
   carouselInit();
-  const searchLatin   = (plant.LatinName   || '').trim().replace(/\s+/g, '_');
-  const searchVariety = (plant.Name_Variety || '').trim().replace(/\s+/g, '_');
-  const imgText  = `${searchLatin}_${searchVariety}`;
-  const searchId = normalizeName(imgText);   // e.g. "malus_domestica_gala"
-  console.log('search image norm text: ' + searchId);
+
+
+  // ----------------------------------------------------------
+  // Build search name
+  // ----------------------------------------------------------
+
+  const searchLatin =
+    (plant.LatinName || '')
+      .trim()
+      .replace(/\s+/g, '_');
+
+
+  const searchVariety =
+    (plant.Name_Variety || '')
+      .trim()
+      .replace(/\s+/g, '_');
+
+
+  const imgText =
+    `${searchLatin}_${searchVariety}`;
+
+
+  const searchId =
+    normalizeName(imgText);
+
+
+  console.log(
+    'Search image:',
+    searchId
+  );
+
+
+  // Reset carousel
 
   _carouselImages = [];
-  _carouselIndex  = 0;
 
-  // 1. Try Google Drive — flat folder, filter by LatinName_Variety key
+  _carouselIndex = 0;
+
+
+  // ----------------------------------------------------------
+  // 1. Google Drive via Apps Script
+  // ----------------------------------------------------------
+
   try {
-    const files = await getDriveFileList();
-    const matches = files.filter(f => normalizeName(f.name).includes(searchId));
 
-    if (matches.length) {
-      _carouselImages = matches.map(f => ({
-        src:  driveImageUrl(f.id),
-        name: extractImageName(f.name),
-      }));
-      console.log(`found ${_carouselImages.length} Drive image(s) for key "${searchId}"`);
+    const url =
+      `${APPS_SCRIPT_URL}?search=${encodeURIComponent(searchId)}`;
+
+
+    console.log(
+      'Requesting:',
+      url
+    );
+
+
+    const response =
+      await fetch(url);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        `Apps Script request failed: ${response.status}`
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      data.success &&
+      data.images &&
+      data.images.length
+    ) {
+
+      _carouselImages =
+        data.images.map(file => ({
+
+          src: file.url,
+
+          name: extractImageName(
+            file.name
+          )
+
+        }));
+
+
+      console.log(
+        `Found ${_carouselImages.length} Drive image(s)`
+      );
+
+
       carouselRender();
+
       return;
     }
-  } catch (err) {
-    console.warn('Google Drive image lookup failed:', err);
+
+
+    console.log(
+      'No Google Drive images found'
+    );
+
+
+  } catch (error) {
+
+    console.warn(
+      'Google Drive lookup failed:',
+      error
+    );
+
   }
 
-  // 2. Fallback to Wikipedia
+
+  // ----------------------------------------------------------
+  // 2. Wikipedia fallback
+  // ----------------------------------------------------------
+
   try {
-    const wikiResponse = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${searchLatin}`);
-    if (!wikiResponse.ok) throw new Error('Wiki fetch failed');
-    const wikiData = await wikiResponse.json();
-    const src = wikiData.thumbnail?.source || wikiData.originalimage?.source || null;
+
+    const wikiResponse =
+      await fetch(
+        `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchLatin)}`
+      );
+
+
+    if (!wikiResponse.ok) {
+
+      throw new Error(
+        'Wikipedia request failed'
+      );
+
+    }
+
+
+    const wikiData =
+      await wikiResponse.json();
+
+
+    const src =
+      wikiData.thumbnail?.source ||
+      wikiData.originalimage?.source ||
+      null;
+
+
     if (src) {
-      _carouselImages = [{ src, name: extractImageName(src) }];
+
+      _carouselImages = [
+
+        {
+          src: src,
+
+          name: extractImageName(src)
+        }
+
+      ];
+
+
       carouselRender();
+
       return;
     }
-  } catch (err) {
-    console.warn('Wikipedia image fetch failed:', err);
+
+
+  } catch (error) {
+
+    console.warn(
+      'Wikipedia image lookup failed:',
+      error
+    );
+
   }
 
-  // 3. Default placeholder
-  _carouselImages = [{ src: 'images/default.jpg', name: 'Default image' }];
+
+  // ----------------------------------------------------------
+  // 3. Default image
+  // ----------------------------------------------------------
+
+  _carouselImages = [
+
+    {
+      src: 'images/default.jpg',
+
+      name: 'Default image'
+    }
+
+  ];
+
+
   carouselRender();
+}
+
+function normalizeName(value) {
+
+  return String(value || '')
+    .toLowerCase()
+    .replace(/\.[^/.]+$/, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+
 }
