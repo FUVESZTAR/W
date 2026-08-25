@@ -14,8 +14,8 @@
 //     SHEET_WRITER_SECRET.
 // =============================================================
 
-var SPREADSHEET_ID = '1nxRfS0k4zoX7SFlLefuUlPlgDpBZCNkRzxirR1CDGtE';
-var SHEET_NAME     = 'nfc_list';
+var SPREADSHEET_ID = '1nxRfS0k4zoX7SFlLefuUlPlgDpBZCNkRzxirR1CDGtE';   // 'SPREADSHEET_ID'
+var SHEET_NAME     = 'nfc_list';   // 'SHEET_NAME'
 var RATE_LIMIT     = 20;   // max POST requests per 60-second window (global)
 
 /**
