@@ -4,6 +4,7 @@
 <!-- ════════════════════════════════════════════════════════════════════════ -->
 */
 import { loadPlantIdWithVarieties} from "./csv-utils.js";
+import { loadPlantImage, normalizeName } from "./loadPlantImagesGdrive.js.js";
 /* ══════════════════════════════════════════════════════════════════════════
    csv-utils.js  (inlined)
 ══════════════════════════════════════════════════════════════════════════ */
@@ -994,7 +995,7 @@ function extractImageName(src) {
     return src;
   }
 }
-
+/*
 async function loadPlantImage(plant) {
   carouselInit();
 
@@ -1055,7 +1056,7 @@ async function loadPlantImage(plant) {
   // 3. Default placeholder
   _carouselImages = [{ src: 'images/default.jpg', name: 'Default image' }];
   carouselRender();
-}
+}*/
 
 // ── syncViewBoxes ────────────────────────────────────────────────────────
 async function syncViewBoxes() {
