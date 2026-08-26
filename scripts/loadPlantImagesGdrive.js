@@ -19,7 +19,7 @@ function driveImageUrl(fileId, size = 'w1000') {
 }
 
 
-async function loadPlantImage(plantLatinName, plantVariety) {
+export async function loadPlantImage(plantLatinName, plantVariety) {
 
   carouselInit();
 
