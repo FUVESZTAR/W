@@ -42,11 +42,11 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
 
   const imgText =
     `${searchLatin}_${searchVariety}`;
-
+  console.log('imgText: ',imgText);
 
   const searchId =
     normalizeName(imgText);
-
+   console.log('searchId: ',searchId);
 
   console.log(
     'Search image:',
@@ -228,8 +228,13 @@ function normalizeName(value) {
 function extractImageName(src) {
   try {
     // Get last path segment, strip extension and underscores
-    const seg = decodeURIComponent(src.split('/').pop().split('?')[0]);
-    return seg.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+    const seg1 = decodeURIComponent(src.split('/').pop().split('?')[0]);
+    console.log('name seg1: ',seg1);
+    const seg2 = seg1.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+    console.log('name seg2: ',seg2);
+    const seg3 = normalizeName(seg2);  
+    console.log('name seg3: ',seg3);
+    return seg3;
   } catch {
     return src;
   }
