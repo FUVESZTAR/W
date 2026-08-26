@@ -992,27 +992,19 @@ function carouselInit() {
 
 async function loadPlantImageSet(plant) {
   carouselInit();
-  
-  const searchLatin   = (plant.LatinName   || '').trim().replace(/\s+/g, '_');
-  const searchVariety = (plant.Name_Variety || '').trim().replace(/\s+/g, '_');
-  const imgText  = `${searchLatin}_${searchVariety}`;
-  const searchId = normalizeName(imgText);
-  console.log('search image norm text: ' + searchId);
-  
+
   _carouselImages = [];
   _carouselIndex  = 0;
-   _carouselImages = loadPlantImage(plant.LatinName, plant.Name_Variety) ;
-   console.log('_carouselImages: ',_carouselImages);
-    
-    carouselRender();
-    return;
-    /*
-    try {
-            carouselRender();
-            return;
-        } catch (err) {
-            console.warn('Image render error:', err);
-     }*/
+
+  try {
+    _carouselImages = await loadPlantImage(plant.LatinName, plant.Name_Variety) || [];
+  } catch (err) {
+    console.error('Failed to load plant images:', err);
+    _carouselImages = [];
+  }
+
+  console.log('_carouselImages: ', _carouselImages);
+  carouselRender();
 }
 
 // ── syncViewBoxes ────────────────────────────────────────────────────────
