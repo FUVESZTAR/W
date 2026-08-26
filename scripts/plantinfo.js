@@ -907,7 +907,7 @@ function carouselRender() {
   const placeholder = document.getElementById('carousel-placeholder');
 
   const total = _carouselImages.length;
-
+ console.log('carouselRender start');
   if (!total) {
     if (imgEl)        { imgEl.style.display = 'none'; }
     if (placeholder)  { placeholder.style.display = 'flex'; }
@@ -965,12 +965,13 @@ function carouselRender() {
       });
     }
   }
-   console.log('carouselRender');
+   console.log('carouselRender end');
    console.log('_carouselIndex: ',_carouselIndex);
+   console.log('total _carouselIndex: ',total);
 }
 
 function carouselInit() {
-  const prevBtn = document.getElementById('carousel-prev');
+   const prevBtn = document.getElementById('carousel-prev');
   const nextBtn = document.getElementById('carousel-next');
   if (prevBtn) prevBtn.addEventListener('click', () => {
     if (_carouselIndex > 0) { _carouselIndex--; carouselRender(); }
