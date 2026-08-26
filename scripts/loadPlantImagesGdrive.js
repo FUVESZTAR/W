@@ -13,6 +13,9 @@
 //
 
 const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbxxwaaITsAj_KN-d5RPZFBlfjLPtAA9f7Vwar7xTHPac4o_GXQEE_woiiv8E0V3q4Ok/exec';
+// State
+let _carouselImages  = [];   // [{src, name}]
+let _carouselIndex   = 0;
 
 function driveImageUrl(fileId, size = 'w1000') {
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=${size}`;
@@ -20,9 +23,6 @@ function driveImageUrl(fileId, size = 'w1000') {
 
 
 export async function loadPlantImage(plantLatinName, plantVariety) {
-
-  carouselInit();
-
 
   // ----------------------------------------------------------
   // Build search name
@@ -115,11 +115,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
       console.log(
         `Found ${_carouselImages.length} Drive image(s)`
       );
-
-
-      carouselRender();
-
-      return;
+      return (_carouselImages);
     }
 
 
@@ -136,7 +132,6 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
     );
 
   }
-
 
   // ----------------------------------------------------------
   // 2. Wikipedia fallback
@@ -180,11 +175,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
         }
 
       ];
-
-
-      carouselRender();
-
-      return;
+      return (_carouselImages);
     }
 
 
@@ -211,9 +202,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
     }
 
   ];
-
-
-  carouselRender();
+  return (_carouselImages);
 }
 
 /**
@@ -233,4 +222,15 @@ function normalizeName(value) {
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '');
 
+}
+
+// Extract a clean display name from a filename or URL
+function extractImageName(src) {
+  try {
+    // Get last path segment, strip extension and underscores
+    const seg = decodeURIComponent(src.split('/').pop().split('?')[0]);
+    return seg.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+  } catch {
+    return src;
+  }
 }
