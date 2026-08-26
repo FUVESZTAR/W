@@ -4,7 +4,7 @@
 <!-- ════════════════════════════════════════════════════════════════════════ -->
 */
 import { loadPlantIdWithVarieties } from "./csv-utils.js";
-import { loadPlantImage } from "./loadPlantImagesGdrive.js.js";
+import { loadPlantImage } from "./loadPlantImagesGdrive.js";
 /* ══════════════════════════════════════════════════════════════════════════
    csv-utils.js  (inlined)
 ══════════════════════════════════════════════════════════════════════════ */
