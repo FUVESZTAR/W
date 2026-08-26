@@ -7,6 +7,10 @@
 // 3. Upload images into that single folder, named like:
 //    malus_domestica_gala_1.jpg, malus_domestica_gala_2.jpg, ...
 //    i.e. normalizeName(LatinName + "_" + Name_Variety) + "_" + running number
+// 4. Output:
+//    [{mimeType=image/jpeg, name=malus_domestica_species_voros.jpg, url=https://drive.google.com/thumbnail?id=17xBWb2t6jgButmxc8va53P_ozyOcSxqh&sz=w1000, id=17xBWb2t6jgButmxc8va53P_ozyOcSxqh}, 
+//     {mimeType=image/jpeg, name=malus_domestica_species.jpg, url=https://drive.google.com/thumbnail?id=1FoX7P9LbOyr-qZ73h_0dZWgUttPHcCPw&sz=w1000, id=1FoX7P9LbOyr-qZ73h_0dZWgUttPHcCPw}]
+//
 
 const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbxxwaaITsAj_KN-d5RPZFBlfjLPtAA9f7Vwar7xTHPac4o_GXQEE_woiiv8E0V3q4Ok/exec';
 
@@ -15,7 +19,7 @@ function driveImageUrl(fileId, size = 'w1000') {
 }
 
 
-async function loadPlantImage(plant) {
+async function loadPlantImage(plantLatinName, plantVariety) {
 
   carouselInit();
 
@@ -25,13 +29,13 @@ async function loadPlantImage(plant) {
   // ----------------------------------------------------------
 
   const searchLatin =
-    (plant.LatinName || '')
+    (plantLatinName || '')
       .trim()
       .replace(/\s+/g, '_');
 
 
   const searchVariety =
-    (plant.Name_Variety || '')
+    (plantVariety || '')
       .trim()
       .replace(/\s+/g, '_');
 
