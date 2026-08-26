@@ -905,9 +905,10 @@ function carouselRender() {
   const nextBtn     = document.getElementById('carousel-next');
   const dotsEl      = document.getElementById('carousel-dots');
   const placeholder = document.getElementById('carousel-placeholder');
-
+  console.log('carouselRender start');
   const total = _carouselImages.length;
- console.log('carouselRender start');
+   console.log('total _carouselIndex: ',total);
+ 
   if (!total) {
     if (imgEl)        { imgEl.style.display = 'none'; }
     if (placeholder)  { placeholder.style.display = 'flex'; }
@@ -967,7 +968,7 @@ function carouselRender() {
   }
    console.log('carouselRender end');
    console.log('_carouselIndex: ',_carouselIndex);
-   console.log('total _carouselIndex: ',total);
+   
 }
 
 function carouselInit() {
