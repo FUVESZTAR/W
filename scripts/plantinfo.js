@@ -905,9 +905,9 @@ function carouselRender() {
   const nextBtn     = document.getElementById('carousel-next');
   const dotsEl      = document.getElementById('carousel-dots');
   const placeholder = document.getElementById('carousel-placeholder');
-  console.log('carouselRender start');
+  //console.log('carouselRender start');
   const total = _carouselImages.length;
-   console.log('total _carouselIndex: ',total);
+   //console.log('total _carouselIndex: ',total);
  
   if (!total) {
     if (imgEl)        { imgEl.style.display = 'none'; }
@@ -966,8 +966,8 @@ function carouselRender() {
       });
     }
   }
-   console.log('carouselRender end');
-   console.log('_carouselIndex: ',_carouselIndex);
+   //console.log('carouselRender end');
+   //console.log('_carouselIndex: ',_carouselIndex);
    
 }
 
@@ -987,7 +987,7 @@ function carouselInit() {
     if (e.key === 'ArrowLeft')  { if (_carouselIndex > 0) { _carouselIndex--; carouselRender(); } }
     if (e.key === 'ArrowRight') { if (_carouselIndex < _carouselImages.length - 1) { _carouselIndex++; carouselRender(); } }
   });
-   console.log('carouselInit');
+   //console.log('carouselInit');
 }
 
 async function loadPlantImageSet(plant) {
