@@ -3,8 +3,8 @@
 <!--  ALL JAVASCRIPT — merged from csv-utils.js / lang.js / plantinfo.js    -->
 <!-- ════════════════════════════════════════════════════════════════════════ -->
 */
-import { loadPlantIdWithVarieties} from "./csv-utils.js";
-import { loadPlantImage, normalizeName } from "./loadPlantImagesGdrive.js.js";
+import { loadPlantIdWithVarieties } from "./csv-utils.js";
+import { loadPlantImage } from "./loadPlantImagesGdrive.js.js";
 /* ══════════════════════════════════════════════════════════════════════════
    csv-utils.js  (inlined)
 ══════════════════════════════════════════════════════════════════════════ */
@@ -995,6 +995,7 @@ function extractImageName(src) {
     return src;
   }
 }
+
 /*
 async function loadPlantImage(plant) {
   carouselInit();
@@ -1241,7 +1242,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
     applySizeIcons(plant, FM);
 
     // Image (non-blocking)
-    loadPlantImage(plant);
+    //loadPlantImage(plant);
+    loadPlantImage(plant.LatinName, plant.Name_Variety) ;
 
     applyTranslations();
 
