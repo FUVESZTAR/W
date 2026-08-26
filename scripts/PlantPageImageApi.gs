@@ -4,7 +4,11 @@
 // HOW TO DEPLOY:
 //  1. Open https://script.google.com and create a new project.
 //  2. Paste this entire file into the editor.
-//  3. paste the Folder Name
+//  3. Paste the Folder Name
+//  4. Output:
+//    [{mimeType=image/jpeg, name=malus_domestica_species_voros.jpg, url=https://drive.google.com/thumbnail?id=17xBWb2t6jgButmxc8va53P_ozyOcSxqh&sz=w1000, id=17xBWb2t6jgButmxc8va53P_ozyOcSxqh}, 
+//     {mimeType=image/jpeg, name=malus_domestica_species.jpg, url=https://drive.google.com/thumbnail?id=1FoX7P9LbOyr-qZ73h_0dZWgUttPHcCPw&sz=w1000, id=1FoX7P9LbOyr-qZ73h_0dZWgUttPHcCPw}]
+//
 // =============================================================
 
 const FOLDER_ID = '1C3hue-BEja_cumoATlSqe4UZsBLM7dnC';  // 'YOUR_FOLDER_ID'
@@ -97,7 +101,7 @@ function findImages(search) {
           'https://drive.google.com/thumbnail?id=' +
           fileId +
           '&sz=w1000'
-
+          // size:  &sz=w500 ; '&sz=w1000'; &sz=w1500
       });
     }
   }
