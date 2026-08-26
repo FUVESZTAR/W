@@ -216,6 +216,15 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
   carouselRender();
 }
 
+/**
+ * Load a single plant's full row data AND all its Name_Variety values
+ * in a single network request.
+ *
+ * @param1 {string} plantLatinName - The LatinName value to match.
+ * @param2 {string} plantVariety - The Name_Variety value to match
+ * @returns {{ url: images url}}
+ */
+
 function normalizeName(value) {
 
   return String(value || '')
