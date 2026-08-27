@@ -1089,7 +1089,7 @@ function renderFields(containerId, map, plant) {
 const selectedNr = localStorage.getItem('selectedPlantNr');
 const urlParams  = new URLSearchParams(window.location.search);
 const urlPlantId = urlParams.get('id');
-
+console.log('selectedPlantNr: ', selectedPlantNr);
 document.querySelector('#back-button').addEventListener('click', () => {
   window.location.href = 'Homepage.html';
 });
@@ -1108,6 +1108,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
   if (!selectedNr && !urlPlantId) {
     title.textContent    = t('detail.noPlantSelected');
     subtitle.textContent = t('detail.noPlantSelectedMsg');
+     console.log('selectedNr: ', selectedNr,' , urlPlantId: ', urlPlantId);
     return;
   }
 
@@ -1142,7 +1143,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
     setIdentityFilterLink(identitygenus,     'genus',  plant.Genus);
     setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName);
     if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety || ''}</strong>`;
-
+   console.log('identify LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
     // Data status message
     const message1 = document.getElementById('data_status');
     if (plant.Data_status === 'No') {
