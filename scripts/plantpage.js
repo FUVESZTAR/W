@@ -136,11 +136,9 @@ async function populate() {
     }
 
     if (targetNr) {
-      //window.location.href = `P.html?id=${encodeURIComponent(targetNr)}`;
-      //localStorage.setItem("selectedPlantNr", plant.Plant_ID);
       localStorage.setItem("selectedPlantNr", targetNr);
       console.log('encodeURIComponent(targetNr): ', encodeURIComponent(targetNr));
-      //window.location.href = `P.html?id=${encodeURIComponent(plant.Plant_ID)}`;
+      window.location.href = `P.html?id=${encodeURIComponent(targetNr)}`;
     } else {
       window.location.href = "P.html";
     }
