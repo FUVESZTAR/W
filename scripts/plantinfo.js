@@ -1089,7 +1089,7 @@ function renderFields(containerId, map, plant) {
 const selectedNr = localStorage.getItem('selectedPlantNr');
 const urlParams  = new URLSearchParams(window.location.search);
 const urlPlantId = urlParams.get('id');
-console.log('selectedPlantNr: ', selectedPlantNr);
+console.log('selectedPlantNr: ', selectedNr);
 document.querySelector('#back-button').addEventListener('click', () => {
   window.location.href = 'Homepage.html';
 });
