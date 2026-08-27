@@ -598,7 +598,7 @@ export const TRANSLATIONS = {
     "detail.label.pestresistance": "Kártevő-ellenállás:",
     "detail.label.soilmicrobiology": "Talajmikrobiológia:",
     "detail.label.plantid": "Növény ID:",
-    "detail.label.fruitcolor": "Gyümölcs színe:"
+    "detail.label.fruitcolor": "Gyümölcs színe:",
     "detail.noPlantSelected": "Nincs növény kiválasztva",
     "detail.noPlantSelectedMsg": "Menjen vissza \u00e9s v\u00e1lasszon n\u00f6v\u00e9nyt a list\u00e1b\u00f3l vagy haszn\u00e1ljon k\u00f6zvetlen linket ?id=Plant_ID form\u00e1tumban",
     "detail.plantNotFound": "A n\u00f6v\u00e9ny nem tal\u00e1lhat\u00f3",
