@@ -132,11 +132,15 @@ async function populate() {
         p => p[nameProp] === selectedName && String(p.Name_Variety).trim() === "Species"
       );
       targetNr = speciesPlant ? String(speciesPlant.Plant_ID) : null;
-      //console.log('targetNr try2: ', targetNr);
+      console.log('targetNr try2: ', targetNr);
     }
 
     if (targetNr) {
-      window.location.href = `P.html?id=${encodeURIComponent(targetNr)}`;
+      //window.location.href = `P.html?id=${encodeURIComponent(targetNr)}`;
+      //localStorage.setItem("selectedPlantNr", plant.Plant_ID);
+      localStorage.setItem("selectedPlantNr", targetNr);
+      console.log('encodeURIComponent(targetNr): ', encodeURIComponent(targetNr));
+      //window.location.href = `P.html?id=${encodeURIComponent(plant.Plant_ID)}`;
     } else {
       window.location.href = "P.html";
     }
