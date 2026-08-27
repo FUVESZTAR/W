@@ -341,6 +341,7 @@ const CATEGORY_PART_COLUMNS = [
 ];
 
 const BASIC_FIED_MAP = [
+  { key:'plant_id',           data:'Plant_id',           typ:'normal',     use:'log',    i18n:'plantid'         },
   { key:'latin_name',         data:'LatinName',          typ:'normal',     use:'log',    i18n:'latinname'         },
   { key:'name_variety',       data:'Name_Variety',       typ:'normal',     use:'log',    i18n:'namevariety'       },
   { key:'name_hu',            data:'Name_HU',            typ:'normal',     use:'log',    i18n:'namehu'            },
@@ -1087,6 +1088,7 @@ function renderFields(containerId, map, plant) {
 //  MAIN INIT
 // ════════════════════════════════════════════════════════════════════════
 const selectedNr = localStorage.getItem('selectedPlantNr');
+
 const urlParams  = new URLSearchParams(window.location.search);
 const urlPlantId = urlParams.get('id');
 console.log('selectedPlantNr: ', selectedNr);
@@ -1104,7 +1106,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
   const identitygenus     = document.querySelector('#identity-genus');
   const identitylatinName = document.querySelector('#identity-latinName');
   const identityvariety   = document.querySelector('#identity-variety');
-
+  
+  selectedNr = null;
   if (!selectedNr && !urlPlantId) {
     title.textContent    = t('detail.noPlantSelected');
     subtitle.textContent = t('detail.noPlantSelectedMsg');
