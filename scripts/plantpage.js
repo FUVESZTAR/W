@@ -124,7 +124,7 @@ async function populate() {
 
     // Use selected variety's Plant_ID, or fall back to the Species row for this name
     let targetNr = varietySelector.value;
-    console.log('targetNr: ', targetNr);
+    // console.log('targetNr: ', targetNr);
     if (!targetNr) {
       const lang = getCurrentLang();
       const nameProp = lang === 'en' ? 'Name_EN' : 'Name_HU';
@@ -132,7 +132,7 @@ async function populate() {
         p => p[nameProp] === selectedName && String(p.Name_Variety).trim() === "Species"
       );
       targetNr = speciesPlant ? String(speciesPlant.Plant_ID) : null;
-      console.log('targetNr try2: ', targetNr);
+      //console.log('targetNr try2: ', targetNr);
     }
 
     if (targetNr) {
