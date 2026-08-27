@@ -1002,7 +1002,7 @@ async function loadPlantImageSet(plant) {
     console.error('Failed to load plant images:', err);
     _carouselImages = [];
   }
-
+    
   console.log('_carouselImages: ', _carouselImages);
   carouselRender();
 }
