@@ -209,6 +209,9 @@ export const TRANSLATIONS = {
     "detail.label.allopatictolerance": "Allelopathic tolerance:",
     "detail.label.pestresistance": "Pest resistance:",
     "detail.label.soilmicrobiology": "Soil microbiology:",
+    "detail.label.soilmicrobiology": "Soil microbiology:",
+    "detail.label.plantid": "Plant ID:",
+    "detail.label.fruitcolor": "Fruit color:",
     "detail.noPlantSelectedMsg": "Go back and choose a plant from the list or use a direct link with ?id=Plant_ID",
     "detail.plantNotFound": "Plant not found",
     "detail.plantNotFoundMsg": "Selected identifier does not exist in CSV data.",
@@ -594,6 +597,8 @@ export const TRANSLATIONS = {
     "detail.label.allopatictolerance": "Allelopatikus tolerancia:",
     "detail.label.pestresistance": "Kártevő-ellenállás:",
     "detail.label.soilmicrobiology": "Talajmikrobiológia:",
+    "detail.label.plantid": "Növény ID:",
+    "detail.label.fruitcolor": "Gyümölcs színe:"
     "detail.noPlantSelected": "Nincs növény kiválasztva",
     "detail.noPlantSelectedMsg": "Menjen vissza \u00e9s v\u00e1lasszon n\u00f6v\u00e9nyt a list\u00e1b\u00f3l vagy haszn\u00e1ljon k\u00f6zvetlen linket ?id=Plant_ID form\u00e1tumban",
     "detail.plantNotFound": "A n\u00f6v\u00e9ny nem tal\u00e1lhat\u00f3",
