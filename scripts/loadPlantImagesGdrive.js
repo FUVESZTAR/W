@@ -32,13 +32,13 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
     (plantLatinName || '')
       .trim()
       .replace(/\s+/g, '_');
-
+console.log('searchLatin: ',searchLatin);
 
   const searchVariety =
     (plantVariety || '')
       .trim()
       .replace(/\s+/g, '_');
-
+console.log('searchVariety: ',searchVariety);
 
   const imgText =
     `${searchLatin}_${searchVariety}`;
