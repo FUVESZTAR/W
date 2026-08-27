@@ -113,6 +113,8 @@ async function populate() {
   selector.addEventListener("change", populateVarietiesForSelection);
 
   varietySelector.addEventListener("change", () => {
+    console.log('selector.value: ', selector.value);
+    console.log('varietySelector.value: ', varietySelector.value);
     openBtn.disabled = !selector.value;
   });
 
