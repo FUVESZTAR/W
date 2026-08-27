@@ -1082,6 +1082,7 @@ function renderFields(containerId, map, plant) {
   });
 }
 
+
 // ════════════════════════════════════════════════════════════════════════
 //  MAIN INIT
 // ════════════════════════════════════════════════════════════════════════
@@ -1162,6 +1163,9 @@ document.querySelector('#back-button').addEventListener('click', () => {
     // Form fields
     renderFields('fields1', BASIC_FIED_MAP, plant);
 
+    // Fix field
+     document.querySelector("#plant_description_2").value = plant.Plant_description || "";
+     
     // NFC link
     const nfcEl = document.querySelector('#nfc-link');
     if (nfcEl) nfcEl.textContent = `${plant.Plant_ID}  / ${primaryName} / ${plant.Name_Variety || ''} / ${plant.LatinName || ''} / ${window.location.href}`;
