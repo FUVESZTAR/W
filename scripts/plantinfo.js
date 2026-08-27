@@ -995,7 +995,7 @@ async function loadPlantImageSet(plant) {
 
   _carouselImages = [];
   _carouselIndex  = 0;
-
+  console.log('imageset LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
   try {
     _carouselImages = await loadPlantImage(plant.LatinName, plant.Name_Variety) || [];
   } catch (err) {
