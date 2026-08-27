@@ -996,7 +996,7 @@ async function loadPlantImageSet(targetLatin,targetVariety) {
 
   _carouselImages = [];
   _carouselIndex  = 0;
-  console.log('imageset LatinName: ', targetLatin, ' , Variety: ',  targetVariety);
+  console.log('imageset target LatinName: ', targetLatin, ' , Variety: ',  targetVariety);
   try {
     _carouselImages = await loadPlantImage(targetLatin, targetVariety) || [];
   } catch (err) {
@@ -1198,7 +1198,10 @@ document.querySelector('#back-button').addEventListener('click', () => {
     applySizeIcons(plant, FM);
 
     // Image (non-blocking)
+    console.log('imageset input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
     loadPlantImageSet(plant.LatinName,plant.Name_Variety);
+
+    // Translate
     applyTranslations();
 
   } catch (error) {
