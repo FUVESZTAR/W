@@ -108,13 +108,11 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
 
           src: file.url,
 
-          name: extractImageName(
-            file.name
-          )
+          name: extractImageName(file.name)
 
         }));
 
-
+      console.log('_carouselImages: ',_carouselImages);
       console.log(
         `Found ${_carouselImages.length} Drive image(s)`
       );
@@ -199,8 +197,8 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
   _carouselImages = [
 
     {
-      src: 'images/default.jpg',
-
+      src: 'images/image_default.jpeg',
+       //src: 'images/default.jpg',
       name: 'Default image'
     }
 
