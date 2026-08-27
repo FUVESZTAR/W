@@ -1145,7 +1145,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
     setIdentityFilterLink(identitygenus,     'genus',  plant.Genus);
     setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName);
     if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety || ''}</strong>`;
-   console.log('identify LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
+    console.log('plant.Plant_ID: ', plant.Plant_ID);
+
     // Data status message
     const message1 = document.getElementById('data_status');
     if (plant.Data_status === 'No') {
