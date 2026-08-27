@@ -1087,11 +1087,12 @@ function renderFields(containerId, map, plant) {
 // ════════════════════════════════════════════════════════════════════════
 //  MAIN INIT
 // ════════════════════════════════════════════════════════════════════════
-const selectedNr = null; //localStorage.getItem('selectedPlantNr');
+const selectedNr = localStorage.getItem('selectedPlantNr');
 
 const urlParams  = new URLSearchParams(window.location.search);
 const urlPlantId = urlParams.get('id');
 console.log('selectedPlantNr: ', selectedNr);
+console.log('urlPlantId: ', urlPlantId);
 document.querySelector('#back-button').addEventListener('click', () => {
   window.location.href = 'Homepage.html';
 });
@@ -1106,18 +1107,17 @@ document.querySelector('#back-button').addEventListener('click', () => {
   const identitygenus     = document.querySelector('#identity-genus');
   const identitylatinName = document.querySelector('#identity-latinName');
   const identityvariety   = document.querySelector('#identity-variety');
-  
+   
   if (!selectedNr && !urlPlantId) {
     title.textContent    = t('detail.noPlantSelected');
     subtitle.textContent = t('detail.noPlantSelectedMsg');
-     console.log('selectedNr: ', selectedNr,' , urlPlantId: ', urlPlantId);
     return;
   }
 
   try {
     const lookupNr = urlPlantId || selectedNr;
     const { plant, varieties } = await loadPlantIdWithVarieties(lookupNr);
-
+    console.log('lookupNr: ', lookupNr);
     if (!plant) {
       title.textContent    = t('detail.plantNotFound');
       subtitle.textContent = t('detail.plantNotFoundMsg');
