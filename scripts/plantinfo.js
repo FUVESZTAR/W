@@ -1087,7 +1087,7 @@ function renderFields(containerId, map, plant) {
 // ════════════════════════════════════════════════════════════════════════
 //  MAIN INIT
 // ════════════════════════════════════════════════════════════════════════
-const selectedNr = localStorage.getItem('selectedPlantNr');
+const selectedNr = null; //localStorage.getItem('selectedPlantNr');
 
 const urlParams  = new URLSearchParams(window.location.search);
 const urlPlantId = urlParams.get('id');
@@ -1107,7 +1107,6 @@ document.querySelector('#back-button').addEventListener('click', () => {
   const identitylatinName = document.querySelector('#identity-latinName');
   const identityvariety   = document.querySelector('#identity-variety');
   
-  selectedNr = null;
   if (!selectedNr && !urlPlantId) {
     title.textContent    = t('detail.noPlantSelected');
     subtitle.textContent = t('detail.noPlantSelectedMsg');
