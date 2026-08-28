@@ -32,28 +32,25 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
     (plantLatinName || '')
       .trim()
       .replace(/\s+/g, '_');
-  console.log('plantLatinName: ',plantLatinName);
-  console.log('searchLatin: ',searchLatin);
+  //console.log('plantLatinName: ',plantLatinName);
+  //console.log('searchLatin: ',searchLatin);
   const wikiImageName = plantLatinName + "from Wikipedia";
   const searchVariety =
     (plantVariety || '')
       .trim()
       .replace(/\s+/g, '_');
-  console.log('plantVariety: ',plantVariety);
-  console.log('searchVariety: ',searchVariety);
+  //console.log('plantVariety: ',plantVariety);
+  //console.log('searchVariety: ',searchVariety);
 
   const imgText =
     `${searchLatin}_${searchVariety}`;
-  console.log('imgText: ',imgText);
+  //console.log('imgText: ',imgText);
 
   const searchId =
     normalizeName(imgText);
-   console.log('searchId: ',searchId);
+   //console.log('searchId: ',searchId);
 
-  console.log(
-    'Search image:',
-    searchId
-  );
+  //console.log( 'Search image:', searchId);
 
 
   // Reset carousel
@@ -76,10 +73,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
       `${APPS_SCRIPT_URL}?search=${encodeURIComponent(searchId)}`;
 
 
-    console.log(
-      'Requesting:',
-      url
-    );
+    //console.log('Requesting:',url);
 
 
     const response =
@@ -114,25 +108,18 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
 
         }));
 
-      console.log('_carouselImages: ',_carouselImages);
-      console.log(
-        `Found ${_carouselImages.length} Drive image(s)`
-      );
+      //console.log('_carouselImages: ',_carouselImages);
+      //console.log(`Found ${_carouselImages.length} Drive image(s)`);
       return (_carouselImages);
     }
 
 
-    console.log(
-      'No Google Drive images found'
-    );
+    console.log('No Google Drive images found');
 
 
   } catch (error) {
 
-    console.warn(
-      'Google Drive lookup failed:',
-      error
-    );
+    console.warn('Google Drive lookup failed:', error);
 
   }
 
@@ -188,10 +175,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
 
   } catch (error) {
 
-    console.warn(
-      'Wikipedia image lookup failed:',
-      error
-    );
+    console.warn('Wikipedia image lookup failed:', error);
 
   }
 
