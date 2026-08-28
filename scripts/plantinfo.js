@@ -1151,7 +1151,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
     setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName);
     if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety || ''}</strong>`;
     console.log('plant.Plant_ID: ', plant.Plant_ID);
-
+    console.log('plant: ', plant);
     // Data status message
     const message1 = document.getElementById('data_status');
     if (plant.Data_status === 'No') {
