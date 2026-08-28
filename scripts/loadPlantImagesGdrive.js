@@ -34,7 +34,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
       .replace(/\s+/g, '_');
   console.log('plantLatinName: ',plantLatinName);
   console.log('searchLatin: ',searchLatin);
-
+  const wikiImageName = plantLatinName + "from Wikipedia";
   const searchVariety =
     (plantVariety || '')
       .trim()
@@ -177,7 +177,8 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
         {
           src: src,
 
-          name: extractImageName(src)
+          name: wikiImageName
+            //extractImageName(src)
         }
 
       ];
@@ -235,12 +236,12 @@ function extractImageName(src) {
   try {
     // Get last path segment, strip extension and underscores
     const seg1 = decodeURIComponent(src.split('/').pop().split('?')[0]);
-    console.log('name seg1: ',seg1);
+    //console.log('name seg1: ',seg1);
     const seg2 = seg1.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
-    console.log('name seg2: ',seg2);
+    //console.log('name seg2: ',seg2);
     const seg3 = normalizeName(seg2);  
-    console.log('name seg3: ',seg3);
-    return seg3;
+    //console.log('name seg3: ',seg3);
+    return seg2;
   } catch {
     return src;
   }
