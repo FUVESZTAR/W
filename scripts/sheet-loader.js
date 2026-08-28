@@ -354,7 +354,13 @@ console.log(plants);
 //   { Plant_ID: 2, LatinName: 'Quercus robur', Name_Variety: '...', ... },
 //   ...
 // ]*/
-
+// helper function
+function cellValue(cell) {
+  if (!cell) return '';
+  if (cell.v != null) return cell.v;
+  if (cell.f != null) return cell.f;
+  return '';
+}
 
 /**  For Plant View ("P") page , Plantinfo.js
  * Load full plant data and all its varieties by Plant_ID (column A).
@@ -363,7 +369,7 @@ console.log(plants);
  * @returns {{ plant: Object|null, varieties: string[] }}
  */
 export async function loadPlantIdWithVarieties(plantId) {
-
+   //plantinfo uses this
   // Step 1: fetch the single row matching the Plant_ID
   // If Plant_ID is stored as a NUMBER in the sheet (e.g. 1, 42):
   const tq1 = `select * where A = ${plantId} limit 1`;
@@ -379,12 +385,19 @@ export async function loadPlantIdWithVarieties(plantId) {
   );
 
   if (validRows1.length === 0) return { plant: null, varieties: [] };
-
-  // Build the plant object from the first (and only) row
+/*
+    // Build the plant object from the first (and only) row
   const plant = {};
   headers.forEach((header, index) => {
     const cell = validRows1[0].c[index];
     plant[header] = (cell && cell.v != null) ? cell.v : '';
+  });
+  */
+  // Build the plant object from the first (and only) row
+  const plant = {};
+  headers.forEach((header, index) => {
+    const cell = validRows1[0].c[index];
+    plant[header] = cellValue(cell);
   });
 
   // Step 2: fetch all Name_Variety values sharing the same LatinName
@@ -394,12 +407,20 @@ export async function loadPlantIdWithVarieties(plantId) {
   const gvizResponse2 = await fetchSheetResponseQr(tq2);
   const { rows: rows2 } = gvizResponse2.table;
 
+
+  const varieties = rows2
+    .filter(row => row && row.c && row.c[1] && (row.c[1].v != null || row.c[1].f != null))
+    .map(row => ({
+      Plant_ID:     cellValue(row.c[0]),
+      Name_Variety: cellValue(row.c[1]),
+    }));
+  /*
   const varieties = rows2
   .filter(row => row && row.c && row.c[1] && row.c[1].v != null)
   .map(row => ({
     Plant_ID:     row.c[0]?.v ?? '',
     Name_Variety: row.c[1]?.v ?? '',
-  }));
+  }));*/
 
   return { plant, varieties };
 }
