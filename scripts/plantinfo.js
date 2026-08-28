@@ -876,6 +876,7 @@ async function applySizeIcons(plant, FM) {
     let placeHFinalW = 2; // match the above-ground plant width
 
     console.log(`rootFinalW: `, rootFinalW , ` aboveGroundPxW ` , aboveGroundPxW);
+     console.log(`rootTargetH: `, rootTargetH , ` rootFinalH ` , rootFinalH);
 /*
     if (vbR && vbR.width > 0 && vbR.height > 0) {
       // Compute natural height from the root's own aspect at the matched width
@@ -887,13 +888,17 @@ async function applySizeIcons(plant, FM) {
     rootSvg.style.width  = `${rootFinalW}px`;
     rootSvg.style.height = `${rootFinalH}px`;
     rootSvg.style.display = 'block';
-    console.log(`root: ${rootFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px`);
+
     root2Svg.style.width  = `${placeHFinalW}px`;
     root2Svg.style.height = `${rootFinalH}px`;
     root2Svg.style.display = 'block';
     root3Svg.style.width  = `${placeHFinalW}px`;
     root3Svg.style.height = `${rootFinalH}px`;
     root3Svg.style.display = 'block';
+
+     //    console.log(`root: ${rootFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px`);
+     console.log(`root - rootFinalW: ${rootFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px : rootFinalH`);
+     console.log(`root - placeHFinalW: ${placeHFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px : rootFinalH`);
   }
 
   // Human stays at its fixed pixel reference size // width = 7.21 ; height = 21.9
