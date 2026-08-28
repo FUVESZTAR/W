@@ -2091,6 +2091,7 @@ async function populate() {
     // Keep only plants active on the page and in NFC
     //plants = plants.filter(p => p.Active_in_page === 'Y' && p.Active_in_NFC === 'Y');
     plantData = plants;
+    console.log('plantData: ', plantData);
     console.log("Plants loaded:", plants.length, "plants");
     selector.innerHTML = `<option value="">${msg('opt_plant')}</option><option value="__custom__">-- Add custom --</option>`;
     const uniqueNames = [...new Set(plants.map(p => p[nameProp]).filter(Boolean))].sort((a, b) =>
