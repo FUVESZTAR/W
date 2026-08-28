@@ -844,7 +844,7 @@ async function applySizeIcons(plant, FM) {
     }
     svgEl.style.width  = `${fW}px`;
     svgEl.style.height = `${fH}px`;
-    //console.log(`${svgEl.id}: ${fW.toFixed(1)}×${fH.toFixed(1)}px  (real: ${realWmm}×${realHmm}mm)`);
+    console.log(`${svgEl.id}: ${fW.toFixed(1)}×${fH.toFixed(1)}px  (real: ${realWmm}×${realHmm}mm)`);
     return fW;
   }
 
@@ -860,7 +860,7 @@ async function applySizeIcons(plant, FM) {
 
   // Scale the active above-ground icon; get its rendered pixel width
   const aboveGroundPxW = scaleIcon(activePlantSvg, plantWmm, plantHmm);
-
+  console.log(`calc activePlantSvg: `, aboveGroundPxW , ` = ` , plantWmm, ` , ` ,plantHmm);
   // ── Root: scale by its own real dimensions, then FORCE its width to match
   //   the above-ground icon so they look visually connected and centred.
   // ── We keep the root's aspect ratio for height but override width.
@@ -872,7 +872,8 @@ async function applySizeIcons(plant, FM) {
      
     const vbR = rootSvg.viewBox?.baseVal;
     let rootFinalH = rootTargetH;
-    let rootFinalW = aboveGroundPxW; // match the above-ground plant width
+    let rootFinalW = rootTargetW; // new
+    //let rootFinalW =  aboveGroundPxW; // match the above-ground plant width
     let placeHFinalW = 2; // match the above-ground plant width
 
     console.log(`rootFinalW: `, rootFinalW , ` aboveGroundPxW ` , aboveGroundPxW);
