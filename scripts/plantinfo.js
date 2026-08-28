@@ -1128,7 +1128,11 @@ document.querySelector('#back-button').addEventListener('click', () => {
     const FM = Object.fromEntries(BASIC_FIED_MAP.map(f => [f.key, f.data]));
     console.log('cache ready');
     console.log('example data, plant width av: ' + plant[FM.plant_width_average_mm]);
-
+    
+     console.log('plant.Plant_ID: ', plant[FM.plant_id]);
+     console.log('plant.LatinName: ', plant[FM.latin_name]);
+     console.log('plant.Name_Variety: ', plant[FM.name_variety]);
+       
     // Title & identity
     const lang          = getCurrentLang();
     const primaryName   = lang === 'en'
@@ -1137,9 +1141,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
     const secondaryName = lang === 'en'
       ? (plant.Name_HU || '')
       : (plant.Name_EN || '');
-    console.log('lookupNr: ', lookupNr);
-    console.log('start input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
-    console.log('plant.Plant_ID: ', plant.Plant_ID);
+    
      
     title.textContent    = secondaryName ? `${primaryName}   |   ${secondaryName}` : primaryName;
     subtitle.textContent = plant.Name_Variety || 'Unknown';
