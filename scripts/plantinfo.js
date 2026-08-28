@@ -500,7 +500,7 @@ function makePartSvgIcon(term, id = null, type = 'display:inline-block') {
   if (!def) return null;
   const ns = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(ns, 'svg');
-  console.log('make svg from: ' + def.symbolid);
+  //console.log('make svg from: ' + def.symbolid);
   const sourceSvg = document.getElementById(def.symbolid);
   if (!sourceSvg) { console.log('not found: ' + def.symbolid); return null; }
   const vb = sourceSvg.getAttribute('viewBox');
@@ -787,7 +787,7 @@ async function applySizeIcons(plant, FM) {
   const houseSvg  = document.getElementById('size-house-icon-1');
   const rootSvg   = document.getElementById('size-root-icon-1');
   const root2Svg   = document.getElementById('size-root-icon-2');
-   const root3Svg   = document.getElementById('size-root-icon-3');
+  const root3Svg   = document.getElementById('size-root-icon-3');
 
   if (!humanSvg) { console.warn('Human icon missing'); return; }
 
@@ -844,7 +844,7 @@ async function applySizeIcons(plant, FM) {
     }
     svgEl.style.width  = `${fW}px`;
     svgEl.style.height = `${fH}px`;
-    console.log(`${svgEl.id}: ${fW.toFixed(1)}×${fH.toFixed(1)}px  (real: ${realWmm}×${realHmm}mm)`);
+    //console.log(`${svgEl.id}: ${fW.toFixed(1)}×${fH.toFixed(1)}px  (real: ${realWmm}×${realHmm}mm)`);
     return fW;
   }
 
@@ -867,6 +867,9 @@ async function applySizeIcons(plant, FM) {
   if (rootSvg) {
     const rootTargetH = rootHmm * pxPerMm;
      const rootTargetW = rootWmm * pxPerMm;
+     console.log(`calc rootTargetH: `, rootTargetH , ` = ` , rootHmm, ` * ` ,pxPerMm);
+     console.log(`calc rootTargetW: `, rootTargetW , ` = ` , rootWmm, ` * ` ,pxPerMm);
+     console.log(`rootFinalW: `, rootFinalW , ` rootFinalW ` , rootFinalW);
     const vbR = rootSvg.viewBox?.baseVal;
     let rootFinalH = rootTargetH;
     let rootFinalW = aboveGroundPxW; // match the above-ground plant width
@@ -999,7 +1002,7 @@ async function loadPlantImageSet(targetLatin,targetVariety) {
 
   _carouselImages = [];
   _carouselIndex  = 0;
-  console.log('imageset target LatinName: ', targetLatin, ' , Variety: ',  targetVariety);
+  //console.log('imageset target LatinName: ', targetLatin, ' , Variety: ',  targetVariety);
   try {
     _carouselImages = await loadPlantImage(targetLatin, targetVariety) || [];
   } catch (err) {
@@ -1007,7 +1010,7 @@ async function loadPlantImageSet(targetLatin,targetVariety) {
     _carouselImages = [];
   }
     
-  console.log('_carouselImages: ', _carouselImages);
+  //console.log('_carouselImages: ', _carouselImages);
   carouselRender();
 }
 
@@ -1094,8 +1097,8 @@ const selectedNr = localStorage.getItem('selectedPlantNr');
 
 const urlParams  = new URLSearchParams(window.location.search);
 const urlPlantId = urlParams.get('id');
-console.log('selectedPlantNr: ', selectedNr);
-console.log('urlPlantId: ', urlPlantId);
+//console.log('selectedPlantNr: ', selectedNr);
+//console.log('urlPlantId: ', urlPlantId);
 document.querySelector('#back-button').addEventListener('click', () => {
   window.location.href = 'Homepage.html';
 });
@@ -1120,7 +1123,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
   try {
     const lookupNr = urlPlantId || selectedNr;
     const { plant, varieties } = await loadPlantIdWithVarieties(lookupNr);
-    console.log('lookupNr: ', lookupNr);
+    //console.log('lookupNr: ', lookupNr);
     if (!plant) {
       title.textContent    = t('detail.plantNotFound');
       subtitle.textContent = t('detail.plantNotFoundMsg');
@@ -1130,11 +1133,11 @@ document.querySelector('#back-button').addEventListener('click', () => {
     // Build FM lookup once
     const FM = Object.fromEntries(BASIC_FIED_MAP.map(f => [f.key, f.data]));
     console.log('cache ready');
-    console.log('example data, plant width av: ' + plant[FM.plant_width_average_mm]);
+    //console.log('example data, plant width av: ' + plant[FM.plant_width_average_mm]);
     
      console.log('plant.Plant_ID: ', plant[FM.plant_id]);
-     console.log('plant.LatinName: ', plant[FM.latin_name]);
-     console.log('plant.Name_Variety: ', plant[FM.name_variety]);
+     //console.log('plant.LatinName: ', plant[FM.latin_name]);
+    //console.log('plant.Name_Variety: ', plant[FM.name_variety]);
        
     // Title & identity
     const lang          = getCurrentLang();
@@ -1153,8 +1156,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
     setIdentityFilterLink(identitygenus,     'genus',  plant.Genus);
     setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName_fix);
     if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety_fix || ''}</strong>`;
-    console.log('plant.Plant_ID: ', plant.Plant_ID);
-    console.log('plant: ', plant);
+    //console.log('plant.Plant_ID: ', plant.Plant_ID);
+    //console.log('plant: ', plant);
     // Data status message
     const message1 = document.getElementById('data_status');
     if (plant.Data_status === 'No') {
@@ -1207,6 +1210,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
 
     // Image (non-blocking)
     console.log('imageset input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
+    console.log('imageset input LatinName_fix: ', plant.LatinName_fix, ' , Variety_fix: ',  plant.Name_Variety_fix);
     loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix);
 
     // Translate
