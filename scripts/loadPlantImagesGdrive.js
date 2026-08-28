@@ -141,7 +141,8 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
   // ----------------------------------------------------------
 
   try {
-    console.log('Wiki URL: ', `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchLatin)}');
+    const t1 = 'https://en.wikipedia.org/api/rest_v1/page/summary/' + ${encodeURIComponent(searchLatin)};
+    console.log('Wiki URL: ', t1);
     const wikiResponse =
       await fetch(
         `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchLatin)}`
