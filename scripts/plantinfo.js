@@ -1148,8 +1148,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
 
     setIdentityFilterLink(identityfamily,    'family', plant.Family);
     setIdentityFilterLink(identitygenus,     'genus',  plant.Genus);
-    setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName);
-    if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety || ''}</strong>`;
+    setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName2);
+    if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety2 || ''}</strong>`;
     console.log('plant.Plant_ID: ', plant.Plant_ID);
     console.log('plant: ', plant);
     // Data status message
@@ -1204,7 +1204,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
 
     // Image (non-blocking)
     console.log('imageset input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
-    loadPlantImageSet(plant.LatinName,plant.Name_Variety);
+    loadPlantImageSet(plant.LatinName2,plant.Name_Variety2);
 
     // Translate
     applyTranslations();
