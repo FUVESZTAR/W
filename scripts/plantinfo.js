@@ -1137,7 +1137,10 @@ document.querySelector('#back-button').addEventListener('click', () => {
     const secondaryName = lang === 'en'
       ? (plant.Name_HU || '')
       : (plant.Name_EN || '');
-
+    console.log('lookupNr: ', lookupNr);
+    console.log('start input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
+    console.log('plant.Plant_ID: ', plant.Plant_ID);
+     
     title.textContent    = secondaryName ? `${primaryName}   |   ${secondaryName}` : primaryName;
     subtitle.textContent = plant.Name_Variety || 'Unknown';
 
