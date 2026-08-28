@@ -869,7 +869,7 @@ async function applySizeIcons(plant, FM) {
      const rootTargetW = rootWmm * pxPerMm;
      console.log(`calc rootTargetH: `, rootTargetH , ` = ` , rootHmm, ` * ` ,pxPerMm);
      console.log(`calc rootTargetW: `, rootTargetW , ` = ` , rootWmm, ` * ` ,pxPerMm);
-     console.log(`rootFinalW: `, rootFinalW , ` rootFinalW ` , rootFinalW);
+     console.log(`rootFinalW: `, rootFinalW , ` aboveGroundPxW ` , aboveGroundPxW);
     const vbR = rootSvg.viewBox?.baseVal;
     let rootFinalH = rootTargetH;
     let rootFinalW = aboveGroundPxW; // match the above-ground plant width
