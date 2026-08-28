@@ -403,7 +403,7 @@ export async function loadPlantIdWithVarieties(plantId) {
   // Step 2: fetch all Name_Variety values sharing the same LatinName
   const latinName = plant['LatinName'];
   //const tq2 = `select C where B = '${latinName.replace(/'/g, "\\'")}'`;
-  const tq2 = `select A, C where B = '${latinName.replace(/'/g, "\\'")}'`;
+  const tq2 = `select A, TO_TEXT(C) where B = '${latinName.replace(/'/g, "\\'")}'`;
   const gvizResponse2 = await fetchSheetResponseQr(tq2);
   const { rows: rows2 } = gvizResponse2.table;
 
