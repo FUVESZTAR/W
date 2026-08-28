@@ -869,11 +869,13 @@ async function applySizeIcons(plant, FM) {
      const rootTargetW = rootWmm * pxPerMm;
      console.log(`calc rootTargetH: `, rootTargetH , ` = ` , rootHmm, ` * ` ,pxPerMm);
      console.log(`calc rootTargetW: `, rootTargetW , ` = ` , rootWmm, ` * ` ,pxPerMm);
-     console.log(`rootFinalW: `, rootFinalW , ` aboveGroundPxW ` , aboveGroundPxW);
+     
     const vbR = rootSvg.viewBox?.baseVal;
     let rootFinalH = rootTargetH;
     let rootFinalW = aboveGroundPxW; // match the above-ground plant width
     let placeHFinalW = 2; // match the above-ground plant width
+
+    console.log(`rootFinalW: `, rootFinalW , ` aboveGroundPxW ` , aboveGroundPxW);
 /*
     if (vbR && vbR.width > 0 && vbR.height > 0) {
       // Compute natural height from the root's own aspect at the matched width
