@@ -1180,7 +1180,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
      
     // NFC link
     const nfcEl = document.querySelector('#nfc-link');
-    if (nfcEl) nfcEl.textContent = `${plant.Plant_ID}  / ${primaryName} / ${plant.Name_Variety || ''} / ${plant.LatinName || ''} / ${window.location.href}`;
+    if (nfcEl) nfcEl.textContent = `${plant.Plant_ID}  / ${primaryName} / ${plant.Name_Variety_fix || ''} / ${plant.LatinName_fix || ''} / ${window.location.href}`;
 
     // Planning table + calendar
     populatePlanningTable(plant);
