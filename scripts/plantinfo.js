@@ -1144,12 +1144,12 @@ document.querySelector('#back-button').addEventListener('click', () => {
     
      
     title.textContent    = secondaryName ? `${primaryName}   |   ${secondaryName}` : primaryName;
-    subtitle.textContent = plant.Name_Variety || 'Unknown';
+    subtitle.textContent = plant.Name_Variety_fix || 'Unknown';
 
     setIdentityFilterLink(identityfamily,    'family', plant.Family);
     setIdentityFilterLink(identitygenus,     'genus',  plant.Genus);
-    setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName2);
-    if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety2 || ''}</strong>`;
+    setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName_fix);
+    if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety_fix || ''}</strong>`;
     console.log('plant.Plant_ID: ', plant.Plant_ID);
     console.log('plant: ', plant);
     // Data status message
@@ -1204,7 +1204,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
 
     // Image (non-blocking)
     console.log('imageset input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
-    loadPlantImageSet(plant.LatinName2,plant.Name_Variety2);
+    loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix);
 
     // Translate
     applyTranslations();
