@@ -788,6 +788,8 @@ async function applySizeIcons(plant, FM) {
   const rootSvg   = document.getElementById('size-root-icon-1');
   const root2Svg   = document.getElementById('size-root-icon-2');
   const root3Svg   = document.getElementById('size-root-icon-3');
+  const symbolrootSvg = document.getElementById('icon-root-size');
+  const symbolrootPlacehSvg = document.getElementById('icon-root-placeholder');
 
   if (!humanSvg) { console.warn('Human icon missing'); return; }
 
@@ -886,16 +888,20 @@ async function applySizeIcons(plant, FM) {
       rootFinalH = Math.min(rootTargetH, rootNaturalH, 120); // cap at 120px
     }*/
 
-    rootSvg.style.width  = `${rootFinalW}px`;
-    rootSvg.style.height = `${rootFinalH}px`;
-    rootSvg.style.display = 'block';
+    //rootSvg.style.width  = `${rootFinalW}px`;
+    //rootSvg.style.height = `${rootFinalH}px`;
+    //rootSvg.style.display = 'block';
 
-    root2Svg.style.width  = `${placeHFinalW}px`;
-    root2Svg.style.height = `${rootFinalH}px`;
-    root2Svg.style.display = 'block';
-    root3Svg.style.width  = `${placeHFinalW}px`;
-    root3Svg.style.height = `${rootFinalH}px`;
-    root3Svg.style.display = 'block';
+    //root2Svg.style.width  = `${placeHFinalW}px`;
+    //root2Svg.style.height = `${rootFinalH}px`;
+    //root2Svg.style.display = 'block';
+    //root3Svg.style.width  = `${placeHFinalW}px`;
+    //root3Svg.style.height = `${rootFinalH}px`;
+    //root3Svg.style.display = 'block';
+
+    rootSvgSizeReset(rootSvg, symbolrootSvg, rootFinalW, rootFinalH);
+    rootSvgSizeReset(root2Svg, symbolrootPlacehSvg, placeHFinalW, rootFinalH);
+    rootSvgSizeReset(root3Svg, symbolrootPlacehSvg, placeHFinalW, rootFinalH);
 
      //    console.log(`root: ${rootFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px`);
      console.log(`root - rootFinalW: ${rootFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px : rootFinalH`);
@@ -905,6 +911,23 @@ async function applySizeIcons(plant, FM) {
   // Human stays at its fixed pixel reference size // width = 7.21 ; height = 21.9
   humanSvg.style.width  = `${HUMAN_PX_H * (10 / 22)}px`;
   humanSvg.style.height = `${HUMAN_PX_H}px`;
+}
+function rootSvgSizeReset(rootSvgSet, symbol, rootSetW, rootSetH) {
+if (rootSvgSet) {
+  ///const symbol = document.getElementById('icon-root-size');
+  const vb = symbol.viewBox.baseVal;
+
+  //const rootFinalW = aboveGroundPxW;
+  //const rootFinalH = rootTargetH; // whatever height you actually want, uncapped
+
+  // reshape the viewBox to exactly match the target box's ratio
+  rootSvgSet.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
+  rootSvgSet.setAttribute('preserveAspectRatio', 'none');
+
+  rootSvgSet.style.width  = `${rootFinalW}px`;
+  rootSvgSet.style.height = `${rootFinalH}px`;
+  rootSvgSet.style.display = 'block';
+}
 }
 
 // ── Image carousel ────────────────────────────────────────────────────────
