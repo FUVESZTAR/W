@@ -899,9 +899,9 @@ async function applySizeIcons(plant, FM) {
     //root3Svg.style.height = `${rootFinalH}px`;
     //root3Svg.style.display = 'block';
 
-    rootSvgSizeReset(rootSvg, symbolrootSvg, rootFinalW, rootFinalH);
-    rootSvgSizeReset(root2Svg, symbolrootPlacehSvg, placeHFinalW, rootFinalH);
-    rootSvgSizeReset(root3Svg, symbolrootPlacehSvg, placeHFinalW, rootFinalH);
+    SvgSizeReset(rootSvg, symbolrootSvg, rootFinalW, rootFinalH);
+    SvgSizeReset(root2Svg, symbolrootPlacehSvg, placeHFinalW, rootFinalH);
+    SvgSizeReset(root3Svg, symbolrootPlacehSvg, placeHFinalW, rootFinalH);
 
      //    console.log(`root: ${rootFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px`);
      console.log(`root - rootFinalW: ${rootFinalW.toFixed(1)}×${rootFinalH.toFixed(1)}px : rootFinalH`);
@@ -912,21 +912,21 @@ async function applySizeIcons(plant, FM) {
   humanSvg.style.width  = `${HUMAN_PX_H * (10 / 22)}px`;
   humanSvg.style.height = `${HUMAN_PX_H}px`;
 }
-function rootSvgSizeReset(rootSvgSet, symbolRoot, rootSetW, rootSetH) {
-if (rootSvgSet) {
+function SvgSizeReset(SvgSet, symbolSvg, newWSet, newHSet) {
+if (SvgSet) {
   ///const symbol = document.getElementById('icon-root-size');
-  const vb = symbolRoot.viewBox.baseVal;
+  const vb = symbolSvg.viewBox.baseVal;
 
   //const rootFinalW = aboveGroundPxW;
   //const rootFinalH = rootTargetH; // whatever height you actually want, uncapped
 
   // reshape the viewBox to exactly match the target box's ratio
-  rootSvgSet.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
-  rootSvgSet.setAttribute('preserveAspectRatio', 'none');
+  SvgSet.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
+  SvgSet.setAttribute('preserveAspectRatio', 'none');
 
-  rootSvgSet.style.width  = `${rootSetW}px`;
-  rootSvgSet.style.height = `${rootSetH}px`;
-  rootSvgSet.style.display = 'block';
+  SvgSet.style.width  = `${newWSet}px`;
+  SvgSet.style.height = `${newHSet}px`;
+  SvgSet.style.display = 'block';
 }
 }
 
