@@ -912,10 +912,10 @@ async function applySizeIcons(plant, FM) {
   humanSvg.style.width  = `${HUMAN_PX_H * (10 / 22)}px`;
   humanSvg.style.height = `${HUMAN_PX_H}px`;
 }
-function rootSvgSizeReset(rootSvgSet, symbol, rootSetW, rootSetH) {
+function rootSvgSizeReset(rootSvgSet, symbolRoot, rootSetW, rootSetH) {
 if (rootSvgSet) {
   ///const symbol = document.getElementById('icon-root-size');
-  const vb = symbol.viewBox.baseVal;
+  const vb = symbolRoot.viewBox.baseVal;
 
   //const rootFinalW = aboveGroundPxW;
   //const rootFinalH = rootTargetH; // whatever height you actually want, uncapped
@@ -924,8 +924,8 @@ if (rootSvgSet) {
   rootSvgSet.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
   rootSvgSet.setAttribute('preserveAspectRatio', 'none');
 
-  rootSvgSet.style.width  = `${rootFinalW}px`;
-  rootSvgSet.style.height = `${rootFinalH}px`;
+  rootSvgSet.style.width  = `${rootSetW}px`;
+  rootSvgSet.style.height = `${rootSetH}px`;
   rootSvgSet.style.display = 'block';
 }
 }
