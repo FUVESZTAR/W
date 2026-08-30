@@ -66,6 +66,7 @@ export async function loadPlantImage(plantLatinName, plantVariety,isPicture) {
   // ----------------------------------------------------------
   // 1. Google Drive via Apps Script
   // ----------------------------------------------------------
+  console.log('isPicture:',isPicture);
   if(isPicture == "Y"){ // isPicture: is there picture in drive?
   try {
 
