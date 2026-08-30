@@ -1028,14 +1028,13 @@ function carouselInit() {
    //console.log('carouselInit');
 }
 
-async function loadPlantImageSet(targetLatin,targetVariety) {
+async function loadPlantImageSet(targetLatin,targetVariety,isPictureSet) {
   carouselInit();
-  let isPicture = plant.Is_Picture; // is there picture in drive?
   _carouselImages = [];
   _carouselIndex  = 0;
   //console.log('imageset target LatinName: ', targetLatin, ' , Variety: ',  targetVariety);
   try {
-    _carouselImages = await loadPlantImage(targetLatin, targetVariety, isPicture) || [];
+    _carouselImages = await loadPlantImage(targetLatin, targetVariety, isPictureSet) || [];
   } catch (err) {
     console.error('Failed to load plant images:', err);
     _carouselImages = [];
@@ -1242,8 +1241,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
     // Image (non-blocking)
     console.log('imageset input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
     console.log('imageset input LatinName_fix: ', plant.LatinName_fix, ' , Variety_fix: ',  plant.Name_Variety_fix);
-    console.log('isPicture:',isPicture);
-    loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix);
+    console.log('isPicture:',plant.isPicture);
+    loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix,plant.isPicture));
 
     // Translate
     applyTranslations();
