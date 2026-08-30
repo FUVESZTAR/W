@@ -1030,12 +1030,12 @@ function carouselInit() {
 
 async function loadPlantImageSet(targetLatin,targetVariety) {
   carouselInit();
-
+  let isPicture = plant.Is_Picture; // is there picture in drive?
   _carouselImages = [];
   _carouselIndex  = 0;
   //console.log('imageset target LatinName: ', targetLatin, ' , Variety: ',  targetVariety);
   try {
-    _carouselImages = await loadPlantImage(targetLatin, targetVariety) || [];
+    _carouselImages = await loadPlantImage(targetLatin, targetVariety, isPicture) || [];
   } catch (err) {
     console.error('Failed to load plant images:', err);
     _carouselImages = [];
