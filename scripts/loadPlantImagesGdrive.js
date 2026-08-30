@@ -22,7 +22,7 @@ function driveImageUrl(fileId, size = 'w1000') {
 }
 
 
-export async function loadPlantImage(plantLatinName, plantVariety) {
+export async function loadPlantImage(plantLatinName, plantVariety,isPicture) {
 
   // ----------------------------------------------------------
   // Build search name
@@ -66,7 +66,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
   // ----------------------------------------------------------
   // 1. Google Drive via Apps Script
   // ----------------------------------------------------------
-
+  if(isPicture == "Y"){ // isPicture: is there picture in drive?
   try {
 
     const url =
@@ -122,7 +122,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
     console.warn('Google Drive lookup failed:', error);
 
   }
-
+  }
   // ----------------------------------------------------------
   // 2. Wikipedia fallback
   // ----------------------------------------------------------
@@ -202,6 +202,7 @@ export async function loadPlantImage(plantLatinName, plantVariety) {
  *
  * @param1 {string} plantLatinName - The LatinName value to match.
  * @param2 {string} plantVariety - The Name_Variety value to match
+ * @param3 {string} isPicture: is there picture in drive? "Y"
  * @returns {{ url: images url}}
  */
 
