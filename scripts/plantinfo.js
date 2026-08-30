@@ -1242,7 +1242,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
     console.log('imageset input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
     console.log('imageset input LatinName_fix: ', plant.LatinName_fix, ' , Variety_fix: ',  plant.Name_Variety_fix);
     console.log('isPicture:',plant.isPicture);
-    loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix,plant.isPicture));
+    loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix,plant.isPicture);
 
     // Translate
     applyTranslations();
