@@ -1186,8 +1186,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
     setIdentityFilterLink(identitygenus,     'genus',  plant.Genus);
     setIdentityFilterLink(identitylatinName, 'latin',  plant.LatinName_fix);
     if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety_fix || ''}</strong>`;
-    //console.log('plant.Plant_ID: ', plant.Plant_ID);
-    //console.log('plant: ', plant);
+    console.log('plant.Plant_ID: ', plant.Plant_ID);
+    console.log('plant: ', plant);
     // Data status message
     const message1 = document.getElementById('data_status');
     if (plant.Data_status === 'No') {
