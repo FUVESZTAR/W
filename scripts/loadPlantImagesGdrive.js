@@ -34,7 +34,7 @@ export async function loadPlantImage(plantLatinName, plantVariety,isPicture) {
       .replace(/\s+/g, '_');
   //console.log('plantLatinName: ',plantLatinName);
   //console.log('searchLatin: ',searchLatin);
-  const wikiImageName = plantLatinName + "from Wikipedia";
+  const wikiImageName = plantLatinName + " from Wikipedia";
   const searchVariety =
     (plantVariety || '')
       .trim()
