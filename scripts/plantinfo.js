@@ -1241,8 +1241,8 @@ document.querySelector('#back-button').addEventListener('click', () => {
     // Image (non-blocking)
     console.log('imageset input LatinName: ', plant.LatinName, ' , Variety: ',  plant.Name_Variety);
     console.log('imageset input LatinName_fix: ', plant.LatinName_fix, ' , Variety_fix: ',  plant.Name_Variety_fix);
-    console.log('isPicture:',plant.isPicture);
-    loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix,plant.isPicture);
+    console.log('isPicture:',plant.Is_Picture);
+    loadPlantImageSet(plant.LatinName_fix,plant.Name_Variety_fix,plant.Is_Picture);
 
     // Translate
     applyTranslations();
