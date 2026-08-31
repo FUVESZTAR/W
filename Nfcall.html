@@ -2596,7 +2596,7 @@ function calculateSize(text) {
   // Read NFC button
   if (readNfcBtn) {
   readNfcBtn.addEventListener("click", () => {
-    window.location.href = "Nfcreader.html";
+    switchTab('read');
   });}
   
   // Save NFC button – appends a row to the nfc_list sheet via the Apps Script Web App
@@ -2724,9 +2724,9 @@ function calculateSize(text) {
   clearNfcBtn.addEventListener("click", () => {
     clearForm();
     plantSelectorCustomInput.innerHTML = `<option value="">${msg('opt_variety')}</option>`;
-    plantSelectorCustomInput.style.display = "none";
     plantSelectorCustomInput.value = "";
     plantSelectorCustomInput.style.display = "none";
+    plantNameInput = "";
   });}
 
   function showError(el, message, type = "error") {
