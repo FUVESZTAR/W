@@ -694,15 +694,18 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <button id="gen-nfc-write-button" class="btn-primary" type="button" data-i18n="nfcgen.btn_write">Write NFC</button>
           <button id="gen-save-nfc"       class="btn-primary"   type="button" data-i18n="nfcgen.btn_save">Save NFC</button>
         </div>
-        <div class="btn-grid">
+        <div class="btn-grid cols-3">
           <button id="gen-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_nfc">Copy NFC</button>
           <button id="gen-copy-link" class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_link">Copy Link</button>
-          <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcgen.btn_qr">NFC QR Code</button>
+          <button id="gen-clear-button"   class="btn-secondary" type="button" data-i18n="nfcgen.btn_clear">Clear Fields</button>
         </div>
-        <div class="btn-grid">
+        <div class="btn-grid cols-1">
+          <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcgen.btn_qr">NFC QR Code</button>
+          </div>
+        <div class="btn-grid cols-3">
           <button id="gen-read-nfc" class="btn-link" type="button" data-i18n="nfcgen.btn_nfcread">NFC Reader</button>
           <button id="gen-list-nfc" class="btn-link" type="button" data-i18n="nfcgen.btn_nfclist">NFC List</button>
-          <button id="gen-back-button" class="btn-back"   type="button" data-i18n="nfcgen.btn_back">← Back</button>
+          <button id="gen-back-button" class="btn-back" type="button" data-i18n="nfcgen.btn_back">← Back</button>
         </div>
       </div></div></div>
     </div>
@@ -732,11 +735,12 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <button id="read-clear-button"   class="btn-primary"   type="button" data-i18n="nfcread.btn_clear">Clear Fields</button>
           <button id="read-open-link-button" class="btn-primary" type="button" data-i18n="nfcread.btn_open">Open Link</button>
         </div>
-        <div class="btn-grid">
+        <div class="btn-grid cols-3">
+          <button id="read-dupl-nfc" class="btn-secondary" type="button" data-i18n="nfcread.btn_dupl_nfc">Duplicate NFC</button>
           <button id="read-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_nfc">Copy NFC</button>
           <button id="read-copy-link" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_link">Copy Link</button>
         </div>
-        <div class="btn-grid">
+        <div class="btn-grid cols-3">
           <button id="read-gen-nfc" class="btn-link" type="button" data-i18n="nfcread.btn_nfcgen">NFC Generator</button>
           <button id="read-list-nfc" class="btn-link" type="button" data-i18n="nfcread.btn_nfclist">NFC List</button>
           <button id="read-back-button" class="btn-back" type="button" data-i18n="nfcread.btn_back">← Back</button>
@@ -1206,6 +1210,7 @@ const TRANSLATIONS = {
     "nfcgen.btn_save":          "Save NFC",
     "nfcgen.btn_copy_nfc":      "Copy NFC",
     "nfcgen.btn_copy_link":     "Copy Link",
+    "nfcgen.btn_clear":         "Clear Fields",
     "nfcgen.btn_nfclist":       "NFC List",
     "nfcgen.btn_nfcread":       "NFC Reader",
     "nfcgen.btn_qr":            "NFC QR Code",
@@ -1281,6 +1286,7 @@ const TRANSLATIONS = {
     "nfcread.btn_open":         "Open link",
     "nfcread.btn_write":        "Write NFC",
     "nfcread.btn_save":         "Save NFC",
+    "nfcread.btn_dupl_nfc":     "Duplicate NFC",
     "nfcread.btn_copy_nfc":     "Copy NFC",
     "nfcread.btn_copy_link":    "Copy Link",
     "nfcread.btn_qr":           "NFC QR Code",
@@ -1593,6 +1599,7 @@ const TRANSLATIONS = {
     "nfcgen.btn_generate":      "NFC gener\u00e1l\u00e1sa",
     "nfcgen.btn_write":         "NFC \u00edr\u00e1sa",
     "nfcgen.btn_save":          "NFC ment\u00e9se",
+    "nfcgen.btn_clear":         "Mez\u0151k t\u00f6rl\u00e9se",
     "nfcgen.btn_copy_nfc":      "NFC m\u00e1sol\u00e1sa",
     "nfcgen.btn_copy_link":     "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
     "nfcgen.btn_nfclist":       "NFC Lista",
@@ -1670,6 +1677,7 @@ const TRANSLATIONS = {
     "nfcread.btn_open":         "Link megnyit\u00e1sa",
     "nfcread.btn_write":        "NFC \u00edr\u00e1sa",
     "nfcread.btn_save":         "NFC ment\u00e9se",
+    "nfcread.btn_dupl_nfc":     "NFC duplik\u00e1l\u00e1sa",
     "nfcread.btn_copy_nfc":     "NFC m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_link":    "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
     "nfcread.btn_qr":           "NFC QR k\u00f3d",
@@ -2081,6 +2089,7 @@ async function populate() {
   const readNfcBtn = document.getElementById("gen-read-nfc");
   const errorMsg = document.getElementById("gen-error-message");
   const nfcWriteBtn = document.getElementById("gen-nfc-write-button");
+  const clearNfcBtn = document.getElementById("gen-clear-button");
   
   let plants = [];
   const plantSearch = makeSelectSearchable(selector, 'gen-plant-selector-search');
@@ -2710,6 +2719,12 @@ function calculateSize(text) {
     serialNumText.textContent = "none";
   }
 
+    // Read NFC button
+  if (clearNfcBtn) {
+  clearNfcBtn.addEventListener("click", () => {
+    clearForm();
+  });}
+
   function showError(el, message, type = "error") {
     el.textContent = message;
     el.className = 'status-msg ' + (type === 'success' ? 'success' : type === 'info' ? 'info' : 'error');
@@ -2833,16 +2848,17 @@ const egyebInput = document.getElementById("read-egyeb");
 const nfcPreview = document.getElementById("read-nfc-preview");
 const linkPreview = document.getElementById("read-link-preview");
 
-  const readNfcBtn = document.getElementById("read-read-nfc");
-  const openLinkBtn = document.getElementById("read-open-link-button");
+const readNfcBtn = document.getElementById("read-read-nfc");
+const openLinkBtn = document.getElementById("read-open-link-button");
 const clearBtn = document.getElementById("read-clear-button");
-  const copyNfcBtn = document.getElementById("read-copy-nfc");
+const copyNfcBtn = document.getElementById("read-copy-nfc");
+const duplNfcBtn = document.getElementById("read-dupl-nfc"); 
 const genNfcBtn = document.getElementById("read-gen-nfc");
 const listNfcBtn = document.getElementById("read-list-nfc");
-  const copyLinkBtn = document.getElementById("read-copy-link");
-  const backBtn = document.getElementById("read-back-button");
-  const saveNfcBtn = document.getElementById("read-save-nfc");
-  const errorMsg = document.getElementById("read-error-message");
+const copyLinkBtn = document.getElementById("read-copy-link");
+const backBtn = document.getElementById("read-back-button");
+const saveNfcBtn = document.getElementById("read-save-nfc");
+const errorMsg = document.getElementById("read-error-message");
 
 const gpsDispLat = document.getElementById('read-gpsDispLat');
 const gpsDispLon = document.getElementById('read-gpsDispLon');
@@ -3141,6 +3157,12 @@ function handlePlantData(data) {
   if (readNfcBtn) {
   readNfcBtn.addEventListener("click", () => {
      nfcReadFunc();
+  });}
+
+  // NFC Read button
+  if (duplNfcBtn) {
+  duplNfcBtn.addEventListener("click", () => {
+     //nfcReadFunc();
   });}
  
   // Back button
