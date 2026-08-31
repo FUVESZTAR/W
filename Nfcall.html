@@ -2719,10 +2719,14 @@ function calculateSize(text) {
     serialNumText.textContent = "none";
   }
 
-    // Read NFC button
+    // Clear NFC button
   if (clearNfcBtn) {
   clearNfcBtn.addEventListener("click", () => {
     clearForm();
+    plantSelectorCustomInput.innerHTML = `<option value="">${msg('opt_variety')}</option>`;
+    plantSelectorCustomInput.style.display = "none";
+    plantSelectorCustomInput.value = "";
+    plantSelectorCustomInput.style.display = "none";
   });}
 
   function showError(el, message, type = "error") {
