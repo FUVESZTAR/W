@@ -2124,6 +2124,10 @@ async function populate() {
   const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
   datumInput.value = dateString;
 
+   //local storage
+  if (localStorage.getItem('StCopyState') === null) { 
+    console.log('Not set');
+    
   // Plant selector change event
   selector.addEventListener("change", async () => {
     const nameValue = selector.value;
@@ -2190,7 +2194,9 @@ async function populate() {
       nfcTypInput.value = "n";
       egyebInput.value = "";
     }
-    
+     } else {
+     localStorageGet();
+    }
     // Populate varieties dropdown based on plant name
     populateVarieties(nameValue);
     
@@ -2236,6 +2242,40 @@ async function populate() {
     }
   }
 
+    // Save data to local storage
+function localStorageGet() {
+  plantNameInput.value  = localStorage.getItem('StPlantName');
+  nameVarietySelector.value = localStorage.getItem('StVariety');
+  plantIdInput.value = localStorage.getItem('StPlantID');
+  latinNameInput.value = localStorage.getItem('StLatinName');
+  datumInput.value = localStorage.getItem('StDate');
+  nfcTypInput.value = localStorage.getItem('StNFCType');
+  gpsPacket = localStorage.getItem('StGPSCPacket');
+  egyebInput.value = localStorage.getItem('StEgyebInfo');
+    plantIdInput.setAttribute("readonly", "");
+    customPlantMode = false;
+    plantSelectorCustomInput.value = "";
+    plantSelectorCustomInput.style.display = "none";
+    nameVarietySelector.innerHTML = `<option value="">${msg('opt_variety')}</option>`;
+    nameVarietyCustomInput.value = "";
+    nameVarietyCustomInput.style.display = "none";
+  updatePreviews();
+  // localStorageCear();
+}
+
+function localStorageCear() {
+  //localStorage.clear();    // Clear everything
+  localStorage.removeItem('StCopyState'); // Remove one item
+  localStorage.removeItem('StPlantName');
+  localStorage.removeItem('StVariety');
+  localStorage.removeItem('StPlantID');
+  localStorage.removeItem('StLatinName');
+  localStorage.removeItem('StDate');
+  localStorage.removeItem('StNFCType');
+  localStorage.removeItem('StGPSCPacket');
+  localStorage.removeItem('StEgyebInfo');
+  }
+ 
   // Variety selector change event
   nameVarietySelector.addEventListener("change", async () => {
     const value = nameVarietySelector.value;
@@ -2431,7 +2471,10 @@ async function populate() {
   }
 
   function getVarietyText() {
-    if (customVarietyMode && nameVarietyCustomInput.value) {
+    if (localStorage.getItem('StCopyState') === 'Y') { 
+      let setVariety = localStorage.getItem('StVariety');
+      return setVariety;
+    } else if (customVarietyMode && nameVarietyCustomInput.value) {
       return nameVarietyCustomInput.value;
     } else if (selectedVarietyData) {
       return selectedVarietyData.Name_Variety || "";
@@ -2501,6 +2544,8 @@ function calculateSize(text) {
     }   
   }
   updateNFCPreviewFn = updateNFCPreview;
+
+  
   //Gps
   if (gpsStartBtn) {
   gpsStartBtn.addEventListener("click", () => {
@@ -2727,6 +2772,7 @@ function calculateSize(text) {
     plantSelectorCustomInput.value = "";
     plantSelectorCustomInput.style.display = "none";
     plantNameInput = "";
+    localStorageCear();
   });}
 
   function showError(el, message, type = "error") {
@@ -3106,6 +3152,34 @@ function handlePlantData(data) {
     
 }     //end
 
+  // Save data to local storage
+function localStorageSet() {
+  localStorage.setItem('StCopyState','Y');
+  localStorage.setItem('StPlantName', plantNameInput.value);
+  localStorage.setItem('StVariety', nameVarietyInput.value);
+  localStorage.setItem('StPlantID', plantIdInput.value);
+  localStorage.setItem('StLatinName', latinNameInput.value);
+  localStorage.setItem('StDate', datumInput.value);
+  localStorage.setItem('StNFCType', nfcTypInput.value);
+  localStorage.setItem('StGPSCPacket', posPacketOut.textContent);
+  localStorage.setItem('StEgyebInfo', egyebInput.value);
+  }
+// Read data from local storage
+const name = localStorage.getItem('username'); // 'Alice'
+
+function localStorageCear() {
+  //localStorage.clear();    // Clear everything
+  localStorage.removeItem('StCopyState'); // Remove one item
+  localStorage.removeItem('StPlantName');
+  localStorage.removeItem('StVariety');
+  localStorage.removeItem('StPlantID');
+  localStorage.removeItem('StLatinName');
+  localStorage.removeItem('StDate');
+  localStorage.removeItem('StNFCType');
+  localStorage.removeItem('StGPSCPacket');
+  localStorage.removeItem('StEgyebInfo');
+  }
+  
   //read
   function nfcReadFunc() {
      readNfc((data) => {
@@ -3166,7 +3240,9 @@ function handlePlantData(data) {
   // NFC Read button
   if (duplNfcBtn) {
   duplNfcBtn.addEventListener("click", () => {
-     //nfcReadFunc();
+    localStorageSet();
+    switchTab('gen');
+    //nfcReadFunc();
   });}
  
   // Back button
@@ -3282,8 +3358,10 @@ function handlePlantData(data) {
     gpsDispAcc.innerText = "";
     posPacketSize.textContent = "0 B";
     //nfcCreated.value = "";
+    // Clear localStorage
+     
+    localStorageCear(); // Remove one item
   }
-
 
 } // end pop
 
