@@ -3382,6 +3382,168 @@ if (document.readyState === "loading") {
   <script>
 setupLanguageButtons();
   </script>
+  
+<!-- Debug panel (paste this before </body>) -->
+<script>
+  // Toggle this variable to enable/disable the debug UI and helpers.
+  const DEBUG_ENABLED = true; // set to false to disable debug UI entirely
 
+  (function() {
+    if (!DEBUG_ENABLED) {
+      // Provide no-op shims so calls to debugLog/debugClear won't break when disabled.
+      window.debugLog = function() {};
+      window.debugClear = function() {};
+      window.debugOpen = function() {};
+      return;
+    }
+
+    // Create styles
+    const css = `
+      #debug-toggle-btn {
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        z-index: 99999;
+        background: #172217;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(0,0,0,.25);
+        font-size: 0.9rem;
+        font-family: sans-serif;
+      }
+      #debug-panel {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 14px;
+        max-height: 40vh;
+        height: 220px;
+        background: rgba(23,34,23,0.96);
+        color: #e8f5e9;
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 12px 40px rgba(0,0,0,.35);
+        z-index: 99998;
+        display: none;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+        font-size: 0.85rem;
+      }
+      #debug-panel.open { display: flex; }
+      #debug-panel .debug-controls {
+        display:flex;
+        gap:8px;
+        align-items:center;
+        justify-content:space-between;
+      }
+      #debug-panel .debug-controls .left { display:flex; gap:8px; align-items:center; }
+      #debug-body {
+        background: rgba(255,255,255,0.03);
+        border-radius: 8px;
+        padding: 8px;
+        overflow:auto;
+        flex:1 1 auto;
+        white-space:pre-wrap;
+      }
+      #debug-panel button { cursor:pointer; border: none; padding:6px 8px; border-radius:8px; font-weight:600; }
+      #debug-clear { background:#c62828; color:#fff; }
+      #debug-close { background:#4caf50; color:#fff; margin-left:8px; }
+      @media (max-width: 520px) {
+        #debug-panel { left:8px; right:8px; bottom:10px; height:180px; }
+        #debug-toggle-btn { right:10px; bottom:10px; padding:7px 10px; }
+      }
+    `;
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.appendChild(document.createTextNode(css));
+    document.head.appendChild(style);
+
+    // Create toggle button
+    const toggleBtn = document.createElement('button');
+    toggleBtn.id = 'debug-toggle-btn';
+    toggleBtn.type = 'button';
+    toggleBtn.title = 'Toggle debug (Ctrl/Cmd+D)';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = 'Debug';
+    document.body.appendChild(toggleBtn);
+
+    // Create panel
+    const panel = document.createElement('div');
+    panel.id = 'debug-panel';
+    panel.setAttribute('aria-hidden', 'true');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'Debug console');
+    panel.innerHTML = `
+      <div class="debug-controls">
+        <div class="left">
+          <strong style="color:#c8e6c9">Debug Console</strong>
+          <span style="color:#c8e6c9;font-size:.82rem;margin-left:8px">Ctrl/Cmd+D to toggle</span>
+        </div>
+        <div>
+          <button id="debug-clear" type="button">Clear</button>
+          <button id="debug-close" type="button">Close</button>
+        </div>
+      </div>
+      <div id="debug-body" aria-live="polite" aria-atomic="false"></div>
+    `;
+    document.body.appendChild(panel);
+
+    const body = panel.querySelector('#debug-body');
+    const clearBtn = panel.querySelector('#debug-clear');
+    const closeBtn = panel.querySelector('#debug-close');
+
+    function setOpen(open) {
+      panel.classList.toggle('open', open);
+      panel.setAttribute('aria-hidden', String(!open));
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open ? 'Debug • ON' : 'Debug';
+    }
+
+    toggleBtn.addEventListener('click', () => setOpen(!panel.classList.contains('open')));
+    closeBtn.addEventListener('click', () => setOpen(false));
+    clearBtn.addEventListener('click', () => { body.textContent = ''; });
+
+    // Keyboard shortcut: Ctrl/Cmd + D
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd') {
+        e.preventDefault();
+        setOpen(!panel.classList.contains('open'));
+      }
+    });
+
+    // Public helpers
+    window.debugLog = function(...args) {
+      try {
+        const parts = args.map(a => {
+          if (a === null) return 'null';
+          if (a === undefined) return 'undefined';
+          if (typeof a === 'object') {
+            try { return JSON.stringify(a, null, 2); } catch (err) { return String(a); }
+          }
+          return String(a);
+        });
+        const line = parts.join(' ');
+        const time = new Date().toISOString().substr(11,8);
+        body.textContent += `[${time}] ${line}\n`;
+        body.scrollTop = body.scrollHeight;
+      } catch (err) {
+        // ignore errors in logging to avoid breaking app
+      }
+    };
+
+    window.debugClear = function() { body.textContent = ''; };
+    window.debugOpen = function(flag) { setOpen(Boolean(flag)); };
+
+    // Example startup log (comment/uncomment as needed)
+    // window.debugLog('Debug panel initialized');
+
+  })();
+</script>
 </body>
 </html>
