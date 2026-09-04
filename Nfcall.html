@@ -2125,11 +2125,16 @@ async function populate() {
   datumInput.value = dateString;
 
    //local storage
-  if (localStorage.getItem('StCopyState') === null) { 
-    console.log('Not set');
+  if (localStorage.getItem('StCopyState') === 'Y') { 
+    console.log('Duplicated set');
+     localStorageGet();
+    }
     
   // Plant selector change event
   selector.addEventListener("change", async () => {
+    //local storage
+  if (localStorage.getItem('StCopyState') === null) { 
+    console.log('Not set');
     const nameValue = selector.value;
     console.log("Plant selected, value:", nameValue);
     
@@ -2194,13 +2199,11 @@ async function populate() {
       nfcTypInput.value = "n";
       egyebInput.value = "";
     }
-     } else {
-     localStorageGet();
-    }
     // Populate varieties dropdown based on plant name
     populateVarieties(nameValue);
     
     updatePreviews();
+  }
   });
 
   // Populate varieties dropdown
