@@ -2131,7 +2131,7 @@ async function populate() {
     }
 
   //local storage
-  if (localStorage.getItem('StCopyState') === none) { 
+  if (localStorage.getItem('StCopyState') === null) {
     console.log('not set');
   } else {
     console.log('v1', localStorage.getItem('StPlantName'));
