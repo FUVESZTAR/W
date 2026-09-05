@@ -453,6 +453,17 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 }
 .tab-section { display: none; }
 .tab-section.active { display: contents; }
+
+    /* ── Debug ──────────────────────────────────────────────────────────────── */
+#debug-section {
+  margin-top: 24px;
+  padding: 16px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border-top: 3px solid #555;
+}
   </style>
 </head>
 <body>
@@ -3398,6 +3409,16 @@ setupLanguageButtons();
   </script>
   
 <!-- Debug panel (paste this before </body>) -->
+<!-- ── Debug console ──────────────────────────────────────────────────────── -->
+<div id="debug-section" style="margin-top:20px;padding:16px;background:#1e1e1e;color:#d4d4d4;font-family:monospace;font-size:13px;border-top:3px solid #555;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+    <strong style="color:#9cdcfe;font-size:15px;">🛠 Debug Console</strong>
+    <button onclick="document.getElementById('debug-log').replaceChildren()"
+      style="padding:2px 10px;font-size:12px;cursor:pointer;border-radius:4px;border:1px solid #555;background:#2d2d2d;color:#d4d4d4;">Clear</button>
+  </div>
+  <div id="debug-log" style="max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"></div>
+</div>
+<script src="scripts/plantinfo.js" type="module"></script>
 <script>
 /* ── Debug capture ──────────────────────────────────────────────────────── */
 (function () {
@@ -3427,5 +3448,6 @@ setupLanguageButtons();
   console.error = (...a) => { _e(...a);  appendEntry('error', a); };
 })();
 </script>
+  
   </body>
 </html>
