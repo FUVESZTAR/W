@@ -2101,6 +2101,10 @@ async function populate() {
   const errorMsg = document.getElementById("gen-error-message");
   const nfcWriteBtn = document.getElementById("gen-nfc-write-button");
   const clearNfcBtn = document.getElementById("gen-clear-button");
+
+    console.log('StPlantName', localStorage.getItem('StPlantName'));
+    console.log('StVariety', localStorage.getItem('StVariety'));
+    console.log('StPlantID', localStorage.getItem('StPlantID'));
   
   let plants = [];
   const plantSearch = makeSelectSearchable(selector, 'gen-plant-selector-search');
@@ -2299,6 +2303,9 @@ function localStorageCear() {
   localStorage.removeItem('StNFCType');
   localStorage.removeItem('StGPSCPacket');
   localStorage.removeItem('StEgyebInfo');
+      console.log('StPlantName clear', localStorage.getItem('StPlantName'));
+    console.log('StVariety clear', localStorage.getItem('StVariety'));
+    console.log('StPlantID clear', localStorage.getItem('StPlantID'));
   }
  
   // Variety selector change event
@@ -3262,11 +3269,11 @@ function localStorageCear() {
      nfcReadFunc();
   });}
 
-  // NFC Read button
+  // NFC dupl button
   if (duplNfcBtn) {
   duplNfcBtn.addEventListener("click", () => {
     localStorageSet();
-    //switchTab('gen');
+    switchTab('gen');
     console.log('v1', localStorage.getItem('StPlantName'));
     console.log('v2', localStorage.getItem('StVariety'));
     console.log('v3', localStorage.getItem('StPlantID'));
