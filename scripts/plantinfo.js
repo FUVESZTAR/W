@@ -384,12 +384,12 @@ const BASIC_FIED_MAP = [
   { key:'harvesting_time_in_ground_month', data:'Harvesting_time_in_ground_month', typ:'normal',use:'cal2',i18n:'harvestingtimeingroundmonth'  },
   { key:'eating_maturity_time_in_month',   data:'Eating_Maturity_time_in_month',   typ:'normal',use:'cal2',i18n:'eatingmaturitytimeinmonth'    },
   { key:'harvest_storing_month',           data:'Harvest_storing_month',           typ:'normal',use:'cal2',i18n:'harveststoringmonth'          },
-  { key:'plant_height_max_mm',             data:'Plant_height_max_mm',             typ:'normal',use:'fill', i18n:'plantheightmax'              },
-  { key:'plant_height_average_mm',         data:'Plant_height_average_mm',         typ:'normal',use:'fill', i18n:'plantheightavg'              },
-  { key:'plant_width_max_mm',              data:'Plant_width_max_mm',              typ:'normal',use:'fill', i18n:'plantwidthmax'               },
-  { key:'plant_width_average_mm',          data:'Plant_width_average_mm',          typ:'normal',use:'fill', i18n:'plantwidthavg'               },
-  { key:'plant_root_depth_average_mm',     data:'Plant_root_depth_average_mm',     typ:'normal',use:'fill', i18n:'rootdepthavg'                },
-  { key:'plant_root_width_average_mm',     data:'Plant_root_width_average_mm',     typ:'normal',use:'fill', i18n:'rootwidthavg'                },
+  { key:'plant_height_max_mm',             data:'Plant_height_max_mm',             typ:'normal',use:'fillvalue', i18n:'plantheightmax'              },
+  { key:'plant_height_average_mm',         data:'Plant_height_average_mm',         typ:'normal',use:'fillvalue', i18n:'plantheightavg'              },
+  { key:'plant_width_max_mm',              data:'Plant_width_max_mm',              typ:'normal',use:'fillvalue', i18n:'plantwidthmax'               },
+  { key:'plant_width_average_mm',          data:'Plant_width_average_mm',          typ:'normal',use:'fillvalue', i18n:'plantwidthavg'               },
+  { key:'plant_root_depth_average_mm',     data:'Plant_root_depth_average_mm',     typ:'normal',use:'fillvalue', i18n:'rootdepthavg'                },
+  { key:'plant_root_width_average_mm',     data:'Plant_root_width_average_mm',     typ:'normal',use:'fillvalue', i18n:'rootwidthavg'                },
   { key:'plant_space_filling_mm',          data:'Plant_space_filling_mm',          typ:'normal',use:'create',i18n:'plantspacefilling'          },
   { key:'plant_planting_seed_dept_mm',     data:'Plant_planting_seed_dept_mm',     typ:'splitminus',use:'create',i18n:'plantplantingseeddeptmm'},
   { key:'plant_planting_seed_soil_temperature_celsius',data:'Plant_planting_seed_soil_temperature_celsius',typ:'splitminus',use:'create',i18n:'seedsoiltemperature'},
@@ -407,7 +407,7 @@ const BASIC_FIED_MAP = [
   { key:'leaf_color',                    data:'Leaf_color',                        typ:'split',     use:'create',i18n:'leafcolor'               },
   { key:'hardiness_zone_usda',           data:'Hardiness_Zone_USDA',              typ:'split',     use:'create',i18n:'hardinesszoneusda'        },
   { key:'minimum_temperature',           data:'Minimum_temperature',              typ:'split',     use:'create',i18n:'minimumtemperature'       },
-  { key:'plant_description',             data:'Plant_description',                typ:'split',     use:'create',i18n:'plantdescription'         },
+  { key:'plant_description',             data:'Plant_description',                typ:'fill',     use:'create',i18n:'plantdescription'         },
   { key:'edible_parts_description',      data:'Edible_parts_description',         typ:'split',     use:'create',i18n:'ediblepartsdescription'   },
   { key:'benefits',                      data:'Benefits',                         typ:'split',     use:'create',i18n:'benefits'                 },
   { key:'needed_polinators',             data:'Needed_polinators',                typ:'split',     use:'create',i18n:'neededpolinators'         },
@@ -1095,7 +1095,12 @@ function renderFields(containerId, map, plant) {
 
   const VISIBLE = new Set(['show','fill','create']);
   map.filter(item => VISIBLE.has(item.use)).forEach(item => {
-    if (item.use === 'fill') {
+    if (item.use === 'fillvalue') {
+      const rawVal = plant[item.data];
+      const fmtVal = formatValue(rawVal, item.typ, item.key);
+      const input  = document.querySelector(`#${item.key}`);
+      if (input) input.value = fmtVal || '';
+     } else if (item.use === 'fill') {
       const rawVal = plant[item.data];
       const fmtVal = formatValue(rawVal, item.typ, item.key);
       const input  = document.querySelector(`#${item.key}`);
@@ -1211,7 +1216,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
     renderFields('fields1', BASIC_FIED_MAP, plant);
 
     // Fix field
-     document.querySelector("#plant_description_2").textContent = plant.Plant_description || "";
+     //document.querySelector("#plant_description_2").textContent = plant.Plant_description || "";
      
     // NFC link
     const nfcEl = document.querySelector('#nfc-link');
