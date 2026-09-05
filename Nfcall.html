@@ -747,9 +747,12 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <button id="read-open-link-button" class="btn-primary" type="button" data-i18n="nfcread.btn_open">Open Link</button>
         </div>
         <div class="btn-grid cols-3">
-          <button id="read-dupl-nfc" class="btn-secondary" type="button" data-i18n="nfcread.btn_dupl_nfc">Duplicate NFC</button>
           <button id="read-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_nfc">Copy NFC</button>
           <button id="read-copy-link" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_link">Copy Link</button>
+          <button id="read-copy-gps" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_gps">Copy GPS</button>
+        </div>
+        <div class="btn-grid cols-1">
+          <button id="read-dupl-nfc" class="btn-secondary" type="button" data-i18n="nfcread.btn_dupl_nfc">Duplicate NFC</button>
         </div>
         <div class="btn-grid cols-3">
           <button id="read-gen-nfc" class="btn-link" type="button" data-i18n="nfcread.btn_nfcgen">NFC Generator</button>
@@ -1239,6 +1242,7 @@ const TRANSLATIONS = {
     "nfcgen.err_save_ok":       "NFC saved to list!",
     "nfcgen.err_copy_nfc_ok":   "NFC data copied to clipboard!",
     "nfcgen.err_copy_link_ok":  "Link copied to clipboard!",
+    "nfcgen.err_copy_gps_ok":   "GPS copied to clipboard!",
     "nfcgen.err_qr_fail":       "Failed to open QR code. Please check your popup blocker.",
     "nfcgen.err_qr_ok":         "QR code opened in new tab",
     "nfcgen.err_nfc_tap":       "Approach the tag to the back of your phone\u2026",
@@ -1300,6 +1304,7 @@ const TRANSLATIONS = {
     "nfcread.btn_dupl_nfc":     "Duplicate NFC",
     "nfcread.btn_copy_nfc":     "Copy NFC",
     "nfcread.btn_copy_link":    "Copy Link",
+    "nfcread.btn_copy_gps":    "Copy GPS",
     "nfcread.btn_qr":           "NFC QR Code",
     "nfcread.btn_nfclist":      "NFC List",
     "nfcread.btn_nfcgen":       "NFC Generator",
@@ -1319,6 +1324,7 @@ const TRANSLATIONS = {
     "nfcread.err_save_ok":      "NFC saved to list!",
     "nfcread.err_copy_nfc_ok":  "NFC data copied to clipboard!",
     "nfcread.err_copy_link_ok": "Link copied to clipboard!",
+    "nfcread.err_copy_gps_ok":   "GPS copied to clipboard!",
     "nfcread.err_qr_fail":      "Failed to open QR code. Please check your popup blocker.",
     "nfcread.err_qr_ok":        "QR code opened in new tab",
     "nfcread.err_nfc_tap":      "Approach the tag to the back of your phone\u2026",
@@ -1630,6 +1636,7 @@ const TRANSLATIONS = {
     "nfcgen.err_save_ok":       "NFC mentve a list\u00e1ba!",
     "nfcgen.err_copy_nfc_ok":   "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_copy_link_ok":  "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcgen.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_qr_fail":       "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
     "nfcgen.err_qr_ok":         "QR k\u00f3d megny\u00edlt \u00faj lapon",
     "nfcgen.err_nfc_tap":       "Tartsd a telefon h\u00e1t\u00e1hoz az NFC cimk\u00e9t\u2026",
@@ -1691,6 +1698,7 @@ const TRANSLATIONS = {
     "nfcread.btn_dupl_nfc":     "NFC duplik\u00e1l\u00e1sa",
     "nfcread.btn_copy_nfc":     "NFC m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_link":    "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
+    "nfcread.btn_copy_gps":     "GPS m\u00e1sol\u00e1sa",
     "nfcread.btn_qr":           "NFC QR k\u00f3d",
     "nfcread.btn_nfclist":      "NFC Lista",
     "nfcread.btn_nfcgen":       "NFC Gener\u00e1tor",
@@ -1710,6 +1718,7 @@ const TRANSLATIONS = {
     "nfcread.err_save_ok":      "NFC mentve a list\u00e1ba!",
     "nfcread.err_copy_nfc_ok":  "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcread.err_copy_link_ok": "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcgen.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcread.err_qr_fail":      "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
     "nfcread.err_qr_ok":        "QR k\u00f3d megny\u00edlt \u00faj lapon",
     "nfcread.err_nfc_tap":      "Tartsd a telefon h\u00e1t\u00e1hoz az NFC cimk\u00e9t\u2026",
@@ -2931,6 +2940,7 @@ const nfcPreview = document.getElementById("read-nfc-preview");
 const linkPreview = document.getElementById("read-link-preview");
 
 const readNfcBtn = document.getElementById("read-read-nfc");
+const copyGpsBtn = document.getElementById("read-copy-gps");
 const openLinkBtn = document.getElementById("read-open-link-button");
 const clearBtn = document.getElementById("read-clear-button");
 const copyNfcBtn = document.getElementById("read-copy-nfc");
@@ -3267,6 +3277,23 @@ function localStorageCear() {
   if (readNfcBtn) {
   readNfcBtn.addEventListener("click", () => {
      nfcReadFunc();
+  });}
+
+  // Copy Link button
+  if (copyGpsBtn) {
+  copyGpsBtn.addEventListener("click", () => {
+    const gpsVal = linkPreview.textContent;
+    
+    if (isPlaceholder(gpsVal) || !gpsVal) {
+      showError(errorMsg, msg('err_no_gps'));
+      return;
+    }
+    
+    navigator.clipboard.writeText(gpsVal).then(() => {
+      showError(errorMsg, msg('err_copy_gps_ok'), "success");
+    }).catch(err => {
+      showError(errorMsg, msg('err_copy_fail') + err.message);
+    });
   });}
 
   // NFC dupl button
