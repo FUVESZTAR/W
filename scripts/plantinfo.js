@@ -912,6 +912,7 @@ async function applySizeIcons(plant, FM) {
   humanSvg.style.width  = `${HUMAN_PX_H * (10 / 22)}px`;
   humanSvg.style.height = `${HUMAN_PX_H}px`;
 }
+
 function SvgSizeReset(SvgSet, symbolSvg, newWSet, newHSet) {
 if (SvgSet) {
   ///const symbol = document.getElementById('icon-root-size');
@@ -1098,7 +1099,7 @@ function renderFields(containerId, map, plant) {
       const rawVal = plant[item.data];
       const fmtVal = formatValue(rawVal, item.typ, item.key);
       const input  = document.querySelector(`#${item.key}`);
-      if (input) input.value = fmtVal || '';
+      if (input) input.textContent = fmtVal || '';
     } else if (item.use === 'create') {
       const rawVal = plant[item.data];
       const fmtVal = formatValue(rawVal, item.typ, item.key);
@@ -1188,6 +1189,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
     if (identityvariety) identityvariety.innerHTML = `<strong> / ${plant.Name_Variety_fix || ''}</strong>`;
     console.log('plant.Plant_ID: ', plant.Plant_ID);
     console.log('plant: ', plant);
+     
     // Data status message
     const message1 = document.getElementById('data_status');
     if (plant.Data_status === 'No') {
@@ -1209,7 +1211,7 @@ document.querySelector('#back-button').addEventListener('click', () => {
     renderFields('fields1', BASIC_FIED_MAP, plant);
 
     // Fix field
-     document.querySelector("#plant_description_2").value = plant.Plant_description || "";
+     document.querySelector("#plant_description_2").textContent = plant.Plant_description || "";
      
     // NFC link
     const nfcEl = document.querySelector('#nfc-link');
