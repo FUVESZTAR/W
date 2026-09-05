@@ -1139,9 +1139,12 @@ const urlParams  = new URLSearchParams(window.location.search);
 const urlPlantId = urlParams.get('id');
 //console.log('selectedPlantNr: ', selectedNr);
 //console.log('urlPlantId: ', urlPlantId);
-document.querySelector('#back-button').addEventListener('click', () => {
-  window.location.href = 'Homepage.html';
-});
+const backBtn = document.getElementById("back-button");
+// Back button
+  if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.location.href = "Homepage.html";
+  });}
 
 (async function init() {
   setupLanguageButtons();
