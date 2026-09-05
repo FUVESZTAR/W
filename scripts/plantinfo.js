@@ -343,6 +343,8 @@ const CATEGORY_PART_COLUMNS = [
   'Medicinal_parts_all',
 ];
 
+// typ: normal , split, fill , splitminus , coded
+// use: log , fill , fillvalue , create , cal , cal2 , not
 const BASIC_FIED_MAP = [
   { key:'plant_id',           data:'Plant_id',           typ:'normal',     use:'log',    i18n:'plantid'         },
   { key:'latin_name',         data:'LatinName',          typ:'normal',     use:'log',    i18n:'latinname'         },
@@ -1078,6 +1080,8 @@ function getCodeValue(key, value) {
 }
 
 // ── Field renderer ───────────────────────────────────────────────────────
+// typ: normal , split, fill , splitminus , coded
+// use: log , fill , fillvalue , create , cal , cal2 , not
 function renderFields(containerId, map, plant) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -1089,18 +1093,18 @@ function renderFields(containerId, map, plant) {
       case 'coded':     return getCodeValue(key, value);
       case 'split':     return splitPipe(value).join(', ');
       case 'splitminus':return splitPipe(value).join(' – ');
-      default:          return value;
+      default:          return value; // normal , fill
     }
   };
-
-  const VISIBLE = new Set(['show','fill','create']);
+  
+  const VISIBLE = new Set(['show','fill','fillvalue','create']);
   map.filter(item => VISIBLE.has(item.use)).forEach(item => {
     if (item.use === 'fillvalue') {
       const rawVal = plant[item.data];
       const fmtVal = formatValue(rawVal, item.typ, item.key);
       const input  = document.querySelector(`#${item.key}`);
       if (input) input.value = fmtVal || '';
-     } else if (item.use === 'fill') {
+    }  else if (item.use === 'fill') {
       const rawVal = plant[item.data];
       const fmtVal = formatValue(rawVal, item.typ, item.key);
       const input  = document.querySelector(`#${item.key}`);
