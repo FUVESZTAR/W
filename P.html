@@ -964,10 +964,11 @@ input[type="text"].full-width {
        </-- Description -->
       <div>
          <div class="row" style="margin-top:8px;">
-           <span class="section-label" data-i18n="detail.label.plantDescription2">Description:</span>
+           <span class="section-label" data-i18n="detail.label.plantDescription">Description:</span>
            <div class="field-card">
-              <span class="field-card__value" id="plant_description_2">Seed-contains amygdalin, small quantities toxic</span>
-          </div></div>
+              <span class="field-card__value" id="plant_description"></span>
+           </div>
+         </div>
       </div> 
       <!-- Edibility -->
       <div>
@@ -987,9 +988,12 @@ input[type="text"].full-width {
 
       <!-- Preparation -->
       <div class="row">
-         <!-- <label data-i18n="detail.label.preparationToEdibility">Preparation to Edibility:</label><br>-->
+        <!-- <label data-i18n="detail.label.preparationToEdibility">Preparation to Edibility:</label><br>-->
         <span class="section-label" data-i18n="detail.label.preparationToEdibility">Preparation to Edibility:</span>
-        <input type="text" id="preparation_all" class="full-width" readonly>
+        <!--  <input type="text" id="preparation_all" class="full-width" readonly> -->
+        <div class="field-card">
+              <span class="field-card__value" id="preparation_all"></span>
+        </div>
       </div>
 
       <!-- Medicinal -->
@@ -1001,7 +1005,10 @@ input[type="text"].full-width {
         <div class="row" style="margin-top:8px;">
           <!-- <label data-i18n="detail.label.medicinalUse">Medicinal use:</label><br> -->
           <span class="section-label" data-i18n="detail.label.medicinalUse">Medicinal use:</span>
-          <input type="text" id="medicinal_use" class="full-width" readonly>
+          <!-- <input type="text" id="medicinal_use" class="full-width" readonly>-->
+          <div class="field-card">
+              <span class="field-card__value" id="medicinal_use"></span>
+          </div>
         </div>
       </div>
 
