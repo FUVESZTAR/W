@@ -1598,7 +1598,7 @@ async function loadLastNfcId(genNfcIdShow, onLoaded) {
         const nextId = lastIdVal+1; //Number(result.lastIdVal) + 1;
         //genNfcIdShow.value = nextId;
         nfcIdValue = nextId;
-        console.log('LastNfcId: ', lastId);
+        console.log('LastNfcId: ', lastIdVal);
         if (nextId > 0 && typeof onLoaded === 'function') onLoaded();
     }
   } catch (err) {
