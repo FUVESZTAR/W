@@ -861,15 +861,15 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         </div>
         <div class="form-group">
           <label for="read-plantId" data-i18n="nfcread.plantId">Plant ID</label>
-          <input type="text" id="read-plantId" readonly />
+          <input type="text" id="read-plantId"/>
         </div>
         <div class="form-group">
           <label for="read-name-plant" data-i18n="nfcread.lbl_plant">Plant Name</label>
-          <input type="text" id="read-name-plant" readonly />
+          <input type="text" id="read-name-plant"/>
         </div>
         <div class="form-group">
           <label for="read-name-variety" data-i18n="nfcread.lbl_variety">Variety</label>
-          <input type="text" id="read-name-variety" readonly />
+          <input type="text" id="read-name-variety"/>
         </div>
         <div class="form-group">
           <label for="read-latin-name" data-i18n="nfcread.lbl_latin">Latin Name</label>
@@ -1817,7 +1817,7 @@ function localStorageCear() {
       plantSelectorCustomInput.focus();
       // Reset variety dropdown (reuse existing helper)
       populateVarieties("");
-      genPlantIdShow.removeAttribute("readonly");
+      //genPlantIdShow.removeAttribute("readonly");
       genPlantIdShow.value = nextPlantId != null ? nextPlantId : "";
       genLatinNameShow.value = "";
       genDatumInput.value = dateString;
@@ -1830,7 +1830,7 @@ function localStorageCear() {
     customPlantMode = false;
     plantSelectorCustomInput.style.display = "none";
     plantSelectorCustomInput.value = "";
-    genPlantIdShow.setAttribute("readonly", "");
+    //genPlantIdShow.setAttribute("readonly", "");
 
     // Find the Species plant for this name, or fall back to the first match
     const speciesPlant = plants.find(p => p[nameProp] === nameValue && (p.Name_Variety || "").trim() === "Species");
@@ -1924,7 +1924,7 @@ function localStorageCear() {
       nameVarietyCustomInput.style.display = "block";
       nameVarietyCustomInput.value = "";
       nameVarietyCustomInput.focus();
-      genPlantIdShow.removeAttribute("readonly");
+      //genPlantIdShow.removeAttribute("readonly");
       genPlantIdShow.value = "";
       updatePreviews();
       console.log("Variety custom, out:", value);
@@ -1935,7 +1935,7 @@ function localStorageCear() {
     customVarietyMode = false;
     nameVarietyCustomInput.style.display = "none";
     nameVarietyCustomInput.value = "";
-    genPlantIdShow.setAttribute("readonly", "");
+    //genPlantIdShow.setAttribute("readonly", "");
     
     const varietyPlant = plants.find(plant => (
       plant.Plant_ID != null ? String(plant.Plant_ID) : ""
@@ -2400,7 +2400,7 @@ function calculateSize(text) {
 
   function clearForm() {
     genPlantIdShow.value = "";
-    genPlantIdShow.setAttribute("readonly", "");
+    //genPlantIdShow.setAttribute("readonly", "");
     genNfcIdShow.value = "";
     plantNameInput = "";
     customPlantMode = false;
