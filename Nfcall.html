@@ -635,12 +635,12 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     </div>
       
     <!-- ── Panel 2: NFC Data Review───────────────────────────────── -->
-    <div class="panel open" id="gen-panel-data-review">
-      <div class="panel-header" onclick="togglePanel('gen-panel-data-review')">
+    <div class="panel open" id="gen-panel-data">
+      <div class="panel-header" onclick="togglePanel('gen-panel-data')">
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.data_review_card_title">Data Review</div>
+            <div class="panel-title" data-i18n="nfcgen.data_card_title">Data</div>
             <div class="panel-subtitle" data-i18n="nfcgen.data_card_sub">Data stored in NFC</div>
           </div>
         </div>
@@ -2019,7 +2019,7 @@ let customPlantID = false;
 let nfcIdValue =0;
 let gpsPacket =null;
 let updateNFCPreviewFn = null;
-const nfcIdInput = document.getElementById("gen-nfcId");
+const genNfcIdShow = document.getElementById("gen-nfcId");
 const gpsStartBtn = document.getElementById('gen-gpsStartBtn');
 const gpsStopBtn = document.getElementById('gen-gpsStopBtn');
 const liveDot = document.getElementById('gen-liveDot');
@@ -2052,14 +2052,14 @@ const serialNumText = document.getElementById("gen-serialNr");
  * Fetches the last value from column A of the NFC list sheet via the
  * Apps Script Web App and pre-fills the NFC ID input.
  */
-async function loadLastNfcId(nfcIdInput, onLoaded) {
+async function loadLastNfcId(genNfcIdShow, onLoaded) {
   if (SHEET_WRITER_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL') return;
   try {
     const response = await fetch(SHEET_WRITER_URL, { redirect: 'follow' });
     const result   = await response.json();
     if (result.lastId !== undefined && result.lastId !== '') {
         const nextId = Number(result.lastId) + 1;
-        nfcIdInput.value = nextId;
+        //genNfcIdShow.value = nextId;
         nfcIdValue = nextId;
         if (nextId > 0 && typeof onLoaded === 'function') onLoaded();
     }
@@ -2135,19 +2135,33 @@ function makeSelectSearchable(selectEl, searchId) {
 }
   
 async function populate() {
+  // input
   const selector = document.getElementById("gen-plant-selector");
-  const plantIdInput = document.getElementById("gen-plantId");
-  const datumInput = document.getElementById("gen-datum");
   let plantNameInput = ""; 
   const nameVarietySelector = document.getElementById("gen-name-variety");
   const nameVarietyCustomInput = document.getElementById("gen-name-variety-custom");
   const plantSelectorCustomInput = document.getElementById("gen-plant-selector-custom");
-  const latinNameInput = document.getElementById("gen-latin-name");
-  const nfcTypInput = document.getElementById("gen-nfcTyp");
-  const egyebInput = document.getElementById("gen-egyeb");
+  
+  const genNfcTypInput = document.getElementById("gen-nfcTyp");
+  const genDatumInput = document.getElementById("gen-datum");
+  const genEgyebInput = document.getElementById("gen-egyeb");
+
+  // show data
+  //const genNfcIdShow = document.getElementById("gen-nfcId");
+  const genPlantIdShow = document.getElementById("gen-plantId");
+  const genPlantNameShow = document.getElementById("gen-plantName");
+  const genPlantVarietyShow = document.getElementById("gen-plantVariety");
+  const genGpsShow = document.getElementById("gen-gps-rw");
+  const genLatinNameShow = document.getElementById("gen-latin-name");
+  const genNfcTypShow = document.getElementById("gen-nfcTyp-rw");
+  const genDatumShow = document.getElementById("gen-datum-rw");
+  const genEgyebShow = document.getElementById("gen-egyeb-rw");
+  
+  
+  // out
   const nfcPreview = document.getElementById("gen-nfc-preview");
   const nfcSize = document.getElementById("gen-nfc-size");
-
+  
   // Use language-aware name property
   const currentLang = getCurrentLang();
   const nameProp = currentLang === 'en' ? 'Name_EN' : 'Name_HU';
@@ -2185,19 +2199,19 @@ function localStorageGet() {
     plantSearch = localStorage.getItem('StPlantName');
     varietySearch = localStorage.getItem('StVariety');
     //data fix
-    plantIdInput.value = localStorage.getItem('StPlantID');
-    latinNameInput.value = localStorage.getItem('StLatinName');
-    plantIdInput.setAttribute("readonly", "");
+    genPlantIdShow.value = localStorage.getItem('StPlantID');
+    genLatinNameShow.value = localStorage.getItem('StLatinName');
+    genPlantIdShow.setAttribute("readonly", "");
     customPlantMode = false;
     plantSelectorCustomInput.value = "";
     plantSelectorCustomInput.style.display = "none";
     nameVarietyCustomInput.value = "";
     nameVarietyCustomInput.style.display = "none";
     //additional data
-    datumInput.value = localStorage.getItem('StDate');
-    nfcTypInput.value = localStorage.getItem('StNFCType');
+    genDatumInput.value = localStorage.getItem('StDate');
+    genNfcTypInput.value = localStorage.getItem('StNFCType');
     gpsPacket = localStorage.getItem('StGPSCPacket');
-    egyebInput.value = localStorage.getItem('StEgyebInfo');
+    genEgyebInput.value = localStorage.getItem('StEgyebInfo');
     updatePreviews();
   // localStorageCear();
 }
@@ -2244,11 +2258,11 @@ function localStorageCear() {
     selector.innerHTML = '<option value="">(error)</option>';
     return;
   }
-  loadLastNfcId(nfcIdInput, () => updateNFCPreview());
+  loadLastNfcId(genNfcIdShow, () => updateNFCPreview());
   // Set current date
   const today = new Date();
   const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
-  datumInput.value = dateString;
+  genDatumInput.value = dateString;
    
   // Plant selector change event
   selector.addEventListener("change", async () => {
@@ -2285,12 +2299,12 @@ function localStorageCear() {
       plantSelectorCustomInput.focus();
       // Reset variety dropdown (reuse existing helper)
       populateVarieties("");
-      plantIdInput.removeAttribute("readonly");
-      plantIdInput.value = nextPlantId != null ? nextPlantId : "";
-      latinNameInput.value = "";
-      datumInput.value = dateString;
-      nfcTypInput.value = "n";
-      egyebInput.value = "";
+      genPlantIdShow.removeAttribute("readonly");
+      genPlantIdShow.value = nextPlantId != null ? nextPlantId : "";
+      genLatinNameShow.value = "";
+      genDatumInput.value = dateString;
+      genNfcTypInput.value = "n";
+      genEgyebInput.value = "";
       updatePreviews();
       return;
     }
@@ -2298,7 +2312,7 @@ function localStorageCear() {
     customPlantMode = false;
     plantSelectorCustomInput.style.display = "none";
     plantSelectorCustomInput.value = "";
-    plantIdInput.setAttribute("readonly", "");
+    genPlantIdShow.setAttribute("readonly", "");
 
     // Find the Species plant for this name, or fall back to the first match
     const speciesPlant = plants.find(p => p[nameProp] === nameValue && (p.Name_Variety || "").trim() === "Species");
@@ -2309,12 +2323,12 @@ function localStorageCear() {
     if (plant) {
       selectedPlantIndex = plants.indexOf(plant);
       // Fill form fields
-      plantIdInput.value = plant.Plant_ID || "";
+      genPlantIdShow.value = plant.Plant_ID || "";
       plantNameInput = plant[nameProp] || "";
-      latinNameInput.value = plant.LatinName || "";
-      datumInput.value = dateString;
-      nfcTypInput.value = "n";
-      egyebInput.value = "";
+      genLatinNameShow.value = plant.LatinName || "";
+      genDatumInput.value = dateString;
+      genNfcTypInput.value = "n";
+      genEgyebInput.value = "";
     }
     // Populate varieties dropdown based on plant name
     populateVarieties(nameValue);
@@ -2392,8 +2406,8 @@ function localStorageCear() {
       nameVarietyCustomInput.style.display = "block";
       nameVarietyCustomInput.value = "";
       nameVarietyCustomInput.focus();
-      plantIdInput.removeAttribute("readonly");
-      plantIdInput.value = "";
+      genPlantIdShow.removeAttribute("readonly");
+      genPlantIdShow.value = "";
       updatePreviews();
       console.log("Variety custom, out:", value);
       return;
@@ -2403,7 +2417,7 @@ function localStorageCear() {
     customVarietyMode = false;
     nameVarietyCustomInput.style.display = "none";
     nameVarietyCustomInput.value = "";
-    plantIdInput.setAttribute("readonly", "");
+    genPlantIdShow.setAttribute("readonly", "");
     
     const varietyPlant = plants.find(plant => (
       plant.Plant_ID != null ? String(plant.Plant_ID) : ""
@@ -2417,12 +2431,12 @@ function localStorageCear() {
       selectedPlantIndex = plants.indexOf(varietyPlant);
       
       // Update all fields from this variety's data
-      plantIdInput.value = varietyPlant.Plant_ID || "";
+      genPlantIdShow.value = varietyPlant.Plant_ID || "";
       plantNameInput = varietyPlant[nameProp] || "";
-      latinNameInput.value = varietyPlant.LatinName || "";
-      datumInput.value = dateString;
-      nfcTypInput.value = "n";
-      egyebInput.value = "";
+      genLatinNameShow.value = varietyPlant.LatinName || "";
+      genDatumInput.value = dateString;
+      genNfcTypInput.value = "n";
+      genEgyebInput.value = "";
       console.log("Selected variety out:", varietyPlant);
       updatePreviews();
     }
@@ -2443,12 +2457,12 @@ function localStorageCear() {
   });
 
   // Input change events - update previews
-  [plantIdInput, latinNameInput, datumInput, nfcTypInput, egyebInput].forEach(input => {
+  [genPlantIdShow, genLatinNameShow, genDatumInput, genNfcTypInput, genEgyebInput].forEach(input => {
     input.addEventListener("change", updatePreviews);
     input.addEventListener("input", updatePreviews);
   });
  //listener for nfcID change
-    [nfcIdInput].forEach(input => {
+    [genNfcIdShow].forEach(input => {
     input.addEventListener("change", updatePreviews);
     input.addEventListener("input", updatePreviews);
   });      
@@ -2588,15 +2602,43 @@ function calculateSize(text) {
   return formatSize(calculateSizeInBytes(text));
 }
 
+  //load gen NFC
+   function generateNewNfc() { 
+     loadLastNfcId(genNfcIdShow);
+     const plantId = genPlantIdShow.value;
+     nfcIdValue = genNfcIdShow.value;
+     const plantName = plantNameInput;
+     const nameVariety = getVarietyText(); 
+     const latinName = genLatinNameShow.value;
+     const datum = genDatumInput.value;
+     const nfcTyp = genNfcTypInput.value;
+     const egyeb = genEgyebInput.value;
+     
+     }
+  //Load dupl NFC
+   function duplicateReadNfc() { 
+       loadLastNfcId(genNfcIdShow);
+       const plantId = genPlantIdShow.value;
+       nfcIdValue = genNfcIdShow.value;
+       const plantName = plantNameInput;
+       const nameVariety = getVarietyText(); 
+       const latinName = genLatinNameShow.value;
+       const datum = genDatumInput.value;
+       const nfcTyp = genNfcTypInput.value;
+       const egyeb = genEgyebInput.value;
+     }
+
+  
+  // update preview
   function updateNFCPreview() {
-    const plantId = plantIdInput.value;
-    nfcIdValue = nfcIdInput.value;
+    const plantId = genPlantIdShow.value;
+    nfcIdValue = genNfcIdShow.value;
     const plantName = plantNameInput;
     const nameVariety = getVarietyText(); 
-    const latinName = latinNameInput.value;
-    const datum = datumInput.value;
-    const nfcTyp = nfcTypInput.value;
-    const egyeb = egyebInput.value;
+    const latinName = genLatinNameShow.value;
+    const datum = genDatumInput.value;
+    const nfcTyp = genNfcTypInput.value;
+    const egyeb = genEgyebInput.value;
     let link = "";
     if (plantId) {
       const baseUrl = window.location.origin;
@@ -2633,7 +2675,6 @@ function calculateSize(text) {
   gpsStartBtn.addEventListener("click", () => {
     console.log("button pressed startLiveCapture");
     startLiveCapture();
-
     });}
   if (gpsStopBtn) {
   gpsStopBtn.addEventListener("click", stopLiveCapture);
@@ -2641,10 +2682,8 @@ function calculateSize(text) {
   // Generate NFC button
   if (gennfcBtn) {
   gennfcBtn.addEventListener("click", () => {
-    loadLastNfcId(nfcIdInput);
     updatePreviews();
     const nfcData = nfcPreview.textContent;
-    
     if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
       showError(errorMsg, msg('err_no_plant'));
       return;
@@ -2746,15 +2785,15 @@ function calculateSize(text) {
     const today = new Date();
     const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
     
-    const nfcId      = nfcIdInput.value;
-    const plantIdValue    = plantIdInput.value;
+    const nfcId      = genNfcIdShow.value;
+    const plantIdValue    = genPlantIdShow.value;
     const nfcData    = nfcPreview.textContent;
-    const nfcTyp     = nfcTypInput.value;
-    const datum      = datumInput.value;
+    const nfcTyp     = genNfcTypInput.value;
+    const datum      = genDatumInput.value;
     const nfcCreated = dateString;
     const nfcPos     = posPacketOut.textContent;
     const link       = linkPreview.textContent;
-    const egyeb      = egyebInput.value;
+    const egyeb      = genEgyebInput.value;
     const serialNum  = serialNumText.value; 
     
     if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
@@ -2786,7 +2825,7 @@ function calculateSize(text) {
     } catch (err) {
       showError(errorMsg, msg('err_save_fail') + err.message);
     } finally {
-      loadLastNfcId(nfcIdInput);
+      loadLastNfcId(genNfcIdShow);
       saveNfcBtn.disabled = false;
       updatePreviews();
     }
@@ -2837,9 +2876,9 @@ function calculateSize(text) {
   });}//end
 
   function clearForm() {
-    plantIdInput.value = "";
-    plantIdInput.setAttribute("readonly", "");
-    nfcIdInput.value = "";
+    genPlantIdShow.value = "";
+    genPlantIdShow.setAttribute("readonly", "");
+    genNfcIdShow.value = "";
     plantNameInput = "";
     customPlantMode = false;
     plantSelectorCustomInput.value = "";
@@ -2847,10 +2886,10 @@ function calculateSize(text) {
     nameVarietySelector.innerHTML = `<option value="">${msg('opt_variety')}</option>`;
     nameVarietyCustomInput.value = "";
     nameVarietyCustomInput.style.display = "none";
-    latinNameInput.value = "";
-    datumInput.value = dateString;
-    nfcTypInput.value = "n";
-    egyebInput.value = "";
+    genLatinNameShow.value = "";
+    genDatumInput.value = dateString;
+    genNfcTypInput.value = "n";
+    genEgyebInput.value = "";
     nfcPreview.textContent = msg('ph_nfc_preview');
     nfcSize.textContent = "0 B";
     linkPreview.textContent = msg('ph_link_preview');
@@ -2884,7 +2923,7 @@ function calculateSize(text) {
   }
 
   // Set current date on load
-  datumInput.value = dateString;
+  genDatumInput.value = dateString;
 
   // Pre-select plant and variety from URL params (when navigating from Homepage)
   const params = new URLSearchParams(window.location.search);
@@ -2982,14 +3021,14 @@ let nfcIdValue =0;
 let gpsPacket =null;
 let updateNFCPreviewFn = null;
 
-const nfcIdInput = document.getElementById("read-nfcId");
-const plantIdInput = document.getElementById("read-plantId");
-const datumInput = document.getElementById("read-datum");
+const readNfcIdOutput = document.getElementById("read-nfcId");
+const readPlantIdOutput = document.getElementById("read-plantId");
+const readDatumOutput = document.getElementById("read-datum");
 const plantNameInput = document.getElementById("read-name-plant");
 const nameVarietyInput = document.getElementById("read-name-variety");
-const latinNameInput = document.getElementById("read-latin-name");
-const nfcTypInput = document.getElementById("read-nfcTyp");
-const egyebInput = document.getElementById("read-egyeb");
+const readLatinNameOutput = document.getElementById("read-latin-name");
+const readNfcTypOutput = document.getElementById("read-nfcTyp");
+const readEgyebOutput = document.getElementById("read-egyeb");
 const nfcPreview = document.getElementById("read-nfc-preview");
 const linkPreview = document.getElementById("read-link-preview");
 
@@ -3036,14 +3075,14 @@ const NFC_TYP_LIST= { n: 'n – plant', o: 'o – graft', m: 'm – seed'};
 /* Fetches the last value from column A of the NFC list sheet via the
  * Apps Script Web App and pre-fills the NFC ID input.
  */
-async function loadLastNfcId(nfcIdInput, onLoaded) {
+async function loadLastNfcId(readNfcIdOutput, onLoaded) {
   if (SHEET_WRITER_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL') return;
   try {
     const response = await fetch(SHEET_WRITER_URL, { redirect: 'follow' });
     const result   = await response.json();
     if (result.lastId !== undefined && result.lastId !== '') {
         const nextId = Number(result.lastId) + 1;
-        nfcIdInput.value = nextId;
+        readNfcIdOutput.value = nextId;
         nfcIdValue = nextId;
         if (nextId > 0 && typeof onLoaded === 'function') onLoaded();
     }
@@ -3213,16 +3252,16 @@ function handlePlantData(data) {
     let decodedNfc = decodeToMap(text, keys);
     console.log(decodedNfc);;
 
-    nfcIdInput.value= decodedNfc.ncfId.value;
-    plantIdInput.value= decodedNfc.plantId.value;
-    latinNameInput.value= decodedNfc.latinName.value;
+    readNfcIdOutput.value= decodedNfc.ncfId.value;
+    readPlantIdOutput.value= decodedNfc.plantId.value;
+    readLatinNameOutput.value= decodedNfc.latinName.value;
     plantNameInput.value = decodedNfc.name.value;
     nameVarietyInput.value = decodedNfc.variety.value;
-    nfcTypInput.value= decodedNfc.nfcType.value;
-    datumInput.value= decodedNfc.datum.value;
+    readNfcTypOutput.value= decodedNfc.nfcType.value;
+    readDatumOutput.value= decodedNfc.datum.value;
     posPacketOut.textContent= decodedNfc.pos.value;
     //nfcCreated.value = "";
-    egyebInput.value= decodedNfc.other.value;
+    readEgyebOutput.value= decodedNfc.other.value;
   
     const  pos = decodedNfc.pos.value;
     if (pos) {
@@ -3253,12 +3292,12 @@ function localStorageSet() {
   localStorage.setItem('StCopyState','Y');
   localStorage.setItem('StPlantName', plantNameInput.value);
   localStorage.setItem('StVariety', nameVarietyInput.value);
-  localStorage.setItem('StPlantID', plantIdInput.value);
-  localStorage.setItem('StLatinName', latinNameInput.value);
-  localStorage.setItem('StDate', datumInput.value);
-  localStorage.setItem('StNFCType', nfcTypInput.value);
+  localStorage.setItem('StPlantID', readPlantIdOutput.value);
+  localStorage.setItem('StLatinName', readLatinNameOutput.value);
+  localStorage.setItem('StDate', readDatumOutput.value);
+  localStorage.setItem('StNFCType', readNfcTypOutput.value);
   localStorage.setItem('StGPSCPacket', posPacketOut.textContent);
-  localStorage.setItem('StEgyebInfo', egyebInput.value);
+  localStorage.setItem('StEgyebInfo', readEgyebOutput.value);
   }
 // Read data from local storage
 const name = localStorage.getItem('username'); // 'Alice'
@@ -3386,15 +3425,15 @@ function localStorageCear() {
     const today = new Date();
     const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
     
-    const nfcId      = nfcIdInput.value;
-    const plantIdValue    = plantIdInput.value;
+    const nfcId      = readNfcIdOutput.value;
+    const plantIdValue    = readPlantIdOutput.value;
     const nfcData    = nfcPreview.textContent;
-    const nfcTyp     = nfcTypInput.value;
-    const datum      = datumInput.value;
+    const nfcTyp     = readNfcTypOutput.value;
+    const datum      = readDatumOutput.value;
     const nfcCreated = dateString;
     const nfcPos     = posPacketOut.textContent;
     const link       = linkPreview.textContent;
-    const egyeb      = egyebInput.value;
+    const egyeb      = readEgyebOutput.value;
     const serialNum      = serialNumText.value;
 
     if (selectedPlantIndex == null) {
@@ -3453,14 +3492,14 @@ function localStorageCear() {
       });}
   // clear all
   function clearForm() {
-    plantIdInput.value = "";
-    nfcIdInput.value = "";
+    readPlantIdOutput.value = "";
+    readNfcIdOutput.value = "";
     plantNameInput.value = "";
     nameVarietyInput.value = "";
-    latinNameInput.value = "";
-    datumInput.value = "";
-    nfcTypInput.value = "";
-    egyebInput.value = "";
+    readLatinNameOutput.value = "";
+    readDatumOutput.value = "";
+    readNfcTypOutput.value = "";
+    readEgyebOutput.value = "";
     serialNumText.value = "";
     nfcPreview.textContent = msg('ph_nfc_preview');
     linkPreview.textContent = msg('ph_link_preview');
