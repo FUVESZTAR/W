@@ -1238,12 +1238,14 @@ const TRANSLATIONS = {
     "nfcgen.err_no_config":     "Save is not configured: set SHEET_WRITER_URL in nfcgen_test.js",
     "nfcgen.err_save_fail":     "Failed to save NFC: ",
     "nfcgen.err_copy_fail":     "Failed to copy: ",
+    "nfcgen.err_load_fail":     "Failed to load: ",
     "nfcgen.err_nfc_ns":        "Web NFC is not supported on this browser/device.",
     "nfcgen.err_nfc_write":     "Error: ",
     "nfcgen.err_nfc_ok":        "Successfully written to NFC tag! \u2705",
     "nfcgen.err_save_ok":       "NFC saved to list!",
     "nfcgen.err_copy_nfc_ok":   "NFC data copied to clipboard!",
     "nfcgen.err_copy_link_ok":  "Link copied to clipboard!",
+    "nfcgen.err_dupl_nfc_ok":   "NFC loaded to duplication!",
     "nfcgen.err_copy_gps_ok":   "GPS copied to clipboard!",
     "nfcgen.err_qr_fail":       "Failed to open QR code. Please check your popup blocker.",
     "nfcgen.err_qr_ok":         "QR code opened in new tab",
@@ -1318,6 +1320,7 @@ const TRANSLATIONS = {
     "nfcread.err_no_config":    "Save is not configured: set SHEET_WRITER_URL in nfcgen_test.js",
     "nfcread.err_save_fail":    "Failed to save NFC: ",
     "nfcread.err_copy_fail":    "Failed to copy: ",
+    "nfcread.err_load_fail":     "Failed to load: ",
     "nfcread.err_nfc_ns":       "Web NFC is not supported on this browser/device.",
     "nfcread.err_nfc_write":    "Error: ",
     "nfcread.err_nfc_read":     "NFC read error: ",
@@ -1326,6 +1329,7 @@ const TRANSLATIONS = {
     "nfcread.err_save_ok":      "NFC saved to list!",
     "nfcread.err_copy_nfc_ok":  "NFC data copied to clipboard!",
     "nfcread.err_copy_link_ok": "Link copied to clipboard!",
+    "nfcread.err_dupl_nfc_ok":  "NFC loaded to duplication!",
     "nfcread.err_copy_gps_ok":   "GPS copied to clipboard!",
     "nfcread.err_qr_fail":      "Failed to open QR code. Please check your popup blocker.",
     "nfcread.err_qr_ok":        "QR code opened in new tab",
@@ -1633,12 +1637,14 @@ const TRANSLATIONS = {
     "nfcgen.err_no_config":     "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
     "nfcgen.err_save_fail":     "Ment\u00e9s sikertelen: ",
     "nfcgen.err_copy_fail":     "M\u00e1sol\u00e1s sikertelen: ",
+    "nfcgen.err_load_fail":    "Bet\u00f6lt\u00e9s sikertelen: ",
     "nfcgen.err_nfc_ns":        "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n.",
     "nfcgen.err_nfc_write":     "Hiba: ",
     "nfcgen.err_nfc_ok":        "Sikeresen \u00edrva az NFC cimk\u00e9re! \u2705",
     "nfcgen.err_save_ok":       "NFC mentve a list\u00e1ba!",
     "nfcgen.err_copy_nfc_ok":   "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_copy_link_ok":  "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcgen.err_dupl_nfc_ok":   "NFC bet\u00f6ltve a duplik\u00e1ci\u00f3hoz!",
     "nfcgen.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_qr_fail":       "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
     "nfcgen.err_qr_ok":         "QR k\u00f3d megny\u00edlt \u00faj lapon",
@@ -1713,6 +1719,7 @@ const TRANSLATIONS = {
     "nfcread.err_no_config":    "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
     "nfcread.err_save_fail":    "Ment\u00e9s sikertelen: ",
     "nfcread.err_copy_fail":    "M\u00e1sol\u00e1s sikertelen: ",
+    "nfcread.err_load_fail":    "Bet\u00f6lt\u00e9s sikertelen: ",
     "nfcread.err_nfc_ns":       "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n.",
     "nfcread.err_nfc_write":    "Hiba: ",
     "nfcread.err_nfc_read":     "NFC olvas\u00e1si hiba: ",
@@ -1721,6 +1728,7 @@ const TRANSLATIONS = {
     "nfcread.err_save_ok":      "NFC mentve a list\u00e1ba!",
     "nfcread.err_copy_nfc_ok":  "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcread.err_copy_link_ok": "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcread.err_dupl_nfc_ok":   "NFC bet\u00f6ltve a duplik\u00e1ci\u00f3hoz!",
     "nfcgen.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcread.err_qr_fail":      "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
     "nfcread.err_qr_ok":        "QR k\u00f3d megny\u00edlt \u00faj lapon",
@@ -2081,49 +2089,12 @@ function makeSelectSearchable(selectEl, searchId) {
     },
   };
 }
-
-  // Save data to local storage
-function localStorageGet() {
-  plantNameInput.value  = localStorage.getItem('StPlantName');
-  nameVarietySelector.value = localStorage.getItem('StVariety');
-  plantIdInput.value = localStorage.getItem('StPlantID');
-  latinNameInput.value = localStorage.getItem('StLatinName');
-  datumInput.value = localStorage.getItem('StDate');
-  nfcTypInput.value = localStorage.getItem('StNFCType');
-  gpsPacket = localStorage.getItem('StGPSCPacket');
-  egyebInput.value = localStorage.getItem('StEgyebInfo');
-    plantIdInput.setAttribute("readonly", "");
-    customPlantMode = false;
-    plantSelectorCustomInput.value = "";
-    plantSelectorCustomInput.style.display = "none";
-    nameVarietySelector.innerHTML = `<option value="">${msg('opt_variety')}</option>`;
-    nameVarietyCustomInput.value = "";
-    nameVarietyCustomInput.style.display = "none";
-  updatePreviews();
-  // localStorageCear();
-}
-
-function localStorageCear() {
-  //localStorage.clear();    // Clear everything
-  localStorage.removeItem('StCopyState'); // Remove one item
-  localStorage.removeItem('StPlantName');
-  localStorage.removeItem('StVariety');
-  localStorage.removeItem('StPlantID');
-  localStorage.removeItem('StLatinName');
-  localStorage.removeItem('StDate');
-  localStorage.removeItem('StNFCType');
-  localStorage.removeItem('StGPSCPacket');
-  localStorage.removeItem('StEgyebInfo');
-      console.log('StPlantName clear', localStorage.getItem('StPlantName'));
-    console.log('StVariety clear', localStorage.getItem('StVariety'));
-    console.log('StPlantID clear', localStorage.getItem('StPlantID'));
-  }
   
 async function populate() {
   const selector = document.getElementById("gen-plant-selector");
   const plantIdInput = document.getElementById("gen-plantId");
   const datumInput = document.getElementById("gen-datum");
-  let plantNameInput = "";
+  let plantNameInput = ""; 
   const nameVarietySelector = document.getElementById("gen-name-variety");
   const nameVarietyCustomInput = document.getElementById("gen-name-variety-custom");
   const plantSelectorCustomInput = document.getElementById("gen-plant-selector-custom");
@@ -2152,14 +2123,60 @@ async function populate() {
   const nfcWriteBtn = document.getElementById("gen-nfc-write-button");
   const clearNfcBtn = document.getElementById("gen-clear-button");
 
-    console.log('StPlantName', localStorage.getItem('StPlantName'));
-    console.log('StVariety', localStorage.getItem('StVariety'));
-    console.log('StPlantID', localStorage.getItem('StPlantID'));
+    console.log('StPlantName value', localStorage.getItem('StPlantName'));
+    console.log('StVariety value', localStorage.getItem('StVariety'));
+    console.log('StPlantID value', localStorage.getItem('StPlantID'));
   
   let plants = [];
   const plantSearch = makeSelectSearchable(selector, 'gen-plant-selector-search');
   const varietySearch = makeSelectSearchable(nameVarietySelector, 'gen-name-variety-search');
 
+
+  // Save data to local storage
+function localStorageGet() {
+    console.log('StPlantName get', localStorage.getItem('StPlantName'));
+    console.log('StVariety get', localStorage.getItem('StVariety'));
+    console.log('StPlantID get', localStorage.getItem('StPlantID'));
+    //search
+    plantSearch = localStorage.getItem('StPlantName');
+    varietySearch = localStorage.getItem('StVariety');
+    //data fix
+    plantIdInput.value = localStorage.getItem('StPlantID');
+    latinNameInput.value = localStorage.getItem('StLatinName');
+    plantIdInput.setAttribute("readonly", "");
+    customPlantMode = false;
+    plantSelectorCustomInput.value = "";
+    plantSelectorCustomInput.style.display = "none";
+    nameVarietyCustomInput.value = "";
+    nameVarietyCustomInput.style.display = "none";
+    //additional data
+    datumInput.value = localStorage.getItem('StDate');
+    nfcTypInput.value = localStorage.getItem('StNFCType');
+    gpsPacket = localStorage.getItem('StGPSCPacket');
+    egyebInput.value = localStorage.getItem('StEgyebInfo');
+    updatePreviews();
+  // localStorageCear();
+}
+
+function localStorageCear() {
+  //localStorage.clear();    // Clear everything
+  localStorage.removeItem('StCopyState'); // Remove one item
+  localStorage.removeItem('StPlantName');
+  localStorage.removeItem('StVariety');
+  localStorage.removeItem('StPlantID');
+  localStorage.removeItem('StLatinName');
+  localStorage.removeItem('StDate');
+  localStorage.removeItem('StNFCType');
+  localStorage.removeItem('StGPSCPacket');
+  localStorage.removeItem('StEgyebInfo');
+      console.log('StPlantName clear', localStorage.getItem('StPlantName'));
+    console.log('StVariety clear', localStorage.getItem('StVariety'));
+    console.log('StPlantID clear', localStorage.getItem('StPlantID'));
+  }
+
+
+
+  
   try {
     plants = await loadActiveNFCPlants();
     // Keep only plants active on the page and in NFC
@@ -2652,13 +2669,11 @@ function calculateSize(text) {
   duplnfcBtn.addEventListener("click", () => {
     //local storage
    if (localStorage.getItem('StCopyState') === null) {
-    console.log('not set');  
-    } else if (localStorage.getItem('StCopyState') === 'Y') { 
-    console.log('Duplicated set');
-     localStorageGet();
-     console.log('v1', localStorage.getItem('StPlantName'));
-     console.log('v2', localStorage.getItem('StVariety'));
-     console.log('v3', localStorage.getItem('StPlantID'));
+      showError(errorMsg, msg('err_load_fail') + err.message); 
+    } else if (localStorage.getItem('StCopyState') === 'Y') {
+      showError(errorMsg, msg('err_dupl_nfc_ok'), "success");
+      console.log('Duplicated set');
+      localStorageGet();
     }
   });}
   
