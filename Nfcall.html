@@ -1823,7 +1823,7 @@ function localStorageCear() {
       genDatumInput.value = dateString;
       genNfcTypInput.value = "n";
       genEgyebInput.value = "";
-      updatePreviews();
+      //updatePreviews();
       return;
     }
 
@@ -1851,7 +1851,7 @@ function localStorageCear() {
     // Populate varieties dropdown based on plant name
     populateVarieties(nameValue);
     
-    updatePreviews();
+    //updatePreviews();
   });
 
   // Populate varieties dropdown
@@ -1956,7 +1956,8 @@ function localStorageCear() {
       genNfcTypInput.value = "n";
       genEgyebInput.value = "";
       console.log("Selected variety out:", varietyPlant);
-      updatePreviews();
+      generateNewNfc();
+     //updatePreviews();
     }
   });
 
@@ -2122,7 +2123,7 @@ function calculateSize(text) {
 
   //load gen NFC
    function generateNewNfc() { 
-     loadLastNfcId(genNfcIdShow);
+     //loadLastNfcId(genNfcIdShow); 
      genNfcIdShow.value=nfcIdValue;
      //genPlantIdShow.value = genPlantIdShow.value;
      genPlantNameShow.value = plantNameInput;
@@ -2137,7 +2138,7 @@ function calculateSize(text) {
      }
   //Load dupl NFC
    function duplicateReadNfc() { 
-       loadLastNfcId(genNfcIdShow);
+       //loadLastNfcId(genNfcIdShow);
        localStorageGet();
        //updateNFCPreviewFn = null;
        updatePreviews();
@@ -2198,6 +2199,7 @@ function calculateSize(text) {
   // Generate NFC button
   if (gennfcBtn) {
   gennfcBtn.addEventListener("click", () => {
+    (genNfcIdShow);
     generateNewNfc();
     updatePreviews();
     const nfcData = nfcPreview.textContent;
@@ -2267,8 +2269,9 @@ function calculateSize(text) {
 
   // Duplicate Nfc button
   if (duplnfcBtn) {
-  duplnfcBtn.addEventListener("click", () => {
+    duplnfcBtn.addEventListener("click", () => {
     //local storage
+    (genNfcIdShow); 
     duplicateReadNfc();
    /*if (localStorage.getItem('StCopyState') === null) {
       showError(errorMsg, msg('err_load_fail') + err.message); 
@@ -2345,7 +2348,7 @@ function calculateSize(text) {
     } catch (err) {
       showError(errorMsg, msg('err_save_fail') + err.message);
     } finally {
-      loadLastNfcId(genNfcIdShow);
+      (genNfcIdShow);
       saveNfcBtn.disabled = false;
       updatePreviews();
     }
