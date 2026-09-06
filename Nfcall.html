@@ -1594,7 +1594,7 @@ async function loadLastNfcId(genNfcIdShow, onLoaded) {
     const response = await fetch(SHEET_WRITER_URL, { redirect: 'follow' });
     const result   = await response.json();
     if (result.lastId !== undefined && result.lastId !== '') {
-        const lastIdVal = Number(result.lastId) + 1;
+        const lastIdVal = Number(result.lastId);
         const nextId = lastIdVal+1; //Number(result.lastIdVal) + 1;
         //genNfcIdShow.value = nextId;
         nfcIdValue = nextId;
