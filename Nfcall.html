@@ -536,35 +536,19 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel 2: NFC Data ───────────────────────────────── -->
+    <!-- ── Panel 2: NFC Data Typ and Date───────────────────────────────── -->
     <div class="panel open" id="gen-panel-data">
       <div class="panel-header" onclick="togglePanel('gen-panel-data')">
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.data_card_title">Data</div>
-            <div class="panel-subtitle" data-i18n="nfcgen.data_card_sub">Data stored in NFC</div>
+            <div class="panel-title" data-i18n="nfcgen.time_type_card_title">Type and datum</div>
+            <div class="panel-subtitle" data-i18n="nfcgen.time_type_card_sub">Type of NFC and date of planting/grafting</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="form-group">
-          <label for="gen-plantId" data-i18n="nfcgen.plantId">Plant ID</label>
-          <input type="text" id="gen-plantId" readonly />
-        </div>
-        <div class="form-group">
-          <label for="gen-nfcId" data-i18n="nfcgen.nfcId">NFC ID</label>
-          <input type="number" id="gen-nfcId" />
-        </div>
-        <div class="form-group">
-          <label for="gen-latin-name" data-i18n="nfcgen.lbl_latin">Latin Name</label>
-          <input type="text" id="gen-latin-name" />
-        </div>
-        <div class="form-group">
-          <label for="gen-datum" data-i18n="nfcgen.lbl_datum">Date</label>
-          <input type="text" id="gen-datum" placeholder="e.g., 2026-03-12" />
-        </div>
         <div class="form-group">
           <label for="gen-nfcTyp" data-i18n="nfcgen.lbl_nfcTyp">NFC Type</label>
           <select id="gen-nfcTyp">
@@ -572,6 +556,10 @@ button:disabled { opacity:.55; cursor:not-allowed; }
             <option value="o" data-i18n="nfcgen.opt_o">o – graft</option>
             <option value="m" data-i18n="nfcgen.opt_m">m – seed</option>
           </select>
+        </div>
+        <div class="form-group">
+          <label for="gen-datum" data-i18n="nfcgen.lbl_datum">Date</label>
+          <input type="text" id="gen-datum" placeholder="e.g., 2026-03-12" />
         </div>
       </div></div></div>
     </div>
@@ -645,7 +633,59 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         </div>
       </div></div></div>
     </div>
-
+      
+    <!-- ── Panel 2: NFC Data Review───────────────────────────────── -->
+    <div class="panel open" id="gen-panel-data-review">
+      <div class="panel-header" onclick="togglePanel('gen-panel-data-review')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📋</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcgen.data_review_card_title">Data Review</div>
+            <div class="panel-subtitle" data-i18n="nfcgen.data_card_sub">Data stored in NFC</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div class="form-group">
+          <label for="gen-nfcId" data-i18n="nfcgen.nfcId">NFC ID</label>
+          <input type="number" id="gen-nfcId" />
+        </div>
+        <div class="form-group">
+          <label for="gen-plantId" data-i18n="nfcgen.plantId">Plant ID</label>
+          <input type="text" id="gen-plantId" />
+        </div>
+        <div class="form-group">
+          <label for="gen-plantName" data-i18n="nfcgen.lbl_plant">Plant Name</label>
+          <input type="text" id="gen-plantName" />
+        </div>
+        <div class="form-group">
+          <label for="gen-plantVariety" data-i18n="nfcgen.lbl_variety">Plant Variety</label>
+          <input type="text" id="gen-plantVariety" />
+        </div>
+        <div class="form-group">
+          <label for="gen-latin-name" data-i18n="nfcgen.lbl_latin">Latin Name</label>
+          <input type="text" id="gen-latin-name" />
+        </div>
+        <div class="form-group">
+          <label for="gen-nfcTyp-rw" data-i18n="nfcgen.lbl_nfcTyp">NFC Type</label>
+          <input type="text" id="gen-nfcTyp-rw" />
+        </div>
+        <div class="form-group">
+          <label for="gen-datum-rw" data-i18n="nfcgen.lbl_datum">Date</label>
+          <input type="text" id="gen-datum-rw" placeholder="e.g., 2026-03-12" />
+        </div>
+        <div class="form-group">
+          <label for="gen-gps-rw" data-i18n="nfcgen.lbl_latin">Latin Name</label>
+          <input type="text" id="gen-gps-rw" />
+        </div>
+        <div class="form-group">
+          <label for="gen-egyeb-rw" data-i18n="nfcgen.oth_card_title">Other Info</label>
+          <input type="text" id="gen-egyeb-rw" />
+        </div>
+      </div></div></div>
+    </div>
+      
     <!-- ── Panel 5: NFC Preview ────────────────────────────── -->
     <div class="panel open" id="gen-panel-preview">
       <div class="panel-header" onclick="togglePanel('gen-panel-preview')">
@@ -1184,6 +1224,8 @@ const TRANSLATIONS = {
     "nfcgen.ph_custom_plant":   "Enter custom plant name",
     "nfcgen.data_card_title":   "Data",
     "nfcgen.data_card_sub":     "Data stored in NFC",
+    "nfcgen.time_type_card_title":    "NFC Type and datum",
+    "nfcgen.time_type_card_sub":    "Type of NFC and date of planting/grafting",
     "nfcgen.plantId":           "Plant ID",
     "nfcgen.nfcId":             "NFC ID",
     "nfcgen.serialNr":          "NFC HW ID",
@@ -1583,6 +1625,8 @@ const TRANSLATIONS = {
     "nfcgen.ph_custom_plant":   "Egyedi n\u00f6v\u00e9nyn\u00e9v megad\u00e1sa",
     "nfcgen.data_card_title":   "Adatok",
     "nfcgen.data_card_sub":     "Az NFC-be ker\u00fcl\u0151 adatok",
+    "nfcgen.time_type_card_title":   "NFC t\u00edpus \u00e9s d\u00e1tum",
+    "nfcgen.time_type_card_sub":    "NFC t\u00edpusa \u00e9s az \u00fcltet\u00e9s / olt\u00e1s d\u00e1tuma",
     "nfcgen.plantId":           "N\u00f6v. ID",
     "nfcgen.nfcId":             "NFC ID",
     "nfcgen.serialNr":          "NFC HW ID",
