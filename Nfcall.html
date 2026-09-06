@@ -1745,7 +1745,7 @@ function localStorageGet() {
     genDatumShow.value = localStorage.getItem('StDate');
     genGpsShow.value = localStorage.getItem('StGPSCPacket');
     genEgyebShow.value = localStorage.getItem('StEgyebInfo');
-    updateNFCPreviewFn = null;
+    //updateNFCPreviewFn = null;
   // localStorageCear();
 }
 
@@ -2151,12 +2151,13 @@ function calculateSize(text) {
      genGpsShow.value = gpsPacket;
      genEgyebShow.value = genEgyebInput.value;
      //updateNFCPreviewFn = null;
-     updatePreview();
+     updatePreviews();
      }
   //Load dupl NFC
    function duplicateReadNfc() { 
        loadLastNfcId(genNfcIdShow);
        localStorageGet();
+       //updateNFCPreviewFn = null;
        updatePreviews();
      }
 
@@ -2286,13 +2287,14 @@ function calculateSize(text) {
   if (duplnfcBtn) {
   duplnfcBtn.addEventListener("click", () => {
     //local storage
-   if (localStorage.getItem('StCopyState') === null) {
+    duplicateReadNfc();
+   /*if (localStorage.getItem('StCopyState') === null) {
       showError(errorMsg, msg('err_load_fail') + err.message); 
     } else if (localStorage.getItem('StCopyState') === 'Y') {
       showError(errorMsg, msg('err_dupl_nfc_ok'), "success");
       console.log('Duplicated set');
       localStorageGet();
-    }
+    }*/
   });}
   
   // Back button
