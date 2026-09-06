@@ -1443,6 +1443,9 @@ const READ_SHEET_NAME = 'plant_list';
 // Adjust the letters if your columns are in a different order!
 const readSheetColQuery = `select A, B, C, D, E where CR = 'Y'`;
 const maxNfcNumQuery = `select max(A)`;
+
+  let runtimeloadLastNfcId = 0;
+  
 /**
  * Fetch raw Google Visualization API response with an optional TQ query.
  */
@@ -1584,6 +1587,8 @@ const serialNumText = document.getElementById("gen-serialNr");
  * Apps Script Web App and pre-fills the NFC ID input.
  */
 async function loadLastNfcId(genNfcIdShow, onLoaded) {
+  runtimeloadLastNfcId = runtimeloadLastNfcId+1;
+  consol.log('LastNfcId runtime: ', runtimeloadLastNfcId);
   if (SHEET_WRITER_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL') return;
   try {
     const response = await fetch(SHEET_WRITER_URL, { redirect: 'follow' });
