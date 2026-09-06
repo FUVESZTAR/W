@@ -2904,11 +2904,14 @@ function localStorageCear() {
   });}
     */
 
-  // Copy Link button
+  // Copy GPS button
   if (copyGpsBtn) {
   copyGpsBtn.addEventListener("click", () => {
-    const gpsVal = readLinkPreview.textContent;
+    //const gpsDispLat = document.getElementById('read-gpsDispLat'); //(north–south position) 
+    //const gpsDispLon = document.getElementById('read-gpsDispLon'); //(east–west position)
+    //const nfcData = `${nfcIdValue}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}${gpsCardToggle.classList.contains('on') ? '/' + gpsText : ''}${othCardToggle.classList.contains('on') ? '/' + egyeb : ''}/`;
     
+    const gpsVal = `${gpsDispLat},${gpsDispLon}`;
     if (isPlaceholder(gpsVal) || !gpsVal) {
       showError(errorMsg, msg('err_no_gps'));
       return;
@@ -2920,6 +2923,7 @@ function localStorageCear() {
       showError(errorMsg, msg('err_copy_fail') + err.message);
     });
   });}
+
 
   // NFC dupl button
   if (duplNfcBtn) {
