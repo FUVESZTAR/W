@@ -2204,6 +2204,7 @@ function localStorageGet() {
     genDatumShow.value = localStorage.getItem('StDate');
     genGpsShow.value = localStorage.getItem('StGPSCPacket');
     genEgyebShow.value = localStorage.getItem('StEgyebInfo');
+    updateNFCPreviewFn = null;
   // localStorageCear();
 }
 
@@ -2608,13 +2609,14 @@ function calculateSize(text) {
      genDatumShow.value = genDatumInput.value;
      genGpsShow.value = gpsPacket;
      genEgyebShow.value = genEgyebInput.value;
+     updateNFCPreviewFn = null;
      updatePreview();
      }
   //Load dupl NFC
    function duplicateReadNfc() { 
        loadLastNfcId(genNfcIdShow);
        localStorageGet();
-       updatePreview();
+       updatePreviews();
      }
 
   
@@ -2672,8 +2674,10 @@ function calculateSize(text) {
   // Generate NFC button
   if (gennfcBtn) {
   gennfcBtn.addEventListener("click", () => {
+    generateNewNfc();
     updatePreviews();
     const nfcData = nfcPreview.textContent;
+    console.log('Generated NFC');
     if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
       showError(errorMsg, msg('err_no_plant'));
       return;
