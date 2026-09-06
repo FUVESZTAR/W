@@ -490,7 +490,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     <!-- Generator section -->
     <div id="tab-gen" class="tab-section active">
 
-    <!-- ── Panel 1: Selection ──────────────────────────────── -->
+    <!-- ── Generator Panel 1: Selection ──────────────────────────────── -->
     <div class="panel open" id="gen-panel-selection">
       <div class="panel-header" onclick="togglePanel('gen-panel-selection')">
         <div class="panel-header-left">
@@ -536,7 +536,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel 2: NFC Data Typ and Date───────────────────────────────── -->
+    <!-- ── Generator Panel 2: NFC Data Typ and Date───────────────────────────────── -->
     <div class="panel open" id="gen-panel-data">
       <div class="panel-header" onclick="togglePanel('gen-panel-data')">
         <div class="panel-header-left">
@@ -564,7 +564,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel 3: GPS ────────────────────────────────────── -->
+    <!-- ── Generator Panel 3: GPS ────────────────────────────────────── -->
     <div class="panel" id="gen-panel-gps">
       <div class="panel-header" onclick="togglePanelExcl(event,'gen-panel-gps')">
         <div class="panel-header-left">
@@ -608,7 +608,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel 4: Other info ─────────────────────────────── -->
+    <!-- ── Generator Panel 4: Other info ─────────────────────────────── -->
     <div class="panel" id="gen-panel-other">
       <div class="panel-header" onclick="togglePanelExcl(event,'gen-panel-other')">
         <div class="panel-header-left">
@@ -634,7 +634,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
       
-    <!-- ── Panel 2: NFC Data Review───────────────────────────────── -->
+    <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
     <div class="panel open" id="gen-panel-data">
       <div class="panel-header" onclick="togglePanel('gen-panel-data')">
         <div class="panel-header-left">
@@ -686,7 +686,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
       
-    <!-- ── Panel 5: NFC Preview ────────────────────────────── -->
+    <!-- ── Generator Panel 6: NFC Preview ────────────────────────────── -->
     <div class="panel open" id="gen-panel-preview">
       <div class="panel-header" onclick="togglePanel('gen-panel-preview')">
         <div class="panel-header-left">
@@ -725,7 +725,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel 6: Actions ────────────────────────────────── -->
+    <!-- ── Generator Panel 7: Actions ────────────────────────────────── -->
     <div class="panel open" id="gen-panel-actions">
       <div class="panel-header" onclick="togglePanel('gen-panel-actions')">
         <div class="panel-header-left">
@@ -767,7 +767,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     <!-- Reader section -->
     <div id="tab-read" class="tab-section">
 
-    <!-- ── Panel Actions ──────────────────────────────────── -->
+    <!-- ── Reader Panel 1: Actions ──────────────────────────────────── -->
     <div class="panel open" id="read-panel-actions">
       <div class="panel-header" onclick="togglePanel('read-panel-actions')">
         <div class="panel-header-left">
@@ -803,7 +803,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel Preview ──────────────────────────────────── -->
+    <!-- ── Reader Panel 2: Preview ──────────────────────────────────── -->
     <div class="panel open" id="read-panel-preview">
       <div class="panel-header" onclick="togglePanel('read-panel-preview')">
         <div class="panel-header-left">
@@ -842,31 +842,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel Selection ────────────────────────────────── -->
-    <div class="panel open" id="read-panel-selection">
-      <div class="panel-header" onclick="togglePanel('read-panel-selection')">
-        <div class="panel-header-left">
-          <span class="panel-icon">🌱</span>
-          <div>
-            <div class="panel-title" data-i18n="nfcread.main_card_title">Selection</div>
-            <div class="panel-subtitle" data-i18n="nfcread.main_card_sub">Choose a plant and variety.</div>
-          </div>
-        </div>
-        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
-      </div>
-      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="form-group">
-          <label for="read-name-plant" data-i18n="nfcread.lbl_plant">Plant Name</label>
-          <input type="text" id="read-name-plant" readonly />
-        </div>
-        <div class="form-group">
-          <label for="read-name-variety" data-i18n="nfcread.lbl_variety">Variety</label>
-          <input type="text" id="read-name-variety" readonly />
-        </div>
-      </div></div></div>
-    </div>
-
-    <!-- ── Panel Data ─────────────────────────────────────── -->
+    <!-- ── Reader Panel 4: Data ─────────────────────────────────────── -->
     <div class="panel open" id="read-panel-data">
       <div class="panel-header" onclick="togglePanel('read-panel-data')">
         <div class="panel-header-left">
@@ -880,29 +856,37 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group">
+          <label for="read-nfcId" data-i18n="nfcread.nfcId">NFC ID</label>
+          <input type="number" id="read-nfcId" />
+        </div>
+        <div class="form-group">
           <label for="read-plantId" data-i18n="nfcread.plantId">Plant ID</label>
           <input type="text" id="read-plantId" readonly />
         </div>
         <div class="form-group">
-          <label for="read-nfcId" data-i18n="nfcread.nfcId">NFC ID</label>
-          <input type="number" id="read-nfcId" />
+          <label for="read-name-plant" data-i18n="nfcread.lbl_plant">Plant Name</label>
+          <input type="text" id="read-name-plant" readonly />
+        </div>
+        <div class="form-group">
+          <label for="read-name-variety" data-i18n="nfcread.lbl_variety">Variety</label>
+          <input type="text" id="read-name-variety" readonly />
         </div>
         <div class="form-group">
           <label for="read-latin-name" data-i18n="nfcread.lbl_latin">Latin Name</label>
           <input type="text" id="read-latin-name" />
         </div>
         <div class="form-group">
-          <label for="read-datum" data-i18n="nfcread.lbl_datum">Date</label>
-          <input type="text" id="read-datum" placeholder="" />
-        </div>
-        <div class="form-group">
           <label for="read-nfcTyp" data-i18n="nfcread.lbl_nfcTyp">NFC Type</label>
            <input type="text" id="read-nfcTyp" />
+        </div>
+        <div class="form-group">
+          <label for="read-datum" data-i18n="nfcread.lbl_datum">Date</label>
+          <input type="text" id="read-datum" placeholder="" />
         </div>
       </div></div></div>
     </div>
 
-    <!-- ── Panel GPS ──────────────────────────────────────── -->
+    <!-- ── Reader Panel 5: GPS ──────────────────────────────────────── -->
     <div class="panel open" id="read-panel-gps">
       <div class="panel-header" onclick="togglePanelExcl(event,'read-panel-gps')">
         <div class="panel-header-left">
@@ -931,7 +915,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       </div></div></div>
     </div>
 
-    <!-- ── Panel Other ────────────────────────────────────── -->
+    <!-- ── Reader Panel 6: Other ────────────────────────────────────── -->
     <div class="panel open" id="read-panel-other">
       <div class="panel-header" onclick="togglePanelExcl(event,'read-panel-other')">
         <div class="panel-header-left">
@@ -1453,6 +1437,10 @@ const SHEET_WRITER_SECRET = '159753g9d5rt4Ht4eg7e5z4d6szo89fsef';
 const READ_SHEET_ID = '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY';
 const READ_SHEET_NAME = 'plant_list';
 
+// A=Plant_ID, B=LatinName, C=Name_Variety, D=Name_HU, E=Name_EN , CR = Active_in_NFC
+// Adjust the letters if your columns are in a different order!
+const readSheetColQuery = `select A, B, C, D, E where CR = 'Y'`;
+const maxNfcNumQuery = `select max(A)`;
 /**
  * Fetch raw Google Visualization API response with an optional TQ query.
  */
@@ -1482,12 +1470,12 @@ async function fetchSheetResponseQR(tq = '') {
  * @returns {Object[]} Array of plant objects with the selected fields.
  */
 async function loadActiveNFCPlants() {
-  // You must use column letters, not header names, in the tq query
+  // You must use column letters, not header names, in the readSheetColQuery query // tq query
   // A=Plant_ID, B=LatinName, C=Name_Variety, D=Name_HU, E=Name_EN , CR = Active_in_NFC
   // Adjust the letters if your columns are in a different order!
-  const tq = `select A, B, C, D, E where CR = 'Y'`;
+  //const readSheetColQuery = `select A, B, C, D, E where CR = 'Y'`;
   console.log("Loading from datasource");
-  const gvizResponse = await fetchSheetResponseQR(tq);
+  const gvizResponse = await fetchSheetResponseQR(readSheetColQuery); // tq
   const { cols, rows } = gvizResponse.table;
 
   const headers = cols.map(col =>
@@ -1513,8 +1501,8 @@ async function loadActiveNFCPlants() {
  * @returns {Promise<number>} The current maximum Plant_ID, or 0 if the sheet is empty.
  */
 async function loadMaxPlantId() {
-  const tq = `select max(A)`;
-  const gvizResponse = await fetchSheetResponseQR(tq);
+  //const maxNfcNumQuery = `select max(A)`;  // tq
+  const gvizResponse = await fetchSheetResponseQR(maxNfcNumQuery); // tq
   const { rows } = gvizResponse.table;
   const firstCell = rows?.[0]?.c?.[0];
   if (firstCell !== null && firstCell !== undefined && firstCell.v !== null && firstCell.v !== undefined) {
@@ -1736,7 +1724,7 @@ function localStorageGet() {
     console.log('StPlantName get', localStorage.getItem('StPlantName'));
     console.log('StVariety get', localStorage.getItem('StVariety'));
     //data fix
-    //genNfcIdShow.value = document.getElementById("gen-nfcId");  // generated
+    genNfcIdShow.value = nfcIdValue;  // generated
     genPlantIdShow.value = localStorage.getItem('StPlantID');
     genPlantNameShow.value = localStorage.getItem('StPlantName');
     genPlantVarietyShow.value = localStorage.getItem('StVariety');
@@ -2133,18 +2121,10 @@ function calculateSize(text) {
   //load gen NFC
    function generateNewNfc() { 
      loadLastNfcId(genNfcIdShow);
-     nfcIdValue = genNfcIdShow.value;
-     const plantId = genPlantIdShow.value;
-     const plantName = plantNameInput;
-     const nameVariety = getVarietyText(); 
-     const latinName = genLatinNameShow.value;
-     const datum = genDatumInput.value;
-     const nfcTyp = genNfcTypInput.value;
-     const egyeb = genEgyebInput.value;
-     //genNfcIdShow.value = document.getElementById("gen-nfcId");  // generated
-     genPlantIdShow.value = genPlantIdShow.value;
+     genNfcIdShow.value=nfcIdValue;
+     //genPlantIdShow.value = genPlantIdShow.value;
      genPlantNameShow.value = plantNameInput;
-     genPlantVarietyShow.value = nameVariety; 
+     genPlantVarietyShow.value = getVarietyText(); 
      //genLatinNameShow.value = genLatinNameShow.value;
      genNfcTypShow.value = genNfcTypInput.value;
      genDatumShow.value = genDatumInput.value;
@@ -2568,13 +2548,13 @@ let updateNFCPreviewFn = null;
 const readNfcIdOutput = document.getElementById("read-nfcId");
 const readPlantIdOutput = document.getElementById("read-plantId");
 const readDatumOutput = document.getElementById("read-datum");
-const plantNameInput = document.getElementById("read-name-plant");
-const nameVarietyInput = document.getElementById("read-name-variety");
+const readplantNameOutput = document.getElementById("read-name-plant");
+const readVarietyOutput = document.getElementById("read-name-variety");
 const readLatinNameOutput = document.getElementById("read-latin-name");
 const readNfcTypOutput = document.getElementById("read-nfcTyp");
 const readEgyebOutput = document.getElementById("read-egyeb");
-const nfcPreview = document.getElementById("read-nfc-preview");
-const linkPreview = document.getElementById("read-link-preview");
+const readNfcPreview = document.getElementById("read-nfc-preview");
+const readLinkPreview = document.getElementById("read-link-preview");
 
 const readNfcBtn = document.getElementById("read-read-nfc");
 const copyGpsBtn = document.getElementById("read-copy-gps");
@@ -2789,8 +2769,8 @@ function handlePlantData(data) {
       if (r.type === "url") { link = r.value; console.log("URL: ", r.value);} 
      });
     
-    nfcPreview.textContent = text;
-    linkPreview.textContent= link;
+    readNfcPreview.textContent = text;
+    readLinkPreview.textContent= link;
     /* 5/1/Alma/Species/Malus domestica/n/2026-04-09/L|BV1KgAq6lQAD6A==|L/oth  */
     const keys = ["ncfId","plantId","name","variety","latinName","nfcType","datum","pos","other"];
     let decodedNfc = decodeToMap(text, keys);
@@ -2799,8 +2779,8 @@ function handlePlantData(data) {
     readNfcIdOutput.value= decodedNfc.ncfId.value;
     readPlantIdOutput.value= decodedNfc.plantId.value;
     readLatinNameOutput.value= decodedNfc.latinName.value;
-    plantNameInput.value = decodedNfc.name.value;
-    nameVarietyInput.value = decodedNfc.variety.value;
+    readplantNameOutput.value = decodedNfc.name.value;
+    readVarietyOutput.value = decodedNfc.variety.value;
     readNfcTypOutput.value= decodedNfc.nfcType.value;
     readDatumOutput.value= decodedNfc.datum.value;
     posPacketOut.textContent= decodedNfc.pos.value;
@@ -2834,8 +2814,8 @@ function handlePlantData(data) {
   // Save data to local storage
 function localStorageSet() {
   localStorage.setItem('StCopyState','Y');
-  localStorage.setItem('StPlantName', plantNameInput.value);
-  localStorage.setItem('StVariety', nameVarietyInput.value);
+  localStorage.setItem('StPlantName', readplantNameOutput.value);
+  localStorage.setItem('StVariety', readVarietyOutput.value);
   localStorage.setItem('StPlantID', readPlantIdOutput.value);
   localStorage.setItem('StLatinName', readLatinNameOutput.value);
   localStorage.setItem('StDate', readDatumOutput.value);
@@ -2879,7 +2859,7 @@ function localStorageCear() {
   // Copy NFC Data button
    if (copyNfcBtn) {
   copyNfcBtn.addEventListener("click", () => {
-    const nfcData = nfcPreview.textContent;
+    const nfcData = readNfcPreview.textContent;
     
     if (isPlaceholder(nfcData)) {
       showError(errorMsg, msg('err_no_nfc'));
@@ -2896,7 +2876,7 @@ function localStorageCear() {
   // Copy Link button
   if (copyLinkBtn) {
   copyLinkBtn.addEventListener("click", () => {
-    const link = linkPreview.textContent;
+    const link = readLinkPreview.textContent;
     
     if (isPlaceholder(link) || !link) {
       showError(errorMsg, msg('err_no_link'));
@@ -2916,10 +2896,18 @@ function localStorageCear() {
      nfcReadFunc();
   });}
 
+  /*
+  // Set NFC Inactive button
+  if (readNfcBtn) {
+  readNfcBtn.addEventListener("click", () => {
+     nfcReadFunc();
+  });}
+    */
+
   // Copy Link button
   if (copyGpsBtn) {
   copyGpsBtn.addEventListener("click", () => {
-    const gpsVal = linkPreview.textContent;
+    const gpsVal = readLinkPreview.textContent;
     
     if (isPlaceholder(gpsVal) || !gpsVal) {
       showError(errorMsg, msg('err_no_gps'));
@@ -2971,12 +2959,12 @@ function localStorageCear() {
     
     const nfcId      = readNfcIdOutput.value;
     const plantIdValue    = readPlantIdOutput.value;
-    const nfcData    = nfcPreview.textContent;
+    const nfcData    = readNfcPreview.textContent;
     const nfcTyp     = readNfcTypOutput.value;
     const datum      = readDatumOutput.value;
     const nfcCreated = dateString;
     const nfcPos     = posPacketOut.textContent;
-    const link       = linkPreview.textContent;
+    const link       = readLinkPreview.textContent;
     const egyeb      = readEgyebOutput.value;
     const serialNum      = serialNumText.value;
 
@@ -3016,7 +3004,7 @@ function localStorageCear() {
   //open link
   if (openLinkBtn) {
    openLinkBtn.addEventListener("click", () => {
-    const link = linkPreview.textContent.trim();
+    const link = readLinkPreview.textContent.trim();
     if (!link) {
         console.warn("Link is empty");
         return;
@@ -3038,15 +3026,15 @@ function localStorageCear() {
   function clearForm() {
     readPlantIdOutput.value = "";
     readNfcIdOutput.value = "";
-    plantNameInput.value = "";
-    nameVarietyInput.value = "";
+    readplantNameOutput.value = "";
+    readVarietyOutput.value = "";
     readLatinNameOutput.value = "";
     readDatumOutput.value = "";
     readNfcTypOutput.value = "";
     readEgyebOutput.value = "";
     serialNumText.value = "";
-    nfcPreview.textContent = msg('ph_nfc_preview');
-    linkPreview.textContent = msg('ph_link_preview');
+    readNfcPreview.textContent = msg('ph_nfc_preview');
+    readLinkPreview.textContent = msg('ph_link_preview');
     nfcSize.textContent = "0 B";
     linkSize.textContent = "0 B";
     totalSize.textContent = "0 B";
