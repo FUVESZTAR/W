@@ -2194,25 +2194,16 @@ async function populate() {
 function localStorageGet() {
     console.log('StPlantName get', localStorage.getItem('StPlantName'));
     console.log('StVariety get', localStorage.getItem('StVariety'));
-    console.log('StPlantID get', localStorage.getItem('StPlantID'));
-    //search
-    plantSearch = localStorage.getItem('StPlantName');
-    varietySearch = localStorage.getItem('StVariety');
     //data fix
+    //genNfcIdShow.value = document.getElementById("gen-nfcId");  // generated
     genPlantIdShow.value = localStorage.getItem('StPlantID');
+    genPlantNameShow.value = localStorage.getItem('StPlantName');
+    genPlantVarietyShow.value = localStorage.getItem('StVariety');
     genLatinNameShow.value = localStorage.getItem('StLatinName');
-    genPlantIdShow.setAttribute("readonly", "");
-    customPlantMode = false;
-    plantSelectorCustomInput.value = "";
-    plantSelectorCustomInput.style.display = "none";
-    nameVarietyCustomInput.value = "";
-    nameVarietyCustomInput.style.display = "none";
-    //additional data
-    genDatumInput.value = localStorage.getItem('StDate');
-    genNfcTypInput.value = localStorage.getItem('StNFCType');
-    gpsPacket = localStorage.getItem('StGPSCPacket');
-    genEgyebInput.value = localStorage.getItem('StEgyebInfo');
-    updatePreviews();
+    genNfcTypShow.value = localStorage.getItem('StNFCType');
+    genDatumShow.value = localStorage.getItem('StDate');
+    genGpsShow.value = localStorage.getItem('StGPSCPacket');
+    genEgyebShow.value = localStorage.getItem('StEgyebInfo');
   // localStorageCear();
 }
 
@@ -2227,14 +2218,9 @@ function localStorageCear() {
   localStorage.removeItem('StNFCType');
   localStorage.removeItem('StGPSCPacket');
   localStorage.removeItem('StEgyebInfo');
-      console.log('StPlantName clear', localStorage.getItem('StPlantName'));
-    console.log('StVariety clear', localStorage.getItem('StVariety'));
-    console.log('StPlantID clear', localStorage.getItem('StPlantID'));
+  console.log('StPlantName clear', localStorage.getItem('StPlantName'));
   }
 
-
-
-  
   try {
     plants = await loadActiveNFCPlants();
     // Keep only plants active on the page and in NFC
@@ -2605,27 +2591,30 @@ function calculateSize(text) {
   //load gen NFC
    function generateNewNfc() { 
      loadLastNfcId(genNfcIdShow);
-     const plantId = genPlantIdShow.value;
      nfcIdValue = genNfcIdShow.value;
+     const plantId = genPlantIdShow.value;
      const plantName = plantNameInput;
      const nameVariety = getVarietyText(); 
      const latinName = genLatinNameShow.value;
      const datum = genDatumInput.value;
      const nfcTyp = genNfcTypInput.value;
      const egyeb = genEgyebInput.value;
-     
+     //genNfcIdShow.value = document.getElementById("gen-nfcId");  // generated
+     genPlantIdShow.value = genPlantIdShow.value;
+     genPlantNameShow.value = plantNameInput;
+     genPlantVarietyShow.value = nameVariety; 
+     //genLatinNameShow.value = genLatinNameShow.value;
+     genNfcTypShow.value = genNfcTypInput.value;
+     genDatumShow.value = genDatumInput.value;
+     genGpsShow.value = gpsPacket;
+     genEgyebShow.value = genEgyebInput.value;
+     updatePreview();
      }
   //Load dupl NFC
    function duplicateReadNfc() { 
        loadLastNfcId(genNfcIdShow);
-       const plantId = genPlantIdShow.value;
-       nfcIdValue = genNfcIdShow.value;
-       const plantName = plantNameInput;
-       const nameVariety = getVarietyText(); 
-       const latinName = genLatinNameShow.value;
-       const datum = genDatumInput.value;
-       const nfcTyp = genNfcTypInput.value;
-       const egyeb = genEgyebInput.value;
+       localStorageGet();
+       updatePreview();
      }
 
   
@@ -2633,12 +2622,13 @@ function calculateSize(text) {
   function updateNFCPreview() {
     const plantId = genPlantIdShow.value;
     nfcIdValue = genNfcIdShow.value;
-    const plantName = plantNameInput;
-    const nameVariety = getVarietyText(); 
+    const plantName =  genPlantNameShow.value;
+    const nameVariety =  genPlantVarietyShow.value; 
     const latinName = genLatinNameShow.value;
-    const datum = genDatumInput.value;
-    const nfcTyp = genNfcTypInput.value;
-    const egyeb = genEgyebInput.value;
+    const datum = genDatumShow.value;
+    const nfcTyp = genNfcTypShow.value;
+    const egyeb = genEgyebShow.value;
+    const gpsText = genGpsShow.value;
     let link = "";
     if (plantId) {
       const baseUrl = window.location.origin;
@@ -2646,7 +2636,7 @@ function calculateSize(text) {
       linkPreview.textContent = link;
     }
     
-    const nfcData = `${nfcIdValue}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}${gpsCardToggle.classList.contains('on') ? '/' + gpsPacket : ''}${othCardToggle.classList.contains('on') ? '/' + egyeb : ''}/`;
+    const nfcData = `${nfcIdValue}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}${gpsCardToggle.classList.contains('on') ? '/' + gpsText : ''}${othCardToggle.classList.contains('on') ? '/' + egyeb : ''}/`;
     nfcPreview.textContent = nfcData;
     
     // Update size indicator
@@ -2786,15 +2776,16 @@ function calculateSize(text) {
     const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
     
     const nfcId      = genNfcIdShow.value;
-    const plantIdValue    = genPlantIdShow.value;
+    const plantIdValue = genPlantIdShow.value;
     const nfcData    = nfcPreview.textContent;
-    const nfcTyp     = genNfcTypInput.value;
-    const datum      = genDatumInput.value;
+    const nfcTyp     = genNfcTypShow.value;
+    const datum      = genDatumShow.value;
     const nfcCreated = dateString;
-    const nfcPos     = posPacketOut.textContent;
-    const link       = linkPreview.textContent;
-    const egyeb      = genEgyebInput.value;
+    const nfcPos     = posPacketOut.textContent;  // not solved for duplicate
+    const link       = linkPreview.textContent;   // not solved for duplicate
+    const egyeb      = genEgyebShow.value;
     const serialNum  = serialNumText.value; 
+    
     
     if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
       showError(errorMsg, msg('err_no_save'));
@@ -2896,6 +2887,12 @@ function calculateSize(text) {
     linkSize.textContent = "0 B";
     totalSize.textContent = "0 B";
     serialNumText.textContent = "none";
+    genPlantVarietyShow.value = "";
+    genPlantNameShow.value = "";
+    genNfcTypShow.value = "";
+    genDatumShow.value = "";
+    genGpsShow.value = "";
+    genEgyebShow.value = "";
   }
 
     // Clear NFC button
@@ -2906,7 +2903,7 @@ function calculateSize(text) {
     plantSelectorCustomInput.value = "";
     plantSelectorCustomInput.style.display = "none";
     plantNameInput = "";
-    localStorageCear();
+    //localStorageCear();
   });}
 
   function showError(el, message, type = "error") {
