@@ -1588,7 +1588,7 @@ const serialNumText = document.getElementById("gen-serialNr");
  */
 async function loadLastNfcId(genNfcIdShow, onLoaded) {
   runtimeloadLastNfcId = runtimeloadLastNfcId+1;
-  consol.log('LastNfcId runtime: ', runtimeloadLastNfcId);
+  console.log('LastNfcId runtime: ', runtimeloadLastNfcId);
   if (SHEET_WRITER_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL') return;
   try {
     const response = await fetch(SHEET_WRITER_URL, { redirect: 'follow' });
@@ -1598,7 +1598,7 @@ async function loadLastNfcId(genNfcIdShow, onLoaded) {
         const nextId = lastIdVal+1; //Number(result.lastIdVal) + 1;
         //genNfcIdShow.value = nextId;
         nfcIdValue = nextId;
-        consol.log('LastNfcId: ', lastId);
+        console.log('LastNfcId: ', lastId);
         if (nextId > 0 && typeof onLoaded === 'function') onLoaded();
     }
   } catch (err) {
