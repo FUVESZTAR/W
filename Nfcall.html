@@ -2154,7 +2154,8 @@ function calculateSize(text) {
   // update preview
   function updateNFCPreview() {
     const plantId = genPlantIdShow.value;
-    genNfcIdShow.value= nfcIdValue;
+    //genNfcIdShow.value= nfcIdValue;
+    const nfcId = genNfcIdShow.value;   // local, just for display/preview text
     const plantName =  genPlantNameShow.value;
     const nameVariety =  genPlantVarietyShow.value; 
     const latinName = genLatinNameShow.value;
@@ -2169,7 +2170,7 @@ function calculateSize(text) {
       linkPreview.textContent = link;
     }
     
-    const nfcData = `${nfcIdValue}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}${gpsCardToggle.classList.contains('on') ? '/' + gpsText : ''}${othCardToggle.classList.contains('on') ? '/' + egyeb : ''}/`;
+    const nfcData = `${nfcId}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}${gpsCardToggle.classList.contains('on') ? '/' + gpsText : ''}${othCardToggle.classList.contains('on') ? '/' + egyeb : ''}/`;
     nfcPreview.textContent = nfcData;
     
     // Update size indicator
