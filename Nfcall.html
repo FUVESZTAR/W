@@ -2160,7 +2160,7 @@ async function populate() {
     let link = "";
 
     nfcReady = readyNfcWrite;
-    if (nfcReady) {    
+    if (readyNfcWrite==true) {    
       gennfcBtn.disabled = false;
       duplnfcBtn.disabled = false;
       qrnfcBtn.disabled = true;
@@ -2185,8 +2185,8 @@ async function populate() {
       link = `${baseUrl}/W/P.html?id=${encodeURIComponent(plantId)}`;
       linkPreview.textContent = link;
     }
-
-    const nfcData = `${nfcId}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}${gpsCardToggle.classList.contains('on') ? '/' + gpsText : ''}${othCardToggle.classList.contains('on') ? '/' + egyeb : ''}/`;
+    
+    const nfcData = `${nfcId}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}/${gpsCardToggle.classList.contains('on') ? + gpsText : ''}/${othCardToggle.classList.contains('on') ? egyeb + '/' : ''}`;
     nfcPreview.textContent = nfcData;
 
     if (nfcSize) {
