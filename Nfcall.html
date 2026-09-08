@@ -1577,7 +1577,7 @@ function setStatus(msg_text, color, statusItem) {
  * other.
  */
 let runtimeloadLastNfcId = 0;
-async function loadLastNfcId(genNfcIdShow, onLoaded) {
+async function loadLastNfcId(genNfcIdShow1, onLoaded) {
   runtimeloadLastNfcId = runtimeloadLastNfcId + 1;
   console.log('LastNfcId runtime: ', runtimeloadLastNfcId);
   if (SHEET_WRITER_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL') return;
@@ -1588,7 +1588,7 @@ async function loadLastNfcId(genNfcIdShow, onLoaded) {
         const lastIdVal = Number(result.lastId);
         const nextId = lastIdVal + 1;
         nfcIdValue = nextId;
-        genNfcIdShow.value = nextId; 
+        genNfcIdShow1.value = nextId; 
         console.log('LastNfcId: ', lastIdVal);
         if (nextId > 0 && typeof onLoaded === 'function') onLoaded();
     }
@@ -2120,6 +2120,7 @@ async function populate() {
   }
 
   function generateNewNfc() {
+    loadLastNfcId(genNfcIdShow); 
     genNfcIdShow.value = nfcIdValue;
     genPlantNameShow.value = plantNameInput;
     genPlantVarietyShow.value = getVarietyText();
@@ -2131,6 +2132,7 @@ async function populate() {
   }
 
   function duplicateReadNfc() {
+    loadLastNfcId(genNfcIdShow); 
     localStorageGet();
     updatePreviews();
   }
