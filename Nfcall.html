@@ -1925,7 +1925,7 @@ async function populate() {
   // single keystroke in Notes / custom-name fields.
   const debouncedUpdatePreviews = debounce(() => updatePreviews(false), 150);
 
-  nameVarietyCustomInput.addEventListener("change", updatePreviews(false));
+  nameVarietyCustomInput.addEventListener("change", () => updatePreviews(false));
   nameVarietyCustomInput.addEventListener("input", debouncedUpdatePreviews);
 
   plantSelectorCustomInput.addEventListener("change", () => {
@@ -1938,17 +1938,17 @@ async function populate() {
   });
 
   [genPlantIdShow, genLatinNameShow, genDatumInput, genNfcTypInput].forEach(input => {
-    input.addEventListener("change", updatePreviews(false));
+    input.addEventListener("change", () => updatePreviews(false));
     input.addEventListener("input", debouncedUpdatePreviews);
   });
-  genEgyebInput.addEventListener("change", updatePreviews(false));
+  genEgyebInput.addEventListener("change", () => updatePreviews(false));
   genEgyebInput.addEventListener("input", debouncedUpdatePreviews);
 
   [genNfcIdShow].forEach(input => {
-    input.addEventListener("change", updatePreviews(false));
+    input.addEventListener("change", () => updatePreviews(false));
     input.addEventListener("input", debouncedUpdatePreviews);
   });
-  genNfcIdShow.addEventListener("change", updatePreviews(false));
+  genNfcIdShow.addEventListener("change", () => updatePreviews(false));
 
   function localStorageGet() {
     console.log('StPlantName get', localStorage.getItem('StPlantName'));
@@ -2164,7 +2164,7 @@ async function populate() {
     consol.log(' nfcReady:', nfcReady);
     nfcReady = readyNfcWrite;
     
-    if (readyNfcWrite==true) {    
+    if (readyNfcWrite===true) {    
       gennfcBtn.disabled = false;
       duplnfcBtn.disabled = false;
       qrnfcBtn.disabled = true;
@@ -2190,7 +2190,7 @@ async function populate() {
       linkPreview.textContent = link;
     }
     
-    const nfcData = `${nfcId}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}/${gpsCardToggle.classList.contains('on') ? + gpsText : ''}/${othCardToggle.classList.contains('on') ? egyeb + '/' : ''}`;
+    const nfcData = `${nfcId}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}/${gpsCardToggle.classList.contains('on') ? gpsText : ''}/${othCardToggle.classList.contains('on') ? egyeb + '/' : ''}`;
     nfcPreview.textContent = nfcData;
 
     if (nfcSize) {
