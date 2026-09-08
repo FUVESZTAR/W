@@ -1540,6 +1540,7 @@ let customPlantID = false;
 let nfcIdValue = 0; // authoritative "next NFC ID" — set only by loadLastNfcId()/generateNewNfc()/duplicateReadNfc()
 let gpsPacket = null;
 let updateNFCPreviewFn = null;
+let nfcReady = false;
 const genNfcIdShow = document.getElementById("gen-nfcId");
 const gpsStartBtn = document.getElementById('gen-gpsStartBtn');
 const gpsStopBtn = document.getElementById('gen-gpsStopBtn');
@@ -1867,7 +1868,7 @@ async function populate() {
       customVarietyMode = false;
       nameVarietyCustomInput.style.display = "none";
       nameVarietyCustomInput.value = "";
-      updatePreviews();
+      updatePreviews(false);
       console.log("Variety empty, out:", value);
       return;
     }
@@ -1887,7 +1888,7 @@ async function populate() {
       nameVarietyCustomInput.value = "";
       nameVarietyCustomInput.focus();
       genPlantIdShow.value = "";
-      updatePreviews();
+      updatePreviews(false);
       console.log("Variety custom, out:", value);
       return;
     }
@@ -1921,14 +1922,14 @@ async function populate() {
   // OPTIMIZATION: debounce free-text preview updates so a full NFC-string
   // rebuild (+ two TextEncoder.encode() size calcs) doesn't run on every
   // single keystroke in Notes / custom-name fields.
-  const debouncedUpdatePreviews = debounce(() => updatePreviews(), 150);
+  const debouncedUpdatePreviews = debounce(() => updatePreviews(false), 150);
 
-  nameVarietyCustomInput.addEventListener("change", updatePreviews);
+  nameVarietyCustomInput.addEventListener("change", updatePreviews(false));
   nameVarietyCustomInput.addEventListener("input", debouncedUpdatePreviews);
 
   plantSelectorCustomInput.addEventListener("change", () => {
     plantNameInput = plantSelectorCustomInput.value;
-    updatePreviews();
+    updatePreviews(false);
   });
   plantSelectorCustomInput.addEventListener("input", () => {
     plantNameInput = plantSelectorCustomInput.value;
@@ -1936,17 +1937,17 @@ async function populate() {
   });
 
   [genPlantIdShow, genLatinNameShow, genDatumInput, genNfcTypInput].forEach(input => {
-    input.addEventListener("change", updatePreviews);
+    input.addEventListener("change", updatePreviews(false));
     input.addEventListener("input", debouncedUpdatePreviews);
   });
-  genEgyebInput.addEventListener("change", updatePreviews);
+  genEgyebInput.addEventListener("change", updatePreviews(false));
   genEgyebInput.addEventListener("input", debouncedUpdatePreviews);
 
   [genNfcIdShow].forEach(input => {
-    input.addEventListener("change", updatePreviews);
+    input.addEventListener("change", updatePreviews(false));
     input.addEventListener("input", debouncedUpdatePreviews);
   });
-  genNfcIdShow.addEventListener("change", updatePreviews);
+  genNfcIdShow.addEventListener("change", updatePreviews(false));
 
   function localStorageGet() {
     console.log('StPlantName get', localStorage.getItem('StPlantName'));
@@ -2067,7 +2068,7 @@ async function populate() {
 
     setStatus("Tracking Stopped. Data preserved.", "#333",gpsStatus);
     gpsPacket = gpstext;
-    updatePreviews();
+    updatePreviews(false);
   }
 
   // OPTIMIZATION: stop the geolocation watch and timer if the user navigates
@@ -2086,8 +2087,8 @@ async function populate() {
     }
   });
 
-  function updatePreviews() {
-    updateNFCPreview();
+  function updatePreviews(readyNfcWrite) {
+    updateNFCPreview(readyNfcWrite);
   }
 
   function getVarietyText() {
@@ -2129,13 +2130,13 @@ async function populate() {
     genDatumShow.value = genDatumInput.value;
     genGpsShow.value = gpsPacket;
     genEgyebShow.value = genEgyebInput.value;
-    updatePreviews();
+    updatePreviews(true);
   }
 
   function duplicateReadNfc() {
     loadLastNfcId(genNfcIdShow); 
     localStorageGet();
-    updatePreviews();
+    updatePreviews(true);
   }
 
   /**
@@ -2146,7 +2147,7 @@ async function populate() {
    * variable for building the preview text — nfcIdValue itself is never
    * mutated here.
    */
-  function updateNFCPreview() {
+  function updateNFCPreview(readyNfcWrite) {
     const plantId = genPlantIdShow.value;
     const nfcId = genNfcIdShow.value; // local read-only copy for preview text
     const plantName = genPlantNameShow.value;
@@ -2157,6 +2158,28 @@ async function populate() {
     const egyeb = genEgyebShow.value;
     const gpsText = genGpsShow.value;
     let link = "";
+
+    nfcReady = readyNfcWrite;
+    if (nfcReady) {    
+      gennfcBtn.disabled = false;
+      duplnfcBtn.disabled = false;
+      qrnfcBtn.disabled = true;
+      copynfcBtn.disabled = true;
+      copylinkBtn.disabled = true;
+      saveNfcBtn.disabled = true;
+      nfcWriteBtn.disabled = true;
+    } else {
+      gennfcBtn.disabled = true;
+      duplnfcBtn.disabled = true;
+      qrnfcBtn.disabled = false;
+      copynfcBtn.disabled = false;
+      copylinkBtn.disabled = false;
+      saveNfcBtn.disabled = false;
+      nfcWriteBtn.disabled = false;
+      }
+
+      
+    
     if (plantId) {
       const baseUrl = window.location.origin;
       link = `${baseUrl}/W/P.html?id=${encodeURIComponent(plantId)}`;
@@ -2199,7 +2222,7 @@ async function populate() {
     gennfcBtn.addEventListener("click", () => {
       (genNfcIdShow);
       generateNewNfc();
-      updatePreviews();
+      //updatePreviews(true);
       const nfcData = nfcPreview.textContent;
       console.log('Generated NFC');
       if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
@@ -2211,7 +2234,7 @@ async function populate() {
 
   if (qrnfcBtn) {
     qrnfcBtn.addEventListener("click", () => {
-      updatePreviews();
+      updatePreviews(true);
       const nfcData = nfcPreview.textContent;
       const link = linkPreview.textContent;
       const combined = nfcData + " " + link;
@@ -2293,7 +2316,7 @@ async function populate() {
 
   if (saveNfcBtn) {
     saveNfcBtn.addEventListener("click", async () => {
-      updatePreviews();
+      updatePreviews(true);
       const today = new Date();
       const dateString = today.toISOString().split('T')[0];
 
@@ -2337,14 +2360,14 @@ async function populate() {
       } finally {
         (genNfcIdShow);
         saveNfcBtn.disabled = false;
-        updatePreviews();
+        updatePreviews(true);
       }
     });
   }
 
   if (nfcWriteBtn) {
     nfcWriteBtn.addEventListener("click", async () => {
-      updatePreviews();
+      updatePreviews(true);
       const nfcData = nfcPreview.textContent;
       const link    = linkPreview.textContent;
 
@@ -2410,6 +2433,14 @@ async function populate() {
     genDatumShow.value = "";
     genGpsShow.value = "";
     genEgyebShow.value = "";
+    nfcReady=false;
+      gennfcBtn.disabled = true;
+      duplnfcBtn.disabled = true;
+      qrnfcBtn.disabled = false;
+      copynfcBtn.disabled = false;
+      copylinkBtn.disabled = false;
+      saveNfcBtn.disabled = false;
+      nfcWriteBtn.disabled = false;
   }
 
   if (clearNfcBtn) {
