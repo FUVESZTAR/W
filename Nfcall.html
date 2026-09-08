@@ -1946,6 +1946,7 @@ async function populate() {
     input.addEventListener("change", updatePreviews);
     input.addEventListener("input", debouncedUpdatePreviews);
   });
+  genNfcIdShow.addEventListener("change", updatePreviews);
 
   function localStorageGet() {
     console.log('StPlantName get', localStorage.getItem('StPlantName'));
