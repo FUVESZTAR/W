@@ -1541,6 +1541,7 @@ let nfcIdValue = 0; // authoritative "next NFC ID" — set only by loadLastNfcId
 let gpsPacket = null;
 let updateNFCPreviewFn = null;
 let nfcReady = false;
+let updateNr = 0;
 const genNfcIdShow = document.getElementById("gen-nfcId");
 const gpsStartBtn = document.getElementById('gen-gpsStartBtn');
 const gpsStopBtn = document.getElementById('gen-gpsStopBtn');
@@ -2158,8 +2159,11 @@ async function populate() {
     const egyeb = genEgyebShow.value;
     const gpsText = genGpsShow.value;
     let link = "";
-
+    updateNr = updateNr+1;
+    consol.log(' updateNr:', updateNr);
+    consol.log(' nfcReady:', nfcReady);
     nfcReady = readyNfcWrite;
+    
     if (readyNfcWrite==true) {    
       gennfcBtn.disabled = false;
       duplnfcBtn.disabled = false;
