@@ -715,12 +715,18 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         </div>
         <div style="text-align:right;font-size:.78rem;color:var(--muted)">
           <span data-i18n="nfcgen.lbl_total_size">Total:</span> <span id="gen-total-size">0 B</span>
-          <div class="form-group">
+        </div>
+        <div class="form-group">
               <div class="preview-label">
                  <span data-i18n="nfcgen.serialNr">NFC HW ID</span>
               </div>
               <input type="text" id="gen-serialNr" />
-            </div>
+         </div>
+        <div class="form-group">
+          <div class="preview-label">
+            <span data-i18n="nfcgen.lbl_pic_preview">Picture name</span>
+          </div>
+          <div class="nfc-preview" id="gen-pic-preview" data-i18n="nfcgen.ph_pic_preview" data-i18n-live>Picture name will appear here…</div>
         </div>
       </div></div></div>
     </div>
@@ -752,13 +758,16 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="btn-grid cols-3">
           <button id="gen-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_nfc">Copy NFC</button>
           <button id="gen-copy-link" class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_link">Copy Link</button>
-          <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcgen.btn_qr">NFC QR Code</button>
+          <button id="gen-copy-pic" class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_pic">Copy picture name</button>
         </div>
         <div class="btn-grid cols-3">
           <button id="gen-read-nfc" class="btn-link" type="button" data-i18n="nfcgen.btn_nfcread">NFC Reader</button>
           <button id="gen-list-nfc" class="btn-link" type="button" data-i18n="nfcgen.btn_nfclist">NFC List</button>
           <button id="gen-back-button" class="btn-back" type="button" data-i18n="nfcgen.btn_back">← Back</button>
         </div>
+        <div class="btn-grid cols-1">
+           <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcgen.btn_qr">NFC QR Code</button>
+         </div>
       </div></div></div>
     </div>
 
@@ -787,9 +796,12 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <button id="read-clear-button"   class="btn-primary"   type="button" data-i18n="nfcread.btn_clear">Clear Fields</button>
           <button id="read-open-link-button" class="btn-primary" type="button" data-i18n="nfcread.btn_open">Open Link</button>
         </div>
-        <div class="btn-grid cols-3">
+        <div class="btn-grid cols">
           <button id="read-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_nfc">Copy NFC</button>
           <button id="read-copy-link" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_link">Copy Link</button>
+        </div>
+        <div class="btn-grid cols">
+          <button id="read-copy-pic" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_pic">Copy picure name</button>
           <button id="read-copy-gps" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_gps">Copy GPS</button>
         </div>
         <div class="btn-grid cols-1">
@@ -1013,7 +1025,9 @@ const TRANSLATIONS = {
     "nfcgen.lbl_nfc_preview":   "NFC Data",
     "nfcgen.ph_nfc_preview":    "NFC data will appear here\u2026",
     "nfcgen.lbl_link_preview":  "Link",
+    "nfcgen.lbl_pic_preview":   "Picture name",
     "nfcgen.ph_link_preview":   "Link will appear here\u2026",
+    "nfcgen.ph_pic_preview":   "Picture name will appear here\u2026",
     "nfcgen.lbl_total_size":    "Total:",
     "nfcgen.actions_title":     "Actions",
     "nfcgen.actions_sub":       "Write, save, copy",
@@ -1023,6 +1037,7 @@ const TRANSLATIONS = {
     "nfcgen.btn_save":          "Save NFC",
     "nfcgen.btn_copy_nfc":      "Copy NFC",
     "nfcgen.btn_copy_link":     "Copy Link",
+    "nfcgen.btn_copy_pic":      "Copy picture name",
     "nfcgen.btn_clear":         "Clear Fields",
     "nfcgen.btn_nfclist":       "NFC List",
     "nfcgen.btn_nfcread":       "NFC Reader",
@@ -1031,6 +1046,7 @@ const TRANSLATIONS = {
     "nfcgen.err_no_plant":      "Please select a plant and configure the NFC data",
     "nfcgen.err_no_nfc":        "No NFC data to copy",
     "nfcgen.err_no_link":       "No link to copy",
+    "nfcgen.err_no_pic":        "No picture name to copy",
     "nfcgen.err_no_save":       "Please select a plant and generate NFC data first",
     "nfcgen.err_no_config":     "Save is not configured: set SHEET_WRITER_URL in nfcgen_test.js",
     "nfcgen.err_save_fail":     "Failed to save NFC: ",
@@ -1042,6 +1058,7 @@ const TRANSLATIONS = {
     "nfcgen.err_save_ok":       "NFC saved to list!",
     "nfcgen.err_copy_nfc_ok":   "NFC data copied to clipboard!",
     "nfcgen.err_copy_link_ok":  "Link copied to clipboard!",
+    "nfcgen.err_copy_pic_ok":  "Pic name copied to clipboard!",
     "nfcgen.err_dupl_nfc_ok":   "NFC loaded to duplication!",
     "nfcgen.err_copy_gps_ok":   "GPS copied to clipboard!",
     "nfcgen.err_qr_fail":       "Failed to open QR code. Please check your popup blocker.",
@@ -1105,14 +1122,16 @@ const TRANSLATIONS = {
     "nfcread.btn_dupl_nfc":     "NFC duplik\u00e1l\u00e1sa",
     "nfcread.btn_copy_nfc":     "NFC m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_link":    "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
+    "nfcread.btn_copy_pic":     "K\u00e9p n\u00e9v m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_gps":     "GPS m\u00e1sol\u00e1sa",
     "nfcread.btn_qr":           "NFC QR k\u00f3d",
     "nfcread.btn_nfclist":      "NFC Lista",
     "nfcread.btn_nfcgen":       "NFC Gener\u00e1tor",
     "nfcread.btn_back":         "\u2190 Vissza",
-    "nfcread.err_no_plant":     "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
+    "nfcread.err_no_plant":     "V\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
     "nfcread.err_no_nfc":       "Nincs NFC adat a m\u00e1sol\u00e1shoz",
     "nfcread.err_no_link":      "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
+    "nfcread.err_no_pic":      "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
     "nfcread.err_no_save":      "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s gener\u00e1lj NFC adatot el\u0151bb",
     "nfcread.err_no_config":    "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
     "nfcread.err_save_fail":    "Ment\u00e9s sikertelen: ",
@@ -1184,7 +1203,9 @@ const TRANSLATIONS = {
     "nfcgen.lbl_nfc_preview":   "NFC adat",
     "nfcgen.ph_nfc_preview":    "Az NFC adat itt jelenik meg\u2026",
     "nfcgen.lbl_link_preview":  "Hivatkoz\u00e1s",
+    "nfcgen.lbl_pic_preview":   "K\u00e9p n\u00e9v",
     "nfcgen.ph_link_preview":   "A hivatkoz\u00e1s itt jelenik meg\u2026",
+    "nfcgen.ph_pic_preview":   "A k\u00e9p n\u00e9v itt jelenik meg\u2026",
     "nfcgen.lbl_total_size":    "\u00d6sszesen:",
     "nfcgen.actions_title":     "M\u0171veletek",
     "nfcgen.actions_sub":       "\u00edr\u00e1s, ment\u00e9s, m\u00e1sol\u00e1s",
@@ -1195,6 +1216,7 @@ const TRANSLATIONS = {
     "nfcgen.btn_clear":         "Mez\u0151k t\u00f6rl\u00e9se",
     "nfcgen.btn_copy_nfc":      "NFC m\u00e1sol\u00e1sa",
     "nfcgen.btn_copy_link":     "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
+    "nfcgen.btn_copy_pic":      "K\u00e9p n\u00e9v m\u00e1sol\u00e1sa",
     "nfcgen.btn_nfclist":       "NFC Lista",
     "nfcgen.btn_nfcread":       "NFC Olvas\u00f3",
     "nfcgen.btn_qr":            "NFC QR k\u00f3d",
@@ -1202,6 +1224,7 @@ const TRANSLATIONS = {
     "nfcgen.err_no_plant":      "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
     "nfcgen.err_no_nfc":        "Nincs NFC adat a m\u00e1sol\u00e1shoz",
     "nfcgen.err_no_link":       "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
+    "nfcgen.err_no_pic":        "Nincs k\u00e9 n\u00e9v a m\u00e1sol\u00e1shoz",
     "nfcgen.err_no_save":       "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s gener\u00e1lj NFC adatot el\u0151bb",
     "nfcgen.err_no_config":     "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
     "nfcgen.err_save_fail":     "Ment\u00e9s sikertelen: ",
@@ -1213,6 +1236,7 @@ const TRANSLATIONS = {
     "nfcgen.err_save_ok":       "NFC mentve a list\u00e1ba!",
     "nfcgen.err_copy_nfc_ok":   "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_copy_link_ok":  "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcgen.err_copy_pic_ok":    "K\u00e9p n\u00e9v v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_dupl_nfc_ok":   "NFC bet\u00f6ltve a duplik\u00e1ci\u00f3hoz!",
     "nfcgen.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_qr_fail":       "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
@@ -1275,6 +1299,7 @@ const TRANSLATIONS = {
     "nfcread.btn_dupl_nfc":     "NFC duplik\u00e1l\u00e1sa",
     "nfcread.btn_copy_nfc":     "NFC m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_link":    "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
+    "nfcread.btn_copy_pic":      "K\u00e9p n\u00e9v m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_gps":     "GPS m\u00e1sol\u00e1sa",
     "nfcread.btn_qr":           "NFC QR k\u00f3d",
     "nfcread.btn_nfclist":      "NFC Lista",
@@ -1297,6 +1322,7 @@ const TRANSLATIONS = {
     "nfcread.err_save_ok":      "NFC mentve a list\u00e1ba!",
     "nfcread.err_copy_nfc_ok":  "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcread.err_copy_link_ok": "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcread.err_copy_pic_ok": "K\u00e9p n\u00e9v v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcread.err_dupl_nfc_ok":   "NFC bet\u00f6ltve a duplik\u00e1ci\u00f3hoz!",
     "nfcread.err_qr_fail":      "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
     "nfcread.err_qr_ok":        "QR k\u00f3d megny\u00edlt \u00faj lapon",
@@ -1672,6 +1698,7 @@ async function populate() {
   const nfcSize = document.getElementById("gen-nfc-size");
 
   const linkPreview = document.getElementById("gen-link-preview");
+  const picPreview = document.getElementById("gen-pic-preview");
   const linkSize = document.getElementById("gen-link-size");
   const totalSize = document.getElementById("gen-total-size");
   const gennfcBtn = document.getElementById("gen-generate-nfc");
@@ -1679,6 +1706,7 @@ async function populate() {
   const qrnfcBtn = document.getElementById("gen-qr-button");
   const copynfcBtn = document.getElementById("gen-copy-nfc");
   const copylinkBtn = document.getElementById("gen-copy-link");
+  const copypicBtn = document.getElementById("gen-copy-pic");
   const backBtn = document.getElementById("gen-back-button");
   const saveNfcBtn = document.getElementById("gen-save-nfc");
   const listNfcBtn = document.getElementById("gen-list-nfc");
@@ -2189,6 +2217,11 @@ async function populate() {
       const baseUrl = window.location.origin;
       link = `${baseUrl}/W/P.html?id=${encodeURIComponent(plantId)}`;
       linkPreview.textContent = link;
+
+      // pic name
+       const searchLatin = (plantLatinName || '').trim().replace(/\s+/g, '_');
+       const searchVariety =(plantVariety || '').trim().replace(/\s+/g, '_');
+      picPreview.textContent =`${searchLatin}_${searchVariety}`;
     }
     
     const nfcData = `${nfcId}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}/${gpsCardToggle.classList.contains('on') ? gpsText : ''}/${othCardToggle.classList.contains('on') ? egyeb + '/' : ''}`;
@@ -2203,6 +2236,7 @@ async function populate() {
       linkSize.textContent = formatSize(linkSizeBytes);
     } else {
       linkPreview.textContent = msg('ph_link_preview');
+      picPreview.textContent = msg('ph_pic_preview');
       nfcPreview.textContent = msg('ph_nfc_preview');
       if (linkSize) {
         nfcSize.textContent = "0 B";
@@ -2288,6 +2322,23 @@ async function populate() {
 
       navigator.clipboard.writeText(link).then(() => {
         showError(errorMsg, msg('err_copy_link_ok'), "success");
+      }).catch(err => {
+        showError(errorMsg, msg('err_copy_fail') + err.message);
+      });
+    });
+  }
+
+    if (copypicBtn) {
+    copypicBtn.addEventListener("click", () => {
+      const link = picPreview.textContent;
+
+      if (isPlaceholder(link) || !link) {
+        showError(errorMsg, msg('err_no_link'));
+        return;
+      }
+
+      navigator.clipboard.writeText(link).then(() => {
+        showError(errorMsg, msg('err_copy_pic_ok'), "success");
       }).catch(err => {
         showError(errorMsg, msg('err_copy_fail') + err.message);
       });
@@ -2429,6 +2480,7 @@ async function populate() {
     nfcPreview.textContent = msg('ph_nfc_preview');
     nfcSize.textContent = "0 B";
     linkPreview.textContent = msg('ph_link_preview');
+    picPreview.textContent = msg('ph_pic_preview');
     linkSize.textContent = "0 B";
     totalSize.textContent = "0 B";
     serialNumText.textContent = "none";
@@ -2565,10 +2617,12 @@ const readNfcTypOutput = document.getElementById("read-nfcTyp");
 const readEgyebOutput = document.getElementById("read-egyeb");
 const readNfcPreview = document.getElementById("read-nfc-preview");
 const readLinkPreview = document.getElementById("read-link-preview");
+const picPreview = document.getElementById("read-pic-preview");
 
 const readNfcBtn = document.getElementById("read-read-nfc");
 const copyGpsBtn = document.getElementById("read-copy-gps");
 const openLinkBtn = document.getElementById("read-open-link-button");
+const copypicBtn = document.getElementById("read-copy-pic");
 const clearBtn = document.getElementById("read-clear-button");
 const copyNfcBtn = document.getElementById("read-copy-nfc");
 const duplNfcBtn = document.getElementById("read-dupl-nfc");
@@ -2777,6 +2831,11 @@ async function populate() {
     readDatumOutput.value = decodedNfc.datum.value;
     posPacketOut.textContent = decodedNfc.pos.value;
     readEgyebOutput.value = decodedNfc.other.value;
+    
+      // pic name
+      const searchLatin = (decodedNfc.latinName.value || '').trim().replace(/\s+/g, '_');
+      const searchVariety =(decodedNfc.variety.value || '').trim().replace(/\s+/g, '_');
+      picPreview.textContent =`${searchLatin}_${searchVariety}`;
 
     const pos = decodedNfc.pos.value;
     if (pos) {
@@ -2891,7 +2950,23 @@ async function populate() {
       });
     });
   }
+      if (copypicBtn) {
+    copypicBtn.addEventListener("click", () => {
+      const pic = picPreview.textContent;
 
+      if (isPlaceholder(pic) || !pic) {
+        showError(errorMsg, msg('err_no_pic'));
+        return;
+      }
+
+      navigator.clipboard.writeText(pic).then(() => {
+        showError(errorMsg, msg('err_copy_pic_ok'), "success");
+      }).catch(err => {
+        showError(errorMsg, msg('err_copy_fail') + err.message);
+      });
+    });
+  }
+  
   if (duplNfcBtn) {
     duplNfcBtn.addEventListener("click", () => {
       localStorageSet();
@@ -2953,6 +3028,7 @@ async function populate() {
     serialNumText.value = "";
     readNfcPreview.textContent = msg('ph_nfc_preview');
     readLinkPreview.textContent = msg('ph_link_preview');
+    picPreview.textContent = msg('ph_pic_preview');
     nfcSize.textContent = "0 B";
     linkSize.textContent = "0 B";
     totalSize.textContent = "0 B";
