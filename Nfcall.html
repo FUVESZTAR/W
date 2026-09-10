@@ -2225,8 +2225,8 @@ async function populate() {
       linkPreview.textContent = link;
 
       // pic name
-       const searchLatin = (plantLatinName || '').trim().replace(/\s+/g, '_');
-       const searchVariety =(plantVariety || '').trim().replace(/\s+/g, '_');
+       const searchLatin = (latinName || '').trim().replace(/\s+/g, '_');
+       const searchVariety =(nameVariety || '').trim().replace(/\s+/g, '_');
       picPreview.textContent =`${searchLatin}_${searchVariety}`;
     }
     
