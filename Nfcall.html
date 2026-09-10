@@ -496,8 +496,8 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">🌱</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.main_card_title">Selection</div>
-            <div class="panel-subtitle" data-i18n="nfcgen.main_card_sub">Choose a plant and variety.</div>
+            <div class="panel-title" data-i18n="nfcall.main_card_title">Selection</div>
+            <div class="panel-subtitle" data-i18n="nfcall.main_card_sub">Choose a plant and variety.</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
@@ -510,7 +510,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
                    data-i18n-placeholder="nfcgen.ph_search_plant" placeholder="Search plants…"
                    autocomplete="off" />
             <select id="gen-plant-selector" aria-label="Select plant">
-              <option value="" data-i18n="nfcgen.opt_loading">Loading plants…</option>
+              <option value="" data-i18n="nfcall.opt_loading">Loading plants…</option>
             </select>
           </div>
           <input type="text" id="gen-plant-selector-custom"
@@ -519,7 +519,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
                  style="display:none; margin-top:6px;" />
         </div>
         <div class="form-group">
-          <label for="gen-name-variety" data-i18n="nfcgen.lbl_variety">Variety</label>
+          <label for="gen-name-variety" data-i18n="nfcall.lbl_variety">Variety</label>
           <div class="searchable-select-wrap">
             <input type="text" id="gen-name-variety-search" class="select-search-input"
                    data-i18n-placeholder="nfcgen.ph_search_variety" placeholder="Search varieties…"
@@ -542,23 +542,23 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.time_type_card_title">Type and datum</div>
-            <div class="panel-subtitle" data-i18n="nfcgen.time_type_card_sub">Type of NFC and date of planting/grafting</div>
+            <div class="panel-title" data-i18n="nfcall.time_type_card_title">Type and datum</div>
+            <div class="panel-subtitle" data-i18n="nfcall.time_type_card_sub">Type of NFC and date of planting/grafting</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group">
-          <label for="gen-nfcTyp" data-i18n="nfcgen.lbl_nfcTyp">NFC Type</label>
+          <label for="gen-nfcTyp" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
           <select id="gen-nfcTyp">
-            <option value="n" selected data-i18n="nfcgen.opt_n">n – plant</option>
-            <option value="o" data-i18n="nfcgen.opt_o">o – graft</option>
-            <option value="m" data-i18n="nfcgen.opt_m">m – seed</option>
+            <option value="n" selected data-i18n="nfcall.opt_n">n – plant</option>
+            <option value="o" data-i18n="nfcall.opt_o">o – graft</option>
+            <option value="m" data-i18n="nfcall.opt_m">m – seed</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="gen-datum" data-i18n="nfcgen.lbl_datum">Date</label>
+          <label for="gen-datum" data-i18n="nfcall.lbl_datum">Date</label>
           <input type="text" id="gen-datum" placeholder="e.g., 2026-03-12" />
         </div>
       </div></div></div>
@@ -570,40 +570,40 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">📡</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.gps_card_title">GPS Data</div>
-            <div class="panel-subtitle" data-i18n="nfcgen.gps_card_sub">Record position in NFC</div>
+            <div class="panel-title" data-i18n="nfcall.gps_card_title">GPS Data</div>
+            <div class="panel-subtitle" data-i18n="nfcall.gps_card_sub">Record position in NFC</div>
           </div>
         </div>
         <!-- Toggle: always visible, does NOT collapse the panel -->
         <div class="toggle-row" onclick="event.stopPropagation()">
-          <span data-i18n="nfcgen.mode_off">Off</span>
+          <span data-i18n="nfcall.mode_off">Off</span>
           <button class="toggle-sw" id="gen-gps_card_toggle" aria-label="GPS on/off"></button>
-          <span class="toggle-label-on" data-i18n="nfcgen.mode_on">On</span>
+          <span class="toggle-label-on" data-i18n="nfcall.mode_on">On</span>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div id="gen-gps_card_body" style="display:none">
           <div style="display:flex;gap:9px;flex-direction:column">
-            <button id="gen-gpsStartBtn" type="button" data-i18n="nfcgen.btn_gps_start">Start Live Tracking</button>
-            <button id="gen-gpsStopBtn" type="button" style="display:none" data-i18n="nfcgen.btn_gps_stop">Stop &amp; Lock Data</button>
+            <button id="gen-gpsStartBtn" type="button" data-i18n="nfcall.btn_gps_start">Start Live Tracking</button>
+            <button id="gen-gpsStopBtn" type="button" style="display:none" data-i18n="nfcall.btn_gps_stop">Stop &amp; Lock Data</button>
           </div>
           <div>
-            <div class="data-line"><span data-i18n="nfcgen.lbl_lat">Latitude:</span><span id="gen-gpsDispLat">–</span></div>
-            <div class="data-line"><span data-i18n="nfcgen.lbl_lon">Longitude:</span><span id="gen-gpsDispLon">–</span></div>
-            <div class="data-line"><span data-i18n="nfcgen.lbl_alt">Altitude:</span><span id="gen-gpsDispAlt">–</span></div>
-            <div class="data-line"><span data-i18n="nfcgen.lbl_acc">Accuracy:</span><span id="gen-gpsDispAcc">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_lat">Latitude:</span><span id="gen-gpsDispLat">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_lon">Longitude:</span><span id="gen-gpsDispLon">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_alt">Altitude:</span><span id="gen-gpsDispAlt">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_acc">Accuracy:</span><span id="gen-gpsDispAcc">–</span></div>
           </div>
           <div class="meta-info">
-            <span id="gen-updateTimer" data-i18n="nfcgen.gps_standby" data-i18n-live>Status: Standing by</span>
+            <span id="gen-updateTimer" data-i18n="nfcall.gps_standby" data-i18n-live>Status: Standing by</span>
             <span id="gen-liveDot" style="display:none" class="live-indicator">● LIVE</span>
           </div>
           <div class="meta-info">
-            <span data-i18n="nfcgen.lbl_packet">Compressed Packet</span>
+            <span data-i18n="nfcall.lbl_packet">Compressed Packet</span>
             <span class="badge" id="gen-posPacketSize">0 B</span>
           </div>
-          <div class="packet-zone" id="gen-posPacketOut" data-i18n="nfcgen.no_data_locked" data-i18n-live>No data locked…</div>
-          <div id="gen-gpsStatus" data-i18n="nfcgen.gps_ready" data-i18n-live>Ready.</div>
+          <div class="packet-zone" id="gen-posPacketOut" data-i18n="nfcall.no_data_locked" data-i18n-live>No data locked…</div>
+          <div id="gen-gpsStatus" data-i18n="nfcall.gps_ready" data-i18n-live>Ready.</div>
         </div>
       </div></div></div>
     </div>
@@ -614,22 +614,22 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">📝</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.oth_card_title">Other Info</div>
-            <div class="panel-subtitle" data-i18n="nfcgen.oth_card_sub">Optional extra notes</div>
+            <div class="panel-title" data-i18n="nfcall.oth_card_title">Other Info</div>
+            <div class="panel-subtitle" data-i18n="nfcall.oth_card_sub">Optional extra notes</div>
           </div>
         </div>
         <!-- Toggle: always visible -->
         <div class="toggle-row" onclick="event.stopPropagation()">
-          <span data-i18n="nfcgen.mode_off">Off</span>
+          <span data-i18n="nfcall.mode_off">Off</span>
           <button class="toggle-sw" id="gen-oth_card_toggle" aria-label="Other info on/off"></button>
-          <span class="toggle-label-on" data-i18n="nfcgen.mode_on">On</span>
+          <span class="toggle-label-on" data-i18n="nfcall.mode_on">On</span>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group" id="gen-oth_card_body" style="display:none">
-          <label for="gen-egyeb" data-i18n="nfcgen.lbl_other_notes">Notes</label>
-          <textarea id="gen-egyeb" data-i18n-placeholder="nfcgen.ph_other_notes" placeholder="Additional information"></textarea>
+          <label for="gen-egyeb" data-i18n="nfcall.lbl_other_notes">Notes</label>
+          <textarea id="gen-egyeb" data-i18n-placeholder="nfcall.ph_other_notes" placeholder="Additional information"></textarea>
         </div>
       </div></div></div>
     </div>
@@ -640,19 +640,19 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.data_card_title">Data</div>
-            <div class="panel-subtitle" data-i18n="nfcgen.data_card_sub">Data stored in NFC</div>
+            <div class="panel-title" data-i18n="nfcall.data_card_title">Data</div>
+            <div class="panel-subtitle" data-i18n="nfcall.data_card_sub">Data stored in NFC</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group">
-          <label for="gen-nfcId" data-i18n="nfcgen.nfcId">NFC ID</label>
+          <label for="gen-nfcId" data-i18n="nfcall.nfcId">NFC ID</label>
           <input type="number" id="gen-nfcId" />
         </div>
         <div class="form-group">
-          <label for="gen-plantId" data-i18n="nfcgen.plantId">Plant ID</label>
+          <label for="gen-plantId" data-i18n="nfcall.plantId">Plant ID</label>
           <input type="text" id="gen-plantId" />
         </div>
         <div class="form-group">
@@ -660,27 +660,27 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <input type="text" id="gen-plantName" />
         </div>
         <div class="form-group">
-          <label for="gen-plantVariety" data-i18n="nfcgen.lbl_variety">Plant Variety</label>
+          <label for="gen-plantVariety" data-i18n="nfcall.lbl_variety">Plant Variety</label>
           <input type="text" id="gen-plantVariety" />
         </div>
         <div class="form-group">
-          <label for="gen-latin-name" data-i18n="nfcgen.lbl_latin">Latin Name</label>
+          <label for="gen-latin-name" data-i18n="nfcall.lbl_latin">Latin Name</label>
           <input type="text" id="gen-latin-name" />
         </div>
         <div class="form-group">
-          <label for="gen-nfcTyp-rw" data-i18n="nfcgen.lbl_nfcTyp">NFC Type</label>
+          <label for="gen-nfcTyp-rw" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
           <input type="text" id="gen-nfcTyp-rw" />
         </div>
         <div class="form-group">
-          <label for="gen-datum-rw" data-i18n="nfcgen.lbl_datum">Date</label>
+          <label for="gen-datum-rw" data-i18n="nfcall.lbl_datum">Date</label>
           <input type="text" id="gen-datum-rw" placeholder="e.g., 2026-03-12" />
         </div>
         <div class="form-group">
-          <label for="gen-gps-rw" data-i18n="nfcgen.gps_card_title">GPS Data</label>
+          <label for="gen-gps-rw" data-i18n="nfcall.gps_card_title">GPS Data</label>
           <input type="text" id="gen-gps-rw" />
         </div>
         <div class="form-group">
-          <label for="gen-egyeb-rw" data-i18n="nfcgen.oth_card_title">Other Info</label>
+          <label for="gen-egyeb-rw" data-i18n="nfcall.oth_card_title">Other Info</label>
           <input type="text" id="gen-egyeb-rw" />
         </div>
       </div></div></div>
@@ -692,8 +692,8 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">🔍</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.preview_title">NFC Preview</div>
-            <div class="panel-subtitle" data-i18n="nfcgen.preview_sub">Generated data and link</div>
+            <div class="panel-title" data-i18n="nfcall.preview_title">NFC Preview</div>
+            <div class="panel-subtitle" data-i18n="nfcall.preview_sub">Generated data and link</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
@@ -701,32 +701,32 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group">
           <div class="preview-label">
-            <span data-i18n="nfcgen.lbl_nfc_preview">NFC Data</span>
+            <span data-i18n="nfcall.lbl_nfc_preview">NFC Data</span>
             <span class="size-tag" id="gen-nfc-size">0 B</span>
           </div>
-          <div class="nfc-preview" id="gen-nfc-preview" data-i18n="nfcgen.ph_nfc_preview" data-i18n-live>NFC data will appear here…</div>
+          <div class="nfc-preview" id="gen-nfc-preview" data-i18n="nfcall.ph_nfc_preview" data-i18n-live>NFC data will appear here…</div>
         </div>
         <div class="form-group">
           <div class="preview-label">
-            <span data-i18n="nfcgen.lbl_link_preview">Link</span>
+            <span data-i18n="nfcall.lbl_link_preview">Link</span>
             <span class="size-tag" id="gen-link-size">0 B</span>
           </div>
-          <div class="nfc-preview" id="gen-link-preview" data-i18n="nfcgen.ph_link_preview" data-i18n-live>Link will appear here…</div>
+          <div class="nfc-preview" id="gen-link-preview" data-i18n="nfcall.ph_link_preview" data-i18n-live>Link will appear here…</div>
         </div>
         <div style="text-align:right;font-size:.78rem;color:var(--muted)">
-          <span data-i18n="nfcgen.lbl_total_size">Total:</span> <span id="gen-total-size">0 B</span>
+          <span data-i18n="nfcall.lbl_total_size">Total:</span> <span id="gen-total-size">0 B</span>
         </div>
         <div class="form-group">
               <div class="preview-label">
-                 <span data-i18n="nfcgen.serialNr">NFC HW ID</span>
+                 <span data-i18n="nfcall.serialNr">NFC HW ID</span>
               </div>
               <input type="text" id="gen-serialNr" />
          </div>
         <div class="form-group">
           <div class="preview-label">
-            <span data-i18n="nfcgen.lbl_pic_preview">Picture name</span>
+            <span data-i18n="nfcall.lbl_pic_preview">Picture name</span>
           </div>
-          <div class="nfc-preview" id="gen-pic-preview" data-i18n="nfcgen.ph_pic_preview" data-i18n-live>Picture name will appear here…</div>
+          <div class="nfc-preview" id="gen-pic-preview" data-i18n="nfcall.ph_pic_preview" data-i18n-live>Picture name will appear here…</div>
         </div>
       </div></div></div>
     </div>
@@ -737,7 +737,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">⚡</span>
           <div>
-            <div class="panel-title" data-i18n="nfcgen.actions_title">Actions</div>
+            <div class="panel-title" data-i18n="nfcall.actions_title">Actions</div>
             <div class="panel-subtitle" data-i18n="nfcgen.actions_sub">Write, save, copy</div>
           </div>
         </div>
@@ -748,25 +748,25 @@ button:disabled { opacity:.55; cursor:not-allowed; }
          <p class="status-msg" id="gen-error-message"></p>
         <div class="btn-grid cols-3">
           <button id="gen-generate-nfc"   class="btn-primary"   type="button" data-i18n="nfcgen.btn_generate">Generate NFC</button>
-          <button id="gen-dupl-nfc"   class="btn-primary"   type="button" data-i18n="nfcgen.btn_dupl">Duplicate NFC</button> 
-          <button id="gen-clear-button"   class="btn-secondary" type="button" data-i18n="nfcgen.btn_clear">Clear Fields</button>
+          <button id="gen-dupl-nfc"   class="btn-primary"   type="button" data-i18n="nfcall.btn_dupl">Duplicate NFC</button> 
+          <button id="gen-clear-button"   class="btn-secondary" type="button" data-i18n="nfcall.btn_clear">Clear Fields</button>
         </div>
         <div class="btn-grid cols">
           <button id="gen-nfc-write-button" class="btn-primary" type="button" data-i18n="nfcgen.btn_write">Write NFC</button>
-          <button id="gen-save-nfc"       class="btn-primary"   type="button" data-i18n="nfcgen.btn_save">Save NFC</button>
+          <button id="gen-save-nfc"       class="btn-primary"   type="button" data-i18n="nfcall.btn_save">Save NFC</button>
         </div>
         <div class="btn-grid cols-3">
-          <button id="gen-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_nfc">Copy NFC</button>
-          <button id="gen-copy-link" class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_link">Copy Link</button>
-          <button id="gen-copy-pic" class="btn-secondary" type="button" data-i18n="nfcgen.btn_copy_pic">Copy picture name</button>
+          <button id="gen-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_nfc">Copy NFC</button>
+          <button id="gen-copy-link" class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_link">Copy Link</button>
+          <button id="gen-copy-pic" class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_pic">Copy picture name</button>
         </div>
         <div class="btn-grid cols-3">
           <button id="gen-read-nfc" class="btn-link" type="button" data-i18n="nfcgen.btn_nfcread">NFC Reader</button>
-          <button id="gen-list-nfc" class="btn-link" type="button" data-i18n="nfcgen.btn_nfclist">NFC List</button>
-          <button id="gen-back-button" class="btn-back" type="button" data-i18n="nfcgen.btn_back">← Back</button>
+          <button id="gen-list-nfc" class="btn-link" type="button" data-i18n="nfcall.btn_nfclist">NFC List</button>
+          <button id="gen-back-button" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
         </div>
         <div class="btn-grid cols-1">
-           <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcgen.btn_qr">NFC QR Code</button>
+           <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_qr">NFC QR Code</button>
          </div>
       </div></div></div>
     </div>
@@ -782,7 +782,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">⚡</span>
           <div>
-            <div class="panel-title" data-i18n="nfcread.actions_title">Actions</div>
+            <div class="panel-title" data-i18n="nfcall.actions_title">Actions</div>
             <div class="panel-subtitle" data-i18n="nfcread.actions_sub">Read, copy</div>
           </div>
         </div>
@@ -793,24 +793,24 @@ button:disabled { opacity:.55; cursor:not-allowed; }
          <p class="status-msg" id="read-error-message"></p>
         <div class="btn-grid cols-3">
           <button id="read-read-nfc"   class="btn-primary"   type="button" data-i18n="nfcread.btn_read">Read NFC</button>
-          <button id="read-clear-button"   class="btn-primary"   type="button" data-i18n="nfcread.btn_clear">Clear Fields</button>
+          <button id="read-clear-button"   class="btn-primary"   type="button" data-i18n="nfcall.btn_clear">Clear Fields</button>
           <button id="read-open-link-button" class="btn-primary" type="button" data-i18n="nfcread.btn_open">Open Link</button>
         </div>
         <div class="btn-grid cols">
-          <button id="read-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_nfc">Copy NFC</button>
-          <button id="read-copy-link" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_link">Copy Link</button>
+          <button id="read-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_nfc">Copy NFC</button>
+          <button id="read-copy-link" class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_link">Copy Link</button>
         </div>
         <div class="btn-grid cols">
-          <button id="read-copy-pic" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_pic">Copy picure name</button>
+          <button id="read-copy-pic" class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_pic">Copy picure name</button>
           <button id="read-copy-gps" class="btn-secondary" type="button" data-i18n="nfcread.btn_copy_gps">Copy GPS</button>
         </div>
         <div class="btn-grid cols-1">
-          <button id="read-dupl-nfc" class="btn-secondary" type="button" data-i18n="nfcread.btn_dupl_nfc">Duplicate NFC</button>
+          <button id="read-dupl-nfc" class="btn-secondary" type="button" data-i18n="nfcall.btn_dupl_nfc">Duplicate NFC</button>
         </div>
         <div class="btn-grid cols-3">
           <button id="read-gen-nfc" class="btn-link" type="button" data-i18n="nfcread.btn_nfcgen">NFC Generator</button>
-          <button id="read-list-nfc" class="btn-link" type="button" data-i18n="nfcread.btn_nfclist">NFC List</button>
-          <button id="read-back-button" class="btn-back" type="button" data-i18n="nfcread.btn_back">← Back</button>
+          <button id="read-list-nfc" class="btn-link" type="button" data-i18n="nfcall.btn_nfclist">NFC List</button>
+          <button id="read-back-button" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
         </div>
       </div></div></div>
     </div>
@@ -821,8 +821,8 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">🔍</span>
           <div>
-            <div class="panel-title" data-i18n="nfcread.preview_title">NFC Preview</div>
-            <div class="panel-subtitle" data-i18n="nfcread.preview_sub">Read data and link</div>
+            <div class="panel-title" data-i18n="nfcall.preview_title">NFC Preview</div>
+            <div class="panel-subtitle" data-i18n="nfcall.preview_sub">Read data and link</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
@@ -830,32 +830,32 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group">
           <div class="preview-label">
-            <span data-i18n="nfcread.lbl_nfc_preview">NFC Data</span>
+            <span data-i18n="nfcall.lbl_nfc_preview">NFC Data</span>
             <span class="size-tag" id="read-nfc-size">0 B</span>
           </div>
-          <div class="nfc-preview" id="read-nfc-preview" data-i18n="nfcread.ph_nfc_preview" data-i18n-live>NFC data will appear here…</div>
+          <div class="nfc-preview" id="read-nfc-preview" data-i18n="nfcall.ph_nfc_preview" data-i18n-live>NFC data will appear here…</div>
         </div>
         <div class="form-group">
           <div class="preview-label">
-            <span data-i18n="nfcread.lbl_link_preview">Link</span>
+            <span data-i18n="nfcall.lbl_link_preview">Link</span>
             <span class="size-tag" id="read-link-size">0 B</span>
           </div>
-          <div class="nfc-preview" id="read-link-preview" data-i18n="nfcread.ph_link_preview" data-i18n-live>Link will appear here…</div>
+          <div class="nfc-preview" id="read-link-preview" data-i18n="nfcall.ph_link_preview" data-i18n-live>Link will appear here…</div>
         </div>
         <div style="text-align:right;font-size:.78rem;color:var(--muted)">:(
-          <span data-i18n="nfcread.lbl_total_size">Total:</span> <span id="read-total-size">0 B</span>
+          <span data-i18n="nfcall.lbl_total_size">Total:</span> <span id="read-total-size">0 B</span>
         </div>
         <div class="form-group">
               <div class="preview-label">
-                 <span data-i18n="nfcread.serialNr">NFC Serial number</span>
+                 <span data-i18n="nfcall.serialNr">NFC Serial number</span>
               </div>
               <input type="text" id="read-serialNr" />
             </div>
          <div class="form-group">
           <div class="preview-label">
-            <span data-i18n="nfcgen.lbl_pic_preview">Picture name</span>
+            <span data-i18n="nfcall.lbl_pic_preview">Picture name</span>
           </div>
-          <div class="nfc-preview" id="read-pic-preview" data-i18n="nfcgen.lbl_pic_preview" data-i18n-live>Picture name will appear here…</div>
+          <div class="nfc-preview" id="read-pic-preview" data-i18n="nfcall.lbl_pic_preview" data-i18n-live>Picture name will appear here…</div>
         </div>
       </div></div></div>
     </div>
@@ -866,19 +866,19 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div>
-            <div class="panel-title" data-i18n="nfcread.data_card_title">Data</div>
-            <div class="panel-subtitle" data-i18n="nfcread.data_card_sub">Data stored in NFC</div>
+            <div class="panel-title" data-i18n="nfcall.data_card_title">Data</div>
+            <div class="panel-subtitle" data-i18n="nfcall.data_card_sub">Data stored in NFC</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group">
-          <label for="read-nfcId" data-i18n="nfcread.nfcId">NFC ID</label>
+          <label for="read-nfcId" data-i18n="nfcall.nfcId">NFC ID</label>
           <input type="number" id="read-nfcId" />
         </div>
         <div class="form-group">
-          <label for="read-plantId" data-i18n="nfcread.plantId">Plant ID</label>
+          <label for="read-plantId" data-i18n="nfcall.plantId">Plant ID</label>
           <input type="text" id="read-plantId"/>
         </div>
         <div class="form-group">
@@ -886,19 +886,19 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <input type="text" id="read-name-plant"/>
         </div>
         <div class="form-group">
-          <label for="read-name-variety" data-i18n="nfcread.lbl_variety">Variety</label>
+          <label for="read-name-variety" data-i18n="nfcall.lbl_variety">Variety</label>
           <input type="text" id="read-name-variety"/>
         </div>
         <div class="form-group">
-          <label for="read-latin-name" data-i18n="nfcread.lbl_latin">Latin Name</label>
+          <label for="read-latin-name" data-i18n="nfcall.lbl_latin">Latin Name</label>
           <input type="text" id="read-latin-name" />
         </div>
         <div class="form-group">
-          <label for="read-nfcTyp" data-i18n="nfcread.lbl_nfcTyp">NFC Type</label>
+          <label for="read-nfcTyp" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
            <input type="text" id="read-nfcTyp" />
         </div>
         <div class="form-group">
-          <label for="read-datum" data-i18n="nfcread.lbl_datum">Date</label>
+          <label for="read-datum" data-i18n="nfcall.lbl_datum">Date</label>
           <input type="text" id="read-datum" placeholder="" />
         </div>
       </div></div></div>
@@ -910,8 +910,8 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">📡</span>
           <div>
-            <div class="panel-title" data-i18n="nfcread.gps_card_title">GPS Data</div>
-            <div class="panel-subtitle" data-i18n="nfcread.gps_card_sub">Record position in NFC</div>
+            <div class="panel-title" data-i18n="nfcall.gps_card_title">GPS Data</div>
+            <div class="panel-subtitle" data-i18n="nfcall.gps_card_sub">Record position in NFC</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
@@ -919,15 +919,15 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div id="read-gps_card_body">
           <div>
-            <div class="data-line"><span data-i18n="nfcread.lbl_lat">Latitude:</span><span id="read-gpsDispLat">–</span></div>
-            <div class="data-line"><span data-i18n="nfcread.lbl_lon">Longitude:</span><span id="read-gpsDispLon">–</span></div>
-            <div class="data-line"><span data-i18n="nfcread.lbl_alt">Altitude:</span><span id="read-gpsDispAlt">–</span></div>
-            <div class="data-line"><span data-i18n="nfcread.lbl_acc">Accuracy:</span><span id="read-gpsDispAcc">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_lat">Latitude:</span><span id="read-gpsDispLat">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_lon">Longitude:</span><span id="read-gpsDispLon">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_alt">Altitude:</span><span id="read-gpsDispAlt">–</span></div>
+            <div class="data-line"><span data-i18n="nfcall.lbl_acc">Accuracy:</span><span id="read-gpsDispAcc">–</span></div>
           </div>
           <div class="meta-info">
-            <span data-i18n="nfcread.lbl_packet">Compressed Packet</span>
+            <span data-i18n="nfcall.lbl_packet">Compressed Packet</span>
             <span class="badge" id="read-posPacketSize">0 B</span>
-            <div style="display:none" id="read-posPacketOut" data-i18n="nfcread.no_data_locked" data-i18n-live>No data locked…</div>
+            <div style="display:none" id="read-posPacketOut" data-i18n="nfcall.no_data_locked" data-i18n-live>No data locked…</div>
           </div>
         </div>
       </div></div></div>
@@ -939,15 +939,15 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-header-left">
           <span class="panel-icon">📝</span>
           <div>
-            <div class="panel-title" data-i18n="nfcread.oth_card_title">Other Info</div>
-            <div class="panel-subtitle" data-i18n="nfcread.oth_card_sub">Optional extra notes</div>
+            <div class="panel-title" data-i18n="nfcall.oth_card_title">Other Info</div>
+            <div class="panel-subtitle" data-i18n="nfcall.oth_card_sub">Optional extra notes</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="form-group" id="read-oth_card_body">
-          <label for="read-egyeb" data-i18n="nfcread.lbl_other_notes">Notes</label>
+          <label for="read-egyeb" data-i18n="nfcall.lbl_other_notes">Notes</label>
           <textarea id="read-egyeb"></textarea>
         </div>
       </div></div></div>
@@ -984,354 +984,205 @@ const TRANSLATIONS = {
   en: {
     // ── NFC Generator ─────────────────────────────────────────────────────────
     "nfcgen.page_subtitle":     "Generate NFC tags for plants",
-    "nfcgen.main_card_title":   "Selection",
-    "nfcgen.main_card_sub":     "Choose a plant and variety.",
+    "nfcall.main_card_title":   "Selection",
+    "nfcall.main_card_sub":     "Choose a plant and variety.",
     "nfcall.lbl_plant":         "Plant Name",
-    "nfcgen.opt_loading":       "Loading plants\u2026",
+    "nfcall.opt_loading":       "Loading plants\u2026",
     "nfcgen.opt_plant":         "Select a plant\u2026",
-    "nfcgen.lbl_variety":       "Variety",
+    "nfcall.lbl_variety":       "Variety",
     "nfcgen.opt_variety":       "Select a variety\u2026",
     "nfcgen.ph_search_plant":   "Search plants\u2026",
     "nfcgen.ph_search_variety": "Search varieties\u2026",
     "nfcgen.ph_custom_variety": "Enter custom variety",
     "nfcgen.ph_custom_plant":   "Enter custom plant name",
-    "nfcgen.data_card_title":   "Data",
-    "nfcgen.data_card_sub":     "Data stored in NFC",
-    "nfcgen.time_type_card_title":    "NFC Type and datum",
-    "nfcgen.time_type_card_sub":    "Type of NFC and date of planting/grafting",
-    "nfcgen.plantId":           "Plant ID",
-    "nfcgen.nfcId":             "NFC ID",
-    "nfcgen.serialNr":          "NFC HW ID",
-    "nfcgen.lbl_latin":         "Latin Name",
-    "nfcgen.lbl_datum":         "Date",
-    "nfcgen.lbl_nfcTyp":        "NFC Type",
-    "nfcgen.opt_n":             "n \u2013 plant",
-    "nfcgen.opt_o":             "o \u2013 graft",
-    "nfcgen.opt_m":             "m \u2013 seed",
-    "nfcgen.gps_card_title":    "GPS Data",
-    "nfcgen.gps_card_sub":      "Record position in NFC",
-    "nfcgen.mode_off":          "Off",
-    "nfcgen.mode_on":           "On",
-    "nfcgen.btn_gps_start":     "Start Live Tracking",
-    "nfcgen.btn_gps_stop":      "Stop & Lock Data",
-    "nfcgen.lbl_lat":           "Latitude:",
-    "nfcgen.lbl_lon":           "Longitude:",
-    "nfcgen.lbl_alt":           "Altitude:",
-    "nfcgen.lbl_acc":           "Accuracy:",
-    "nfcgen.gps_standby":       "Status: Standing by",
-    "nfcgen.lbl_packet":        "Compressed Packet",
-    "nfcgen.no_data_locked":    "No data locked\u2026",
-    "nfcgen.gps_ready":         "Ready.",
-    "nfcgen.oth_card_title":    "Other Info",
-    "nfcgen.oth_card_sub":      "Optional extra notes",
-    "nfcgen.lbl_other_notes":   "Notes",
-    "nfcgen.ph_other_notes":    "Additional information",
-    "nfcgen.preview_title":     "NFC Preview",
-    "nfcgen.preview_sub":       "Generated data and link",
-    "nfcgen.lbl_nfc_preview":   "NFC Data",
-    "nfcgen.ph_nfc_preview":    "NFC data will appear here\u2026",
-    "nfcgen.lbl_link_preview":  "Link",
-    "nfcgen.lbl_pic_preview":   "Picture name",
-    "nfcgen.ph_link_preview":   "Link will appear here\u2026",
-    "nfcgen.ph_pic_preview":   "Picture name will appear here\u2026",
-    "nfcgen.lbl_total_size":    "Total:",
-    "nfcgen.actions_title":     "Actions",
+    "nfcall.data_card_title":   "Data",
+    "nfcall.data_card_sub":     "Data stored in NFC",
+    "nfcall.time_type_card_title":    "NFC Type and datum",
+    "nfcall.time_type_card_sub":    "Type of NFC and date of planting/grafting",
+    "nfcall.plantId":           "Plant ID",
+    "nfcall.nfcId":             "NFC ID",
+    "nfcall.serialNr":          "NFC HW ID",
+    "nfcall.lbl_latin":         "Latin Name",
+    "nfcall.lbl_datum":         "Date",
+    "nfcall.lbl_nfcTyp":        "NFC Type",
+    "nfcall.opt_n":             "n \u2013 plant",
+    "nfcall.opt_o":             "o \u2013 graft",
+    "nfcall.opt_m":             "m \u2013 seed",
+    "nfcall.gps_card_title":    "GPS Data",
+    "nfcall.gps_card_sub":      "Record position in NFC",
+    "nfcall.mode_off":          "Off",
+    "nfcall.mode_on":           "On",
+    "nfcall.btn_gps_start":     "Start Live Tracking",
+    "nfcall.btn_gps_stop":      "Stop & Lock Data",
+    "nfcall.lbl_lat":           "Latitude:",
+    "nfcall.lbl_lon":           "Longitude:",
+    "nfcall.lbl_alt":           "Altitude:",
+    "nfcall.lbl_acc":           "Accuracy:",
+    "nfcall.gps_standby":       "Status: Standing by",
+    "nfcall.lbl_packet":        "Compressed Packet",
+    "nfcall.no_data_locked":    "No data locked\u2026",
+    "nfcall.gps_ready":         "Ready.",
+    "nfcall.oth_card_title":    "Other Info",
+    "nfcall.oth_card_sub":      "Optional extra notes",
+    "nfcall.lbl_other_notes":   "Notes",
+    "nfcall.ph_other_notes":    "Additional information",
+    "nfcall.preview_title":     "NFC Preview",
+    "nfcall.preview_sub":       "Generated data and link",
+    "nfcall.lbl_nfc_preview":   "NFC Data",
+    "nfcall.ph_nfc_preview":    "NFC data will appear here\u2026",
+    "nfcall.lbl_link_preview":  "Link",
+    "nfcall.lbl_pic_preview":   "Picture name",
+    "nfcall.ph_link_preview":   "Link will appear here\u2026",
+    "nfcall.ph_pic_preview":    "Picture name will appear here\u2026",
+    "nfcall.lbl_total_size":    "Total:",
+    "nfcall.actions_title":     "Actions",
     "nfcgen.actions_sub":       "Write, save, copy",
     "nfcgen.btn_generate":      "Generate NFC",
-    "nfcgen.btn_dupl":          "Duplicate NFC",
+    "nfcall.btn_dupl":          "Duplicate NFC",
     "nfcgen.btn_write":         "Write NFC",
-    "nfcgen.btn_save":          "Save NFC",
-    "nfcgen.btn_copy_nfc":      "Copy NFC",
-    "nfcgen.btn_copy_link":     "Copy Link",
-    "nfcgen.btn_copy_pic":      "Copy picture name",
-    "nfcgen.btn_clear":         "Clear Fields",
-    "nfcgen.btn_nfclist":       "NFC List",
+    "nfcall.btn_save":          "Save NFC",
+    "nfcall.btn_copy_nfc":      "Copy NFC",
+    "nfcall.btn_copy_link":     "Copy Link",
+    "nfcall.btn_copy_pic":      "Copy picture name",
+    "nfcall.btn_clear":         "Clear Fields",
+    "nfcall.btn_nfclist":       "NFC List",
     "nfcgen.btn_nfcread":       "NFC Reader",
-    "nfcgen.btn_qr":            "NFC QR Code",
-    "nfcgen.btn_back":          "\u2190 Back",
-    "nfcgen.err_no_plant":      "Please select a plant and configure the NFC data",
-    "nfcgen.err_no_nfc":        "No NFC data to copy",
-    "nfcgen.err_no_link":       "No link to copy",
-    "nfcgen.err_no_pic":        "No picture name to copy",
+    "nfcall.btn_qr":            "NFC QR Code",
+    "nfcall.btn_back":          "\u2190 Back",
+    "nfcall.err_no_plant":      "Please select a plant and configure the NFC data",
+    "nfcall.err_no_nfc":        "No NFC data to copy",
+    "nfcall.err_no_link":       "No link to copy",
+    "nfcall.err_no_pic":        "No picture name to copy",
     "nfcgen.err_no_save":       "Please select a plant and generate NFC data first",
     "nfcgen.err_no_config":     "Save is not configured: set SHEET_WRITER_URL in nfcgen_test.js",
-    "nfcgen.err_save_fail":     "Failed to save NFC: ",
-    "nfcgen.err_copy_fail":     "Failed to copy: ",
-    "nfcgen.err_load_fail":     "Failed to load: ",
-    "nfcgen.err_nfc_ns":        "Web NFC is not supported on this browser/device.",
+    "nfcall.err_save_fail":     "Failed to save NFC: ",
+    "nfcall.err_copy_fail":     "Failed to copy: ",
+    "nfcall.err_load_fail":     "Failed to load: ",
+    "nfcall.err_nfc_ns":        "Web NFC is not supported on this browser/device.",
     "nfcgen.err_nfc_write":     "Error: ",
     "nfcgen.err_nfc_ok":        "Successfully written to NFC tag! \u2705",
-    "nfcgen.err_save_ok":       "NFC saved to list!",
-    "nfcgen.err_copy_nfc_ok":   "NFC data copied to clipboard!",
-    "nfcgen.err_copy_link_ok":  "Link copied to clipboard!",
-    "nfcgen.err_copy_pic_ok":  "Pic name copied to clipboard!",
+    "nfcall.err_save_ok":       "NFC saved to list!",
+    "nfcall.err_copy_nfc_ok":   "NFC data copied to clipboard!",
+    "nfcall.err_copy_link_ok":  "Link copied to clipboard!",
+    "nfcall.err_copy_pic_ok":  "Pic name copied to clipboard!",
     "nfcgen.err_dupl_nfc_ok":   "NFC loaded to duplication!",
-    "nfcgen.err_copy_gps_ok":   "GPS copied to clipboard!",
-    "nfcgen.err_qr_fail":       "Failed to open QR code. Please check your popup blocker.",
-    "nfcgen.err_qr_ok":         "QR code opened in new tab",
+    "nfcall.err_copy_gps_ok":   "GPS copied to clipboard!",
+    "nfcall.err_qr_fail":       "Failed to open QR code. Please check your popup blocker.",
+    "nfcall.err_qr_ok":         "QR code opened in new tab",
     "nfcgen.err_nfc_tap":       "Approach the tag to the back of your phone\u2026",
     "nfcgen.err_plant_load":    "Failed to load plant data",
-    "nfcgen.err_nfc_read":      "NFC read error: ",
+    "nfcall.err_nfc_read":      "NFC read error: ",
 
     // ── NFC Reader ────────────────────────────────────────────────────────────
     "nfcread.page_subtitle":    "Read NFC tags for plants",
-    "nfcread.main_card_title":  "Selection",
-    "nfcread.main_card_sub":    "Choose a plant and variety.",
-    "nfcread.opt_loading":      "Loading plants\u2026",
-    "nfcread.lbl_variety":      "Variety",
-    "nfcread.opt_variety":      "Select a variety\u2026",
-    "nfcread.ph_custom_variety":"Enter custom variety",
-    "nfcread.data_card_title":  "Adatok",
-    "nfcread.data_card_sub":    "Az NFC-be ker\u00fcl\u0151 adatok",
-    "nfcread.plantId":          "N\u00f6v. ID",
-    "nfcread.nfcId":            "NFC ID",
-    "nfcread.serialNr":         "NFC gy\u00e1rt\u00e1si sz\u00e1m",
-    "nfcread.lbl_latin":        "Latin n\u00e9v",
-    "nfcread.lbl_datum":        "D\u00e1tum",
-    "nfcread.lbl_nfcTyp":       "NFC t\u00edpus",
-    "nfcread.opt_n":            "n \u2013 n\u00f6v\u00e9ny",
-    "nfcread.opt_o":            "o \u2013 olt\u00e1s",
-    "nfcread.opt_m":            "m \u2013 mag",
-    "nfcread.gps_card_title":   "GPS adatok",
-    "nfcread.gps_card_sub":     "Poz\u00edci\u00f3 r\u00f6gz\u00edt\u00e9se az NFC-be",
-    "nfcread.mode_off":         "Ki",
-    "nfcread.mode_on":          "Be",
-    "nfcread.btn_gps_start":    "\u00c9l\u0151 k\u00f6vet\u00e9s ind\u00edt\u00e1sa",
-    "nfcread.btn_gps_stop":     "Le\u00e1ll\u00edt\u00e1s \u00e9s r\u00f6gz\u00edt\u00e9s",
-    "nfcread.lbl_lat":          "Sz\u00e9less\u00e9g:",
-    "nfcread.lbl_lon":          "Hossz\u00fas\u00e1g:",
-    "nfcread.lbl_alt":          "Magass\u00e1g:",
-    "nfcread.lbl_acc":          "Pontoss\u00e1g:",
-    "nfcread.gps_standby":      "\u00c1llapot: V\u00e1rakoz\u00e1s",
-    "nfcread.lbl_packet":       "T\u00f6m\u00f6r\u00edtett csomag",
-    "nfcread.no_data_locked":   "Nincs r\u00f6gz\u00edtett adat\u2026",
-    "nfcread.gps_ready":        "K\u00e9sz.",
-    "nfcread.oth_card_title":   "Egy\u00e9b info",
-    "nfcread.oth_card_sub":     "Opcion\u00e1lis megjegyz\u00e9sek",
-    "nfcread.lbl_other_notes":  "Megjegyz\u00e9sek",
-    "nfcread.ph_other_notes":   "Tov\u00e1bbi inform\u00e1ci\u00f3",
-    "nfcread.preview_title":    "NFC el\u0151n\u00e9zet",
-    "nfcread.preview_sub":      "Beolvasott adat \u00e9s hivatkoz\u00e1s",
-    "nfcread.lbl_nfc_preview":  "NFC adat",
-    "nfcread.ph_nfc_preview":   "Az NFC adat itt jelenik meg\u2026",
-    "nfcread.lbl_link_preview": "Hivatkoz\u00e1s",
-    "nfcread.ph_link_preview":  "A hivatkoz\u00e1s itt jelenik meg\u2026",
-    "nfcread.lbl_total_size":   "\u00d6sszesen:",
-    "nfcread.actions_title":    "M\u0171veletek",
     "nfcread.actions_sub":      "Olvas\u00e1s, m\u00e1sol\u00e1s",
     "nfcread.btn_read":         "NFC olvas\u00e1sa",
-    "nfcread.btn_clear":        "Mez\u0151k t\u00f6rl\u00e9se",
     "nfcread.btn_open":         "Link megnyit\u00e1sa",
-    "nfcread.btn_write":        "NFC \u00edr\u00e1sa",
-    "nfcread.btn_save":         "NFC ment\u00e9se",
-    "nfcread.btn_dupl_nfc":     "NFC duplik\u00e1l\u00e1sa",
-    "nfcread.btn_copy_nfc":     "NFC m\u00e1sol\u00e1sa",
-    "nfcread.btn_copy_link":    "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
-    "nfcread.btn_copy_pic":     "K\u00e9p n\u00e9v m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_gps":     "GPS m\u00e1sol\u00e1sa",
-    "nfcread.btn_qr":           "NFC QR k\u00f3d",
-    "nfcread.btn_nfclist":      "NFC Lista",
     "nfcread.btn_nfcgen":       "NFC Gener\u00e1tor",
-    "nfcread.btn_back":         "\u2190 Vissza",
-    "nfcread.err_no_plant":     "V\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
-    "nfcread.err_no_nfc":       "Nincs NFC adat a m\u00e1sol\u00e1shoz",
-    "nfcread.err_no_link":      "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
-    "nfcread.err_no_pic":      "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
-    "nfcread.err_no_save":      "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s gener\u00e1lj NFC adatot el\u0151bb",
-    "nfcread.err_no_config":    "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
-    "nfcread.err_save_fail":    "Ment\u00e9s sikertelen: ",
-    "nfcread.err_copy_fail":    "M\u00e1sol\u00e1s sikertelen: ",
-    "nfcread.err_load_fail":    "Bet\u00f6lt\u00e9s sikertelen: ",
-    "nfcread.err_nfc_ns":       "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n.",
-    "nfcread.err_nfc_write":    "Hiba: ",
     "nfcread.err_no_gps":        "Nincs GPS!",
-    "nfcread.err_nfc_read":     "NFC olvas\u00e1si hiba: ",
     "nfcread.err_nfc_scan_ok":  "Szkenn\u00e9l\u00e9s akt\u00edv \u2013 tartsd oda az NFC cimk\u00e9t\u2026",
-    "nfcread.err_nfc_ok":       "Sikeresen \u00edrva az NFC cimk\u00e9re! \u2705",
-    "nfcread.err_save_ok":      "NFC mentve a list\u00e1ba!",
-    "nfcread.err_copy_nfc_ok":  "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcread.err_copy_link_ok": "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcread.err_dupl_nfc_ok":   "NFC bet\u00f6ltve a duplik\u00e1ci\u00f3hoz!",
-    "nfcgen.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcread.err_qr_fail":      "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
-    "nfcread.err_qr_ok":        "QR k\u00f3d megny\u00edlt \u00faj lapon",
-    "nfcread.err_nfc_tap":      "Tartsd a telefon h\u00e1t\u00e1hoz az NFC cimk\u00e9t\u2026",
-    "nfcread.err_plant_load":   "Nem siker\u00fclt bet\u00f6lteni a n\u00f6v\u00e9ny adatokat",
   },
 
   hu: {
     "nfcgen.page_subtitle":     "NFC cimk\u00e9k gener\u00e1l\u00e1sa n\u00f6v\u00e9nyekhez",
-    "nfcgen.main_card_title":   "Kiv\u00e1laszt\u00e1s",
-    "nfcgen.main_card_sub":     "V\u00e1lassz n\u00f6v\u00e9nyt \u00e9s fajt\u00e1t.",
+    "nfcall.main_card_title":   "Kiv\u00e1laszt\u00e1s",
+    "nfcall.main_card_sub":     "V\u00e1lassz n\u00f6v\u00e9nyt \u00e9s fajt\u00e1t.",
     "nfcall.lbl_plant":         "N\u00f6v\u00e9ny neve",
-    "nfcgen.opt_loading":       "N\u00f6v\u00e9nyek bet\u00f6lt\u00e9se\u2026",
+    "nfcall.opt_loading":       "N\u00f6v\u00e9nyek bet\u00f6lt\u00e9se\u2026",
     "nfcgen.opt_plant":         "V\u00e1lassz n\u00f6v\u00e9nyt\u2026",
-    "nfcgen.lbl_variety":       "Fajta",
+    "nfcall.lbl_variety":       "Fajta",
     "nfcgen.opt_variety":       "V\u00e1lassz fajt\u00e1t\u2026",
     "nfcgen.ph_search_plant":   "Keres\u00e9s n\u00f6v\u00e9nyek k\u00f6z\u00f6tt\u2026",
     "nfcgen.ph_search_variety": "Keres\u00e9s fajt\u00e1k k\u00f6z\u00f6tt\u2026",
     "nfcgen.ph_custom_variety": "Egyedi fajta megad\u00e1sa",
     "nfcgen.ph_custom_plant":   "Egyedi n\u00f6v\u00e9nyn\u00e9v megad\u00e1sa",
-    "nfcgen.data_card_title":   "Adatok",
-    "nfcgen.data_card_sub":     "Az NFC-be ker\u00fcl\u0151 adatok",
-    "nfcgen.time_type_card_title":   "NFC t\u00edpus \u00e9s d\u00e1tum",
-    "nfcgen.time_type_card_sub":    "NFC t\u00edpusa \u00e9s az \u00fcltet\u00e9s / olt\u00e1s d\u00e1tuma",
-    "nfcgen.plantId":           "N\u00f6v. ID",
-    "nfcgen.nfcId":             "NFC ID",
-    "nfcgen.serialNr":          "NFC HW ID",
-    "nfcgen.lbl_latin":         "Latin n\u00e9v",
-    "nfcgen.lbl_datum":         "D\u00e1tum",
-    "nfcgen.lbl_nfcTyp":        "NFC t\u00edpus",
-    "nfcgen.opt_n":             "n \u2013 n\u00f6v\u00e9ny",
-    "nfcgen.opt_o":             "o \u2013 olt\u00e1s",
-    "nfcgen.opt_m":             "m \u2013 mag",
-    "nfcgen.gps_card_title":    "GPS adatok",
-    "nfcgen.gps_card_sub":      "Poz\u00edci\u00f3 r\u00f6gz\u00edt\u00e9se az NFC-be",
-    "nfcgen.mode_off":          "Ki",
-    "nfcgen.mode_on":           "Be",
-    "nfcgen.btn_gps_start":     "\u00c9l\u0151 k\u00f6vet\u00e9s ind\u00edt\u00e1sa",
-    "nfcgen.btn_gps_stop":      "Le\u00e1ll\u00edt\u00e1s \u00e9s r\u00f6gz\u00edt\u00e9s",
-    "nfcgen.lbl_lat":           "Sz\u00e9less\u00e9g:",
-    "nfcgen.lbl_lon":           "Hossz\u00fas\u00e1g:",
-    "nfcgen.lbl_alt":           "Magass\u00e1g:",
-    "nfcgen.lbl_acc":           "Pontoss\u00e1g:",
-    "nfcgen.gps_standby":       "\u00c1llapot: V\u00e1rakoz\u00e1s",
-    "nfcgen.lbl_packet":        "T\u00f6m\u00f6r\u00edtett csomag",
-    "nfcgen.no_data_locked":    "Nincs r\u00f6gz\u00edtett adat\u2026",
-    "nfcgen.gps_ready":         "K\u00e9sz.",
-    "nfcgen.oth_card_title":    "Egy\u00e9b info",
-    "nfcgen.oth_card_sub":      "Opcion\u00e1lis megjegyz\u00e9sek",
-    "nfcgen.lbl_other_notes":   "Megjegyz\u00e9sek",
-    "nfcgen.ph_other_notes":    "Tov\u00e1bbi inform\u00e1ci\u00f3",
-    "nfcgen.preview_title":     "NFC el\u0151n\u00e9zet",
-    "nfcgen.preview_sub":       "Gener\u00e1lt adat \u00e9s hivatkoz\u00e1s",
-    "nfcgen.lbl_nfc_preview":   "NFC adat",
-    "nfcgen.ph_nfc_preview":    "Az NFC adat itt jelenik meg\u2026",
-    "nfcgen.lbl_link_preview":  "Hivatkoz\u00e1s",
-    "nfcgen.lbl_pic_preview":   "K\u00e9p n\u00e9v",
-    "nfcgen.ph_link_preview":   "A hivatkoz\u00e1s itt jelenik meg\u2026",
-    "nfcgen.ph_pic_preview":   "A k\u00e9p n\u00e9v itt jelenik meg\u2026",
-    "nfcgen.lbl_total_size":    "\u00d6sszesen:",
-    "nfcgen.actions_title":     "M\u0171veletek",
+    "nfcall.data_card_title":   "Adatok",
+    "nfcall.data_card_sub":     "Az NFC-be ker\u00fcl\u0151 adatok",
+    "nfcall.time_type_card_title":   "NFC t\u00edpus \u00e9s d\u00e1tum",
+    "nfcall.time_type_card_sub":    "NFC t\u00edpusa \u00e9s az \u00fcltet\u00e9s / olt\u00e1s d\u00e1tuma",
+    "nfcall.plantId":           "N\u00f6v. ID",
+    "nfcall.nfcId":             "NFC ID",
+    "nfcall.serialNr":          "NFC HW ID",
+    "nfcall.lbl_latin":         "Latin n\u00e9v",
+    "nfcall.lbl_datum":         "D\u00e1tum",
+    "nfcall.lbl_nfcTyp":        "NFC t\u00edpus",
+    "nfcall.opt_n":             "n \u2013 n\u00f6v\u00e9ny",
+    "nfcall.opt_o":             "o \u2013 olt\u00e1s",
+    "nfcall.opt_m":             "m \u2013 mag",
+    "nfcall.gps_card_title":    "GPS adatok",
+    "nfcall.gps_card_sub":      "Poz\u00edci\u00f3 r\u00f6gz\u00edt\u00e9se az NFC-be",
+    "nfcall.mode_off":          "Ki",
+    "nfcall.mode_on":           "Be",
+    "nfcall.btn_gps_start":     "\u00c9l\u0151 k\u00f6vet\u00e9s ind\u00edt\u00e1sa",
+    "nfcall.btn_gps_stop":      "Le\u00e1ll\u00edt\u00e1s \u00e9s r\u00f6gz\u00edt\u00e9s",
+    "nfcall.lbl_lat":           "Sz\u00e9less\u00e9g:",
+    "nfcall.lbl_lon":           "Hossz\u00fas\u00e1g:",
+    "nfcall.lbl_alt":           "Magass\u00e1g:",
+    "nfcall.lbl_acc":           "Pontoss\u00e1g:",
+    "nfcall.gps_standby":       "\u00c1llapot: V\u00e1rakoz\u00e1s",
+    "nfcall.lbl_packet":        "T\u00f6m\u00f6r\u00edtett csomag",
+    "nfcall.no_data_locked":    "Nincs r\u00f6gz\u00edtett adat\u2026",
+    "nfcall.gps_ready":         "K\u00e9sz.",
+    "nfcall.oth_card_title":    "Egy\u00e9b info",
+    "nfcall.oth_card_sub":      "Opcion\u00e1lis megjegyz\u00e9sek",
+    "nfcall.lbl_other_notes":   "Megjegyz\u00e9sek",
+    "nfcall.ph_other_notes":    "Tov\u00e1bbi inform\u00e1ci\u00f3",
+    "nfcall.preview_title":     "NFC el\u0151n\u00e9zet",
+    "nfcall.preview_sub":       "Gener\u00e1lt adat \u00e9s hivatkoz\u00e1s",
+    "nfcall.lbl_nfc_preview":   "NFC adat",
+    "nfcall.ph_nfc_preview":    "Az NFC adat itt jelenik meg\u2026",
+    "nfcall.lbl_link_preview":  "Hivatkoz\u00e1s",
+    "nfcall.lbl_pic_preview":   "K\u00e9p n\u00e9v",
+    "nfcall.ph_link_preview":   "A hivatkoz\u00e1s itt jelenik meg\u2026",
+    "nfcall.ph_pic_preview":   "A k\u00e9p n\u00e9v itt jelenik meg\u2026",
+    "nfcall.lbl_total_size":    "\u00d6sszesen:",
+    "nfcall.actions_title":     "M\u0171veletek",
     "nfcgen.actions_sub":       "\u00edr\u00e1s, ment\u00e9s, m\u00e1sol\u00e1s",
     "nfcgen.btn_generate":      "NFC gener\u00e1l\u00e1sa",
-    "nfcgen.btn_dupl":          "NFC duplik\u00e1l\u00e1s",
+    "nfcall.btn_dupl":          "NFC duplik\u00e1l\u00e1s",
     "nfcgen.btn_write":         "NFC \u00edr\u00e1sa",
-    "nfcgen.btn_save":          "NFC ment\u00e9se",
-    "nfcgen.btn_clear":         "Mez\u0151k t\u00f6rl\u00e9se",
-    "nfcgen.btn_copy_nfc":      "NFC m\u00e1sol\u00e1sa",
-    "nfcgen.btn_copy_link":     "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
-    "nfcgen.btn_copy_pic":      "K\u00e9p n\u00e9v m\u00e1sol\u00e1sa",
-    "nfcgen.btn_nfclist":       "NFC Lista",
+    "nfcall.btn_save":          "NFC ment\u00e9se",
+    "nfcall.btn_clear":         "Mez\u0151k t\u00f6rl\u00e9se",
+    "nfcall.btn_copy_nfc":      "NFC m\u00e1sol\u00e1sa",
+    "nfcall.btn_copy_link":     "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
+    "nfcall.btn_copy_pic":      "K\u00e9p n\u00e9v m\u00e1sol\u00e1sa",
+    "nfcall.btn_nfclist":       "NFC Lista",
     "nfcgen.btn_nfcread":       "NFC Olvas\u00f3",
-    "nfcgen.btn_qr":            "NFC QR k\u00f3d",
-    "nfcgen.btn_back":          "\u2190 Vissza",
-    "nfcgen.err_no_plant":      "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
-    "nfcgen.err_no_nfc":        "Nincs NFC adat a m\u00e1sol\u00e1shoz",
-    "nfcgen.err_no_link":       "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
-    "nfcgen.err_no_pic":        "Nincs k\u00e9 n\u00e9v a m\u00e1sol\u00e1shoz",
+    "nfcall.btn_qr":            "NFC QR k\u00f3d",
+    "nfcall.btn_back":          "\u2190 Vissza",
+    "nfcall.err_no_plant":      "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
+    "nfcall.err_no_nfc":        "Nincs NFC adat a m\u00e1sol\u00e1shoz",
+    "nfcall.err_no_link":       "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
+    "nfcall.err_no_pic":        "Nincs k\u00e9 n\u00e9v a m\u00e1sol\u00e1shoz",
     "nfcgen.err_no_save":       "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s gener\u00e1lj NFC adatot el\u0151bb",
     "nfcgen.err_no_config":     "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
-    "nfcgen.err_save_fail":     "Ment\u00e9s sikertelen: ",
-    "nfcgen.err_copy_fail":     "M\u00e1sol\u00e1s sikertelen: ",
-    "nfcgen.err_load_fail":    "Bet\u00f6lt\u00e9s sikertelen: ",
-    "nfcgen.err_nfc_ns":        "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n.",
+    "nfcall.err_save_fail":     "Ment\u00e9s sikertelen: ",
+    "nfcall.err_copy_fail":     "M\u00e1sol\u00e1s sikertelen: ",
+    "nfcall.err_load_fail":    "Bet\u00f6lt\u00e9s sikertelen: ",
+    "nfcall.err_nfc_ns":        "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n.",
     "nfcgen.err_nfc_write":     "Hiba: ",
     "nfcgen.err_nfc_ok":        "Sikeresen \u00edrva az NFC cimk\u00e9re! \u2705",
-    "nfcgen.err_save_ok":       "NFC mentve a list\u00e1ba!",
-    "nfcgen.err_copy_nfc_ok":   "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcgen.err_copy_link_ok":  "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcgen.err_copy_pic_ok":    "K\u00e9p n\u00e9v v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcall.err_save_ok":       "NFC mentve a list\u00e1ba!",
+    "nfcall.err_copy_nfc_ok":   "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcall.err_copy_link_ok":  "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcall.err_copy_pic_ok":    "K\u00e9p n\u00e9v v\u00e1g\u00f3lapra m\u00e1solva!",
     "nfcgen.err_dupl_nfc_ok":   "NFC bet\u00f6ltve a duplik\u00e1ci\u00f3hoz!",
-    "nfcgen.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcgen.err_qr_fail":       "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
-    "nfcgen.err_qr_ok":         "QR k\u00f3d megny\u00edlt \u00faj lapon",
+    "nfcall.err_copy_gps_ok":   "GPS v\u00e1g\u00f3lapra m\u00e1solva!",
+    "nfcall.err_qr_fail":       "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
+    "nfcall.err_qr_ok":         "QR k\u00f3d megny\u00edlt \u00faj lapon",
     "nfcgen.err_nfc_tap":       "Tartsd a telefon h\u00e1t\u00e1hoz az NFC cimk\u00e9t\u2026",
     "nfcgen.err_plant_load":    "Nem siker\u00fclt bet\u00f6lteni a n\u00f6v\u00e9ny adatokat",
-    "nfcgen.err_nfc_read":      "NFC olvas\u00e1si hiba: ",
+    "nfcall.err_nfc_read":      "NFC olvas\u00e1si hiba: ",
 
     "nfcread.page_subtitle":    "NFC cimk\u00e9k beolvas\u00e1sa n\u00f6v\u00e9nyekhez",
-    "nfcread.main_card_title":  "Kiv\u00e1laszt\u00e1s",
-    "nfcread.main_card_sub":    "V\u00e1lassz n\u00f6v\u00e9nyt \u00e9s fajt\u00e1t.",
-    "nfcread.opt_loading":      "N\u00f6v\u00e9nyek bet\u00f6lt\u00e9se\u2026",
-    "nfcread.lbl_variety":      "Fajta",
-    "nfcread.opt_variety":      "V\u00e1lassz fajt\u00e1t\u2026",
-    "nfcread.ph_custom_variety":"Egyedi fajta megad\u00e1sa",
-    "nfcread.data_card_title":  "Adatok",
-    "nfcread.data_card_sub":    "Az NFC-be ker\u00fcl\u0151 adatok",
-    "nfcread.plantId":          "N\u00f6v. ID",
-    "nfcread.nfcId":            "NFC ID",
-    "nfcread.serialNr":         "NFC gy\u00e1rt\u00e1si sz\u00e1m",
-    "nfcread.lbl_latin":        "Latin n\u00e9v",
-    "nfcread.lbl_datum":        "D\u00e1tum",
-    "nfcread.lbl_nfcTyp":       "NFC t\u00edpus",
-    "nfcread.opt_n":            "n \u2013 n\u00f6v\u00e9ny",
-    "nfcread.opt_o":            "o \u2013 olt\u00e1s",
-    "nfcread.opt_m":            "m \u2013 mag",
-    "nfcread.gps_card_title":   "GPS adatok",
-    "nfcread.gps_card_sub":     "Poz\u00edci\u00f3 r\u00f6gz\u00edt\u00e9se az NFC-be",
-    "nfcread.mode_off":         "Ki",
-    "nfcread.mode_on":          "Be",
-    "nfcread.btn_gps_start":    "\u00c9l\u0151 k\u00f6vet\u00e9s ind\u00edt\u00e1sa",
-    "nfcread.btn_gps_stop":     "Le\u00e1ll\u00edt\u00e1s \u00e9s r\u00f6gz\u00edt\u00e9s",
-    "nfcread.lbl_lat":          "Sz\u00e9less\u00e9g:",
-    "nfcread.lbl_lon":          "Hossz\u00fas\u00e1g:",
-    "nfcread.lbl_alt":          "Magass\u00e1g:",
-    "nfcread.lbl_acc":          "Pontoss\u00e1g:",
-    "nfcread.gps_standby":      "\u00c1llapot: V\u00e1rakoz\u00e1s",
-    "nfcread.lbl_packet":       "T\u00f6m\u00f6r\u00edtett csomag",
-    "nfcread.no_data_locked":   "Nincs r\u00f6gz\u00edtett adat\u2026",
-    "nfcread.gps_ready":        "K\u00e9sz.",
-    "nfcread.oth_card_title":   "Egy\u00e9b info",
-    "nfcread.oth_card_sub":     "Opcion\u00e1lis megjegyz\u00e9sek",
-    "nfcread.lbl_other_notes":  "Megjegyz\u00e9sek",
-    "nfcread.ph_other_notes":   "Tov\u00e1bbi inform\u00e1ci\u00f3",
-    "nfcread.preview_title":    "NFC el\u0151n\u00e9zet",
-    "nfcread.preview_sub":      "Beolvasott adat \u00e9s hivatkoz\u00e1s",
-    "nfcread.lbl_nfc_preview":  "NFC adat",
-    "nfcread.ph_nfc_preview":   "Az NFC adat itt jelenik meg\u2026",
-    "nfcread.lbl_link_preview": "Hivatkoz\u00e1s",
-    "nfcread.ph_link_preview":  "A hivatkoz\u00e1s itt jelenik meg\u2026",
-    "nfcread.lbl_total_size":   "\u00d6sszesen:",
-    "nfcread.actions_title":    "M\u0171veletek",
     "nfcread.actions_sub":      "Olvas\u00e1s, m\u00e1sol\u00e1s",
     "nfcread.btn_read":         "NFC olvas\u00e1sa",
-    "nfcread.btn_clear":        "Mez\u0151k t\u00f6rl\u00e9se",
     "nfcread.btn_open":         "Link megnyit\u00e1sa",
-    "nfcread.btn_write":        "NFC \u00edr\u00e1sa",
-    "nfcread.btn_save":         "NFC ment\u00e9se",
-    "nfcread.btn_dupl_nfc":     "NFC duplik\u00e1l\u00e1sa",
-    "nfcread.btn_copy_nfc":     "NFC m\u00e1sol\u00e1sa",
-    "nfcread.btn_copy_link":    "Hivatkoz\u00e1s m\u00e1sol\u00e1sa",
-    "nfcread.btn_copy_pic":      "K\u00e9p n\u00e9v m\u00e1sol\u00e1sa",
     "nfcread.btn_copy_gps":     "GPS m\u00e1sol\u00e1sa",
-    "nfcread.btn_qr":           "NFC QR k\u00f3d",
-    "nfcread.btn_nfclist":      "NFC Lista",
     "nfcread.btn_nfcgen":       "NFC Gener\u00e1tor",
-    "nfcread.btn_back":         "\u2190 Vissza",
-    "nfcread.err_no_plant":     "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
-    "nfcread.err_no_nfc":       "Nincs NFC adat a m\u00e1sol\u00e1shoz",
-    "nfcread.err_no_link":      "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
-    "nfcread.err_no_save":      "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s gener\u00e1lj NFC adatot el\u0151bb",
-    "nfcread.err_no_config":    "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
-    "nfcread.err_save_fail":    "Ment\u00e9s sikertelen: ",
-    "nfcread.err_copy_fail":    "M\u00e1sol\u00e1s sikertelen: ",
-    "nfcread.err_load_fail":    "Bet\u00f6lt\u00e9s sikertelen: ",
-    "nfcread.err_nfc_ns":       "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n.",
-    "nfcread.err_nfc_write":    "Hiba: ",
-    "nfcread.err_no_gps":        "Nincs GPS!",
-    "nfcread.err_nfc_read":     "NFC olvas\u00e1si hiba: ",
+    "nfcread.err_no_gps":       "Nincs GPS!",
     "nfcread.err_nfc_scan_ok":  "Szkenn\u00e9l\u00e9s akt\u00edv \u2013 tartsd oda az NFC cimk\u00e9t\u2026",
-    "nfcread.err_nfc_ok":       "Sikeresen \u00edrva az NFC cimk\u00e9re! \u2705",
-    "nfcread.err_save_ok":      "NFC mentve a list\u00e1ba!",
-    "nfcread.err_copy_nfc_ok":  "NFC adat v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcread.err_copy_link_ok": "Hivatkoz\u00e1s v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcread.err_copy_pic_ok": "K\u00e9p n\u00e9v v\u00e1g\u00f3lapra m\u00e1solva!",
-    "nfcread.err_dupl_nfc_ok":   "NFC bet\u00f6ltve a duplik\u00e1ci\u00f3hoz!",
-    "nfcread.err_qr_fail":      "Nem siker\u00fclt megnyitni a QR k\u00f3dot. Ellen\u0151rizd a felugr\u00f3 ablakokat.",
-    "nfcread.err_qr_ok":        "QR k\u00f3d megny\u00edlt \u00faj lapon",
-    "nfcread.err_nfc_tap":      "Tartsd a telefon h\u00e1t\u00e1hoz az NFC cimk\u00e9t\u2026",
-    "nfcread.err_plant_load":   "Nem siker\u00fclt bet\u00f6lteni a n\u00f6v\u00e9ny adatokat",
   },
 };
 
