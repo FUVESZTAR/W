@@ -2115,6 +2115,13 @@ async function populate() {
   if (gennfcBtn) {
     gennfcBtn.addEventListener("click", () => {
       (genNfcIdShow);
+      gennfcBtn.disabled = true;
+      duplnfcBtn.disabled = false;
+      qrnfcBtn.disabled = false;
+      copynfcBtn.disabled = false;
+      copylinkBtn.disabled = false;
+      saveNfcBtn.disabled = false;
+      nfcWriteBtn.disabled = false;
       generateNewNfc();
       //updatePreviews(true);
       const nfcData = nfcPreview.textContent;
@@ -2203,6 +2210,13 @@ async function populate() {
   if (duplnfcBtn) {
     duplnfcBtn.addEventListener("click", () => {
       (genNfcIdShow);
+      gennfcBtn.disabled = false;
+      duplnfcBtn.disabled = true;
+      qrnfcBtn.disabled = false;
+      copynfcBtn.disabled = false;
+      copylinkBtn.disabled = false;
+      saveNfcBtn.disabled = false;
+      nfcWriteBtn.disabled = false;
       duplicateReadNfc();
     });
   }
@@ -2346,13 +2360,13 @@ async function populate() {
     genGpsShow.value = "";
     genEgyebShow.value = "";
     nfcReady=false;
-      gennfcBtn.disabled = true;
-      duplnfcBtn.disabled = true;
-      qrnfcBtn.disabled = false;
-      copynfcBtn.disabled = false;
-      copylinkBtn.disabled = false;
-      saveNfcBtn.disabled = false;
-      nfcWriteBtn.disabled = false;
+      gennfcBtn.disabled = false;
+      duplnfcBtn.disabled = false;
+      qrnfcBtn.disabled = true;
+      copynfcBtn.disabled = true;
+      copylinkBtn.disabled = true;
+      saveNfcBtn.disabled = true;
+      nfcWriteBtn.disabled = true;
   }
 
   if (clearNfcBtn) {
@@ -2481,7 +2495,7 @@ const copypicBtn = document.getElementById("read-copy-pic");
 const clearBtn = document.getElementById("read-clear-button");
 const copyNfcBtn = document.getElementById("read-copy-nfc");
 const duplNfcBtn = document.getElementById("read-dupl-nfc");
-const genNfcBtn = document.getElementById("read-gen-nfc");
+const generatorNfcBtn = document.getElementById("read-gen-nfc");
 const listNfcBtn = document.getElementById("read-list-nfc");
 const copyLinkBtn = document.getElementById("read-copy-link");
 const backBtn = document.getElementById("read-back-button");
@@ -2838,8 +2852,8 @@ async function populate() {
     });
   }
 
-  if (genNfcBtn) {
-    genNfcBtn.addEventListener("click", () => {
+  if (generatorNfcBtn) {
+    generatorNfcBtn.addEventListener("click", () => {
       switchTab('gen');
     });
   }
