@@ -855,7 +855,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <div class="preview-label">
             <span data-i18n="nfcall.lbl_pic_preview">Picture name</span>
           </div>
-          <div class="nfc-preview" id="read-pic-preview" data-i18n="nfcall.lbl_pic_preview" data-i18n-live>Picture name will appear here…</div>
+          <div class="nfc-preview" id="read-pic-preview" data-i18n="nfcall.ph_pic_preview" data-i18n-live>Picture name will appear here…</div>
         </div>
       </div></div></div>
     </div>
@@ -2359,9 +2359,9 @@ async function populate() {
     nfcSize.textContent = "0 B";
     linkPreview.textContent = msg('ph_link_preview');
     picPreview.textContent = msg('ph_pic_preview');
+    serialNumText.textContent = msg('ph_serialnr_preview');
     linkSize.textContent = "0 B";
     totalSize.textContent = "0 B";
-    serialNumText.textContent = "none";
     genPlantVarietyShow.value = "";
     genPlantNameShow.value = "";
     genNfcTypShow.value = "";
