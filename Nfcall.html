@@ -1572,13 +1572,13 @@ async function populate() {
   const nfcWriteBtn = document.getElementById("gen-nfc-write-button");
   const clearNfcBtn = document.getElementById("gen-clear-button");
 
-   gennfcBtn.disabled = true;
-   duplnfcBtn.disabled = true;
-   qrnfcBtn.disabled = false;
-   copynfcBtn.disabled = false;
-   copylinkBtn.disabled = false;
-   saveNfcBtn.disabled = false;
-   nfcWriteBtn.disabled = false;
+   gennfcBtn.disabled = false;
+   duplnfcBtn.disabled = false;
+   qrnfcBtn.disabled = true;
+   copynfcBtn.disabled = true;
+   copylinkBtn.disabled = true;
+   saveNfcBtn.disabled = true;
+   nfcWriteBtn.disabled = true;
   console.log('StPlantName value', localStorage.getItem('StPlantName'));
   console.log('StVariety value', localStorage.getItem('StVariety'));
   console.log('StPlantID value', localStorage.getItem('StPlantID'));
@@ -2219,7 +2219,7 @@ async function populate() {
   if (duplnfcBtn) {
     duplnfcBtn.addEventListener("click", () => {
       (genNfcIdShow);
-      gennfcBtn.disabled = false;
+      gennfcBtn.disabled = true;
       duplnfcBtn.disabled = true;
       qrnfcBtn.disabled = false;
       copynfcBtn.disabled = false;
