@@ -57,7 +57,7 @@ body {
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-.page-header-left { display:flex; flex-direction:column; gap:2px; }
+.page-header-left { display:flex; flex-direction:column; gap:3px; }
 .page-title {
   font-family:'Playfair Display',serif;
   font-size: clamp(1.4rem,4vw,1.9rem);
@@ -475,17 +475,21 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="page-title">🌿 NFC</div>
         <div class="page-subtitle" id="page-subtitle-dyn">NFC Generator &amp; Reader</div>
       </div>
+      
+    <!-- Tab switcher -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="gen" onclick="switchTab('gen')" type="button">🌱 Generator</button>
+      <button class="tab-btn" data-tab="read" onclick="switchTab('read')" type="button">📖 Reader</button>
+    </div>
+
+      
       <div class="lang-toggle">
         <button class="lang-btn" data-lang="en" type="button">EN</button>
         <button class="lang-btn" data-lang="hu" type="button">HU</button>
       </div>
     </div>
 
-    <!-- Tab switcher -->
-    <div class="tab-bar">
-      <button class="tab-btn active" data-tab="gen" onclick="switchTab('gen')" type="button">🌱 Generator</button>
-      <button class="tab-btn" data-tab="read" onclick="switchTab('read')" type="button">📖 Reader</button>
-    </div>
+
 
     <!-- Generator section -->
     <div id="tab-gen" class="tab-section active">
@@ -1598,7 +1602,7 @@ async function populate() {
   function renderPlantOptions() {
     const currentLang = getCurrentLang();
     const nameProp = currentLang === 'en' ? 'Name_EN' : 'Name_HU';
-    selector.innerHTML = `<option value="">${msg('opt_plant')}</option><option value="__custom__">-- Add custom --</option>`;
+    selector.innerHTML = `<option value="">${msg('gen_opt_plant')}</option><option value="__custom__">-- Add custom --</option>`;
     const uniqueNames = [...new Set(plants.map(p => p[nameProp]).filter(Boolean))].sort((a, b) =>
       a.localeCompare(b)
     );
@@ -1720,7 +1724,7 @@ async function populate() {
   function populateVarieties(plantName) {
     const currentLang = getCurrentLang();
     const nameProp = currentLang === 'en' ? 'Name_EN' : 'Name_HU';
-    nameVarietySelector.innerHTML = `<option value="">${msg('opt_variety')}</option><option value="__custom__">-- Add custom --</option>`;
+    nameVarietySelector.innerHTML = `<option value="">${msg('gen_opt_variety')}</option><option value="__custom__">-- Add custom --</option>`;
     customVarietyMode = false;
     nameVarietyCustomInput.style.display = "none";
     nameVarietyCustomInput.value = "";
@@ -2271,12 +2275,12 @@ async function populate() {
       const serialNum  = serialNumText.textContent;
 
       if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
-        showError(errorMsg, msg('err_no_save'));
+        showError(errorMsg, msg('err_gen_no_save'));
         return;
       }
 
       if (SHEET_WRITER_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL') {
-        showError(errorMsg, msg('err_no_config'));
+        showError(errorMsg, msg('err_gen_no_config'));
         return;
       }
 
@@ -2311,7 +2315,7 @@ async function populate() {
       const link    = linkPreview.textContent;
 
       if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
-        showError(errorMsg, msg('err_no_save'));
+        showError(errorMsg, msg('err_gen_no_save'));
         return;
       }
 
@@ -2336,9 +2340,9 @@ async function populate() {
             { recordType: "url",  data: link }
           ]
         });
-        showError(errorMsg, msg('err_nfc_ok'), "success");
+        showError(errorMsg, msg('err_gen_nfc_ok'), "success");
       } catch (error) {
-        showError(errorMsg, msg('err_nfc_write') + error);
+        showError(errorMsg, msg('err_gen_nfc_write') + error);
         console.error(error);
       } finally {
         nfcWriteBtn.disabled = false;
@@ -2353,7 +2357,7 @@ async function populate() {
     customPlantMode = false;
     plantSelectorCustomInput.value = "";
     plantSelectorCustomInput.style.display = "none";
-    nameVarietySelector.innerHTML = `<option value="">${msg('opt_variety')}</option>`;
+    nameVarietySelector.innerHTML = `<option value="">${msg('gen_opt_variety')}</option>`;
     nameVarietyCustomInput.value = "";
     nameVarietyCustomInput.style.display = "none";
     genLatinNameShow.value = "";
@@ -2621,7 +2625,7 @@ async function readNfc(onRead) {
 
       onRead(result);
     };
-    showError(errorMsg, msg('err_nfc_scan_ok'), "info");
+    showError(errorMsg, msg('err_read_nfc_scan_ok'), "info");
   } catch (error) {
     showError(errorMsg, msg('err_nfc_read') + error);
     console.error(error);
