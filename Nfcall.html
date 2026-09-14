@@ -1090,8 +1090,8 @@ const TRANSLATIONS = {
     "nfcall.read_btn_nfcgen":       "NFC Gener\u00e1tor",
 
     //error read
-    "nfcall.err_read_gen_no_gps":   "Nincs GPS!",
-    "nfcall.err_read_nfc_scan_ok":  "Szkenn\u00e9l\u00e9s akt\u00edv \u2013 tartsd oda az NFC cimk\u00e9t\u2026",
+    "nfcall.err_read_gen_no_gps":   "No GPS!",
+    "nfcall.err_read_nfc_scan_ok":  "Scanning active hold the NFC close to the phone",
   },
 
   hu: {
@@ -1852,17 +1852,40 @@ async function populate() {
   genNfcIdShow.addEventListener("change", () => updatePreviews(false));
 
   function localStorageGet() {
-    console.log('StPlantName get', localStorage.getItem('StPlantName'));
-    console.log('StVariety get', localStorage.getItem('StVariety'));
-    genNfcIdShow.value = nfcIdValue;
-    genPlantIdShow.value = localStorage.getItem('StPlantID');
-    genPlantNameShow.value = localStorage.getItem('StPlantName');
-    genPlantVarietyShow.value = localStorage.getItem('StVariety');
-    genLatinNameShow.value = localStorage.getItem('StLatinName');
-    genNfcTypShow.value = localStorage.getItem('StNFCType');
-    genDatumShow.value = localStorage.getItem('StDate');
-    genGpsShow.value = localStorage.getItem('StGPSCPacket');
-    genEgyebShow.value = localStorage.getItem('StEgyebInfo');
+    //console.log('StPlantName get', localStorage.getItem('StPlantName'));
+    //console.log('StVariety get', localStorage.getItem('StVariety'));
+    const stateSt = localStorage.getItem('StCopyState');
+    if (stateSt !== null && stateSt !== '') {
+        // only runs when there's an actual value
+       genNfcIdShow.value = nfcIdValue;
+       genPlantIdShow.value = localStorage.getItem('StPlantID');
+       genPlantNameShow.value = localStorage.getItem('StPlantName');
+       genPlantVarietyShow.value = localStorage.getItem('StVariety');
+       genLatinNameShow.value = localStorage.getItem('StLatinName');
+       genNfcTypShow.value = localStorage.getItem('StNFCType');
+       genDatumShow.value = localStorage.getItem('StDate');
+       genGpsShow.value = localStorage.getItem('StGPSCPacket');
+       genEgyebShow.value = localStorage.getItem('StEgyebInfo');
+       //button set
+      gennfcBtn.disabled = false; 
+       duplnfcBtn.disabled = true;
+       qrnfcBtn.disabled = false;
+       copynfcBtn.disabled = false;
+       copylinkBtn.disabled = false;
+       saveNfcBtn.disabled = false;
+       nfcWriteBtn.disabled = false;
+      showError(errorMsg, msg('err_gen_dupl_nfc_ok'));
+     } else {
+         gennfcBtn.disabled = false;
+         duplnfcBtn.disabled = false;
+         qrnfcBtn.disabled = true;
+         copynfcBtn.disabled = true;
+         copylinkBtn.disabled = true;
+         saveNfcBtn.disabled = true;
+         nfcWriteBtn.disabled = true;
+        showError(errorMsg, msg('err_load_fail'));
+        return;
+      }
   }
 
   function localStorageCear() {
@@ -2145,6 +2168,13 @@ async function populate() {
       const nfcData = nfcPreview.textContent;
       console.log('Generated NFC');
       if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
+         gennfcBtn.disabled = false;
+         duplnfcBtn.disabled = false;
+         qrnfcBtn.disabled = true;
+         copynfcBtn.disabled = true;
+         copylinkBtn.disabled = true;
+         saveNfcBtn.disabled = true;
+         nfcWriteBtn.disabled = true;
         showError(errorMsg, msg('err_no_plant'));
         return;
       }
@@ -2228,13 +2258,6 @@ async function populate() {
   if (duplnfcBtn) {
     duplnfcBtn.addEventListener("click", () => {
       (genNfcIdShow);
-      gennfcBtn.disabled = true;
-      duplnfcBtn.disabled = true;
-      qrnfcBtn.disabled = false;
-      copynfcBtn.disabled = false;
-      copylinkBtn.disabled = false;
-      saveNfcBtn.disabled = false;
-      nfcWriteBtn.disabled = false;
       duplicateReadNfc();
     });
   }
