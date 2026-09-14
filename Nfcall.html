@@ -1853,7 +1853,7 @@ async function populate() {
 
   function localStorageGet() {
     //console.log('StPlantName get', localStorage.getItem('StPlantName'));
-    //console.log('StVariety get', localStorage.getItem('StVariety'));
+    console.log('StVariety get', localStorage.getItem('StCopyState'));
     const stateSt = localStorage.getItem('StCopyState');
     if (stateSt !== null && stateSt !== '') {
         // only runs when there's an actual value
@@ -1867,14 +1867,14 @@ async function populate() {
        genGpsShow.value = localStorage.getItem('StGPSCPacket');
        genEgyebShow.value = localStorage.getItem('StEgyebInfo');
        //button set
-      gennfcBtn.disabled = false; 
+       gennfcBtn.disabled = false; 
        duplnfcBtn.disabled = true;
        qrnfcBtn.disabled = false;
        copynfcBtn.disabled = false;
        copylinkBtn.disabled = false;
        saveNfcBtn.disabled = false;
        nfcWriteBtn.disabled = false;
-      showError(errorMsg, msg('err_gen_dupl_nfc_ok'));
+       showError(errorMsg, msg('err_gen_dupl_nfc_ok'));
      } else {
          gennfcBtn.disabled = false;
          duplnfcBtn.disabled = false;
