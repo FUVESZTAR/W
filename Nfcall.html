@@ -2318,6 +2318,7 @@ async function populate() {
         const result = await response.json().catch(() => ({}));
         if (result.status === 'success') {
           showError(errorMsg, msg('err_save_ok'), "success");
+          genNfcIdShow.value = nfcId +1;
         } else {
           showError(errorMsg, msg('err_save_fail') + (result.error || "Unknown error"));
         }
