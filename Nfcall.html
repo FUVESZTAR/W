@@ -2336,7 +2336,7 @@ async function populate() {
       updatePreviews(true);
       const nfcData = nfcPreview.textContent;
       const link    = linkPreview.textContent;
-
+      gennfcBtn.disabled = false;
       if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
         showError(errorMsg, msg('err_gen_no_save'));
         return;
@@ -2348,6 +2348,7 @@ async function populate() {
       }
 
       nfcWriteBtn.disabled = true;
+      gennfcBtn.disabled = false;
       showError(errorMsg, msg('err_nfc_tap'), "info");
 
       try {
@@ -2364,11 +2365,13 @@ async function populate() {
           ]
         });
         showError(errorMsg, msg('err_gen_nfc_ok'), "success");
+        gennfcBtn.disabled = false;
       } catch (error) {
         showError(errorMsg, msg('err_gen_nfc_write') + error);
         console.error(error);
       } finally {
         nfcWriteBtn.disabled = false;
+        gennfcBtn.disabled = false;
       }
     });
   }
