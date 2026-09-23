@@ -1075,7 +1075,7 @@ const TRANSLATIONS = {
     "nfcall.err_save_ok":       "NFC saved to list!",
     "nfcall.err_copy_nfc_ok":   "NFC data copied to clipboard!",
     "nfcall.err_copy_link_ok":  "Link copied to clipboard!",
-    "nfcall.err_copy_pic_ok":  "Pic name copied to clipboard!",
+    "nfcall.err_copy_pic_ok":   "Pic name copied to clipboard!",
     "nfcall.err_copy_gps_ok":   "GPS copied to clipboard!",
     "nfcall.err_qr_fail":       "Failed to open QR code. Please check your popup blocker.",
     "nfcall.err_qr_ok":         "QR code opened in new tab",
@@ -1085,7 +1085,7 @@ const TRANSLATIONS = {
     "nfcall.read_page_subtitle":    "Read NFC tags for plants",
     "nfcall.read_actions_sub":      "Olvas\u00e1s, m\u00e1sol\u00e1s",
     "nfcall.read_btn_read":         "NFC olvas\u00e1sa",
-    "nfcall.read_btn_open_link":         "Link megnyit\u00e1sa",
+    "nfcall.read_btn_open_link":    "Link megnyit\u00e1sa",
     "nfcall.read_btn_copy_gps":     "GPS m\u00e1sol\u00e1sa",
     "nfcall.read_btn_nfcgen":       "NFC Gener\u00e1tor",
 
@@ -1471,7 +1471,7 @@ function setStatus(msg_text, color, statusItem) {
  * other.
  */
 let runtimeloadLastNfcId = 0;
-async function loadLastNfcId(genNfcIdShow1, onLoaded) {
+async function loadLastNfcId(genNfcIdShow, onLoaded) {
   runtimeloadLastNfcId = runtimeloadLastNfcId + 1;
   console.log('LastNfcId runtime: ', runtimeloadLastNfcId);
   if (SHEET_WRITER_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL') return;
@@ -1480,9 +1480,9 @@ async function loadLastNfcId(genNfcIdShow1, onLoaded) {
     const result   = await response.json();
     if (result.lastId !== undefined && result.lastId !== '') {
         const lastIdVal = Number(result.lastId);
-        const nextId = lastIdVal + 1;
+        const nextId = Number(lastIdVal) + 1;
         nfcIdValue = nextId;
-        genNfcIdShow1.value = nextId; 
+        genNfcIdShow.value = nextId; 
         console.log('LastNfcId: ', lastIdVal);
         if (nextId > 0 && typeof onLoaded === 'function') onLoaded();
     }
@@ -2350,7 +2350,7 @@ async function populate() {
 
       nfcWriteBtn.disabled = true;
       gennfcBtn.disabled = false;
-      showError(errorMsg, msg('err_nfc_tap'), "info");
+      showError(errorMsg, msg('err_gen_nfc_tap'), "info");
 
       try {
         const ndef = new NDEFReader();
@@ -2611,7 +2611,7 @@ async function readNfc(onRead) {
     return;
   } else {
     readNfcBtn.disabled = true;
-    showError(errorMsg, msg('err_nfc_tap'), "info");
+    showError(errorMsg, msg('err_gen_nfc_tap'), "info");
   }
 
   try {
