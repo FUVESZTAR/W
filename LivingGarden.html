@@ -1,0 +1,2154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Living Garden — design a garden that evolves</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,480;0,9..144,560;1,9..144,420&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================= TOKENS ============================= */
+:root{
+  --parchment:#EFEAE0;
+  --parchment-2:#E7E1D2;
+  --ink:#262420;
+  --ink-soft:#5B564C;
+  --forest:#3C4A38;
+  --forest-2:#2C3729;
+  --sage:#8E9A80;
+  --sage-pale:#C7CEB9;
+  --clay:#AD5F2E;
+  --clay-soft:#D0A488;
+  --water:#4E7A82;
+  --water-pale:#BFD6D6;
+  --gold:#C79A46;
+  --line:#CFC7B3;
+  --line-soft:#DDD6C5;
+  --white:#FBF9F4;
+  --shadow-col: 44,42,35;
+  --radius-sm:3px;
+  --radius-md:6px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --parchment:#1E1C18;
+    --parchment-2:#26241F;
+    --ink:#EDE8DC;
+    --ink-soft:#B3AC9B;
+    --forest:#9AAE8C;
+    --forest-2:#B7C7A9;
+    --sage:#7C8A6E;
+    --sage-pale:#3A4232;
+    --clay:#D98A55;
+    --clay-soft:#5B4032;
+    --water:#7FAAB0;
+    --water-pale:#233C3E;
+    --gold:#D8B369;
+    --line:#3B382F;
+    --line-soft:#302D26;
+    --white:#242220;
+    --shadow-col: 0,0,0;
+  }
+}
+:root[data-theme="dark"]{
+  --parchment:#1E1C18; --parchment-2:#26241F; --ink:#EDE8DC; --ink-soft:#B3AC9B;
+  --forest:#9AAE8C; --forest-2:#B7C7A9; --sage:#7C8A6E; --sage-pale:#3A4232;
+  --clay:#D98A55; --clay-soft:#5B4032; --water:#7FAAB0; --water-pale:#233C3E;
+  --gold:#D8B369; --line:#3B382F; --line-soft:#302D26; --white:#242220; --shadow-col:0,0,0;
+}
+
+*{box-sizing:border-box;}
+html{scroll-padding-top: calc(64px + var(--safe-top)); scroll-behavior:smooth;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:var(--parchment);
+  color:var(--ink);
+  font-family:'IBM Plex Sans', -apple-system, sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%;}
+.wrap{max-width:1200px; margin:0 auto; padding:0 32px;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:560; margin:0; color:var(--ink); letter-spacing:-0.01em;}
+p{margin:0;}
+a{color:inherit;}
+button{font-family:inherit;}
+::selection{background:var(--sage-pale); color:var(--forest-2);}
+:focus-visible{outline:2px solid var(--clay); outline-offset:2px;}
+
+.mono{font-family:'IBM Plex Mono', monospace;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:0.02em; color:var(--ink-soft);}
+
+/* ============================= NAV ============================= */
+.nav{
+  position:sticky; top:0; z-index:60;
+  background:rgba(var(--parchment-rgb,239,234,224),0.9);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  padding-top: var(--safe-top);
+}
+.nav-inner{
+  max-width:1200px; margin:0 auto; padding:0 32px;
+  height:64px; display:flex; align-items:center; justify-content:space-between; gap:24px;
+}
+.brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:560; font-size:18px; letter-spacing:0.01em; white-space:nowrap;}
+.brand-mark{width:22px;height:22px;flex:0 0 auto;}
+.nav-links{display:flex; gap:28px; list-style:none; margin:0; padding:0; font-size:14.5px;}
+.nav-links a{text-decoration:none; color:var(--ink-soft); padding:4px 0; border-bottom:1px solid transparent; transition:color .15s, border-color .15s;}
+.nav-links a:hover{color:var(--ink); border-color:var(--sage);}
+.nav-right{display:flex; align-items:center; gap:18px;}
+.icon-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--radius-sm);}
+.icon-btn:hover{color:var(--ink); background:var(--parchment-2);}
+.avatar{width:28px;height:28px;border-radius:50%;background:var(--sage-pale);border:1px solid var(--line); display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--forest-2);}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; justify-content:center;
+  border-radius:var(--radius-sm); border:1px solid transparent; cursor:pointer;
+  font-size:14.5px; font-weight:500; padding:10px 18px; transition:transform .12s ease, background .15s, border-color .15s, color .15s;
+  text-decoration:none; white-space:nowrap;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--forest); color:var(--white); border-color:var(--forest);}
+.btn-primary:hover{background:var(--forest-2); border-color:var(--forest-2);}
+.btn-ghost{background:transparent; color:var(--ink); border-color:var(--line);}
+.btn-ghost:hover{border-color:var(--ink-soft); background:var(--parchment-2);}
+.btn-sm{padding:7px 13px; font-size:13px;}
+
+/* ============================= HERO ============================= */
+.hero{padding:76px 0 40px;}
+.hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;}
+.hero h1{font-size:clamp(38px,4.6vw,60px); line-height:1.03; max-width:12ch;}
+.hero-sub{margin-top:22px; font-size:17.5px; color:var(--ink-soft); max-width:44ch; line-height:1.6;}
+.hero-cta{margin-top:32px; display:flex; gap:14px; flex-wrap:wrap;}
+.hero-coords{margin-top:36px; display:flex; gap:28px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft); flex-wrap:wrap;}
+.hero-coords b{color:var(--forest); font-weight:500;}
+
+.hero-map-card{
+  border:1px solid var(--line); background:var(--white); border-radius:var(--radius-md);
+  box-shadow:0 1px 0 var(--line), 0 18px 40px -24px rgba(var(--shadow-col),0.35);
+  overflow:hidden;
+}
+.hero-map-head{display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line-soft);}
+.hero-map-head .eyebrow{margin:0;}
+.year-pill{display:flex; gap:6px; font-family:'IBM Plex Mono', monospace; font-size:11.5px;}
+.year-pill span{padding:3px 8px; border-radius:20px; border:1px solid var(--line); color:var(--ink-soft);}
+.year-pill span.active{background:var(--forest); border-color:var(--forest); color:var(--white);}
+.hero-map-body{position:relative;}
+.hero-map-foot{display:flex; align-items:center; justify-content:space-between; padding:10px 16px; border-top:1px solid var(--line-soft); font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);}
+
+/* generic map scaffolding shared by all map instances */
+.map-svg{display:block; width:100%; height:auto; background:
+   linear-gradient(var(--white), var(--white));
+}
+.map-grid line{stroke:var(--line-soft); stroke-width:1;}
+.map-boundary{fill:none; stroke:var(--ink-soft); stroke-width:1.4; stroke-dasharray:3 3;}
+.map-building{fill:var(--parchment-2); stroke:var(--ink); stroke-width:1.2;}
+.map-path{fill:none; stroke:var(--clay-soft); stroke-width:6; stroke-linecap:round; opacity:.7;}
+.map-fence{fill:none; stroke:#6B5842; stroke-width:2; stroke-linecap:round; stroke-dasharray:1 6; opacity:.85;}
+.map-pond{fill:var(--water-pale); stroke:var(--water); stroke-width:1.2;}
+.map-compost{fill:var(--sage-pale); stroke:var(--forest); stroke-width:1; stroke-dasharray:2 2;}
+.map-zone-label{font-family:'IBM Plex Mono', monospace; font-size:9.5px; fill:var(--ink-soft); letter-spacing:.02em;}
+.map-north text{font-family:'IBM Plex Mono', monospace; font-size:10px; fill:var(--ink-soft);}
+
+.canopy{transition:r .5s cubic-bezier(.3,.6,.3,1), opacity .4s;}
+.trunk{fill:var(--forest-2);}
+.plant-node{cursor:pointer;}
+.plant-node:hover .canopy{stroke:var(--clay); stroke-width:1.4;}
+.shade-poly{fill:rgba(var(--shadow-col),0.16); transition:d .4s ease, opacity .3s;}
+
+.map-item{touch-action:none;}
+.map-item.dragging{opacity:.82; cursor:grabbing;}
+.map-item[data-kind="building"],.map-item[data-kind="pond"],.map-item[data-kind="compost"],.map-item[data-kind="path"],.map-item[data-kind="fence"]{cursor:grab;}
+.map-item.is-selected .canopy{stroke:var(--clay); stroke-width:2.2px;}
+.map-item.is-selected .map-building,
+.map-item.is-selected .map-pond,
+.map-item.is-selected .map-compost{stroke:var(--clay); stroke-width:2.4px;}
+.map-item.is-selected .map-path{stroke:var(--clay); opacity:1;}
+.map-item.is-selected .map-fence{stroke:var(--clay); opacity:1;}
+
+/* layer colors */
+.layer-canopy .canopy{fill:rgba(60,74,56,0.30); stroke:var(--forest);}
+.layer-subcanopy .canopy{fill:rgba(94,116,84,0.32); stroke:var(--forest);}
+.layer-shrub .canopy{fill:rgba(141,116,66,0.34); stroke:var(--clay);}
+.layer-herbaceous .canopy{fill:rgba(173,95,46,0.28); stroke:var(--clay);}
+.layer-groundcover .canopy{fill:rgba(199,206,185,0.55); stroke:var(--sage);}
+.layer-root .canopy{fill:rgba(107,88,66,0.35); stroke:#6B5842;}
+.layer-climber .canopy{fill:rgba(78,122,130,0.28); stroke:var(--water);}
+.layer-biomass .canopy{fill:rgba(199,154,70,0.30); stroke:var(--gold);}
+
+.layer-dim{opacity:.12;}
+
+/* ============================= SECTION SCAFFOLD ============================= */
+section{padding:96px 0;}
+.section-head{max-width:640px; margin-bottom:48px;}
+.section-head .eyebrow{margin-bottom:14px; display:block;}
+.section-head h2{font-size:clamp(28px,3vw,38px); line-height:1.12;}
+.section-head p{margin-top:16px; color:var(--ink-soft); font-size:16.5px; line-height:1.6;}
+.divider{height:1px; background:var(--line); border:none; margin:0;}
+
+/* ============================= LAYERS SECTION ============================= */
+.layers-shell{display:grid; grid-template-columns:340px 1fr; gap:40px; align-items:start;}
+.layer-list{display:flex; flex-direction:column; border-top:1px solid var(--line);}
+.layer-row{
+  display:flex; align-items:center; gap:14px; padding:15px 4px; border-bottom:1px solid var(--line);
+  cursor:pointer; background:none; border-left:none; border-right:none; border-top:none; text-align:left; width:100%;
+  color:var(--ink); transition:background .15s;
+}
+.layer-row:hover{background:var(--parchment-2);}
+.layer-row.active{background:var(--parchment-2);}
+.layer-swatch{width:13px; height:13px; border-radius:3px; flex:0 0 auto; border:1px solid var(--line);}
+.layer-row-text{flex:1;}
+.layer-row-text .name{font-family:'Fraunces', serif; font-weight:560; font-size:16px;}
+.layer-row-text .desc{font-size:13px; color:var(--ink-soft); margin-top:2px;}
+.layer-row .count{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);}
+
+.layers-map-card{border:1px solid var(--line); background:var(--white); border-radius:var(--radius-md); overflow:hidden;}
+
+/* ============================= MAP TOOL SECTION ============================= */
+.tool-shell{border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; background:var(--white);}
+.toolbar{display:flex; align-items:center; gap:2px; padding:10px 14px; border-bottom:1px solid var(--line); overflow-x:auto; background:var(--parchment-2);}
+.tool-btn{
+  display:flex; align-items:center; gap:6px; padding:7px 10px; border-radius:var(--radius-sm); border:1px solid transparent;
+  background:none; color:var(--ink-soft); font-size:12.5px; cursor:pointer; white-space:nowrap; flex:0 0 auto;
+}
+.tool-btn svg{width:15px; height:15px;}
+.tool-btn:hover{background:var(--white); color:var(--ink);}
+.tool-btn.active{background:var(--white); color:var(--forest); border-color:var(--line);}
+.tool-sep{width:1px; align-self:stretch; background:var(--line); margin:4px 6px; flex:0 0 auto;}
+
+.tool-body{display:grid; grid-template-columns:250px 1fr 280px;}
+@media(max-width:1000px){.tool-body{grid-template-columns:1fr;}}
+
+.panel{border-right:1px solid var(--line); padding:16px; max-height:640px; overflow-y:auto;}
+.panel:last-child{border-right:none; border-left:1px solid var(--line);}
+.panel h4{font-size:12px; text-transform:none; letter-spacing:.02em; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace; font-weight:500; margin-bottom:12px;}
+.layer-toggle-row{display:flex; align-items:center; gap:9px; padding:6px 0; font-size:13.5px;}
+.layer-toggle-row input{accent-color:var(--forest); width:15px; height:15px;}
+.layer-toggle-row label{flex:1; cursor:pointer;}
+.layer-toggle-row input[type=range]{width:56px; height:3px;}
+
+.map-stage{position:relative; background:var(--white); border-right:1px solid var(--line); border-left:1px solid var(--line);}
+.map-stage-inner{position:relative;}
+.map-hud{position:absolute; bottom:12px; left:12px; display:flex; gap:10px; align-items:center; background:rgba(251,249,244,0.92); border:1px solid var(--line); border-radius:20px; padding:5px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft);}
+:root[data-theme="dark"] .map-hud, .map-hud{ }
+@media (prefers-color-scheme: dark){ .map-hud{background:rgba(36,34,32,0.92);} }
+.map-hud-scale{display:flex; align-items:center; gap:6px;}
+.map-hud-scale i{display:block; width:34px; height:2px; background:var(--ink-soft);}
+
+.timeline-bar{border-top:1px solid var(--line); padding:16px 18px 18px; background:var(--parchment-2);}
+.timeline-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;}
+.timeline-top .eyebrow{margin:0;}
+.timeline-year{font-family:'Fraunces', serif; font-size:22px; color:var(--forest-2);}
+input[type=range].timeline-slider{
+  -webkit-appearance:none; width:100%; height:3px; background:var(--line); border-radius:2px; outline:none;
+}
+input[type=range].timeline-slider::-webkit-slider-thumb{
+  -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--forest); border:3px solid var(--white); cursor:pointer; margin-top:-6.5px; box-shadow:0 0 0 1px var(--forest);
+}
+input[type=range].timeline-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--forest);border:3px solid var(--white); cursor:pointer;}
+.timeline-ticks{display:flex; justify-content:space-between; margin-top:8px; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-soft);}
+
+.selection-card{border:1px solid var(--line); border-radius:var(--radius-sm); padding:14px; background:var(--parchment-2);}
+.selection-card .sp-name{font-family:'Fraunces', serif; font-size:18px; font-weight:560;}
+.selection-card .sp-latin{font-style:italic; color:var(--ink-soft); font-size:12.5px; margin-top:2px;}
+.spec-line{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--line); font-size:12.5px;}
+.spec-line span:first-child{color:var(--ink-soft);}
+.spec-line:last-child{border-bottom:none;}
+.spacing-flag{margin-top:10px; padding:9px 10px; border-radius:var(--radius-sm); font-size:12px; line-height:1.5;}
+.spacing-flag.ok{background:rgba(142,154,128,0.18); color:var(--forest-2);}
+.spacing-flag.warn{background:rgba(199,154,70,0.22); color:#7A5B1E;}
+@media (prefers-color-scheme: dark){ .spacing-flag.warn{color:var(--gold);} }
+.selection-actions{display:flex; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap;}
+.selection-actions .hint{font-size:11.5px; color:var(--ink-soft);}
+.empty-hint{color:var(--ink-soft); font-size:13px; line-height:1.6; padding:6px 2px;}
+
+/* ============================= FEATURE CARDS ============================= */
+.feature-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+@media(max-width:860px){.feature-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.feature-grid{grid-template-columns:1fr;}}
+.feature-card{background:var(--parchment); padding:30px 26px; min-height:190px; display:flex; flex-direction:column; gap:14px;}
+.feature-card .ficon{width:30px; height:30px; color:var(--forest);}
+.feature-card h3{font-size:18px;}
+.feature-card p{color:var(--ink-soft); font-size:14px; line-height:1.55;}
+
+/* ============================= PLANT LIBRARY ============================= */
+.lib-controls{display:flex; flex-direction:column; gap:14px; margin-bottom:28px;}
+.search-row{display:flex; gap:12px; align-items:center;}
+.search-box{flex:1; display:flex; align-items:center; gap:10px; border:1px solid var(--line); background:var(--white); border-radius:var(--radius-sm); padding:11px 14px;}
+.search-box svg{width:16px; height:16px; color:var(--ink-soft); flex:0 0 auto;}
+.search-box input{border:none; outline:none; background:none; width:100%; font-size:14.5px; color:var(--ink); font-family:inherit;}
+.filter-chips{display:flex; gap:8px; flex-wrap:wrap;}
+.chip{
+  padding:6px 13px; border-radius:20px; border:1px solid var(--line); background:var(--white);
+  font-size:12.5px; cursor:pointer; color:var(--ink-soft); transition:all .12s;
+}
+.chip:hover{border-color:var(--ink-soft);}
+.chip.active{background:var(--forest); border-color:var(--forest); color:var(--white);}
+.lib-count{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft);}
+
+.plant-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+@media(max-width:900px){.plant-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.plant-grid{grid-template-columns:1fr;}}
+.plant-card{
+  border:1px solid var(--line); border-radius:var(--radius-md); background:var(--white); overflow:hidden; cursor:pointer;
+  transition:border-color .15s, transform .15s; display:flex; flex-direction:column;
+}
+.plant-card:hover{border-color:var(--ink-soft);}
+.pc-visual{height:112px; position:relative; background:var(--parchment-2); display:flex; align-items:center; justify-content:center; border-bottom:1px solid var(--line);}
+.pc-visual svg{width:72px; height:72px;}
+.pc-layer-tag{position:absolute; top:8px; left:8px; font-family:'IBM Plex Mono', monospace; font-size:9.5px; padding:2px 7px; border-radius:20px; background:var(--white); border:1px solid var(--line); color:var(--ink-soft);}
+.pc-body{padding:14px 16px 16px;}
+.pc-name{font-family:'Fraunces', serif; font-weight:560; font-size:16.5px;}
+.pc-latin{font-style:italic; font-size:12px; color:var(--ink-soft); margin-top:1px;}
+.pc-meta{display:flex; gap:12px; margin-top:11px; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);}
+.pc-tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
+.pc-tags span{font-size:10.5px; padding:2px 7px; border-radius:20px; background:var(--sage-pale); color:var(--forest-2);}
+
+/* ============================= PLANT DETAIL MODAL ============================= */
+.modal-overlay{position:fixed; inset:0; background:rgba(var(--shadow-col),0.45); z-index:100; display:none; align-items:flex-start; justify-content:center; padding:60px 20px; overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal-card{background:var(--white); border-radius:var(--radius-md); max-width:640px; width:100%; border:1px solid var(--line); box-shadow:0 30px 60px -20px rgba(var(--shadow-col),0.4);}
+.modal-head{display:flex; justify-content:space-between; align-items:flex-start; padding:24px 26px 0;}
+.modal-head h3{font-size:24px;}
+.modal-head .latin{font-style:italic; color:var(--ink-soft); margin-top:3px;}
+.modal-close{background:none; border:1px solid var(--line); width:30px; height:30px; border-radius:50%; cursor:pointer; color:var(--ink-soft); display:flex; align-items:center; justify-content:center;}
+.modal-body{padding:20px 26px 26px;}
+.modal-specs{display:grid; grid-template-columns:1fr 1fr; gap:0 24px; margin:18px 0; border-top:1px solid var(--line-soft);}
+.modal-specs .spec-line{grid-column:span 1;}
+.modal-section-title{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); margin:18px 0 8px; letter-spacing:.02em;}
+.tag-row{display:flex; gap:6px; flex-wrap:wrap;}
+.evidence-item{display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--line-soft); font-size:13px; align-items:flex-start;}
+.evidence-item:last-child{border-bottom:none;}
+.evidence-dot{width:8px; height:8px; border-radius:50%; margin-top:5px; flex:0 0 auto;}
+.evidence-dot.strong{background:var(--forest);}
+.evidence-dot.trad{background:var(--gold);}
+.evidence-dot.anecdotal{background:var(--clay-soft); border:1px solid var(--clay);}
+.evidence-label{font-family:'IBM Plex Mono', monospace; font-size:9.5px; color:var(--ink-soft); display:block; margin-bottom:1px;}
+
+/* ============================= SUN & SHADE ============================= */
+.sun-shell{display:grid; grid-template-columns:1fr 320px; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden;}
+@media(max-width:900px){.sun-shell{grid-template-columns:1fr;}}
+.sun-map{background:var(--white); padding:0;}
+.sun-controls{background:var(--white); padding:22px;}
+.time-row{display:flex; gap:6px; margin:14px 0 6px;}
+.time-btn{flex:1; padding:9px 0; border:1px solid var(--line); background:var(--white); border-radius:var(--radius-sm); font-family:'IBM Plex Mono', monospace; font-size:12px; cursor:pointer; color:var(--ink-soft);}
+.time-btn.active{background:var(--forest); border-color:var(--forest); color:var(--white);}
+.season-row{display:flex; gap:6px; margin-top:8px;}
+.season-btn{flex:1; padding:7px 0; border:1px solid var(--line); background:var(--white); border-radius:20px; font-size:11.5px; cursor:pointer; color:var(--ink-soft);}
+.season-btn.active{background:var(--sage-pale); color:var(--forest-2); border-color:var(--sage);}
+.sun-readout{margin-top:22px; border-top:1px solid var(--line-soft); padding-top:16px;}
+.sun-readout .label{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);}
+.sun-readout .value{font-family:'Fraunces', serif; font-size:30px; color:var(--forest-2); margin-top:4px;}
+.sun-toggle-year{display:flex; align-items:center; gap:8px; margin-top:16px; font-size:12.5px; color:var(--ink-soft);}
+
+/* ============================= GUILD DESIGNER ============================= */
+.guild-shell{display:grid; grid-template-columns:280px 1fr; gap:40px;}
+@media(max-width:860px){.guild-shell{grid-template-columns:1fr;}}
+.guild-select-list{display:flex; flex-direction:column; gap:6px;}
+.guild-select-btn{display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--white); cursor:pointer; text-align:left; font-size:14px;}
+.guild-select-btn.active{border-color:var(--forest); background:var(--sage-pale);}
+.guild-diagram{position:relative; min-height:380px; display:flex; align-items:center; justify-content:center;}
+.guild-center{
+  width:120px; height:120px; border-radius:50%; background:var(--forest); color:var(--white);
+  display:flex; align-items:center; justify-content:center; text-align:center; font-family:'Fraunces', serif; font-size:15px; padding:8px; z-index:2; position:relative;
+}
+.guild-node{
+  position:absolute; width:150px; padding:11px 13px; background:var(--white); border:1px solid var(--line); border-radius:var(--radius-sm); font-size:12.5px;
+}
+.guild-node .gname{font-weight:600; font-size:13px;}
+.guild-node .gfunc{color:var(--ink-soft); font-size:11px; margin-top:2px;}
+.guild-node .gev{display:inline-block; margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; padding:2px 6px; border-radius:20px;}
+.gev.strong{background:var(--sage-pale); color:var(--forest-2);}
+.gev.trad{background:rgba(199,154,70,0.25); color:#7A5B1E;}
+.gev.anecdotal{background:rgba(173,95,46,0.15); color:var(--clay);}
+@media (prefers-color-scheme: dark){ .gev.trad{color:var(--gold);} }
+.guild-line{position:absolute; background:var(--line-soft); height:1px; transform-origin:0 0; z-index:0;}
+.evidence-key{display:flex; gap:16px; margin-top:22px; flex-wrap:wrap; font-size:12px; color:var(--ink-soft);}
+.evidence-key span{display:flex; align-items:center; gap:6px;}
+
+/* ============================= CONFLICT CHECKER ============================= */
+.check-list{display:flex; flex-direction:column; border-top:1px solid var(--line);}
+.check-row{display:flex; align-items:flex-start; gap:16px; padding:18px 4px; border-bottom:1px solid var(--line);}
+.check-status{width:11px; height:11px; border-radius:50%; margin-top:5px; flex:0 0 auto;}
+.check-status.good{background:var(--forest);}
+.check-status.review{background:var(--gold);}
+.check-status.problem{background:var(--clay);}
+.check-row-text .title{font-family:'Fraunces', serif; font-size:16px; font-weight:560;}
+.check-row-text .desc{color:var(--ink-soft); font-size:13.5px; margin-top:3px; line-height:1.55;}
+.check-row-cat{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); width:110px; flex:0 0 auto; padding-top:2px;}
+
+/* ============================= ZONES ============================= */
+.zone-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+@media(max-width:860px){.zone-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.zone-grid{grid-template-columns:1fr;}}
+.zone-card{background:var(--parchment); padding:22px; min-height:130px; display:flex; flex-direction:column; justify-content:space-between;}
+.zone-card .znum{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);}
+.zone-card h4{font-family:'Fraunces', serif; font-size:16.5px; margin-top:10px; font-weight:560;}
+.zone-card p{font-size:12.5px; color:var(--ink-soft); margin-top:6px;}
+
+/* ============================= PRINCIPLES ============================= */
+.principles-list{columns:2; column-gap:48px;}
+@media(max-width:700px){.principles-list{columns:1;}}
+.principle-item{break-inside:avoid; display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line-soft);}
+.principle-num{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--sage); flex:0 0 auto; width:22px; padding-top:2px;}
+.principle-text{font-size:14.5px; line-height:1.5;}
+
+/* ============================= SAMPLE PROJECT ============================= */
+.sample-shell{border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; background:var(--white);}
+.sample-head{display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--line); flex-wrap:wrap; gap:12px;}
+.sample-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-soft);}
+.sample-legend span{display:flex; align-items:center; gap:6px;}
+.legend-dot{width:9px; height:9px; border-radius:3px;}
+
+/* ============================= FINAL CTA ============================= */
+.final-cta{text-align:center; padding:120px 0; border-top:1px solid var(--line);}
+.final-cta h2{font-size:clamp(26px,3.2vw,34px); color:var(--ink-soft); font-weight:480;}
+.final-cta h2 + h2{color:var(--ink); font-weight:560; margin-top:6px;}
+.final-cta .btn{margin-top:32px; font-size:16px; padding:14px 26px;}
+
+/* ============================= FOOTER ============================= */
+footer{border-top:1px solid var(--line); padding:40px 0; }
+.footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+.footer-inner .brand{font-size:15px;}
+.footer-links{display:flex; gap:22px; font-size:13px; color:var(--ink-soft); flex-wrap:wrap;}
+
+/* ============================= MISC ============================= */
+.overflow-x{overflow-x:auto;}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;}
+  .layers-shell{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ NAV ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none"><path d="M12 21V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M12 11C12 11 5 11 5 5C11 5 12 11 12 11Z" fill="currentColor" opacity=".85"/><path d="M12 14C12 14 19 14 19 8C13 8 12 14 12 14Z" fill="currentColor" opacity=".55"/></svg>
+      LIVING GARDEN
+    </div>
+    <ul class="nav-links">
+      <li><a href="#map-tool">Projects</a></li>
+      <li><a href="#map-tool">Garden Map</a></li>
+      <li><a href="#plants">Plants</a></li>
+      <li><a href="#principles">Design Principles</a></li>
+      <li><a href="#layers">Learn</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Search" onclick="document.getElementById('plant-search').focus(); document.getElementById('plants').scrollIntoView({behavior:'smooth'});">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Help">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.1.9-1.1 1.7v.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="16.7" r=".9" fill="currentColor"/></svg>
+      </button>
+      <div class="avatar">FS</div>
+      <button class="btn btn-primary btn-sm" onclick="document.getElementById('map-tool').scrollIntoView({behavior:'smooth'})">+ New Garden</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================ HERO ============================================================ -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Design a garden that evolves.</h1>
+      <p class="hero-sub">Plan trees, shrubs, perennials and annuals as one living system — with spatial planning, sun and shade analysis, ecological relationships and succession over time.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="document.getElementById('map-tool').scrollIntoView({behavior:'smooth'})">Start a new garden</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('sample').scrollIntoView({behavior:'smooth'})">Explore a sample garden</button>
+      </div>
+      <div class="hero-coords">
+        <span>LAT <b>47.6875° N</b></span>
+        <span>LON <b>17.6504° E</b></span>
+        <span>PLOT <b>612 m²</b></span>
+        <span>ZONE <b>7a</b></span>
+      </div>
+    </div>
+    <div class="hero-map-card">
+      <div class="hero-map-head">
+        <span class="eyebrow">THE 600 M² LIVING GARDEN</span>
+        <div class="year-pill" id="hero-year-pill">
+          <span data-y="1">Y1</span><span data-y="5">Y5</span><span data-y="10">Y10</span>
+        </div>
+      </div>
+      <div class="hero-map-body" id="hero-map-mount"></div>
+      <div class="hero-map-foot">
+        <span>Autumn survey — updating canopy model</span>
+        <span id="hero-year-label">YEAR 1</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<hr class="divider">
+
+<!-- ============================================================ LAYERS ============================================================ -->
+<section id="layers">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">DESIGN IN LAYERS</span>
+      <h2>Design vertically, not just horizontally.</h2>
+      <p>Each layer occupies a different ecological niche — light, root depth, and time. Select a layer to see where it lives in the garden.</p>
+    </div>
+    <div class="layers-shell">
+      <div class="layer-list" id="layer-list"></div>
+      <div class="layers-map-card">
+        <div id="layers-map-mount"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================ MAP TOOL ============================================================ -->
+<section id="map-tool">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">YOUR GARDEN MAP</span>
+      <h2>Place a plant. See its mature size. Move through time.</h2>
+      <p>A spatially accurate 2D plan — layers, measurement, sun and shade, and succession, all on one canvas. Click any plant on the map, or place a new one from the toolbar.</p>
+    </div>
+
+    <div class="tool-shell">
+      <div class="toolbar" id="toolbar">
+        <div id="toolbar-spacer" style="flex:1 0 auto;min-width:8px;"></div>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" id="save-plan-btn" title="Save this garden plan to a file">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h8V4M8 14h8v6H8z"/></svg>
+          <span>Save plan</span>
+        </button>
+        <button class="tool-btn" id="load-plan-btn" title="Load a previously saved garden plan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l4-4h5l4 4h3v13H4z"/><path d="M12 11v6M9 14l3-3 3 3"/></svg>
+          <span>Load plan</span>
+        </button>
+        <input type="file" id="load-file-input" accept="application/json,.json" style="display:none">
+      </div>
+      <div class="tool-body">
+        <div class="panel" id="layer-panel"></div>
+        <div class="map-stage">
+          <div id="tool-map-mount"></div>
+          <div class="map-hud">
+            <span>1 : 200</span>
+            <div class="map-hud-scale"><i></i><span>5 m</span></div>
+          </div>
+        </div>
+        <div class="panel" id="selection-panel"></div>
+      </div>
+      <div class="timeline-bar">
+        <div class="timeline-top">
+          <span class="eyebrow">SUCCESSION TIMELINE</span>
+          <span class="timeline-year" id="tool-year-readout">Year 1</span>
+        </div>
+        <input type="range" class="timeline-slider" id="tool-timeline" min="0" max="5" step="1" value="1">
+        <div class="timeline-ticks"><span>Y0</span><span>Y1</span><span>Y3</span><span>Y5</span><span>Y10</span><span>Y20</span></div>
+        <div id="save-load-status" class="empty-hint" style="margin-top:10px; padding:0;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================ FEATURE CARDS ============================================================ -->
+<section style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="feature-grid" id="feature-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================ PLANT LIBRARY ============================================================ -->
+<section id="plants">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">PLANT LIBRARY</span>
+      <h2>A searchable plant database, built for real ecological decisions.</h2>
+      <p>Every entry carries the specifications a design actually needs — mature size, tolerances, function, and known relationships.</p>
+    </div>
+    <div class="lib-controls">
+      <div class="search-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="plant-search" type="text" placeholder="Search plants…" oninput="renderPlantGrid()">
+        </div>
+        <span class="lib-count" id="lib-count"></span>
+      </div>
+      <div class="filter-chips" id="filter-chips"></div>
+    </div>
+    <div class="plant-grid" id="plant-grid"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================ SUN & SHADE ============================================================ -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">SUN &amp; SHADE ANALYSIS</span>
+      <h2>Model how light moves through the garden — today, and in ten years.</h2>
+      <p>Shadows are cast from buildings, fences and canopies. Toggle future canopy size to see how a young orchard will shade the beds beneath it.</p>
+    </div>
+    <div class="sun-shell">
+      <div class="sun-map"><div id="sun-map-mount"></div></div>
+      <div class="sun-controls">
+        <span class="eyebrow">TIME OF DAY</span>
+        <div class="time-row" id="time-row"></div>
+        <span class="eyebrow" style="display:block; margin-top:18px;">SEASON</span>
+        <div class="season-row" id="season-row"></div>
+        <div class="sun-toggle-year">
+          <input type="checkbox" id="sun-future" onchange="renderSunMap()">
+          <label for="sun-future">Show shade in Year 10</label>
+        </div>
+        <div class="sun-readout">
+          <div class="label">SELECTED LOCATION — VEGETABLE BED 3</div>
+          <div class="value" id="sun-hours">7.2 h/day</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================ GUILD DESIGNER ============================================================ -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">GUILD DESIGNER</span>
+      <h2>Build functional plant communities around a main crop.</h2>
+      <p>Select a main plant to see supporting functions — nitrogen fixers, dynamic accumulators, pollinator plants — sorted by how well-documented the relationship actually is.</p>
+    </div>
+    <div class="guild-shell">
+      <div class="guild-select-list" id="guild-select-list"></div>
+      <div class="guild-diagram" id="guild-diagram"></div>
+    </div>
+    <div class="evidence-key">
+      <span><span class="evidence-dot strong"></span> Well documented relationship</span>
+      <span><span class="evidence-dot trad"></span> Traditional / permaculture practice</span>
+      <span><span class="evidence-dot anecdotal"></span> Uncertain or anecdotal claim</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================ CONFLICT CHECKER ============================================================ -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">GARDEN HEALTH CHECK</span>
+      <h2>Catch the conflicts before you plant them.</h2>
+      <p>A running analysis of the design in progress — never a claim that a combination is impossible, only where the evidence says to look more closely.</p>
+    </div>
+    <div class="check-list" id="check-list"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================ ZONES ============================================================ -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">DESIGN ZONES</span>
+      <h2>Give every part of the garden its own objective.</h2>
+    </div>
+    <div class="zone-grid" id="zone-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================ PRINCIPLES ============================================================ -->
+<section id="principles">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">DESIGN PRINCIPLES</span>
+      <h2>What the application asks you to keep in mind.</h2>
+    </div>
+    <div class="principles-list" id="principles-list"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================================ SAMPLE PROJECT ============================================================ -->
+<section id="sample">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">SAMPLE PROJECT</span>
+      <h2>The 600 m² Living Garden</h2>
+      <p>An orchard, forest garden, annual beds, a pond and a biomass zone — explore how it develops over twenty years.</p>
+    </div>
+    <div class="sample-shell">
+      <div class="sample-head">
+        <div class="sample-legend" id="sample-legend"></div>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('map-tool').scrollIntoView({behavior:'smooth'})">Open in Garden Map</button>
+      </div>
+      <div id="sample-map-mount"></div>
+      <div class="timeline-bar">
+        <div class="timeline-top"><span class="eyebrow">YEAR</span><span class="timeline-year" id="sample-year-readout">Year 1</span></div>
+        <input type="range" class="timeline-slider" id="sample-timeline" min="0" max="2" step="1" value="0">
+        <div class="timeline-ticks"><span>Year 1</span><span>Year 5</span><span>Year 10</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FINAL CTA ============================================================ -->
+<section class="final-cta">
+  <div class="wrap">
+    <h2>Your garden is not a picture.</h2>
+    <h2>It is a system that grows, changes and evolves.</h2>
+    <button class="btn btn-primary" onclick="document.getElementById('map-tool').scrollIntoView({behavior:'smooth'})">Start designing your living garden →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="brand">LIVING GARDEN</div>
+    <div class="footer-links">
+      <span>Projects</span><span>Garden Map</span><span>Plants</span><span>Design Principles</span><span>Learn</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================ PLANT MODAL ============================================================ -->
+<div class="modal-overlay" id="plant-modal" onclick="if(event.target===this) closeModal()">
+  <div class="modal-card" id="modal-card"></div>
+</div>
+
+<script>
+/* ======================================================================
+   LIVING GARDEN — demo engine
+   A shared plant + site dataset drives every map, card grid and diagram
+   on the page. Nothing here calls a server; it's all computed client side
+   so the page works as a self-contained prototype.
+   ====================================================================== */
+
+const SCALE = 25; // px per metre
+
+/* ---------- ecological layers ---------- */
+const LAYERS = [
+  {id:'canopy',      name:'Canopy',        desc:'Fruit trees, nut trees, large trees'},
+  {id:'subcanopy',   name:'Sub-canopy',    desc:'Small trees and smaller fruit trees'},
+  {id:'shrub',       name:'Shrub',         desc:'Berries, productive shrubs, habitat plants'},
+  {id:'herbaceous',  name:'Herbaceous',    desc:'Perennials, vegetables, herbs and flowers'},
+  {id:'groundcover', name:'Groundcover',   desc:'Living mulch and low-growing plants'},
+  {id:'root',        name:'Root',          desc:'Root crops and underground production'},
+  {id:'climber',     name:'Climbers',      desc:'Grapes, beans, kiwis and other vines'},
+  {id:'biomass',     name:'Biomass / mulch', desc:'Chop-and-drop species that feed the soil'},
+];
+const layerColor = id => `var(${ {canopy:'--forest',subcanopy:'--forest',shrub:'--clay',herbaceous:'--clay',groundcover:'--sage',root:'--soil,#6B5842',climber:'--water',biomass:'--gold'}[id] || '--forest' })`;
+
+/* ---------- plant database ---------- */
+const PLANTS = [
+  {id:'apple', name:'Apple', latin:'Malus domestica', layer:'canopy', x:230,y:165,
+   matureRadius:56, currentRadius:10, maturityYears:8, matureLabel:'4.5 m canopy', currentLabel:'0.8 m',
+   sun:'Full sun', water:'Moderate', soil:'Well-drained loam', hardiness:'Zone 4–8', growthRate:'Moderate',
+   functions:['Fruit','Pollinator forage'], flower:'April – May', harvest:'Sept – Oct', lifespan:'40–80 years',
+   pruning:'Annual, dormant season', incompat:'Avoid black walnut nearby', allelopathy:'None significant',
+   ecology:'Supports pollinators in bloom; deadwood over time hosts cavity-nesting species.',
+   succession:'Climax / long-lived', tags:['edible','perennial','tree','fruit','pollinator']},
+
+  {id:'pear', name:'Pear', latin:'Pyrus communis', layer:'canopy', x:350,y:145,
+   matureRadius:62, currentRadius:9, maturityYears:9, matureLabel:'5 m canopy', currentLabel:'0.7 m',
+   sun:'Full sun', water:'Moderate', soil:'Tolerant, prefers loam', hardiness:'Zone 4–8', growthRate:'Slow',
+   functions:['Fruit','Pollinator forage'], flower:'April', harvest:'Sept', lifespan:'50–100 years',
+   pruning:'Annual, dormant season', incompat:'Fire blight risk near hawthorn', allelopathy:'None significant',
+   ecology:'Long-lived climax tree; blossom is an early-season nectar source.',
+   succession:'Climax / long-lived', tags:['edible','perennial','tree','fruit','pollinator']},
+
+  {id:'serviceberry', name:'Serviceberry', latin:'Amelanchier lamarckii', layer:'subcanopy', x:445,y:225,
+   matureRadius:37, currentRadius:6, maturityYears:6, matureLabel:'3 m canopy', currentLabel:'0.5 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable', hardiness:'Zone 4–9', growthRate:'Moderate',
+   functions:['Fruit','Wildlife habitat','Pollinator forage'], flower:'March – April', harvest:'June', lifespan:'20–40 years',
+   pruning:'Light, after fruiting', incompat:'None documented', allelopathy:'None known',
+   ecology:'Early nectar source; berries heavily used by birds.',
+   succession:'Secondary succession', tags:['edible','native','perennial','tree','fruit','pollinator','wildlife']},
+
+  {id:'blackcurrant', name:'Blackcurrant', latin:'Ribes nigrum', layer:'shrub', x:195,y:300,
+   matureRadius:15, currentRadius:4, maturityYears:3, matureLabel:'1.2 m spread', currentLabel:'0.3 m',
+   sun:'Part shade tolerant', water:'Moderate – high', soil:'Rich, moisture-retentive', hardiness:'Zone 3–8', growthRate:'Fast',
+   functions:['Fruit'], flower:'April', harvest:'July', lifespan:'15–20 years',
+   pruning:'Renewal-prune oldest third yearly', incompat:'Alternate host for white pine blister rust', allelopathy:'None known',
+   ecology:'Tolerates the dappled shade beneath a young orchard canopy.',
+   succession:'Secondary succession', tags:['edible','perennial','shrub','fruit','shade tolerant']},
+
+  {id:'elderberry', name:'Elderberry', latin:'Sambucus nigra', layer:'shrub', x:305,y:335,
+   matureRadius:37, currentRadius:5, maturityYears:4, matureLabel:'3 m spread', currentLabel:'0.4 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable, tolerates wet', hardiness:'Zone 4–9', growthRate:'Fast',
+   functions:['Fruit','Wildlife habitat','Biomass'], flower:'June', harvest:'Aug – Sept', lifespan:'20–30 years',
+   pruning:'Coppice or renewal-prune', incompat:'None documented', allelopathy:'None known',
+   ecology:'Fast biomass; flowers support hoverflies and pollinators; berries feed birds.',
+   succession:'Secondary succession', tags:['edible','native','perennial','shrub','fruit','pollinator','wildlife','pioneer']},
+
+  {id:'comfrey', name:'Comfrey', latin:'Symphytum × uplandicum', layer:'herbaceous', x:255,y:380,
+   matureRadius:10, currentRadius:3, maturityYears:2, matureLabel:'0.8 m clump', currentLabel:'0.2 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable, deep-rooted', hardiness:'Zone 3–9', growthRate:'Fast',
+   functions:['Dynamic accumulator','Biomass','Pollinator forage'], flower:'May – Sept', harvest:'Cut 3–4×/season', lifespan:'10+ years',
+   pruning:'Chop-and-drop repeatedly', incompat:'Spreads if root fragments disturbed', allelopathy:'None documented',
+   ecology:'Deep taproot lifts minerals; classic chop-and-drop mulch plant beneath young trees.',
+   succession:'Support / biomass', tags:['perennial','medicinal','pollinator','biomass producer']},
+
+  {id:'yarrow', name:'Yarrow', latin:'Achillea millefolium', layer:'herbaceous', x:385,y:400,
+   matureRadius:6, currentRadius:2, maturityYears:1, matureLabel:'0.5 m clump', currentLabel:'0.15 m',
+   sun:'Full sun', water:'Low', soil:'Tolerates poor, dry soil', hardiness:'Zone 3–9', growthRate:'Fast',
+   functions:['Dynamic accumulator','Pollinator forage','Pest-confusion'], flower:'June – Sept', harvest:'Cut as needed', lifespan:'5–10 years',
+   pruning:'Cut back after flowering', incompat:'None documented', allelopathy:'Mild — may slow germination of very small seeds nearby',
+   ecology:'Attracts predatory insects; often used as a guild support plant.',
+   succession:'Support / groundcover', tags:['native','perennial','medicinal','pollinator','drought tolerant']},
+
+  {id:'kale', name:'Kale', latin:'Brassica oleracea', layer:'herbaceous', x:465,y:420,
+   matureRadius:6, currentRadius:1, maturityYears:1, matureLabel:'0.5 m plant', currentLabel:'0.1 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Fertile, rich', hardiness:'Annual / biennial', growthRate:'Fast',
+   functions:['Food crop'], flower:'Year 2 if overwintered', harvest:'Autumn – winter', lifespan:'1 season',
+   pruning:'Harvest leaves as needed', incompat:'Avoid repeating brassicas in same bed yearly', allelopathy:'None known',
+   ecology:'Annual bed crop; rotate to manage soil-borne pests.',
+   succession:'Productive / annual', tags:['edible','annual','culinary']},
+
+  {id:'clover', name:'White clover', latin:'Trifolium repens', layer:'groundcover', x:335,y:460,
+   matureRadius:30, currentRadius:5, maturityYears:2, matureLabel:'spreading mat', currentLabel:'0.15 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable', hardiness:'Zone 3–10', growthRate:'Fast',
+   functions:['Nitrogen fixer','Living mulch','Pollinator forage'], flower:'May – Sept', harvest:'—', lifespan:'Perennial, self-seeds',
+   pruning:'Mow or trample tolerant', incompat:'None documented', allelopathy:'None known',
+   ecology:'Fixes nitrogen at the root zone; a classic orchard-floor groundcover.',
+   succession:'Groundcover / support', tags:['perennial','groundcover','nitrogen fixer','pollinator']},
+
+  {id:'strawberry', name:'Strawberry', latin:'Fragaria × ananassa', layer:'groundcover', x:425,y:470,
+   matureRadius:18, currentRadius:4, maturityYears:2, matureLabel:'runners to 1 m', currentLabel:'0.2 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Rich, well-drained', hardiness:'Zone 4–8', growthRate:'Fast',
+   functions:['Fruit','Living mulch'], flower:'April – May', harvest:'June – July', lifespan:'3–4 years per plant',
+   pruning:'Remove excess runners', incompat:'None documented', allelopathy:'None known',
+   ecology:'Good edible groundcover for the outer drip-line of young trees.',
+   succession:'Groundcover / productive', tags:['edible','perennial','groundcover','fruit']},
+
+  {id:'jerusalem', name:'Jerusalem artichoke', latin:'Helianthus tuberosus', layer:'root', x:525,y:350,
+   matureRadius:12, currentRadius:3, maturityYears:2, matureLabel:'to 2.5 m tall', currentLabel:'0.3 m',
+   sun:'Full sun', water:'Moderate', soil:'Adaptable', hardiness:'Zone 3–9', growthRate:'Fast',
+   functions:['Food crop','Windbreak','Biomass'], flower:'Sept', harvest:'Autumn tubers', lifespan:'Perennial, spreads readily',
+   pruning:'Cut stalks after frost', incompat:'Can outcompete neighbours', allelopathy:'None documented',
+   ecology:'Vigorous — best contained, or given its own bed.',
+   succession:'Pioneer / productive', tags:['edible','perennial','root crop','pioneer']},
+
+  {id:'grape', name:'Grape', latin:'Vitis vinifera', layer:'climber', x:145,y:420,
+   matureRadius:25, currentRadius:5, maturityYears:4, matureLabel:'trellis, 2 m spread', currentLabel:'0.3 m',
+   sun:'Full sun', water:'Low – moderate', soil:'Well-drained', hardiness:'Zone 6–9', growthRate:'Moderate',
+   functions:['Fruit','Shade structure'], flower:'May – June', harvest:'Sept', lifespan:'40+ years',
+   pruning:'Heavy, annual, dormant season', incompat:'None documented', allelopathy:'None known',
+   ecology:'Needs sturdy support; good over a pergola for summer shade.',
+   succession:'Climax / long-lived', tags:['edible','perennial','climber','fruit']},
+
+  {id:'runnerbean', name:'Runner bean', latin:'Phaseolus coccineus', layer:'climber', x:185,y:460,
+   matureRadius:12, currentRadius:2, maturityYears:1, matureLabel:'2–3 m vine', currentLabel:'0.1 m',
+   sun:'Full sun', water:'Moderate – high', soil:'Fertile', hardiness:'Annual', growthRate:'Fast',
+   functions:['Nitrogen fixer','Food crop','Pollinator forage'], flower:'July – Sept', harvest:'Aug – Sept', lifespan:'1 season',
+   pruning:'None, train onto support', incompat:'None documented', allelopathy:'None known',
+   ecology:'Fixes nitrogen for the season; hummingbird- and bee-attracting flowers.',
+   succession:'Pioneer / annual', tags:['edible','annual','climber','nitrogen fixer','pollinator']},
+
+  {id:'tagasaste', name:'Tree lucerne', latin:'Cytisus proliferus', layer:'biomass', x:655,y:185,
+   matureRadius:50, currentRadius:8, maturityYears:5, matureLabel:'4 m, coppiced', currentLabel:'0.6 m',
+   sun:'Full sun', water:'Low', soil:'Poor, well-drained', hardiness:'Zone 8–10', growthRate:'Fast',
+   functions:['Nitrogen fixer','Biomass','Fodder'], flower:'Winter – spring', harvest:'Coppice yearly', lifespan:'Coppiced indefinitely',
+   pruning:'Coppice annually for mulch', incompat:'None documented', allelopathy:'None known',
+   ecology:'Fast pioneer nitrogen fixer, typically removed or heavily cut back once the canopy layer closes.',
+   succession:'Pioneer / biomass', tags:['perennial','biomass producer','nitrogen fixer','pioneer','drought tolerant']},
+
+  {id:'willow', name:'Willow', latin:'Salix viminalis', layer:'biomass', x:565,y:140,
+   matureRadius:44, currentRadius:6, maturityYears:4, matureLabel:'3.5 m, coppiced', currentLabel:'0.4 m',
+   sun:'Full sun', water:'High', soil:'Wet tolerant', hardiness:'Zone 3–9', growthRate:'Fast',
+   functions:['Biomass','Erosion control','Wildlife habitat'], flower:'Feb – March', harvest:'Coppice yearly for stakes/mulch', lifespan:'Coppiced indefinitely',
+   pruning:'Coppice annually', incompat:'Roots seek water lines and drains', allelopathy:'None significant',
+   ecology:'Early pollen source; useful along the wetter margin near the pond.',
+   succession:'Pioneer / biomass', tags:['native','perennial','biomass producer','wet soil','pollinator']},
+
+  /* ---- added: nut & fruit trees ---- */
+  {id:'pecan', name:'Pecan', latin:'Carya illinoinensis', layer:'canopy', x:700,y:210,
+   matureRadius:150, currentRadius:13, maturityYears:15, matureLabel:'~12 m canopy (orchard-managed)', currentLabel:'1 m whip',
+   sun:'Full sun', water:'Moderate – high', soil:'Deep, fertile, well-drained', hardiness:'Zone 6–9', growthRate:'Moderate',
+   functions:['Nut','Shade tree'], flower:'April – May (catkins, wind-pollinated)', harvest:'Oct – Nov', lifespan:'100+ years',
+   pruning:'Minimal; central-leader training while young', incompat:'Benefits from a second pecan nearby for pollination', allelopathy:'Mild juglone-family compounds, much weaker than black walnut and not well documented',
+   ecology:'Very large, long-lived nut tree; needs real orchard spacing to reach full size.',
+   succession:'Climax / long-lived', tags:['edible','perennial','tree','nut']},
+
+  {id:'walnut', name:'Walnut', latin:'Juglans regia', layer:'canopy', x:830,y:260,
+   matureRadius:125, currentRadius:13, maturityYears:10, matureLabel:'~10 m canopy', currentLabel:'1 m whip',
+   sun:'Full sun', water:'Moderate', soil:'Deep, fertile, well-drained', hardiness:'Zone 5–9', growthRate:'Fast',
+   functions:['Nut','Timber value','Shade tree'], flower:'April – May (catkins, wind-pollinated)', harvest:'Sept – Oct', lifespan:'100+ years',
+   pruning:'Minimal; prune in summer to limit sap bleeding', incompat:'Keep apple, tomato and other juglone-sensitive plants well clear of the root zone', allelopathy:'Well documented — juglone suppresses many nearby plants, most strongly near the trunk',
+   ecology:'Classic juglone producer; site away from vegetable beds and sensitive fruit trees.',
+   succession:'Climax / long-lived', tags:['edible','perennial','tree','nut']},
+
+  {id:'heartnut', name:'Heartnut', latin:'Juglans ailantifolia var. cordiformis', layer:'canopy', x:760,y:370,
+   matureRadius:112, currentRadius:12, maturityYears:8, matureLabel:'~9 m canopy', currentLabel:'1 m whip',
+   sun:'Full sun', water:'Moderate – high', soil:'Deep, moist, well-drained', hardiness:'Zone 4–8', growthRate:'Fast',
+   functions:['Nut','Shade tree'], flower:'May (catkins, wind-pollinated)', harvest:'Sept – Oct', lifespan:'60–100 years',
+   pruning:'Minimal', incompat:'Same genus as walnut — assume similar juglone production near the root zone', allelopathy:'Produces juglone, likely similar to other Juglans species though less specifically studied',
+   ecology:'Precocious, heavy-bearing walnut relative; hardier than English walnut.',
+   succession:'Climax / long-lived', tags:['edible','perennial','tree','nut']},
+
+  {id:'sourcherry', name:'Sour cherry', latin:'Prunus cerasus', layer:'subcanopy', x:95,y:210,
+   matureRadius:56, currentRadius:7, maturityYears:5, matureLabel:'4.5 m canopy', currentLabel:'0.6 m',
+   sun:'Full sun', water:'Moderate', soil:'Well-drained loam', hardiness:'Zone 4–7', growthRate:'Moderate',
+   functions:['Fruit','Pollinator forage'], flower:'April', harvest:'July', lifespan:'15–25 years',
+   pruning:'Annual, dormant season, open-centre', incompat:'None documented', allelopathy:'None significant',
+   ecology:'Self-fertile and very cold-hardy; reliable early bloom feeds pollinators.',
+   succession:'Secondary succession', tags:['edible','perennial','tree','fruit','pollinator']},
+
+  {id:'cherry', name:'Cherry', latin:'Prunus avium', layer:'canopy', x:55,y:310,
+   matureRadius:87, currentRadius:9, maturityYears:7, matureLabel:'7 m canopy', currentLabel:'0.7 m',
+   sun:'Full sun', water:'Moderate', soil:'Deep, well-drained loam', hardiness:'Zone 5–8', growthRate:'Moderate',
+   functions:['Fruit','Pollinator forage'], flower:'April', harvest:'June – July', lifespan:'20–40 years',
+   pruning:'Minimal; prune in summer to reduce disease risk', incompat:'Usually needs a second, compatible sweet cherry nearby for pollination', allelopathy:'None significant',
+   ecology:'Showy spring bloom draws pollinators; birds compete heavily for the fruit.',
+   succession:'Secondary succession', tags:['edible','perennial','tree','fruit','pollinator']},
+
+  {id:'peach', name:'Peach', latin:'Prunus persica', layer:'subcanopy', x:90,y:400,
+   matureRadius:50, currentRadius:6, maturityYears:4, matureLabel:'4 m canopy', currentLabel:'0.5 m',
+   sun:'Full sun', water:'Moderate', soil:'Well-drained, slightly acidic loam', hardiness:'Zone 5–9', growthRate:'Fast',
+   functions:['Fruit'], flower:'March – April', harvest:'July – Aug', lifespan:'10–15 years',
+   pruning:'Annual, open-centre, can be heavy', incompat:'Susceptible to peach leaf curl in wet springs; avoid poorly drained sites', allelopathy:'None significant',
+   ecology:'Fast to fruit but shorter-lived than pome fruit; wants good air circulation.',
+   succession:'Pioneer / productive, shorter-lived', tags:['edible','perennial','tree','fruit']},
+
+  {id:'fig', name:'Fig', latin:'Ficus carica', layer:'subcanopy', x:55,y:490,
+   matureRadius:50, currentRadius:5, maturityYears:3, matureLabel:'4 m spread', currentLabel:'0.4 m',
+   sun:'Full sun', water:'Moderate', soil:'Adaptable, prefers well-drained', hardiness:'Zone 7–10 (marginal in 6 with protection)', growthRate:'Fast',
+   functions:['Fruit'], flower:'Inconspicuous (fruit is a specialised inflorescence)', harvest:'Aug – Oct, sometimes two crops', lifespan:'30–50+ years where hardy',
+   pruning:'Tolerates hard pruning; often kept as a multi-stem shrub-tree', incompat:'None documented', allelopathy:'None significant',
+   ecology:'Vigorous and drought-tolerant once established; may die back and regrow from the base in cold winters.',
+   succession:'Secondary succession / productive', tags:['edible','perennial','tree','fruit','drought tolerant']},
+
+  {id:'plum', name:'Plum', latin:'Prunus domestica', layer:'subcanopy', x:150,y:530,
+   matureRadius:56, currentRadius:7, maturityYears:5, matureLabel:'4.5 m canopy', currentLabel:'0.6 m',
+   sun:'Full sun', water:'Moderate', soil:'Adaptable, tolerates heavier soils', hardiness:'Zone 4–8', growthRate:'Moderate',
+   functions:['Fruit','Pollinator forage'], flower:'April', harvest:'Aug – Sept', lifespan:'15–20 years',
+   pruning:'Light, annual; prune in summer to reduce silver leaf risk', incompat:'Some varieties need a compatible pollinator variety nearby', allelopathy:'None significant',
+   ecology:'Reliable early bloom; can sucker if grown on its own roots.',
+   succession:'Secondary succession', tags:['edible','perennial','tree','fruit','pollinator']},
+
+  {id:'medlar', name:'Medlar', latin:'Mespilus germanica', layer:'subcanopy', x:490,y:510,
+   matureRadius:56, currentRadius:6, maturityYears:6, matureLabel:'4.5 m canopy', currentLabel:'0.5 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable, tolerates poor soils well', hardiness:'Zone 5–8', growthRate:'Slow',
+   functions:['Fruit','Ornamental'], flower:'May – June', harvest:'Oct – Nov, usually bletted before eating', lifespan:'30–50+ years',
+   pruning:'Minimal; naturally attractive gnarled form', incompat:'None documented', allelopathy:'None significant',
+   ecology:'Late bloom avoids most spring frost; picturesque, low-maintenance small tree.',
+   succession:'Secondary succession', tags:['edible','perennial','tree','fruit','ornamental']},
+
+  {id:'chinesequince', name:'Chinese quince', latin:'Pseudocydonia sinensis', layer:'subcanopy', x:290,y:70,
+   matureRadius:69, currentRadius:7, maturityYears:6, matureLabel:'5.5 m canopy', currentLabel:'0.6 m',
+   sun:'Full sun', water:'Moderate', soil:'Adaptable, well-drained', hardiness:'Zone 5–8', growthRate:'Moderate',
+   functions:['Fruit (for preserves)','Ornamental bark and flowers'], flower:'April – May', harvest:'Oct, cooked rather than eaten raw', lifespan:'30–50+ years',
+   pruning:'Minimal; valued for exfoliating bark', incompat:'None documented', allelopathy:'None significant',
+   ecology:'Ornamental in every season; large aromatic fruit is astringent raw, good for preserves.',
+   succession:'Secondary succession', tags:['edible','perennial','tree','fruit','ornamental']},
+
+  {id:'silverpoplar', name:'Silver poplar', latin:'Populus alba', layer:'canopy', x:450,y:60,
+   matureRadius:150, currentRadius:13, maturityYears:8, matureLabel:'~12 m canopy', currentLabel:'1 m whip',
+   sun:'Full sun', water:'Moderate – high, tolerates wet soils', soil:'Adaptable, tolerates poor/compacted soils', hardiness:'Zone 3–9', growthRate:'Very fast',
+   functions:['Windbreak','Biomass','Shade','Erosion control'], flower:'March (catkins, wind-pollinated)', harvest:'—', lifespan:'50–100 years per trunk; roots persist and sucker longer',
+   pruning:'Minimal; keep well clear of foundations and drains', incompat:'Aggressive, far-reaching roots and freely suckers — not well suited to small gardens', allelopathy:'None significant, but root competition is intense',
+   ecology:'Extremely fast-growing windbreak/biomass tree, native to the region; best kept at the garden edge, away from structures.',
+   succession:'Pioneer, fast-growing', tags:['native','perennial','tree','biomass producer','wet soil','pioneer']},
+
+  /* ---- added: shrubs ---- */
+  {id:'hazelnut', name:'Hazelnut', latin:'Corylus avellana', layer:'shrub', x:620,y:60,
+   matureRadius:44, currentRadius:5, maturityYears:5, matureLabel:'3.5 m spread', currentLabel:'0.4 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable, well-drained', hardiness:'Zone 4–9', growthRate:'Moderate – fast',
+   functions:['Nut','Coppice / biomass','Windbreak','Wildlife habitat'], flower:'Jan – Feb (catkins, wind-pollinated)', harvest:'Sept – Oct', lifespan:'40–80 years, can be coppiced repeatedly',
+   pruning:'Renewal-prune or coppice; remove suckers to control spread', incompat:'Needs a compatible pollinator variety nearby for good nut set', allelopathy:'None significant',
+   ecology:'Very early catkins are an important late-winter pollen source; a classic coppice and hedge species.',
+   succession:'Secondary succession / coppice', tags:['edible','native','perennial','shrub','nut','wildlife']},
+
+  {id:'quince', name:'Quince', latin:'Cydonia oblonga', layer:'shrub', x:375,y:515,
+   matureRadius:44, currentRadius:5, maturityYears:5, matureLabel:'3.5 m spread', currentLabel:'0.4 m',
+   sun:'Full sun', water:'Moderate', soil:'Adaptable, tolerates heavier soils', hardiness:'Zone 4–8', growthRate:'Moderate',
+   functions:['Fruit (for preserves)','Ornamental flowers'], flower:'April – May', harvest:'Oct', lifespan:'25–40 years',
+   pruning:'Light, open-centre', incompat:'Shares fire blight susceptibility with pear and related plants', allelopathy:'None significant',
+   ecology:'Fragrant fruit is typically cooked rather than eaten raw; attractive spring blossom.',
+   succession:'Secondary succession', tags:['edible','perennial','shrub','fruit','ornamental']},
+
+  {id:'cornus-mas', name:'Cornelian cherry', latin:'Cornus mas', layer:'shrub', x:230,y:550,
+   matureRadius:50, currentRadius:5, maturityYears:6, matureLabel:'4 m spread', currentLabel:'0.4 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable, tolerates dry/poor soils well', hardiness:'Zone 4–8', growthRate:'Slow – moderate',
+   functions:['Fruit','Ornamental (early flowers, bark)','Wildlife habitat'], flower:'Feb – March, before the leaves', harvest:'Aug – Sept, tart cherry-like fruit', lifespan:'50+ years',
+   pruning:'Minimal; naturally attractive multi-stem form', incompat:'None documented', allelopathy:'None significant',
+   ecology:'One of the earliest bloomers in the garden — a valuable very-early pollen source, native to the region.',
+   succession:'Secondary succession / support', tags:['edible','native','perennial','shrub','fruit','pollinator','wildlife']},
+
+  {id:'kousa', name:'Chinese dogwood', latin:'Cornus kousa', layer:'shrub', x:680,y:535,
+   matureRadius:56, currentRadius:5, maturityYears:7, matureLabel:'4.5 m spread', currentLabel:'0.4 m',
+   sun:'Full sun – part shade', water:'Moderate', soil:'Well-drained, slightly acidic preferred', hardiness:'Zone 5–8', growthRate:'Slow – moderate',
+   functions:['Ornamental flowers and fall colour','Edible fruit (mild, seedy)','Wildlife habitat'], flower:'June, showy white bracts', harvest:'Sept – Oct, often left for wildlife', lifespan:'40–80 years',
+   pruning:'Minimal; valued for its natural layered form', incompat:'None documented', allelopathy:'None significant',
+   ecology:'Grown mainly for ornamental value; structure and fruit support birds and other wildlife.',
+   succession:'Secondary succession / support', tags:['ornamental','perennial','shrub','wildlife']},
+
+  {id:'japanesequince', name:'Japanese quince', latin:'Chaenomeles japonica', layer:'shrub', x:400,y:550,
+   matureRadius:15, currentRadius:3, maturityYears:3, matureLabel:'1.2 m spread', currentLabel:'0.2 m',
+   sun:'Full sun – part shade', water:'Low – moderate', soil:'Adaptable, tolerates poor soils', hardiness:'Zone 4–8', growthRate:'Moderate',
+   functions:['Fruit (for preserves)','Ornamental flowers','Thorny hedge / barrier'], flower:'March – April, bright red/orange/pink', harvest:'Sept – Oct, hard aromatic fruit, cooked', lifespan:'20–40 years',
+   pruning:'Light, after flowering; can be trained as a low hedge', incompat:'Thorny — site away from paths people brush past', allelopathy:'None significant',
+   ecology:'Very early bloom is a useful pollinator resource; thorny habit makes it a good barrier plant.',
+   succession:'Groundcover / support', tags:['edible','perennial','shrub','ornamental','drought tolerant','pollinator']},
+];
+
+/* ---------- site geometry (shared by every map instance) ---------- */
+const SITE = {
+  boundary: [[25,25],[875,25],[875,545],[560,575],[25,575]],
+  building: {x:55,y:55,w:150,h:95},
+  compost: {x:770,y:90,w:55,h:42},
+  pond: {cx:690,cy:470,rx:78,ry:48},
+  paths: [
+    [[130,150],[130,555]],
+    [[130,340],[600,340]],
+    [[600,150],[600,555]],
+  ],
+};
+
+/* ---------- helpers ---------- */
+function radiusAtYear(p, years){
+  if (years <= 0) return p.currentRadius;
+  const t = Math.min(years / p.maturityYears, 1);
+  const eased = 1 - Math.pow(1 - t, 2);
+  return p.currentRadius + (p.matureRadius - p.currentRadius) * eased;
+}
+function polyToPoints(poly){ return poly.map(pt=>pt.join(',')).join(' '); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function newId(prefix){ return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+/* ======================================================================
+   GardenMap — renders one interactive SVG instance
+   ====================================================================== */
+class GardenMap {
+  constructor(mount, opts){
+    this.mount = typeof mount === 'string' ? document.getElementById(mount) : mount;
+    this.opts = Object.assign({
+      interactive:false, placeable:false, year:1, sunHour:12, showShadow:false,
+      onSelect:null, plants: PLANTS, height:420,
+    }, opts);
+    this.plants = this.opts.plants.map(p=>Object.assign({}, p)); // instance copy
+    this.year = this.opts.year;
+    this.sunHour = this.opts.sunHour;
+    this.showShadow = this.opts.showShadow;
+    this.activeTool = 'select';
+    this.selected = null; // {kind:'plant'|'building'|'pond'|'compost'|'path'|'fence', id}
+    this.background = null; // {dataUrl, naturalW, naturalH, widthM, x, y, opacity}
+    this.gridMeters = 2; // grid line spacing, in real-world metres
+    // fixtures: every non-plant object on the map, each independently movable/deletable
+    this.fixtures = [
+      {id:'building', kind:'building', x:SITE.building.x, y:SITE.building.y, w:SITE.building.w, h:SITE.building.h},
+      {id:'pond', kind:'pond', cx:SITE.pond.cx, cy:SITE.pond.cy, rx:SITE.pond.rx, ry:SITE.pond.ry},
+      {id:'compost', kind:'compost', x:SITE.compost.x, y:SITE.compost.y, w:SITE.compost.w, h:SITE.compost.h},
+      ...SITE.paths.map((pl,i)=>({id:'path-'+i, kind:'path', points:pl.map(pt=>[...pt])})),
+    ];
+    this.layerState = {}; LAYERS.forEach(l=> this.layerState[l.id] = {visible:true, opacity:1});
+    this.uid = 'gm' + Math.random().toString(36).slice(2,8);
+    this._draw();
+  }
+
+  _plantTemplateForTool(tool){
+    // "Add tree" / "Add shrub" place a real species chosen from the panel dropdown, when available.
+    if (tool === 'tree' || tool === 'shrub'){
+      const speciesId = (typeof getSelectedSpeciesId === 'function') ? getSelectedSpeciesId(tool) : null;
+      const species = speciesId ? PLANTS.find(p=>p.id===speciesId) : null;
+      if (species){
+        const { id, x, y, ...rest } = species;
+        return Object.assign({}, rest);
+      }
+    }
+    const templates = {
+      tree:       {layer:'canopy', matureRadius:50, currentRadius:8, maturityYears:8, name:'New tree', latin:'—', sun:'Full sun', water:'Moderate', soil:'Loam', hardiness:'—', growthRate:'Moderate', functions:['Fruit'], flower:'—', harvest:'—', lifespan:'—', pruning:'—', incompat:'—', allelopathy:'—', ecology:'Newly placed — add a species from the library to complete this record.', succession:'Climax / long-lived', tags:[], matureLabel:'~4 m canopy', currentLabel:'young whip'},
+      shrub:      {layer:'shrub', matureRadius:20, currentRadius:4, maturityYears:3, name:'New shrub', latin:'—', sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable', hardiness:'—', growthRate:'Fast', functions:['Fruit'], flower:'—', harvest:'—', lifespan:'—', pruning:'—', incompat:'—', allelopathy:'—', ecology:'Newly placed shrub.', succession:'Secondary succession', tags:[], matureLabel:'~1.6 m spread', currentLabel:'young plant'},
+      perennial:  {layer:'herbaceous', matureRadius:9, currentRadius:2, maturityYears:2, name:'New perennial', latin:'—', sun:'Full sun – part shade', water:'Moderate', soil:'Adaptable', hardiness:'—', growthRate:'Moderate', functions:['Support'], flower:'—', harvest:'—', lifespan:'—', pruning:'—', incompat:'—', allelopathy:'—', ecology:'Newly placed perennial.', succession:'Support', tags:[], matureLabel:'~0.7 m clump', currentLabel:'plug'},
+      annual:     {layer:'herbaceous', matureRadius:6, currentRadius:1, maturityYears:1, name:'New annual bed plant', latin:'—', sun:'Full sun', water:'Moderate', soil:'Fertile', hardiness:'Annual', growthRate:'Fast', functions:['Food crop'], flower:'—', harvest:'—', lifespan:'1 season', pruning:'—', incompat:'—', allelopathy:'—', ecology:'Newly placed annual.', succession:'Productive / annual', tags:['annual'], matureLabel:'~0.5 m', currentLabel:'seedling'},
+    };
+    return templates[tool];
+  }
+
+  _fixtureTemplateForTool(tool, loc){
+    const id = newId(tool);
+    if (tool === 'building') return {id, kind:'building', x:Math.round(loc.x-55), y:Math.round(loc.y-35), w:110, h:70};
+    if (tool === 'water')    return {id, kind:'pond', cx:Math.round(loc.x), cy:Math.round(loc.y), rx:45, ry:28};
+    if (tool === 'compost')  return {id, kind:'compost', x:Math.round(loc.x-20), y:Math.round(loc.y-16), w:40, h:32};
+    return null;
+  }
+
+  _nearestNeighbor(p){
+    let best = null, bestD = Infinity;
+    this.plants.forEach(o=>{
+      if (o===p) return;
+      if (!(o.layer==='canopy'||o.layer==='subcanopy') && !(p.layer==='canopy'||p.layer==='subcanopy')) return;
+      const d = Math.hypot(o.x-p.x, o.y-p.y);
+      if (d < bestD){ bestD = d; best = o; }
+    });
+    return best ? {plant:best, meters: bestD/SCALE} : null;
+  }
+
+  _shadowPath(){
+    // stylised shadow cast from the first building on the plan (if any)
+    return this._shadowPathFor(this.fixtures.find(f=>f.kind==='building'));
+  }
+
+  _fixtureSvg(f){
+    switch(f.kind){
+      case 'building': return `<g class="map-item" data-kind="building" data-id="${f.id}">
+          <rect class="map-building" x="${f.x}" y="${f.y}" width="${f.w}" height="${f.h}"></rect>
+          <text class="map-zone-label" x="${f.x}" y="${f.y+f.h+16}">${f.id==='building'?'HOUSE':'BUILDING'}</text>
+        </g>`;
+      case 'pond': return `<g class="map-item" data-kind="pond" data-id="${f.id}">
+          <ellipse class="map-pond" cx="${f.cx}" cy="${f.cy}" rx="${f.rx}" ry="${f.ry}"></ellipse>
+          <text class="map-zone-label" x="${f.cx-30}" y="${f.cy+f.ry+16}">${f.id==='pond'?'POND / WETLAND':'WATER'}</text>
+        </g>`;
+      case 'compost': return `<g class="map-item" data-kind="compost" data-id="${f.id}">
+          <rect class="map-compost" x="${f.x}" y="${f.y}" width="${f.w}" height="${f.h}" rx="2"></rect>
+          <text class="map-zone-label" x="${f.x-4}" y="${f.y-8}">COMPOST</text>
+        </g>`;
+      case 'path': return `<g class="map-item" data-kind="path" data-id="${f.id}">
+          <polyline class="map-path" points="${polyToPoints(f.points)}"></polyline>
+        </g>`;
+      case 'fence': return `<g class="map-item" data-kind="fence" data-id="${f.id}">
+          <polyline class="map-fence" points="${polyToPoints(f.points)}"></polyline>
+        </g>`;
+      default: return '';
+    }
+  }
+
+  _draw(){
+    const h = this.opts.height;
+    const layerGroups = LAYERS.map(l=>{
+      const plants = this.plants.filter(p=>p.layer===l.id);
+      const nodes = plants.map(p=>{
+        const r = radiusAtYear(p, this.year);
+        return `<g class="plant-node map-item" data-kind="plant" data-id="${p.id}" data-layer="${p.layer}" data-annual="${(p.tags && p.tags.includes('annual')) ? '1':'0'}" transform="translate(${p.x},${p.y})">          <circle class="canopy" data-r-target="${p.matureRadius}" r="${r}" cy="0" cx="0"></circle>
+          <circle class="trunk" r="2.6" cx="0" cy="0"></circle>
+        </g>`;
+      }).join('');
+      return `<g class="layer-group layer-${l.id}" data-layer="${l.id}">${nodes}</g>`;
+    }).join('');
+
+    const buildingsHtml = this.fixtures.filter(f=>f.kind==='building').map(f=>this._fixtureSvg(f)).join('');
+    const pondsHtml = this.fixtures.filter(f=>f.kind==='pond').map(f=>this._fixtureSvg(f)).join('');
+    const compostHtml = this.fixtures.filter(f=>f.kind==='compost').map(f=>this._fixtureSvg(f)).join('');
+    const pathsHtml = this.fixtures.filter(f=>f.kind==='path').map(f=>this._fixtureSvg(f)).join('');
+    const fencesHtml = this.fixtures.filter(f=>f.kind==='fence').map(f=>this._fixtureSvg(f)).join('');
+
+    let bgHtml = '';
+    if (this.background){
+      const bg = this.background;
+      const w = bg.widthM * SCALE;
+      const asp = (bg.naturalH && bg.naturalW) ? (bg.naturalH / bg.naturalW) : 1;
+      const hgt = w * asp;
+      bgHtml = `<image class="map-bg-image" href="${bg.dataUrl}" xlink:href="${bg.dataUrl}" x="${bg.x}" y="${bg.y}" width="${w}" height="${hgt}" style="opacity:${bg.opacity}" preserveAspectRatio="none" pointer-events="none"></image>`;
+    }
+
+    this.mount.innerHTML = `
+      <svg class="map-svg" id="${this.uid}" viewBox="0 0 900 ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Garden plan">
+        ${bgHtml}
+        <g class="map-grid">${gridLines(h, this.gridMeters*SCALE)}</g>
+        <polygon class="map-boundary" points="${polyToPoints(SITE.boundary)}"></polygon>
+        <g class="layer-group layer-buildings" data-layer="buildings">${buildingsHtml}</g>
+        <g class="layer-group layer-paths" data-layer="paths">${pathsHtml}</g>
+        <g class="layer-group layer-water" data-layer="water">${pondsHtml}</g>
+        <g class="layer-group layer-fences" data-layer="fences">${fencesHtml}</g>
+        ${compostHtml}
+        <text class="map-zone-label" x="200" y="140">ORCHARD</text>
+        <text class="map-zone-label" x="230" y="500">KITCHEN GARDEN</text>
+        <path class="shade-poly" id="${this.uid}-shadow" d="${this._shadowPath()}" style="opacity:${(this.showShadow && this.fixtures.some(f=>f.kind==='building'))?1:0}"></path>
+        ${layerGroups}
+        <g class="map-north" transform="translate(842,44)">
+          <line x1="0" y1="10" x2="0" y2="-14" stroke="currentColor" stroke-width="1.3" style="color:var(--ink-soft)"></line>
+          <polygon points="0,-14 4,-4 -4,-4" fill="var(--ink-soft)"></polygon>
+          <text x="0" y="24" text-anchor="middle">N</text>
+        </g>
+      </svg>`;
+    this.svg = this.mount.querySelector('svg');
+    this._bind();
+    this._applyLayerState();
+    this._applySelection();
+  }
+
+  _svgPoint(e){
+    const pt = this.svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(this.svg.getScreenCTM().inverse());
+  }
+
+  _bind(){
+    if (this.opts.interactive){
+      this.svg.style.touchAction = 'none';
+      this.svg.querySelectorAll('.map-item').forEach(node=>{
+        node.addEventListener('pointerdown', (e)=> this._startDrag(e, node));
+        node.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          if (this._justDragged){ this._justDragged = false; return; }
+          if (this.activeTool !== 'select') return;
+          this.selected = {kind:node.dataset.kind, id:node.dataset.id};
+          this._applySelection();
+          this._notifySelection();
+        });
+      });
+    }
+    if (this.opts.placeable){
+      // point tools: single click drops a new plant or point fixture
+      this.svg.addEventListener('click', (e)=>{
+        if (this.activeTool==='select' || this.activeTool==='path' || this.activeTool==='fence' || this.activeTool==='move-bg') return;
+        const loc = this._svgPoint(e);
+        const plantTmpl = this._plantTemplateForTool(this.activeTool);
+        if (plantTmpl){
+          const p = Object.assign({id:newId('p')}, plantTmpl, {x:Math.round(loc.x), y:Math.round(loc.y)});
+          this.plants.push(p);
+          this.selected = {kind:'plant', id:p.id};
+          this._draw();
+          this._notifySelection();
+          return;
+        }
+        const fixtureTmpl = this._fixtureTemplateForTool(this.activeTool, loc);
+        if (fixtureTmpl){
+          this.fixtures.push(fixtureTmpl);
+          this.selected = {kind:fixtureTmpl.kind, id:fixtureTmpl.id};
+          this._draw();
+          this._notifySelection();
+        }
+      });
+      // line tools: drag from a start point to an end point to draw a path or fence
+      this.svg.addEventListener('pointerdown', (e)=>{
+        if (this.activeTool === 'path' || this.activeTool === 'fence'){ this._startDrawLine(e, this.activeTool); return; }
+        if (this.activeTool === 'move-bg' && this.background){ this._startBackgroundDrag(e); return; }
+      });
+    }
+  }
+
+  _startBackgroundDrag(e){
+    e.preventDefault();
+    const start = this._svgPoint(e);
+    const baseX = this.background.x, baseY = this.background.y;
+    const imgEl = this.svg.querySelector('.map-bg-image');
+    let moved = false;
+    const onMove = (ev)=>{
+      const pt = this._svgPoint(ev);
+      const dx = pt.x-start.x, dy = pt.y-start.y;
+      if (Math.hypot(dx,dy) > 1) moved = true;
+      if (imgEl){ imgEl.setAttribute('x', baseX+dx); imgEl.setAttribute('y', baseY+dy); }
+    };
+    const onEnd = (ev)=>{
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onEnd);
+      window.removeEventListener('pointercancel', onEnd);
+      if (!moved || ev.type === 'pointercancel'){ if (imgEl){ imgEl.setAttribute('x', baseX); imgEl.setAttribute('y', baseY); } return; }
+      const pt = this._svgPoint(ev);
+      this.background.x = Math.round(baseX + (pt.x-start.x));
+      this.background.y = Math.round(baseY + (pt.y-start.y));
+      this._draw();
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onEnd);
+    window.addEventListener('pointercancel', onEnd);
+  }
+
+  _startDrawLine(e, tool){
+    e.preventDefault();
+    const kind = tool === 'path' ? 'path' : 'fence';
+    const start = this._svgPoint(e);
+    const preview = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    preview.setAttribute('class', kind==='path' ? 'map-path' : 'map-fence');
+    preview.setAttribute('points', `${start.x},${start.y} ${start.x},${start.y}`);
+    preview.style.opacity = '.55';
+    this.svg.appendChild(preview);
+    const onMove = (ev)=>{
+      const pt = this._svgPoint(ev);
+      preview.setAttribute('points', `${start.x},${start.y} ${pt.x},${pt.y}`);
+    };
+    const onEnd = (ev)=>{
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onEnd);
+      window.removeEventListener('pointercancel', onEnd);
+      preview.remove();
+      if (ev.type === 'pointercancel') return;
+      const pt = this._svgPoint(ev);
+      if (Math.hypot(pt.x-start.x, pt.y-start.y) < 12) return; // too short — ignore accidental click
+      const f = { id: newId(kind), kind, points:[[Math.round(start.x),Math.round(start.y)],[Math.round(pt.x),Math.round(pt.y)]] };
+      this.fixtures.push(f);
+      this.selected = {kind, id:f.id};
+      this._draw();
+      this._notifySelection();
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onEnd);
+    window.addEventListener('pointercancel', onEnd);
+  }
+
+  _shiftFixture(f, dx, dy, round){
+    const r = v => round ? Math.round(v) : v;
+    switch(f.kind){
+      case 'building': case 'compost': return Object.assign({}, f, {x:r(f.x+dx), y:r(f.y+dy)});
+      case 'pond': return Object.assign({}, f, {cx:r(f.cx+dx), cy:r(f.cy+dy)});
+      case 'path': case 'fence': return Object.assign({}, f, {points: f.points.map(([x,y])=>[r(x+dx), r(y+dy)])});
+      default: return f;
+    }
+  }
+
+  _startDrag(e, node){
+    if (!this.opts.interactive || this.activeTool !== 'select') return;
+    e.stopPropagation();
+    e.preventDefault();
+    const kind = node.dataset.kind, id = node.dataset.id;
+    const startPt = this._svgPoint(e);
+    // plants carry their absolute position as the group's own transform (translate(p.x,p.y));
+    // fixtures render at absolute coordinates with no group transform (baseX/baseY = 0).
+    // The live preview transform must be translate(baseX+dx, baseY+dy), not translate(dx,dy) —
+    // using the raw delta alone would snap plants toward the origin as soon as a drag starts.
+    let baseX = 0, baseY = 0;
+    if (kind === 'plant'){
+      const p = this.plants.find(pp=>pp.id===id);
+      if (!p) return;
+      baseX = p.x; baseY = p.y;
+    }
+    let moved = false;
+    const onMove = (ev)=>{
+      const pt = this._svgPoint(ev);
+      const dx = pt.x - startPt.x, dy = pt.y - startPt.y;
+      if (!moved && Math.hypot(dx,dy) > 3){
+        moved = true;
+        node.classList.add('dragging');
+        this.selected = {kind, id};
+        this._applySelection();
+      }
+      if (!moved) return;
+      node.setAttribute('transform', `translate(${baseX+dx},${baseY+dy})`);
+      if (kind === 'building'){
+        const b = this.fixtures.find(f=>f.id===id);
+        const shifted = this._shiftFixture(b, dx, dy, false);
+        const s = this.svg.querySelector('.shade-poly');
+        if (s){
+          const firstBuilding = this.fixtures.find(f=>f.kind==='building');
+          const b0 = (firstBuilding && firstBuilding.id===id) ? shifted : firstBuilding;
+          s.setAttribute('d', this._shadowPathFor(b0));
+        }
+      }
+    };
+    const onEnd = (ev)=>{
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onEnd);
+      window.removeEventListener('pointercancel', onEnd);
+      node.classList.remove('dragging');
+      if (!moved) return;
+      this._justDragged = true;
+      if (ev.type === 'pointercancel'){ this._draw(); this._notifySelection(); return; }
+      const pt = this._svgPoint(ev);
+      const dx = pt.x - startPt.x, dy = pt.y - startPt.y;
+      if (kind === 'plant'){
+        const p = this.plants.find(pp=>pp.id===id);
+        if (p){ p.x = Math.round(p.x+dx); p.y = Math.round(p.y+dy); }
+      } else {
+        const idx = this.fixtures.findIndex(f=>f.id===id);
+        if (idx > -1) this.fixtures[idx] = this._shiftFixture(this.fixtures[idx], dx, dy, true);
+      }
+      this._draw();
+      this._notifySelection();
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onEnd);
+    window.addEventListener('pointercancel', onEnd);
+  }
+
+  _shadowPathFor(b){
+    if (!b) return '';
+    const t = (this.sunHour - 9) / (18 - 9);
+    const angle = -140 + t*100;
+    const lengthFactor = 0.35 + Math.abs(t-0.5)*1.7;
+    const rad = angle*Math.PI/180;
+    const len = 190*lengthFactor;
+    const bx = b.x+b.w, by = b.y+b.h/2;
+    const ex = bx + Math.cos(rad)*len, ey = by + Math.sin(rad)*len*0.6 + 60;
+    const spread = 46;
+    const p1 = [b.x, b.y+b.h], p2=[b.x+b.w, b.y+b.h];
+    const p3 = [ex+spread, ey], p4=[ex-spread, ey];
+    return `M ${p1.join(',')} L ${p2.join(',')} L ${p3.join(',')} L ${p4.join(',')} Z`;
+  }
+
+  _notifySelection(){
+    if (!this.opts.onSelect) return;
+    if (!this.selected){ this.opts.onSelect(null); return; }
+    if (this.selected.kind === 'plant'){
+      const p = this.plants.find(pp=>pp.id===this.selected.id);
+      if (!p){ this.selected = null; this.opts.onSelect(null); return; }
+      this.opts.onSelect({type:'plant', item:p, neighbor:this._nearestNeighbor(p)});
+    } else {
+      this.opts.onSelect({type:'fixture', kind:this.selected.kind, id:this.selected.id});
+    }
+  }
+
+  deleteSelected(){
+    if (!this.selected) return;
+    if (this.selected.kind === 'plant'){
+      this.plants = this.plants.filter(p=>p.id!==this.selected.id);
+    } else {
+      this.fixtures = this.fixtures.filter(f=>f.id!==this.selected.id);
+    }
+    this.selected = null;
+    this._draw();
+    this._notifySelection();
+  }
+
+  _applySelection(){
+    if (!this.svg) return;
+    this.svg.querySelectorAll('.map-item').forEach(n=>
+      n.classList.toggle('is-selected', !!this.selected && n.dataset.kind===this.selected.kind && n.dataset.id===this.selected.id));
+  }
+
+  _applyYear(){
+    this.plants.forEach(p=>{
+      const node = this.svg.querySelector(`.plant-node[data-id="${p.id}"] .canopy`);
+      if (node) node.setAttribute('r', radiusAtYear(p, this.year));
+    });
+  }
+
+  _applyLayerState(){
+    // direct 1:1 groups
+    ['buildings','paths','water','fences'].forEach(id=>{
+      const g = this.svg.querySelector(`.layer-group.layer-${id}`);
+      if (g){ const s=this.layerState[id]||{visible:true,opacity:1}; g.style.display = s.visible?'':'none'; g.style.opacity = s.opacity; }
+    });
+    LAYERS.forEach(l=>{
+      const g = this.svg.querySelector(`.layer-group.layer-${l.id}`);
+      if (!g) return;
+      const s = this.layerState[l.id] || {visible:true,opacity:1};
+      g.style.display = s.visible ? '' : 'none';
+      g.style.opacity = s.opacity;
+    });
+    // "Annuals" is a finer-grained toggle nested inside the herbaceous group: it only
+    // hides plants tagged annual, independent of the broader Perennials (herbaceous) toggle.
+    const annualState = this.layerState.annuals;
+    if (annualState){
+      this.svg.querySelectorAll('.plant-node[data-annual="1"]').forEach(n=>{
+        n.style.display = annualState.visible ? '' : 'none';
+        n.style.opacity = typeof annualState.opacity === 'number' ? annualState.opacity : 1;
+      });
+    }
+    const shadow = this.svg.querySelector('.shade-poly');
+    if (shadow) shadow.style.opacity = (this.showShadow && this.fixtures.some(f=>f.kind==='building')) ? 1 : 0;
+  }
+
+  setYear(y){ this.year = y; this._applyYear(); }
+  setLayer(id, patch){ this.layerState[id] = Object.assign({}, this.layerState[id], patch); this._applyLayerState(); }
+  setTool(t){ this.activeTool = t; }
+  setSun(hour, show){
+    this.sunHour = hour; this.showShadow = show;
+    const s = this.svg.querySelector('.shade-poly');
+    if (s){ s.setAttribute('d', this._shadowPath()); s.style.opacity = (show && this.fixtures.some(f=>f.kind==='building')) ? 1 : 0; }
+  }
+  highlightLayer(id){
+    LAYERS.forEach(l=>{
+      const g = this.svg.querySelector(`.layer-group.layer-${l.id}`);
+      if (!g) return;
+      g.classList.toggle('layer-dim', id && l.id!==id);
+    });
+  }
+}
+
+function gridLines(h, spacingPx){
+  spacingPx = spacingPx > 4 ? spacingPx : 50;
+  let out='';
+  for(let x=25; x<=875; x+=spacingPx) out += `<line x1="${x}" y1="20" x2="${x}" y2="${h-20}"></line>`;
+  for(let y=25; y<=h-20; y+=spacingPx) out += `<line x1="20" y1="${y}" x2="880" y2="${y}"></line>`;
+  return out;
+}
+
+/* ======================================================================
+   HERO — auto-animating map
+   ====================================================================== */
+const heroMap = new GardenMap('hero-map-mount', {height:340, year:1});
+const HERO_YEARS = [1,5,10];
+let heroIdx = 0;
+document.querySelectorAll('#hero-year-pill span').forEach((el,i)=>{
+  el.addEventListener('click', ()=>{ heroIdx=i; setHeroYear(); });
+});
+function setHeroYear(){
+  const y = HERO_YEARS[heroIdx];
+  heroMap.setYear(y);
+  document.getElementById('hero-year-label').textContent = 'YEAR ' + y;
+  document.querySelectorAll('#hero-year-pill span').forEach((el,i)=> el.classList.toggle('active', i===heroIdx));
+}
+setHeroYear();
+let heroTimer = setInterval(()=>{ heroIdx = (heroIdx+1) % HERO_YEARS.length; setHeroYear(); }, 3400);
+document.getElementById('hero-map-mount').addEventListener('click', ()=>{ clearInterval(heroTimer); });
+
+/* ======================================================================
+   LAYERS SECTION
+   ====================================================================== */
+const layersMap = new GardenMap('layers-map-mount', {height:400, year:5});
+const layerListEl = document.getElementById('layer-list');
+LAYERS.forEach((l,i)=>{
+  const count = PLANTS.filter(p=>p.layer===l.id).length;
+  const row = document.createElement('button');
+  row.className = 'layer-row';
+  row.innerHTML = `<span class="layer-swatch" style="background:${layerColor(l.id)}"></span>
+    <span class="layer-row-text"><span class="name">${l.name}</span><span class="desc">${l.desc}</span></span>
+    <span class="count">${count}</span>`;
+  row.addEventListener('click', ()=>{
+    document.querySelectorAll('.layer-row').forEach(r=>r.classList.remove('active'));
+    const isActive = row.classList.contains('active');
+    if (!isActive){ row.classList.add('active'); layersMap.highlightLayer(l.id); }
+    else { layersMap.highlightLayer(null); }
+  });
+  layerListEl.appendChild(row);
+});
+
+/* ======================================================================
+   MAP TOOL SECTION
+   ====================================================================== */
+const TOOL_YEARS = [0,1,3,5,10,20];
+const toolMap = new GardenMap('tool-map-mount', {
+  height:520, year:1, interactive:true, placeable:true,
+  onSelect: (info) => renderSelection(info),
+});
+
+const TOOLBAR_ITEMS = [
+  {id:'select', label:'Select', tool:true, icon:'M4 4l6 16 2-7 7-2z'},
+  {id:'boundary', label:'Draw boundary', icon:'M4 6h16M4 12h16M4 18h10'},
+  {id:'tree', label:'Add tree', tool:true, icon:'M12 21v-7M12 14C6 14 6 7 6 7c7 0 6 7 6 7zM12 10c0 0 6-1 6-6-6 0-6 6-6 6z'},
+  {id:'shrub', label:'Add shrub', tool:true, icon:'M12 21v-5M7 12a5 5 0 0110 0 5 5 0 01-10 0z'},
+  {id:'perennial', label:'Add perennial', tool:true, icon:'M12 21V9M12 9C8 9 8 4 8 4c5 0 4 5 4 5zM12 9c0 0-1-5 4-5 0 5-4 5-4 5z'},
+  {id:'annual', label:'Add annual bed', tool:true, icon:'M4 19h16M6 19V9M12 19V6M18 19v10'},
+  {id:'path', label:'Draw path', tool:true, icon:'M4 20c4-10 12-10 16-16'},
+  {id:'water', label:'Add water', tool:true, icon:'M12 3c4 5 6 8 6 11a6 6 0 11-12 0c0-3 2-6 6-11z'},
+  {id:'building', label:'Add building', tool:true, icon:'M4 20V9l8-5 8 5v11M4 20h16M9 20v-6h6v6'},
+  {id:'fence', label:'Add fence', tool:true, icon:'M5 20V6M11 20V6M17 20V6M3 10h18M3 15h18'},
+  {id:'compost', label:'Add compost', tool:true, icon:'M6 9h12l-1 11H7z M9 9V6h6v3'},
+  {id:'biomass', label:'Add biomass area', icon:'M4 18c4-8 12-8 16-14'},
+  {id:'measure-d', label:'Measure distance', icon:'M3 12h18M7 8v8M17 8v8'},
+  {id:'measure-a', label:'Measure area', icon:'M4 4h16v16H4z'},
+  {id:'zone', label:'Add zone', icon:'M12 3l8 4v10l-8 4-8-4V7z'},
+  {id:'move-bg', label:'Move background', tool:true, icon:'M12 2L8 6h3v5H6V8l-4 4 4 4v-3h5v5H8l4 4 4-4h-3v-5h5v3l4-4-4-4v3h-5V6h3z'},
+];
+const toolbarEl = document.getElementById('toolbar');
+const toolbarSpacer = document.getElementById('toolbar-spacer');
+TOOLBAR_ITEMS.forEach(item=>{
+  const btn = document.createElement('button');
+  btn.className = 'tool-btn' + (item.id==='select' ? ' active' : '');
+  const dragHint = (item.id==='path' || item.id==='fence') ? ' — drag across the map to draw it'
+    : item.id==='move-bg' ? ' — drag the background image to reposition it'
+    : (item.id==='tree' || item.id==='shrub') ? ' — pick a species on the left, then click the map to place it'
+    : (item.tool ? ' — click the map to place it' : '');
+  btn.title = item.tool ? item.label + dragHint : item.label + ' — coming soon in the full planner';
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${item.icon}"/></svg><span>${item.label}</span>`;
+  if (!item.tool) btn.style.opacity = '.45';
+  btn.addEventListener('click', ()=>{
+    if (!item.tool) return;
+    document.querySelectorAll('#toolbar .tool-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    toolMap.setTool(item.id);
+  });
+  toolbarEl.insertBefore(btn, toolbarSpacer);
+});
+
+const LAYER_PANEL_ITEMS = [
+  {id:'boundary', name:'Property boundary'}, {id:'buildings', name:'Buildings'},
+  {id:'existing', name:'Existing vegetation'}, {id:'paths', name:'Paths'},
+  {id:'water', name:'Water'}, {id:'soil', name:'Soil'}, {id:'sun', name:'Sun'}, {id:'shade', name:'Shade'},
+  {id:'canopy', name:'Trees'}, {id:'shrub', name:'Shrubs'}, {id:'herbaceous', name:'Perennials'},
+  {id:'annuals', name:'Annuals'}, {id:'groundcover', name:'Groundcover'}, {id:'climber', name:'Climbers'},
+  {id:'biomass', name:'Biomass'}, {id:'wildlife', name:'Wildlife habitat'}, {id:'irrigation', name:'Irrigation'},
+];
+const layerPanel = document.getElementById('layer-panel');
+layerPanel.innerHTML = `
+  <h4>PLANT TO ADD</h4>
+  <div class="layer-toggle-row" style="flex-direction:column; align-items:stretch; gap:4px;">
+    <label for="tree-species-select" style="font-size:12px; color:var(--ink-soft);">Tree species (used by "Add tree")</label>
+    <select id="tree-species-select" style="width:100%; padding:6px 8px; border:1px solid var(--line); border-radius:3px; background:var(--white); color:var(--ink); font-family:inherit; font-size:13px;"></select>
+  </div>
+  <div class="layer-toggle-row" style="flex-direction:column; align-items:stretch; gap:4px; margin-top:6px;">
+    <label for="shrub-species-select" style="font-size:12px; color:var(--ink-soft);">Shrub species (used by "Add shrub")</label>
+    <select id="shrub-species-select" style="width:100%; padding:6px 8px; border:1px solid var(--line); border-radius:3px; background:var(--white); color:var(--ink); font-family:inherit; font-size:13px;"></select>
+  </div>
+  <h4 style="margin-top:22px;">BACKGROUND IMAGE</h4>
+  <button class="btn btn-ghost btn-sm" id="bg-upload-btn" style="width:100%;">Upload satellite image</button>
+  <input type="file" id="bg-image-input" accept="image/*" style="display:none">
+  <div id="bg-settings" style="display:none; margin-top:10px;">
+    <div class="layer-toggle-row">
+      <label for="bg-width-m" style="flex:1;">Real-world width</label>
+      <input type="number" id="bg-width-m" min="1" max="500" step="0.5" value="34" style="width:58px; text-align:right; font-family:inherit; border:1px solid var(--line); border-radius:3px; background:var(--white); color:var(--ink); padding:2px 4px;">
+      <span style="font-size:11.5px; color:var(--ink-soft); margin-left:4px;">m</span>
+    </div>
+    <div class="layer-toggle-row">
+      <label for="bg-opacity" style="flex:1;">Opacity</label>
+      <input type="range" min="0.1" max="1" step="0.05" value="0.85" id="bg-opacity" style="width:90px;">
+    </div>
+    <div class="empty-hint" style="padding:6px 0 0;">Select <b>Move background</b> in the toolbar above, then drag on the map to reposition the image. Set the width above to match its real-world size for an accurate scale.</div>
+    <button class="btn btn-ghost btn-sm" id="bg-remove-btn" style="width:100%; margin-top:10px;">Remove image</button>
+  </div>
+  <h4 style="margin-top:22px;">GRID SPACING</h4>
+  <div id="grid-spacing-row" style="display:flex; gap:6px;">
+    <button class="chip" data-m="1">1 m</button>
+    <button class="chip" data-m="2">2 m</button>
+    <button class="chip" data-m="5">5 m</button>
+  </div>
+  <h4 style="margin-top:22px;">LAYERS</h4>`;
+// populate the species pickers from the master plant database
+(function populateSpeciesPickers(){
+  const treeSel = document.getElementById('tree-species-select');
+  const shrubSel = document.getElementById('shrub-species-select');
+  PLANTS.filter(p=>p.layer==='canopy' || p.layer==='subcanopy').forEach(p=>{
+    const opt = document.createElement('option');
+    opt.value = p.id; opt.textContent = p.name;
+    treeSel.appendChild(opt);
+  });
+  PLANTS.filter(p=>p.layer==='shrub').forEach(p=>{
+    const opt = document.createElement('option');
+    opt.value = p.id; opt.textContent = p.name;
+    shrubSel.appendChild(opt);
+  });
+})();
+function getSelectedSpeciesId(tool){
+  const el = document.getElementById(tool === 'tree' ? 'tree-species-select' : tool === 'shrub' ? 'shrub-species-select' : null);
+  return el ? el.value : null;
+}
+document.querySelector(`#grid-spacing-row .chip[data-m="${toolMap.gridMeters}"]`).classList.add('active');
+document.querySelectorAll('#grid-spacing-row .chip').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#grid-spacing-row .chip').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    toolMap.gridMeters = parseFloat(btn.dataset.m);
+    toolMap._draw();
+  });
+});
+document.getElementById('bg-upload-btn').addEventListener('click', ()=> document.getElementById('bg-image-input').click());
+document.getElementById('bg-image-input').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  if (!file.type || !file.type.startsWith('image/')){ setSaveLoadStatus('Please choose an image file.'); return; }
+  setSaveLoadStatus('Reading image…');
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = reader.result;
+    const img = new Image();
+    img.onload = () => {
+      const widthM = parseFloat(document.getElementById('bg-width-m').value) || 34;
+      toolMap.background = {
+        dataUrl, naturalW: img.naturalWidth, naturalH: img.naturalHeight,
+        widthM, x: 25, y: 25, opacity: parseFloat(document.getElementById('bg-opacity').value) || 0.85,
+      };
+      toolMap._draw();
+      document.getElementById('bg-settings').style.display = '';
+      setSaveLoadStatus('Background image added. Set its real-world width, then use "Move background" to line it up with the grid.');
+    };
+    img.onerror = () => setSaveLoadStatus('Couldn\u2019t read that image.');
+    img.src = dataUrl;
+  };
+  reader.onerror = () => setSaveLoadStatus('Couldn\u2019t read that image.');
+  reader.readAsDataURL(file);
+});
+document.getElementById('bg-width-m').addEventListener('input', (e)=>{
+  if (!toolMap.background) return;
+  const v = parseFloat(e.target.value);
+  if (!isNaN(v) && v > 0){ toolMap.background.widthM = v; toolMap._draw(); }
+});
+document.getElementById('bg-opacity').addEventListener('input', (e)=>{
+  if (!toolMap.background) return;
+  toolMap.background.opacity = parseFloat(e.target.value);
+  const imgEl = toolMap.svg.querySelector('.map-bg-image');
+  if (imgEl) imgEl.style.opacity = toolMap.background.opacity;
+});
+document.getElementById('bg-remove-btn').addEventListener('click', ()=>{
+  toolMap.background = null;
+  toolMap._draw();
+  document.getElementById('bg-settings').style.display = 'none';
+  setSaveLoadStatus('Background image removed.');
+});
+LAYER_PANEL_ITEMS.forEach(item=>{
+  const row = document.createElement('div');
+  row.className = 'layer-toggle-row';
+  row.innerHTML = `<input type="checkbox" id="lp-${item.id}" checked>
+    <label for="lp-${item.id}">${item.name}</label>
+    <input type="range" min="0" max="1" step="0.1" value="1" id="lp-op-${item.id}">`;
+  layerPanel.appendChild(row);
+  const cb = row.querySelector('input[type=checkbox]');
+  const op = row.querySelector('input[type=range]');
+  const apply = ()=>{
+    if (item.id==='shade'){ toolMap.setSun(toolMap.sunHour, cb.checked); return; }
+    if (['existing','soil','sun','wildlife','irrigation'].includes(item.id)) return; // cosmetic-only layers
+    toolMap.setLayer(item.id, {visible:cb.checked, opacity:parseFloat(op.value)});
+  };
+  cb.addEventListener('change', apply);
+  op.addEventListener('input', apply);
+});
+
+const EMPTY_SELECTION_HINT = `<h4>SELECTION</h4><div class="empty-hint">Click a plant, the house, a path or the pond to inspect it. Drag any item on the map to move it, or select it and press <b>Delete</b> — or use a tool above and click the canvas to place something new.</div>`;
+
+function renderSelection(info){
+  const panel = document.getElementById('selection-panel');
+  if (!info){ panel.innerHTML = EMPTY_SELECTION_HINT; return; }
+
+  if (info.type === 'fixture'){
+    const kindLabels = {building:'Building', pond:'Water / pond', compost:'Compost', path:'Path', fence:'Fence'};
+    const label = kindLabels[info.kind] || cap(info.kind);
+    panel.innerHTML = `<h4>SELECTION</h4>
+      <div class="selection-card">
+        <div class="sp-name">${label}</div>
+        <div class="empty-hint" style="padding:8px 0 0;">Drag it on the map to reposition it.</div>
+      </div>
+      <div class="selection-actions">
+        <button class="btn btn-ghost btn-sm" onclick="deleteToolSelection()">Delete</button>
+      </div>`;
+    return;
+  }
+
+  const plant = info.item, neighbor = info.neighbor;
+  let flag = '';
+  if (neighbor && (plant.layer==='canopy'||plant.layer==='subcanopy')){
+    const recMin = plant.layer==='canopy' ? 4 : 2.5;
+    const recMax = plant.layer==='canopy' ? 5 : 3.5;
+    const combined = (plant.matureRadius + neighbor.plant.matureRadius) / SCALE;
+    const crowded = neighbor.meters < combined * 0.85;
+    flag = `<div class="spacing-flag ${crowded ? 'warn':'ok'}">
+      <b>${crowded ? '⚠ Potential crowding' : '✓ Spacing looks reasonable'}</b><br>
+      Recommended spacing: ${recMin}–${recMax} m · Distance to ${esc(neighbor.plant.name)}: ${neighbor.meters.toFixed(1)} m.
+      ${crowded ? ' Mature canopies may overlap significantly. Consider pruning, a smaller rootstock, or moving the tree.' : ''}
+    </div>`;
+  }
+  panel.innerHTML = `<h4>SELECTION</h4>
+    <div class="selection-card">
+      <div class="sp-name">${esc(plant.name)}</div>
+      <div class="sp-latin">${esc(plant.latin)}</div>
+      <div class="spec-line"><span>Layer</span><span>${cap(plant.layer)}</span></div>
+      <div class="spec-line"><span>Current</span><span>${esc(plant.currentLabel)}</span></div>
+      <div class="spec-line"><span>Mature</span><span>${esc(plant.matureLabel)}</span></div>
+      <div class="spec-line"><span>Sun</span><span>${esc(plant.sun)}</span></div>
+      <div class="spec-line"><span>Water</span><span>${esc(plant.water)}</span></div>
+      ${flag}
+    </div>
+    <div class="selection-actions">
+      <button class="btn btn-ghost btn-sm" onclick="deleteToolSelection()">Delete</button>
+      <span class="hint">Drag it on the map to move it.</span>
+    </div>`;
+}
+function deleteToolSelection(){
+  toolMap.deleteSelected();
+}
+document.addEventListener('keydown', (e)=>{
+  if (e.key !== 'Delete' && e.key !== 'Backspace') return;
+  const tag = document.activeElement && document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  if (!toolMap.selected) return;
+  e.preventDefault();
+  toolMap.deleteSelected();
+});
+document.getElementById('selection-panel').innerHTML = EMPTY_SELECTION_HINT;
+
+const toolTimeline = document.getElementById('tool-timeline');
+const toolYearReadout = document.getElementById('tool-year-readout');
+function updateToolYear(){
+  const y = TOOL_YEARS[toolTimeline.value];
+  toolYearReadout.textContent = 'Year ' + y;
+  toolMap.setYear(y);
+}
+toolTimeline.addEventListener('input', updateToolYear);
+updateToolYear();
+
+/* ---------- save / load garden plan ---------- */
+function serializeGardenPlan(){
+  return {
+    format: 'living-garden-plan',
+    version: 4,
+    savedAt: new Date().toISOString(),
+    year: toolMap.year,
+    layerState: toolMap.layerState,
+    plants: toolMap.plants,
+    fixtures: toolMap.fixtures,
+    background: toolMap.background,
+    gridMeters: toolMap.gridMeters,
+  };
+}
+function setSaveLoadStatus(msg){
+  const el = document.getElementById('save-load-status');
+  if (el) el.textContent = msg;
+}
+async function saveGardenPlan(){
+  setSaveLoadStatus('Preparing file…');
+  const json = JSON.stringify(serializeGardenPlan(), null, 2);
+  const stamp = new Date().toISOString().slice(0,10);
+  const filename = `garden-plan-${stamp}.json`;
+
+  // Inside Claude's artifact viewer, prefer its native downloads capability.
+  if (typeof window.claude !== 'undefined' && window.claude.use){
+    try{
+      const downloads = await window.claude.use('downloads');
+      if (downloads){
+        const result = await downloads.save({ filename, data: json });
+        setSaveLoadStatus(result.status === 'saved' ? `Saved ${filename} — ${toolMap.plants.length} plants.` : 'Plan handed off.');
+        return;
+      }
+    }catch(err){
+      const code = err && err.code;
+      if (code === 'declined'){ setSaveLoadStatus('Save cancelled.'); return; }
+      if (code === 'rate_limited'){ setSaveLoadStatus('Still finishing the last save — try again in a moment.'); return; }
+      // any other error: fall through and try a plain browser download instead
+    }
+  }
+
+  // Outside Claude (e.g. deployed to GitHub Pages, Netlify, or opened as a local file),
+  // window.claude doesn't exist — use a standard browser download instead.
+  try{
+    const blob = new Blob([json], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    setSaveLoadStatus(`Saved ${filename} — ${toolMap.plants.length} plants.`);
+  }catch(err){
+    setSaveLoadStatus('Couldn\u2019t save the plan right now.');
+  }
+}
+function applyLoadedPlan(state, sourceName){
+  if (!state || !Array.isArray(state.plants)) throw new Error('not a garden plan file');
+  toolMap.plants = state.plants.map(p=>Object.assign({}, p));
+  if (state.layerState) toolMap.layerState = Object.assign({}, toolMap.layerState, state.layerState);
+  if (Array.isArray(state.fixtures)){
+    toolMap.fixtures = state.fixtures.map(f=> f.points ? Object.assign({}, f, {points: f.points.map(pt=>[...pt])}) : Object.assign({}, f));
+  }
+  toolMap.background = state.background ? Object.assign({}, state.background) : null;
+  if (typeof state.gridMeters === 'number' && state.gridMeters > 0) toolMap.gridMeters = state.gridMeters;
+  toolMap.selected = null;
+  toolMap._draw();
+
+  // sync the timeline slider to the loaded year (or nearest known step)
+  const loadedYear = typeof state.year === 'number' ? state.year : toolMap.year;
+  let idx = TOOL_YEARS.indexOf(loadedYear);
+  if (idx === -1){
+    idx = 0;
+    TOOL_YEARS.forEach((y,i)=>{ if (Math.abs(y-loadedYear) < Math.abs(TOOL_YEARS[idx]-loadedYear)) idx = i; });
+  }
+  toolMap.year = TOOL_YEARS[idx];
+  toolMap._applyYear();
+  toolTimeline.value = idx;
+  toolYearReadout.textContent = 'Year ' + TOOL_YEARS[idx];
+
+  // sync layer panel checkboxes + opacity sliders to the loaded state
+  LAYER_PANEL_ITEMS.forEach(item=>{
+    const s = toolMap.layerState[item.id];
+    if (!s) return;
+    const cb = document.getElementById('lp-'+item.id);
+    const op = document.getElementById('lp-op-'+item.id);
+    if (cb) cb.checked = s.visible !== false;
+    if (op && typeof s.opacity === 'number') op.value = s.opacity;
+  });
+
+  // sync background-image controls
+  const bgSettings = document.getElementById('bg-settings');
+  if (toolMap.background){
+    bgSettings.style.display = '';
+    document.getElementById('bg-width-m').value = toolMap.background.widthM;
+    document.getElementById('bg-opacity').value = toolMap.background.opacity;
+  } else {
+    bgSettings.style.display = 'none';
+  }
+  document.querySelectorAll('#grid-spacing-row .chip').forEach(b=>
+    b.classList.toggle('active', parseFloat(b.dataset.m) === toolMap.gridMeters));
+
+  document.getElementById('selection-panel').innerHTML = `<h4>SELECTION</h4><div class="empty-hint">Loaded ${toolMap.plants.length} plants from ${esc(sourceName)}. Click anything to inspect it, or keep editing and save again.</div>`;
+  setSaveLoadStatus(`Loaded ${esc(sourceName)} — ${toolMap.plants.length} plants, Year ${toolMap.year}.`);
+}
+function loadGardenPlanFile(){
+  document.getElementById('load-file-input').click();
+}
+document.getElementById('load-file-input').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  if (!/\.json$/i.test(file.name)){
+    setSaveLoadStatus('Choose a .json garden plan file.');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const state = JSON.parse(reader.result);
+      applyLoadedPlan(state, file.name);
+    }catch(err){
+      setSaveLoadStatus('That file doesn\u2019t look like a saved garden plan.');
+    }
+  };
+  reader.onerror = () => setSaveLoadStatus('Couldn\u2019t read that file.');
+  reader.readAsText(file);
+});
+document.getElementById('save-plan-btn').addEventListener('click', saveGardenPlan);
+document.getElementById('load-plan-btn').addEventListener('click', loadGardenPlanFile);
+setSaveLoadStatus('Save your plan as a file any time, then load it here later to keep editing.');
+
+/* ======================================================================
+   FEATURE CARDS
+   ====================================================================== */
+const FEATURES = [
+  {icon:'M3 20l6-13 4 8 3-5 5 10z', title:'Map Your Land', body:'Create an accurate 2D representation of your garden.'},
+  {icon:'M4 20V4h16v16M4 10h16M4 15h16M9 4v16M15 4v16', title:'Design in Layers', body:'Build canopy, shrub, herbaceous, groundcover, root and climbing layers.'},
+  {icon:'M3 12h4l3-8 4 16 3-8h4', title:'See the Future', body:'Watch your garden evolve over 20 years.'},
+  {icon:'M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1M12 8a4 4 0 100 8 4 4 0 000-8z', title:'Understand Sun & Shade', body:'Model seasonal shadows and future tree canopies.'},
+  {icon:'M12 21s-7-5.2-7-11a7 7 0 0114 0c0 5.8-7 11-7 11z M12 6v9M9 9l3-3 3 3', title:'Build Ecological Relationships', body:'Design guilds and functional plant communities.'},
+  {icon:'M4 19c4-1 4-5 8-5s4 4 8 5M4 19V9l4-2M20 19V9l-4-2M8 7V4h8v3', title:'Plan Succession', body:'Combine productive plants, pioneers and biomass species using syntropic principles.'},
+];
+document.getElementById('feature-grid').innerHTML = FEATURES.map(f=>`
+  <div class="feature-card">
+    <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="${f.icon}"/></svg>
+    <h3>${f.title}</h3><p>${f.body}</p>
+  </div>`).join('');
+
+/* ======================================================================
+   PLANT LIBRARY
+   ====================================================================== */
+const FILTERS = ['edible','ornamental','native','perennial','annual','tree','shrub','groundcover','climber',
+  'nitrogen fixer','biomass producer','pollinator','wildlife','medicinal','culinary','fruit','nut','drought tolerant',
+  'shade tolerant','wet soil','pioneer'];
+let activeFilters = new Set();
+const chipsEl = document.getElementById('filter-chips');
+FILTERS.forEach(f=>{
+  const chip = document.createElement('button');
+  chip.className='chip'; chip.textContent = f;
+  chip.addEventListener('click', ()=>{
+    if (activeFilters.has(f)) activeFilters.delete(f); else activeFilters.add(f);
+    chip.classList.toggle('active');
+    renderPlantGrid();
+  });
+  chipsEl.appendChild(chip);
+});
+
+function plantIcon(p){
+  const fill = {canopy:'var(--forest)',subcanopy:'var(--forest)',shrub:'var(--clay)',herbaceous:'var(--clay)',groundcover:'var(--sage)',root:'#6B5842',climber:'var(--water)',biomass:'var(--gold)'}[p.layer];
+  return `<svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="26" r="18" fill="${fill}" opacity=".35" stroke="${fill}" stroke-width="1.3"/><line x1="32" y1="44" x2="32" y2="58" stroke="${fill}" stroke-width="2"/></svg>`;
+}
+
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+function renderPlantGrid(){
+  const q = document.getElementById('plant-search').value.trim().toLowerCase();
+  const grid = document.getElementById('plant-grid');
+  const filtered = PLANTS.filter(p=>{
+    const matchesQ = !q || p.name.toLowerCase().includes(q) || p.latin.toLowerCase().includes(q) || p.tags.some(t=>t.includes(q));
+    const matchesF = [...activeFilters].every(f=> p.tags.includes(f) || p.layer===f);
+    return matchesQ && matchesF;
+  });
+  document.getElementById('lib-count').textContent = filtered.length + ' of ' + PLANTS.length + ' plants';
+  grid.innerHTML = filtered.map(p=>`
+    <div class="plant-card" onclick="openModal('${p.id}')">
+      <div class="pc-visual"><span class="pc-layer-tag">${cap(p.layer)}</span>${plantIcon(p)}</div>
+      <div class="pc-body">
+        <div class="pc-name">${esc(p.name)}</div>
+        <div class="pc-latin">${esc(p.latin)}</div>
+        <div class="pc-meta"><span>${esc(p.matureLabel)}</span><span>${esc(p.sun)}</span></div>
+        <div class="pc-tags">${p.tags.slice(0,3).map(t=>`<span>${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('') || `<div class="empty-hint">No plants match those filters yet.</div>`;
+}
+renderPlantGrid();
+
+function openModal(id){
+  const p = PLANTS.find(x=>x.id===id);
+  const modal = document.getElementById('plant-modal');
+  document.getElementById('modal-card').innerHTML = `
+    <div class="modal-head">
+      <div><h3>${esc(p.name)}</h3><div class="latin">${esc(p.latin)}</div></div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="tag-row">${p.tags.map(t=>`<span class="pc-tags" style="display:inline-block"><span>${t}</span></span>`).join('')}</div>
+      <div class="modal-specs">
+        <div class="spec-line"><span>Layer</span><span>${cap(p.layer)}</span></div>
+        <div class="spec-line"><span>Current size</span><span>${esc(p.currentLabel)}</span></div>
+        <div class="spec-line"><span>Mature size</span><span>${esc(p.matureLabel)}</span></div>
+        <div class="spec-line"><span>Growth rate</span><span>${esc(p.growthRate)}</span></div>
+        <div class="spec-line"><span>Sun</span><span>${esc(p.sun)}</span></div>
+        <div class="spec-line"><span>Water</span><span>${esc(p.water)}</span></div>
+        <div class="spec-line"><span>Soil</span><span>${esc(p.soil)}</span></div>
+        <div class="spec-line"><span>Hardiness</span><span>${esc(p.hardiness)}</span></div>
+        <div class="spec-line"><span>Flowering</span><span>${esc(p.flower)}</span></div>
+        <div class="spec-line"><span>Harvest</span><span>${esc(p.harvest)}</span></div>
+        <div class="spec-line"><span>Lifespan</span><span>${esc(p.lifespan)}</span></div>
+        <div class="spec-line"><span>Pruning</span><span>${esc(p.pruning)}</span></div>
+      </div>
+      <div class="modal-section-title">FUNCTIONS</div>
+      <div class="tag-row">${p.functions.map(f=>`<span class="pc-tags"><span>${f}</span></span>`).join('')}</div>
+      <div class="modal-section-title">SUCCESSION ROLE</div>
+      <p style="font-size:13.5px;">${esc(p.succession)}</p>
+      <div class="modal-section-title">ECOLOGICAL RELATIONSHIPS</div>
+      <p style="font-size:13.5px; line-height:1.55;">${esc(p.ecology)}</p>
+      <div class="modal-section-title">KNOWN INCOMPATIBILITIES &amp; ALLELOPATHY</div>
+      <p style="font-size:13.5px; line-height:1.55;">${esc(p.incompat)} — ${esc(p.allelopathy)}</p>
+    </div>`;
+  modal.classList.add('open');
+}
+function closeModal(){ document.getElementById('plant-modal').classList.remove('open'); }
+document.addEventListener('keydown', e=>{ if (e.key==='Escape') closeModal(); });
+
+/* ======================================================================
+   SUN & SHADE
+   ====================================================================== */
+const sunMap = new GardenMap('sun-map-mount', {height:380, year:1, showShadow:true, sunHour:12});
+const TIMES = [9,12,15,18];
+const timeRow = document.getElementById('time-row');
+let activeTime = 12, activeSeason='Summer';
+TIMES.forEach(t=>{
+  const b = document.createElement('button');
+  b.className='time-btn'+(t===12?' active':'');
+  b.textContent = (t<10?'0':'')+t+':00';
+  b.addEventListener('click', ()=>{ activeTime=t; document.querySelectorAll('.time-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderSunMap(); });
+  timeRow.appendChild(b);
+});
+const seasonRow = document.getElementById('season-row');
+['Spring','Summer','Autumn','Winter'].forEach(s=>{
+  const b = document.createElement('button');
+  b.className='season-btn'+(s==='Summer'?' active':'');
+  b.textContent = s;
+  b.addEventListener('click', ()=>{ activeSeason=s; document.querySelectorAll('.season-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderSunMap(); });
+  seasonRow.appendChild(b);
+});
+function renderSunMap(){
+  const future = document.getElementById('sun-future').checked;
+  sunMap.setYear(future ? 10 : 1);
+  sunMap.setSun(activeTime, true);
+  const seasonFactor = {Spring:1, Summer:1.15, Autumn:0.85, Winter:0.55}[activeSeason];
+  const hourFactor = 1 - Math.abs(activeTime-13)/10;
+  let hours = 7.2 * seasonFactor * (0.75+hourFactor*0.25);
+  if (future) hours *= 0.62;
+  document.getElementById('sun-hours').textContent = Math.max(0.8, hours).toFixed(1) + ' h/day';
+}
+renderSunMap();
+
+/* ======================================================================
+   GUILD DESIGNER
+   ====================================================================== */
+const GUILDS = {
+  apple: {main:'Apple', companions:[
+    {name:'White clover', func:'Nitrogen fixer, living mulch', ev:'strong'},
+    {name:'Comfrey', func:'Dynamic accumulator, chop-and-drop', ev:'strong'},
+    {name:'Yarrow', func:'Predatory-insect attractant', ev:'trad'},
+    {name:'Daffodil (companion)', func:'Traditional rodent deterrent', ev:'anecdotal'},
+    {name:'Serviceberry (nearby)', func:'Staggered bloom for pollinators', ev:'trad'},
+  ]},
+  pear: {main:'Pear', companions:[
+    {name:'White clover', func:'Nitrogen fixer, living mulch', ev:'strong'},
+    {name:'Comfrey', func:'Dynamic accumulator', ev:'strong'},
+    {name:'Nasturtium (companion)', func:'Traditional aphid trap crop', ev:'anecdotal'},
+    {name:'Runner bean', func:'Seasonal nitrogen input at base', ev:'trad'},
+  ]},
+  willow: {main:'Willow', companions:[
+    {name:'Comfrey', func:'Understory chop-and-drop', ev:'trad'},
+    {name:'Elderberry', func:'Shared wet-tolerant guild', ev:'trad'},
+    {name:'Wetland sedges (companion)', func:'Bank stabilisation', ev:'strong'},
+  ]},
+};
+const guildSelectList = document.getElementById('guild-select-list');
+Object.keys(GUILDS).forEach((key,i)=>{
+  const b = document.createElement('button');
+  b.className = 'guild-select-btn'+(i===0?' active':'');
+  b.textContent = GUILDS[key].main;
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.guild-select-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderGuild(key);
+  });
+  guildSelectList.appendChild(b);
+});
+function renderGuild(key){
+  const g = GUILDS[key];
+  const dia = document.getElementById('guild-diagram');
+  const n = g.companions.length;
+  const radius = 160;
+  let nodesHtml = '';
+  g.companions.forEach((c,i)=>{
+    const angle = (i / n) * Math.PI*2 - Math.PI/2;
+    const cx = 50 + Math.cos(angle)*(radius/3.8);
+    const cy = 50 + Math.sin(angle)*(radius/4.6);
+    nodesHtml += `<div class="guild-node" style="left:calc(${cx}% - 75px); top:calc(${cy}% - 30px);">
+      <div class="gname">${esc(c.name)}</div>
+      <div class="gfunc">${esc(c.func)}</div>
+      <span class="gev ${c.ev}">${c.ev==='strong'?'Documented':c.ev==='trad'?'Traditional':'Anecdotal'}</span>
+    </div>`;
+  });
+  dia.innerHTML = `<div class="guild-center">${esc(g.main)}</div>${nodesHtml}`;
+}
+renderGuild('apple');
+
+/* ======================================================================
+   GARDEN HEALTH CHECK
+   ====================================================================== */
+const CHECKS = [
+  {cat:'Light', status:'review', title:'Comfrey approaching partial shade', desc:'By Year 10 the apple and pear canopies are projected to cover part of the comfrey patch. Comfrey tolerates part shade, so growth will likely slow rather than fail.'},
+  {cat:'Spacing', status:'problem', title:'Apple and pear canopies will overlap', desc:'At 3.5 m apart, the two trees are inside the combined mature-canopy footprint. Consider a dwarfing rootstock or relocating one tree by roughly 1.5 m.'},
+  {cat:'Water', status:'good', title:'No competing high-demand plants nearby', desc:"Grape and yarrow are both drought-tolerant and sit well clear of the orchard's root zone."},
+  {cat:'Soil', status:'good', title:'Soil preferences are compatible', desc:'All plants in the kitchen-garden bed share a preference for fertile, well-drained loam.'},
+  {cat:'Disease', status:'review', title:'Fire blight risk near pear', desc:'Serviceberry is in the same family as pear and can share fire blight in some regions. Not a certainty — worth monitoring blossom in wet springs.'},
+  {cat:'Allelopathy', status:'good', title:'No documented allelopathic conflicts', desc:'Nothing in the current planting list has strong documented allelopathic effects on its neighbours.'},
+  {cat:'Invasiveness', status:'review', title:'Jerusalem artichoke may spread', desc:'This plant regrows readily from small tuber fragments. A root barrier or a dedicated bed will keep it contained.'},
+  {cat:'Maintenance', status:'good', title:'Grape trellis is reachable from the path', desc:'The annual pruning this vine needs stays easy while it sits within a metre of the main path.'},
+  {cat:'Succession', status:'review', title:'Tree lucerne will need removal', desc:'This pioneer nitrogen-fixer is scheduled to be shaded out by the maturing canopy around Year 8–10 — plan to coppice it fully or remove it by then.'},
+];
+document.getElementById('check-list').innerHTML = CHECKS.map(c=>`
+  <div class="check-row">
+    <span class="check-status ${c.status}"></span>
+    <span class="check-row-cat">${c.cat.toUpperCase()}</span>
+    <div class="check-row-text"><div class="title">${c.title}</div><div class="desc">${c.desc}</div></div>
+  </div>`).join('');
+
+/* ======================================================================
+   ZONES
+   ====================================================================== */
+const ZONES = [
+  {n:'01', name:'Kitchen garden', desc:'Annual vegetables and herbs, closest to the house.'},
+  {n:'02', name:'Orchard', desc:'Standard and semi-dwarf fruit trees on a wide grid.'},
+  {n:'03', name:'Forest garden', desc:'Layered perennial planting under a light canopy.'},
+  {n:'04', name:'Wildlife habitat', desc:'Native shrubs and undisturbed ground for insects and birds.'},
+  {n:'05', name:'Biomass production', desc:'Fast-growing species cut regularly for mulch.'},
+  {n:'06', name:'Pond / wetland', desc:'Water storage, wet-tolerant planting and habitat edge.'},
+  {n:'07', name:'Outdoor living', desc:'Seating, shade structures and a working path network.'},
+];
+document.getElementById('zone-grid').innerHTML = ZONES.map(z=>`
+  <div class="zone-card"><span class="znum">ZONE ${z.n}</span><h4>${z.name}</h4><p>${z.desc}</p></div>`).join('');
+
+/* ======================================================================
+   PRINCIPLES
+   ====================================================================== */
+const PRINCIPLES = [
+  'Design from observation.', 'Preserve existing valuable vegetation.', 'Design for mature size.',
+  'Design for sunlight and shade.', 'Use vertical layers.', 'Think about water movement.',
+  'Think about soil.', 'Combine multiple functions.', 'Design for succession.',
+  'Use biomass intentionally.', 'Plan maintenance and access.', 'Distinguish evidence from traditional ecological knowledge.',
+  'Treat the garden as a dynamic system rather than a static picture.',
+];
+document.getElementById('principles-list').innerHTML = PRINCIPLES.map((p,i)=>`
+  <div class="principle-item"><span class="principle-num">${String(i+1).padStart(2,'0')}</span><span class="principle-text">${p}</span></div>`).join('');
+
+/* ======================================================================
+   SAMPLE PROJECT
+   ====================================================================== */
+const sampleMap = new GardenMap('sample-map-mount', {height:440, year:1});
+const SAMPLE_YEARS = [1,5,10];
+const sampleTimeline = document.getElementById('sample-timeline');
+function updateSampleYear(){
+  const y = SAMPLE_YEARS[sampleTimeline.value];
+  document.getElementById('sample-year-readout').textContent = 'Year ' + y;
+  sampleMap.setYear(y);
+}
+sampleTimeline.addEventListener('input', updateSampleYear);
+updateSampleYear();
+document.getElementById('sample-legend').innerHTML = LAYERS.map(l=>`
+  <span><span class="legend-dot" style="background:${layerColor(l.id)}"></span>${l.name}</span>`).join('');
+
+</script>
+</body>
+</html>
