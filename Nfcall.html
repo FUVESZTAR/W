@@ -2118,6 +2118,9 @@ async function populate() {
        const searchLatin = (latinName || '').trim().replace(/\s+/g, '_');
        const searchVariety =(nameVariety || '').trim().replace(/\s+/g, '_');
       picPreview.textContent =`${searchLatin}_${searchVariety}`;
+    } else {
+      link = `${baseUrl}/W/P.html`;
+      linkPreview.textContent = link;
     }
     
     const nfcData = `${nfcId}/${plantId}/${plantName}/${nameVariety}/${latinName}/${nfcTyp}/${datum}/${gpsCardToggle.classList.contains('on') ? gpsText : ''}/${othCardToggle.classList.contains('on') ? egyeb + '/' : ''}`;
