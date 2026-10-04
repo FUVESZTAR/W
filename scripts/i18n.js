@@ -17,6 +17,8 @@ export const TRANSLATIONS = {
     "home.card.plantlist.desc": "View the full list of plants with filtering by family, genus and variety.",
     "home.card.seedbank.title": "Seedbank",
     "home.card.seedbank.desc": "View the full list of seeds with filtering by family, genus, name and variety.",
+    "home.card.gardenplanner.title": "Garden planner",
+    "home.card.gardenplanner.desc": "Plan a living garden and watch it grow.",
     "home.card.position.title": "GPS Position",
     "home.card.position.desc": "Record and view the GPS positions of plants in your garden.",
     "home.card.shadowmap.title": "Shadow Map",
