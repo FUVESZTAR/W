@@ -3025,5 +3025,181 @@ setupLanguageButtons();
 })();
 </script>
 
+<script>
+  //fixes for NFC empty error
+  /*
+  function showStatus(msg, type = "info") {
+    const el = document.getElementById("gen-error-message");
+    if (!el) return;
+    el.textContent = msg;
+    el.className = "status-msg " + type;
+  }
+
+  function getTrimmed(id) {
+    const el = document.getElementById(id);
+    return (el && el.value ? el.value.trim() : "");
+  }
+
+  function buildNfcPayload() {
+    const plant = getTrimmed("gen-plantName")
+      || getTrimmed("gen-plant-selector-custom")
+      || getTrimmed("gen-plant-selector");
+
+    const variety = getTrimmed("gen-plantVariety")
+      || getTrimmed("gen-name-variety-custom")
+      || getTrimmed("gen-name-variety");
+
+    const date = getTrimmed("gen-datum");
+    const nfcType = getTrimmed("gen-nfcTyp");
+    const gps = getTrimmed("gen-gps-rw") || getTrimmed("gen-posPacketOut");
+    const notes = getTrimmed("gen-egyeb-rw") || getTrimmed("gen-egyeb");
+
+    if (!plant) return { valid: false, message: "Plant name is required." };
+    if (!variety) return { valid: false, message: "Variety is required." };
+    if (!date) return { valid: false, message: "Date is required." };
+    if (!nfcType) return { valid: false, message: "NFC type is required." };
+
+    const payload = {
+      plant,
+      variety,
+      date,
+      type: nfcType,
+      gps: gps || "",
+      notes: notes || "",
+      generatedAt: new Date().toISOString()
+    };
+
+    return {
+      valid: true,
+      message: payload
+    };
+  }
+
+  async function safeWriteNfc() {
+    if (!gpsReadyForWrite()) {
+      showStatus("Stop GPS tracking and lock the GPS data before writing the NFC tag.", "error");
+      return;
+    }
+
+    const payload = buildNfcPayload();
+    if (!payload.valid) {
+      showStatus(payload.message, "error");
+      return;
+    }
+  
+    const payload = buildNfcPayload();
+    if (!payload.valid) {
+      showStatus(payload.message, "error");
+      return;
+    }
+
+    try {
+      if (!("NDEFReader" in window)) {
+        throw new Error("This browser does not support Web NFC.");
+      }
+
+      const ndef = new NDEFReader();
+      const json = JSON.stringify(payload.message);
+
+      // IMPORTANT: write the new data only if validation passed
+      const message = new NDEFMessage({
+        records: [
+          {
+            recordType: "mime",
+            mediaType: "application/json",
+            data: new TextEncoder().encode(json)
+          }
+        ]
+      });
+
+      await ndef.write(message);
+      showStatus("NFC written successfully.", "success");
+    } catch (err) {
+      showStatus("Write failed: " + (err && err.message ? err.message : err), "error");
+      // DO NOT erase or clear the tag here
+    }
+  }
+
+  document.getElementById("gen-nfc-write-button").addEventListener("click", safeWriteNfc);
+  //block writing while gps running
+ function gpsReadyForWrite() {
+    const gpsBtn = document.getElementById("gen-gpsStopBtn");
+    const gpsValue = document.getElementById("gen-posPacketOut");
+    if (!gpsBtn || !gpsValue) return true;
+
+    const isLocked = gpsBtn.style.display !== "none";
+    if (isLocked) return true;
+
+    // Write should be blocked if GPS is still active but not locked
+    if (gpsValue.textContent && gpsValue.textContent.includes("No data locked")) {
+      return false;
+    }
+    return true;
+  }
+
+  /prevent duple writing
+    let writeInProgress = false;
+
+  async function safeWriteNfc() {
+    if (writeInProgress) {
+      showStatus("Write already in progress...", "info");
+      return;
+    }
+
+    writeInProgress = true;
+
+    try {
+      const payload = buildNfcPayload();
+      if (!payload.valid) {
+        showStatus(payload.message, "error");
+        return;
+      }
+
+      const ndef = new NDEFReader();
+      const message = new NDEFMessage({
+        records: [{
+          recordType: "mime",
+          mediaType: "application/json",
+          data: new TextEncoder().encode(JSON.stringify(payload.message))
+        }]
+      });
+
+      await ndef.write(message);
+      showStatus("NFC written successfully.", "success");
+    } catch (err) {
+      showStatus("Write failed: " + (err && err.message ? err.message : err), "error");
+    } finally {
+      writeInProgress = false;
+    }
+  }
+
+
+//validate write
+  async function writeNfcSafe() {
+    const payload = buildNfcPayload();
+    if (!payload.valid) {
+      showStatus(payload.message, "error");
+      return;
+    }
+
+    console.log("NFC payload prepared:", payload.message);
+
+    // Only after payload validation succeeds:
+    const ndef = new NDEFReader();
+    const message = new NDEFMessage({
+      records: [{
+        recordType: "mime",
+        mediaType: "application/json",
+        data: new TextEncoder().encode(JSON.stringify(payload.message))
+      }]
+    });
+
+    await ndef.write(message);
+  }
+
+
+  */
+</script>
+  
   </body>
 </html>
