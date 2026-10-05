@@ -453,7 +453,29 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 }
 .tab-section { display: none; }
 .tab-section.active { display: contents; }
+ /* ── Pop up window ──────────────────────────────────────────────────────────────── */
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
 
+    .popup {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .popup button {
+        margin: 10px 5px;
+        padding: 10px 25px;
+        cursor: pointer;
+    }
     /* ── Debug ──────────────────────────────────────────────────────────────── */
 #debug-section {
   margin-top: 24px;
@@ -746,6 +768,14 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div id="confirmPopup" class="popup-overlay">
+            <div class="popup">
+               <h3>Confirm NFC Write</h3>
+               <p>Do you want to continue?</p>
+               <button id="popupOk">OK</button>
+               <button id="popupCancel">Cancel</button>
+            </div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
            <!-- Error / status message -->
@@ -1538,6 +1568,42 @@ function makeSelectSearchable(selectEl, searchId) {
       applyFilter();
     },
   };
+}
+
+  // popup window
+  function showConfirmPopup(message) {
+
+    return new Promise((resolve) => {
+
+        const popup = document.getElementById("confirmPopup");
+        const okButton = document.getElementById("popupOk");
+        const cancelButton = document.getElementById("popupCancel");
+
+        // Set message
+        popup.querySelector("p").textContent = message;
+
+        // Show popup
+        popup.style.display = "flex";
+
+
+        // OK
+        okButton.onclick = function () {
+
+            popup.style.display = "none";
+
+            resolve(true);
+        };
+
+
+        // Cancel
+        cancelButton.onclick = function () {
+
+            popup.style.display = "none";
+
+            resolve(false);
+        };
+
+    });
 }
 
 async function populate() {
@@ -2341,6 +2407,22 @@ async function populate() {
       updatePreviews(true);
       const nfcData = nfcPreview.textContent;
       const link    = linkPreview.textContent;
+
+      // PAUSE HERE until user clicks OK or Cancel
+       const confirmed = await showConfirmPopup(
+        "The NFC tag is ready. Do you want to continue?"
+       );
+           // User pressed Cancel
+    if (!confirmed) {
+        console.log("User cancelled");
+
+        return;
+    }
+
+      // User pressed OK
+    console.log("User pressed OK");
+
+      
       gennfcBtn.disabled = false;
       if (selectedPlantIndex == null && !(customPlantMode && plantNameInput.trim())) {
         showError(errorMsg, msg('err_gen_no_save'));
@@ -2380,7 +2462,610 @@ async function populate() {
       }
     });
   }
+    
+  /* new write logic
+if (nfcWriteBtn) {
 
+  nfcWriteBtn.addEventListener("click", async () => {
+
+    // =========================================================
+    // 1. READY THE DATA
+    // =========================================================
+
+    updatePreviews(true);
+
+    const nfcData = nfcPreview.textContent.trim();
+    const link = linkPreview.textContent.trim();
+
+
+    // =========================================================
+    // 2. VALIDATE THE DATA
+    // =========================================================
+
+    if (
+      selectedPlantIndex == null &&
+      !(customPlantMode && plantNameInput.trim())
+    ) {
+      showError(errorMsg, msg("err_gen_no_save"));
+      return;
+    }
+
+    if (!nfcData) {
+      showError(errorMsg, "No NFC data to write.");
+      return;
+    }
+
+    if (!link) {
+      showError(errorMsg, "No URL to write.");
+      return;
+    }
+
+    if (!("NDEFReader" in window)) {
+      showError(errorMsg, msg("err_nfc_ns"));
+      return;
+    }
+
+
+    // =========================================================
+    // 3. USER CONFIRMS
+    // =========================================================
+
+    const confirmed = await showConfirmPopup(
+      "The NFC tag is ready. Do you want to continue?"
+    );
+
+    if (!confirmed) {
+      console.log("User cancelled NFC operation.");
+      return;
+    }
+
+
+    // =========================================================
+    // LOCK UI
+    // =========================================================
+
+    nfcWriteBtn.disabled = true;
+    gennfcBtn.disabled = true;
+
+
+    try {
+
+      // =======================================================
+      // CREATE READER
+      // =======================================================
+
+      const ndef = new NDEFReader();
+
+
+      // =======================================================
+      // 4. USER TAPS TAG
+      // =======================================================
+
+      showError(
+        errorMsg,
+        msg("err_gen_nfc_tap"),
+        "info"
+      );
+
+      console.log("Waiting for NFC tag...");
+
+      await ndef.scan();
+
+
+      // Wait for the FIRST tag detection
+      const firstTag = await waitForNfcReading(ndef, 15000);
+
+      const firstUid = firstTag.serialNumber || null;
+
+      console.log("First NFC tag detected.");
+      console.log("UID:", firstUid);
+
+
+      // Display UID immediately
+      if (firstUid) {
+        serialNumText.textContent = firstUid;
+      }
+
+
+      // =======================================================
+      // 5. WRITE
+      // =======================================================
+
+      showError(
+        errorMsg,
+        "Tag detected. Writing data...",
+        "info"
+      );
+
+      console.log("Writing NFC tag...");
+
+      await ndef.write({
+        records: [
+          {
+            recordType: "text",
+            data: nfcData
+          },
+          {
+            recordType: "url",
+            data: link
+          }
+        ]
+      });
+
+      console.log("NFC write completed.");
+
+
+      // =======================================================
+      // 6. TELL USER TO REMOVE TAG
+      // =======================================================
+
+      showError(
+        errorMsg,
+        "Write successful. Remove the NFC tag.",
+        "info"
+      );
+
+      console.log("Waiting for tag to be removed...");
+
+
+      // Give the NFC hardware/browser a moment to register
+      // that the first interaction has ended.
+      await delay(700);
+
+
+      // =======================================================
+      // 7. USER TAPS TAG AGAIN
+      // =======================================================
+
+      showError(
+        errorMsg,
+        "Now tap the NFC tag again to verify it.",
+        "info"
+      );
+
+      console.log("Waiting for second NFC tap...");
+
+
+      const secondTag = await waitForNfcReading(
+        ndef,
+        15000
+      );
+
+
+      const secondUid = secondTag.serialNumber || null;
+
+      console.log("Second NFC tag detected.");
+      console.log("UID:", secondUid);
+
+
+      // =======================================================
+      // 8. READ DATA + NFC ID AND VERIFY
+      // =======================================================
+
+      // Make sure we actually received a UID
+      if (!secondUid) {
+        throw new Error(
+          "Could not read the NFC tag ID."
+        );
+      }
+
+
+      // Make sure the same physical tag was used
+      if (
+        firstUid &&
+        secondUid &&
+        normalizeUid(firstUid) !== normalizeUid(secondUid)
+      ) {
+
+        throw new Error(
+          "A different NFC tag was detected during verification."
+        );
+      }
+
+
+      // Display verified UID
+      serialNumText.textContent = secondUid;
+
+
+      console.log(
+        "Reading NFC records for verification..."
+      );
+
+
+      const verification = verifyNfcMessage(
+        secondTag.message,
+        nfcData,
+        link
+      );
+
+
+      if (!verification.success) {
+
+        throw new Error(
+          verification.reason
+        );
+      }
+
+
+      // =======================================================
+      // 9. SAVE NFC ID
+      // =======================================================
+
+      console.log(
+        "NFC data verified. Saving NFC ID:",
+        secondUid
+      );
+
+
+      // -------------------------------------------------------
+      // IMPORTANT:
+      //
+      // Replace this section with your existing save logic.
+      //
+      // Example:
+      //
+      // selectedPlant.nfcId = secondUid;
+      //
+      // or:
+      //
+      // plants[selectedPlantIndex].nfcId = secondUid;
+      //
+      // -------------------------------------------------------
+
+      await saveNfcId(secondUid);
+
+
+      // =======================================================
+      // 10. SUCCESS
+      // =======================================================
+
+      showError(
+        errorMsg,
+        msg("err_gen_nfc_ok"),
+        "success"
+      );
+
+      console.log(
+        "NFC PROCESS COMPLETED SUCCESSFULLY."
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "NFC operation failed:",
+        error
+      );
+
+      showError(
+        errorMsg,
+        msg("err_gen_nfc_write") +
+          (error.message || error),
+        "error"
+      );
+
+
+    } finally {
+
+      // =======================================================
+      // RESTORE UI
+      // =======================================================
+
+      nfcWriteBtn.disabled = false;
+      gennfcBtn.disabled = false;
+
+    }
+
+  });
+}
+
+
+//=============================================================
+//   WAIT FOR ONE NFC READING
+//   ============================================================= 
+
+function waitForNfcReading(ndef, timeoutMs = 15000) {
+
+  return new Promise((resolve, reject) => {
+
+    let finished = false;
+
+
+    const timeout = setTimeout(() => {
+
+      if (finished) return;
+
+      finished = true;
+
+      reject(
+        new Error(
+          "NFC tag was not detected within the timeout."
+        )
+      );
+
+    }, timeoutMs);
+
+
+    const onReading = (event) => {
+
+      if (finished) return;
+
+      finished = true;
+
+      clearTimeout(timeout);
+
+
+      console.log(
+        "NFC reading received:",
+        event.serialNumber
+      );
+
+
+      resolve({
+        serialNumber: event.serialNumber || null,
+        message: event.message
+      });
+
+    };
+
+
+    ndef.addEventListener(
+      "reading",
+      onReading,
+      { once: true }
+    );
+
+  });
+}
+
+
+// =============================================================
+//   VERIFY NFC MESSAGE
+//  ============================================================= 
+
+function verifyNfcMessage(
+  message,
+  expectedText,
+  expectedUrl
+) {
+
+  try {
+
+    if (!message || !message.records) {
+
+      return {
+        success: false,
+        reason: "The NFC tag contains no readable NDEF message."
+      };
+
+    }
+
+
+    const records = [];
+
+
+    // ---------------------------------------------------------
+    // Decode every record
+    // ---------------------------------------------------------
+
+    for (const record of message.records) {
+
+      let data = "";
+
+
+      try {
+
+        const decoder = new TextDecoder(
+          record.encoding || "utf-8"
+        );
+
+        data = decoder.decode(record.data);
+
+      } catch (error) {
+
+        console.warn(
+          "Could not decode NFC record:",
+          error
+        );
+
+        continue;
+      }
+
+
+      records.push({
+        recordType: record.recordType,
+        data: data
+      });
+
+    }
+
+
+    console.log(
+      "NFC data read from tag:",
+      records
+    );
+
+
+    // ---------------------------------------------------------
+    // Find text record
+    // ---------------------------------------------------------
+
+    const textRecord = records.find(
+      record => record.recordType === "text"
+    );
+
+
+    if (!textRecord) {
+
+      return {
+        success: false,
+        reason: "The expected text record was not found."
+      };
+
+    }
+
+
+    // ---------------------------------------------------------
+    // Compare text
+    // ---------------------------------------------------------
+
+    if (textRecord.data !== expectedText) {
+
+      console.error(
+        "NFC TEXT mismatch"
+      );
+
+      console.error(
+        "Expected:",
+        expectedText
+      );
+
+      console.error(
+        "Received:",
+        textRecord.data
+      );
+
+
+      return {
+        success: false,
+        reason: "The NFC text does not match the data written."
+      };
+
+    }
+
+
+    // ---------------------------------------------------------
+    // Find URL record
+    // ---------------------------------------------------------
+
+    const urlRecord = records.find(
+      record => record.recordType === "url"
+    );
+
+
+    if (!urlRecord) {
+
+      return {
+        success: false,
+        reason: "The expected URL record was not found."
+      };
+
+    }
+
+
+    // ---------------------------------------------------------
+    // Compare URL
+    // ---------------------------------------------------------
+
+    if (urlRecord.data !== expectedUrl) {
+
+      console.error(
+        "NFC URL mismatch"
+      );
+
+      console.error(
+        "Expected:",
+        expectedUrl
+      );
+
+      console.error(
+        "Received:",
+        urlRecord.data
+      );
+
+
+      return {
+        success: false,
+        reason: "The NFC URL does not match the URL written."
+      };
+
+    }
+
+
+    // ---------------------------------------------------------
+    // EVERYTHING MATCHED
+    // ---------------------------------------------------------
+
+    return {
+      success: true
+    };
+
+  } catch (error) {
+
+    return {
+      success: false,
+      reason:
+        "Could not verify NFC data: " +
+        error.message
+    };
+
+  }
+}
+
+
+// =============================================================
+//   NORMALIZE NFC UID
+ //  =============================================================
+
+function normalizeUid(uid) {
+
+  if (!uid) return "";
+
+  return String(uid)
+    .trim()
+    .toUpperCase()
+    .replace(/[:-]/g, "");
+
+}
+
+
+// =============================================================
+//   SMALL DELAY HELPER
+ //  =============================================================
+
+function delay(ms) {
+
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+
+}
+
+
+// =============================================================
+//   SAVE NFC ID
+//   =============================================================
+
+//Replace this with your existing application save logic.
+
+async function saveNfcId(nfcId) {
+
+  console.log(
+    "Saving NFC ID:",
+    nfcId
+  );
+
+
+  // -----------------------------------------------------------
+  // EXAMPLE:
+  //
+  // if (selectedPlantIndex != null) {
+  //   plants[selectedPlantIndex].nfcId = nfcId;
+  //   await savePlants();
+  // }
+  //
+  // -----------------------------------------------------------
+
+
+  return true;
+
+}
+
+ // new logic end 
+ */
+
+  
+  
   function clearForm() {
     genPlantIdShow.value = "";
     genNfcIdShow.value = "";
