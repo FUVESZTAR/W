@@ -2401,32 +2401,6 @@ async function populate() {
       }
     });
   }
-// start
-
-      try {
-        const ndef = new NDEFReader();
-        await ndef.scan();
-        ndef.addEventListener("reading", (event) => {
-          serialNumText.textContent = event.serialNumber;
-          console.log("Tag UID:", event.serialNumber);
-        });
-        await ndef.write({
-          records: [
-            { recordType: "text", data: nfcData },
-            { recordType: "url",  data: link }
-          ]
-        });
-        showError(errorMsg, msg('err_gen_nfc_ok'), "success");
-        gennfcBtn.disabled = false;
-      } catch (error) {
-        showError(errorMsg, msg('err_gen_nfc_write') + error);
-        console.error(error);
-      } finally {
-        nfcWriteBtn.disabled = false;
-        gennfcBtn.disabled = false;
-      }
-    });
-  }
     
  // new  nfc write logic start 
 if (nfcWriteBtn) {
