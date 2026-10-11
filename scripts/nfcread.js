@@ -370,13 +370,13 @@ function handlePlantData(data) {
   // Gen NFC button
   if (genNfcBtn) {
   genNfcBtn.addEventListener("click", () => {
-    window.location.href = "Nfcgenerator.html";
+    window.location.href = "pages/Nfcgenerator.html";
   });}
 
   // List NFC button
   if (listNfcBtn) {
   listNfcBtn.addEventListener("click", () => {
-    window.location.href = "NFCListPage.html";
+    window.location.href = "pages/NFCListPage.html";
   });}
   
   // Save NFC button – appends a row to the nfc_list sheet via the Apps Script Web App
