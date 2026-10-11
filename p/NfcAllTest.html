@@ -1708,7 +1708,7 @@ async function initGenerator() {
 $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none');
   
   B('back-button').addEventListener('click', () => location.href = 'Homepage.html');
-  B('list-nfc').addEventListener('click',   () => location.href = 'NFCListPage.html');
+  B('list-nfc').addEventListener('click',   () => location.href = 'pages/NFCListPage.html');
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
 
   /* ── Save to Google Sheet ── */
@@ -1898,7 +1898,7 @@ function initReader() {
     switchTab('gen');
   });
   r('gen-nfc').addEventListener('click',  () => switchTab('gen'));
-  r('list-nfc').addEventListener('click', () => location.href = 'NFCListPage.html');
+  r('list-nfc').addEventListener('click', () => location.href = 'pages/NFCListPage.html');
   r('back-button').addEventListener('click', () => location.href = 'Homepage.html');
 }
 
