@@ -157,14 +157,14 @@ async function populate() {
   }
    if (nfcGenBtn) {
     nfcGenBtn.addEventListener("click", () => {
-      window.location.href = "NfcAllTest.html";
+      window.location.href = "../NfcAllTest.html";
     });
   }
 
     // Back button
   if (backBtn) {
   backBtn.addEventListener("click", () => {
-    window.location.href = "Homepage.html";
+    window.location.href = "../Homepage.html";
   });}
 } // end populate
 
