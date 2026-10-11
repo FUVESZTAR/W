@@ -3,7 +3,7 @@ import { t, getCurrentLang, setupLanguageButtons } from "./lang.js";
 import { makeSelectSearchable } from "./searchable-select.js";
 
 document.getElementById("back-button").addEventListener("click", () => {
-  window.location.href = "Homepage.html";
+  window.location.href = "../Homepage.html";
 });
 
 function buildDropdown(selectEl, allValues, placeholder) {
