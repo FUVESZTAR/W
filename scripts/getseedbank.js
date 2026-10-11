@@ -17,7 +17,7 @@ function escHtml(s) {
 // ────────────────────────────────────────────────────────────────────────────
 
 document.getElementById('back-button').addEventListener('click', () => {
-  window.location.href = 'Homepage.html';
+  window.location.href = '../Homepage.html';
 });
 
 document.getElementById('debug-toggle').addEventListener('click', () => {
