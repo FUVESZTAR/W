@@ -1368,12 +1368,10 @@ function debounce(fn, ms) {
 }
 
   </script>
-
-  <!-- script src="scripts/nfcread.js" type="module"></script> -->
-
+  <!-- Script 3: qr localy -->
   <script src="lib/qrcode.js"></script>
   
-  <!-- Script 3: new JS -->
+  <!-- Script 4: new JS Read / write -->
   <script>
   /* =====================================================================
  * Design: the "review" fields (gen-*-rw) are the single source of truth
@@ -1703,8 +1701,8 @@ async function initGenerator() {
     qr.make();                          // throws if the payload is too long
     $('qrBox').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
     $('qrPopup').style.display = 'flex';
-  } catch (e) {
-    showError(err, 'QR code failed: ' + e.message);
+   } catch (e) {
+    showError(err, 'QR code failed: ' + (e.message || e));
   }
 });
 $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none');
