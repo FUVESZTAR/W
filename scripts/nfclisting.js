@@ -61,7 +61,7 @@ async function loadNfcData() {
 }
 
 document.getElementById('back-button').addEventListener('click', () => {
-  window.location.href = 'Homepage.html';
+  window.location.href = '../Homepage.html';
 });
 
 function unique(arr) {
