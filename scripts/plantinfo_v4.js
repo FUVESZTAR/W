@@ -559,7 +559,7 @@ function setIdentityFilterLink(element, filterType, value) {
   const cleaned = String(value || '').trim();
   if (!cleaned) return;
   const link = document.createElement('a');
-  link.href = `PlantListPage.html?filterType=${encodeURIComponent(filterType)}&filterValue=${encodeURIComponent(cleaned)}`;
+  link.href = `pages/PlantListPage.html?filterType=${encodeURIComponent(filterType)}&filterValue=${encodeURIComponent(cleaned)}`;
   link.textContent = cleaned;
   element.appendChild(link);
 }
