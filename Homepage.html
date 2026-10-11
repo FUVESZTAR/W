@@ -36,7 +36,7 @@
         margin: 0;
       }
 
-      /* ── Nav grid ───────────────────────────────────────────────────────── */
+      /* ── Nav grid ─────────────────────────────────────────────────────────
       .nav-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -49,6 +49,23 @@
         gap: 0.55rem;
         padding: 1.4rem 1.3rem 1.2rem;
          }
+
+ */
+      /* Space between the groups (sections) */
+.nav-grid {
+  display: grid;
+  grid-template-columns: 1fr;   /* one group per row */
+  gap: 1.5rem;
+  padding: 0 0 3rem;
+}
+
+/* Space between the cards inside a group */
+.nav-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.55rem;
+  padding: 1.4rem 1.3rem 1.2rem;
+}
       /* ── Nav card ───────────────────────────────────────────────────────── */
       .nav-card {
         display: flex;
@@ -175,7 +192,7 @@
           <span class="card-icon">📋</span>
           <p class="card-title" data-i18n="home.card.nfclist.title">NFC List</p>
           <p class="card-desc" data-i18n="home.card.nfclist.desc">
-            List ofcreated NFC tags.
+            List of created NFC tags.
           </p>
           <span class="card-arrow">→</span>
         </a>
@@ -183,12 +200,12 @@
           <span class="card-icon">🌿</span>
           <p class="card-title" data-i18n="home.card.gardenplanner.title">Garden planner</p>
           <p class="card-desc" data-i18n="home.card.gardenplanner.desc">
-            Plan a living garden and wathch how it grows.
+            Plan a living garden and watch how it grows.
           </p>
           <span class="card-arrow">→</span>
         </a>
        </section>
-        <br> 
+        <br>
        <section class="nav-group">   
          <a class="nav-card" href="pages/sourdoughpage.html">
           <span class="card-icon">🥖</span>
@@ -207,7 +224,7 @@
           <span class="card-arrow">→</span>
         </a>
      </section>
-        <br>
+
          <section class="nav-group">   
         <a class="nav-card" href="pages/Position.html">
           <span class="card-icon">📍</span>
