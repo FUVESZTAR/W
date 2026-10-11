@@ -147,12 +147,12 @@ async function populate() {
   
   if (nfcListBtn) {
     nfcListBtn.addEventListener("click", () => {
-      window.location.href = "pages/NFCListPage.html";
+      window.location.href = "NfcListPage.html";
     });
   }
   if (listBtn) {
     listBtn.addEventListener("click", () => {
-      window.location.href = "pages/PlantListPage.html";
+      window.location.href = "PlantListPage.html";
     });
   }
    if (nfcGenBtn) {
