@@ -779,6 +779,13 @@ button:disabled { opacity:.55; cursor:not-allowed; }
                <button id="popupCancel">Cancel</button>
             </div>
       </div>
+      <div id="qrPopup" class="popup-overlay">
+            <div class="popup">
+            <h3>NFC QR Code</h3>
+            <div id="qrBox" style="width:260px;max-width:80vw;margin:0 auto"></div>
+            <button id="qrClose" type="button">Close</button>
+            </div>
+      </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
            <!-- Error / status message -->
          <p class="status-msg" id="gen-error-message"></p>
@@ -1361,6 +1368,11 @@ function debounce(fn, ms) {
 }
 
   </script>
+
+  <!-- script src="scripts/nfcread.js" type="module"></script> -->
+
+  <script src="lib/qrcode.js"></script>
+  
   <!-- Script 3: new JS -->
   <script>
   /* =====================================================================
@@ -1670,12 +1682,33 @@ async function initGenerator() {
   B('copy-nfc').addEventListener('click',  () => copyText(err, el('nfc-preview').textContent,  'err_no_nfc',  'err_copy_nfc_ok'));
   B('copy-link').addEventListener('click', () => copyText(err, el('link-preview').textContent, 'err_no_link', 'err_copy_link_ok', 'ph_link_preview'));
   B('copy-pic').addEventListener('click',  () => copyText(err, el('pic-preview').textContent,  'err_no_pic',  'err_copy_pic_ok', 'ph_pic_preview'));
-  B('qr-button').addEventListener('click', () => {
+  /*B('qr-button').addEventListener('click', () => {
     // NOTE: qrserver.com is a 3rd party and receives the whole payload (incl. GPS).
     // For privacy generate the QR locally (e.g. a small cdnjs QR library).
     const w = window.open(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(buildNfc() + ' ' + buildLink())}`, '_blank', 'noopener');
     showError(err, w ? msg('err_qr_ok') : msg('err_qr_fail'), w ? 'success' : 'error');
-  });
+  });*/
+  
+  B('qr-button').addEventListener('click', () => {
+  if (!hasSelection()) return showError(err, msg('err_no_plant'));
+  renderPreview();
+  const payload = buildNfc() + ' ' + buildLink();
+
+  // Encode accented Hungarian characters (á, é, ő, ű ...) as UTF-8
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
+
+  try {
+    const qr = qrcode(0, 'M');          // 0 = pick the smallest size that fits, M = medium error correction
+    qr.addData(payload, 'Byte');
+    qr.make();                          // throws if the payload is too long
+    $('qrBox').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
+    $('qrPopup').style.display = 'flex';
+  } catch (e) {
+    showError(err, 'QR code failed: ' + e.message);
+  }
+});
+$('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none');
+  
   B('back-button').addEventListener('click', () => location.href = 'Homepage.html');
   B('list-nfc').addEventListener('click',   () => location.href = 'NFCListPage.html');
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
