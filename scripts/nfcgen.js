@@ -683,13 +683,13 @@ function calculateSize(text) {
   // List NFC button
   if (listNfcBtn) {
   listNfcBtn.addEventListener("click", () => {
-    window.location.href = "NFCListPage.html";
+    window.location.href = "pages/NFCListPage.html";
   });}
 
   // Read NFC button
   if (readNfcBtn) {
   readNfcBtn.addEventListener("click", () => {
-    window.location.href = "Nfcreader.html";
+    window.location.href = "pages/Nfcreader.html";
   });}
   
   // Save NFC button – appends a row to the nfc_list sheet via the Apps Script Web App
