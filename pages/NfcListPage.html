@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.title.nfcList">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NFC List</title>
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="css/plantlistpagestyles.css" />
+    <style>
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .dropdown-filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .dropdown-filter-bar .filter-col {
+        flex: 1 1 170px;
+        min-width: 130px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: #f4f9f4;
+        border: 1px solid #d4e6d4;
+        border-radius: 10px;
+        padding: 8px 10px 10px;
+      }
+      .dropdown-filter-bar select {
+        padding: 7px 30px 7px 10px;
+        border: 1.5px solid #b5d0b5;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a7c4e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") calc(100% - 8px) center no-repeat;
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
+        box-sizing: border-box;
+        color: #1c2e1c;
+        cursor: pointer;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        outline: none;
+      }
+      .dropdown-filter-bar select:hover {
+        border-color: #4a7c4e;
+      }
+      .dropdown-filter-bar select:focus {
+        border-color: #4a7c4e;
+        box-shadow: 0 0 0 3px rgba(74, 124, 78, 0.15);
+      }
+      .select-search-input {
+        padding: 7px 10px 7px 28px;
+        font-size: 0.88rem;
+        border: 1.5px solid #b5d0b5;
+        border-radius: 8px;
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%234a7c4e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") 8px center no-repeat;
+        outline: none;
+        width: 100%;
+        box-sizing: border-box;
+        color: #1c2e1c;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+      .select-search-input::placeholder {
+        color: #8aab8a;
+      }
+      .select-search-input:focus {
+        border-color: #4a7c4e;
+        box-shadow: 0 0 0 3px rgba(74, 124, 78, 0.15);
+      }
+      .filter-col-label {
+        font-size: 0.72rem;
+        color: #3d6640;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 1px;
+      }
+      .nfc-list-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+        font-size: 0.95rem;
+      }
+      .nfc-list-table th {
+        background: #4a7c4e;
+        color: white;
+        text-align: left;
+        padding: 8px 10px;
+        white-space: nowrap;
+      }
+      .nfc-list-table td {
+        padding: 7px 10px;
+        border-bottom: 1px solid #ddd;
+        word-break: break-all;
+      }
+      .nfc-list-table tr:hover td {
+        background: #f0f8f0;
+      }
+      .nfc-list-table tr:nth-child(even) td {
+        background: #f9f9f9;
+      }
+      .nfc-list-table tr:nth-child(even):hover td {
+        background: #f0f8f0;
+      }
+      .nfc-list-table a {
+        color: #2f7d32;
+        text-decoration: none;
+      }
+      .nfc-list-table a:hover {
+        text-decoration: underline;
+      }
+      .back-button {
+        margin-bottom: 0;
+      }
+      @media (max-width: 600px) {
+        .nfc-list-table {
+          font-size: 0.8rem;
+        }
+        .nfc-list-table th,
+        .nfc-list-table td {
+          padding: 5px 6px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Language switcher -->
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="hu" type="button">HU</button>
+      <button class="lang-btn" data-lang="en" type="button">EN</button>
+    </div>
+
+    <main class="landing-wrapper">
+      <section class="card landing-card" style="width: min(1400px, 96vw);">
+        <div class="filter-bar">
+          <button id="back-button" class="back-button" type="button" data-i18n="nfc.btn.back">← Back</button>
+          <h1 style="margin:0; font-size:1.4rem;" data-i18n="nfc.title">NFC List</h1>
+        </div>
+        <div class="dropdown-filter-bar">
+          <div class="filter-col">
+            <small class="filter-col-label" data-i18n="nfc.table.id">NFC ID</small>
+            <input type="text" id="dd-nfc-id-search" class="select-search-input" data-i18n-placeholder="nfc.filter.search" placeholder="Search…" autocomplete="off" />
+            <select id="dd-nfc-id"></select>
+          </div>
+          <div class="filter-col">
+            <small class="filter-col-label" data-i18n="nfc.table.plantId">Plant ID</small>
+            <input type="text" id="dd-plant-id-search" class="select-search-input" data-i18n-placeholder="nfc.filter.search" placeholder="Search…" autocomplete="off" />
+            <select id="dd-plant-id"></select>
+          </div>
+          <div class="filter-col">
+            <small class="filter-col-label" data-i18n="list.filter.family">Family</small>
+            <input type="text" id="dd-family-search" class="select-search-input" data-i18n-placeholder="nfc.filter.search" placeholder="Search…" autocomplete="off" />
+            <select id="dd-family"></select>
+          </div>
+          <div class="filter-col">
+            <small class="filter-col-label" data-i18n="list.filter.genus">Genus</small>
+            <input type="text" id="dd-genus-search" class="select-search-input" data-i18n-placeholder="nfc.filter.search" placeholder="Search…" autocomplete="off" />
+            <select id="dd-genus"></select>
+          </div>
+          <div class="filter-col">
+            <small class="filter-col-label" data-i18n="list.filter.latin">Latin Name</small>
+            <input type="text" id="dd-latin-search" class="select-search-input" data-i18n-placeholder="nfc.filter.search" placeholder="Search…" autocomplete="off" />
+            <select id="dd-latin"></select>
+          </div>
+          <div class="filter-col">
+            <small class="filter-col-label" data-i18n="list.filter.variety">Variety</small>
+            <input type="text" id="dd-variety-search" class="select-search-input" data-i18n-placeholder="nfc.filter.search" placeholder="Search…" autocomplete="off" />
+            <select id="dd-variety"></select>
+          </div>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="nfc-list-table">
+            <thead>
+              <tr>
+                <th data-i18n="nfc.table.id">ID</th>
+                <th data-i18n="nfc.table.nfcStatus">NFC Status</th>
+                <th data-i18n="nfc.table.nfcType">NFC Type</th>
+                <th data-i18n="nfc.table.nfcText">NFC Text</th>
+                <th data-i18n="nfc.table.link">Link</th>
+                <th data-i18n="nfc.table.nfcSerial">NFC Serial Nr.</th>
+                <th data-i18n="nfc.table.created">Created</th>
+                <th data-i18n="nfc.table.plantId">Plant ID</th>                
+                <th data-i18n="nfc.table.datum">Datum</th>
+                <th data-i18n="nfc.table.nfcPosition">NFC Position</th>
+                <th data-i18n="nfc.table.location">Location</th>
+                <th data-i18n="nfc.table.other">Other</th>
+              </tr>
+            </thead>
+            <tbody id="nfc-list-body">
+              <tr><td colspan="9" data-i18n="nfc.loading">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="error-message" id="error-message" aria-live="polite"></p>
+      </section>
+    </main>
+    <script src="scripts/nfclisting.js" type="module"></script>
+  </body>
+</html>
