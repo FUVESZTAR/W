@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qi Gong Routine Guide</title>
+<link rel="icon" href="yingyang.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ec;
+    --bg2: #edeae3;
+    --surface: #ffffff;
+    --surface2: #faf9f6;
+    --border: #e0dbd2;
+    --text: #2a2520;
+    --text2: #6b6259;
+    --text3: #9b8f84;
+    --accent: #5a7a6a;
+    --accent2: #3d5a4a;
+    --accent-soft: #e8f0ec;
+    --accent-glow: rgba(90,122,106,0.15);
+    --warn: #8a6240;
+    --warn-soft: #f5ede3;
+    --shadow: 0 2px 16px rgba(42,37,32,0.08);
+    --shadow-lg: 0 8px 40px rgba(42,37,32,0.12);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    --fig-stroke: #3d5a4a;
+    --fig-fill: #e8f0ec;
+    --fig-accent: #5a7a6a;
+    --fig-arrow: #8a6240;
+    --fig-bg: #f0f5f2;
+  }
+  [data-theme="dark"] {
+    --bg: #1a1c1a;
+    --bg2: #141614;
+    --surface: #232623;
+    --surface2: #1e201e;
+    --border: #2e322e;
+    --text: #e8e4dc;
+    --text2: #9da89d;
+    --text3: #6a756a;
+    --accent: #7aaa8a;
+    --accent2: #9ac4aa;
+    --accent-soft: #1e2e22;
+    --accent-glow: rgba(122,170,138,0.15);
+    --warn: #c4955a;
+    --warn-soft: #2a2018;
+    --shadow: 0 2px 16px rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.4);
+    --fig-stroke: #7aaa8a;
+    --fig-fill: #1e2e22;
+    --fig-accent: #9ac4aa;
+    --fig-arrow: #c4955a;
+    --fig-bg: #1a221c;
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; transition: background var(--transition), color var(--transition); min-height: 100vh; }
+
+  header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); transition: background var(--transition); }
+  .header-inner { max-width: min(1600px, 95vw); margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500; color: var(--accent); letter-spacing: 0.01em; display: flex; align-items: center; gap: 10px; }
+  .logo-icon { font-size: 1.6rem; line-height: 1; }
+  .theme-toggle { background: var(--surface); border: 1px solid var(--border); border-radius: 50px; cursor: pointer; padding: 6px 14px; display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text2); transition: all var(--transition); font-family: 'DM Sans', sans-serif; }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero { max-width: min(1600px, 95vw); margin: 0 auto; padding: 72px 24px 48px; text-align: center; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-soft); color: var(--accent); border-radius: 50px; padding: 5px 16px; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 20px; }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 400; line-height: 1.12; color: var(--text); letter-spacing: -0.01em; margin-bottom: 16px; }
+  .hero h1 em { color: var(--accent); font-style: italic; }
+  .hero p { font-size: 1.05rem; color: var(--text2); max-width: 520px; margin: 0 auto 36px; font-weight: 300; }
+  .hero-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 8px; }
+  .stat { text-align: center; }
+  .stat-val { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; color: var(--accent); display: block; }
+  .stat-lbl { font-size: 0.78rem; color: var(--text3); letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .tabs-section { max-width: min(1600px, 95vw); margin: 0 auto; padding: 0 24px 48px; }
+  .tabs-header { display: flex; justify-content: center; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 4px; max-width: 560px; margin: 0 auto 40px; box-shadow: var(--shadow); position: relative; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+  .tabs-header::-webkit-scrollbar { display: none; }
+  .tab-btn { flex: 1; padding: 10px 20px; border: none; background: none; cursor: pointer; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--text2); transition: all var(--transition); position: relative; z-index: 1; white-space: nowrap; }
+  @media (max-width: 600px) { .tabs-header { justify-content: flex-start; max-width: 100%; } .tab-btn { flex: none; padding: 10px 16px; } }
+  .tab-btn.active { color: #fff; }
+  .tab-indicator { position: absolute; top: 4px; bottom: 4px; background: var(--accent); border-radius: 50px; transition: all var(--transition); z-index: 0; }
+
+  .content-layout { display: grid; grid-template-columns: 1fr 280px; gap: 32px; align-items: start; }
+  @media (min-width: 1300px) { .content-layout { grid-template-columns: 1fr 320px; } }
+  @media (max-width: 900px) { .content-layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+  .routine-panel { opacity: 0; transform: translateY(12px); transition: opacity 0.4s ease, transform 0.4s ease; display: none; }
+  .routine-panel.active { display: block; opacity: 1; transform: translateY(0); }
+  .routine-header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; margin-bottom: 28px; box-shadow: var(--shadow); display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+  .routine-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .routine-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+  .meta-pill { background: var(--accent-soft); color: var(--accent); border-radius: 50px; padding: 3px 12px; font-size: 0.78rem; font-weight: 500; }
+  .routine-goal { color: var(--text2); font-size: 0.92rem; font-style: italic; }
+  .start-btn { background: var(--accent); color: #fff; border: none; border-radius: 50px; padding: 12px 28px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+  .start-btn:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 20px; }
+  .timeline-dot { position: absolute; left: -24px; top: 22px; width: 12px; height: 12px; background: var(--bg); border: 2px solid var(--border); border-radius: 50%; transition: all var(--transition); z-index: 1; }
+  .timeline-item.active-exercise .timeline-dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
+
+  .exercise-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all var(--transition); }
+  .exercise-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .timeline-item.active-exercise .exercise-card { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow), var(--shadow-lg); }
+  .card-header { padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; gap: 12px; }
+  .card-title-group { display: flex; align-items: center; gap: 14px; flex: 1; }
+  .card-num { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--accent); font-weight: 300; min-width: 28px; text-align: center; }
+  .card-title { font-size: 0.98rem; font-weight: 500; color: var(--text); }
+  .card-dur { font-size: 0.8rem; color: var(--text3); margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+  .card-dur::before { content: '◷'; font-size: 0.9em; }
+  .card-chevron { color: var(--text3); font-size: 1rem; transition: transform var(--transition); flex-shrink: 0; }
+  .card-body { display: none; padding: 0 22px 22px; border-top: 1px solid var(--border); }
+  .card-body.open { display: block; }
+  .card-chevron.open { transform: rotate(180deg); }
+  .section-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin: 16px 0 6px; }
+  .card-body p { color: var(--text2); font-size: 0.9rem; line-height: 1.65; }
+  .steps-list { list-style: none; counter-reset: step; }
+  .steps-list li { counter-increment: step; display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.88rem; color: var(--text2); }
+  .steps-list li::before { content: counter(step); min-width: 22px; height: 22px; background: var(--accent-soft); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .tag { background: var(--bg2); color: var(--text2); border-radius: 50px; padding: 2px 10px; font-size: 0.76rem; }
+  .breath-box { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 10px 14px; margin-top: 4px; font-size: 0.88rem; color: var(--accent2); font-style: italic; }
+  .mistake-box { background: var(--warn-soft); border-left: 3px solid var(--warn); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 10px 14px; margin-top: 4px; font-size: 0.85rem; color: var(--warn); }
+
+  /* ILLUSTRATIONS — image slot system */
+  .illus-slot { margin: 0 -22px 6px; }
+  .illus-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; padding: 14px 22px 0; }
+  .pose-image-wrap { border-radius: 0; overflow: hidden; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .pose-image-wrap img { width: 100%; height: auto; display: block; max-height: 80vh; object-fit: contain; background: var(--surface2); }
+  .pose-placeholder { border: 2px dashed var(--border); border-radius: var(--radius); padding: 32px 24px; text-align: center; background: var(--surface2); margin: 0 22px; }
+  .pose-placeholder-icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.4; }
+  .pose-placeholder-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--text2); margin-bottom: 6px; }
+  .pose-placeholder-hint { font-size: 0.78rem; color: var(--text3); font-style: italic; }
+  .illus-slot + .section-label { margin-top: 20px; }
+  .illus-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; }
+  .illus-frame { flex-shrink: 0; }
+
+  .illustrations { margin: 16px 0 4px; }
+  .illus-title { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+  .illus-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .illus-scroll::-webkit-scrollbar { height: 4px; }
+  .illus-scroll::-webkit-scrollbar-track { background: transparent; }
+  .illus-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .illus-frame { flex-shrink: 0; background: #fdfbf8; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 8px 4px; text-align: center; min-width: 160px; box-shadow: inset 0 0 6px rgba(0,0,0,0.03); }
+  [data-theme="dark"] .illus-frame { background: #1c1e1c; }
+  .illus-frame svg { display: block; margin: 0 auto; }
+  .illus-caption { font-size: 0.7rem; color: var(--text3); margin-top: 4px; line-height: 1.3; max-width: 130px; }
+
+  .sidebar { position: sticky; top: 80px; }
+  .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
+  .sidebar-title { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; }
+  .progress-list { list-style: none; }
+  .progress-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 0.83rem; color: var(--text2); border-radius: 6px; cursor: pointer; transition: color var(--transition); }
+  .progress-item:hover { color: var(--accent); }
+  .progress-item.done { color: var(--text3); text-decoration: line-through; }
+  .progress-item.current { color: var(--accent); font-weight: 500; }
+  .prog-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--border); transition: background var(--transition); }
+  .progress-item.done .prog-dot { background: var(--accent); }
+  .progress-item.current .prog-dot { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+  .guided-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(26,28,26,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+  .guided-overlay.open { display: flex; }
+  .guided-modal { background: var(--surface); border-radius: 20px; max-width: 560px; width: 100%; box-shadow: var(--shadow-lg); overflow: hidden; animation: slideUp 0.4s cubic-bezier(0.4,0,0.2,1); }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .guided-top { background: var(--accent); padding: 20px 24px 16px; color: #fff; position: relative; }
+  .guided-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; margin-bottom: 4px; }
+  .guided-exercise-name { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; }
+  .guided-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.25); border-radius: 2px; margin-top: 14px; }
+  .guided-progress-bar { height: 100%; background: #fff; border-radius: 2px; transition: width 1s linear; }
+  .guided-progress-txt { display: flex; justify-content: space-between; font-size: 0.75rem; opacity: 0.75; margin-top: 6px; }
+  .guided-body { padding: 24px; }
+  .guided-timer { text-align: center; margin-bottom: 16px; }
+  .timer-display { font-family: 'Cormorant Garamond', serif; font-size: 4.5rem; font-weight: 300; color: var(--text); line-height: 1; letter-spacing: -0.02em; }
+  .timer-label { font-size: 0.78rem; color: var(--text3); margin-top: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .guided-info { margin-bottom: 16px; }
+  .guided-purpose { color: var(--text2); font-size: 0.92rem; margin-bottom: 10px; font-style: italic; }
+  .guided-breath { background: var(--accent-soft); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.88rem; color: var(--accent); font-style: italic; display: flex; align-items: center; gap: 8px; }
+  .guided-breath::before { content: '🌬️'; }
+  .guided-step-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .guided-step-txt { font-size: 0.88rem; color: var(--text2); flex: 1; padding: 0 12px; text-align: center; }
+  .nav-btn { background: var(--bg2); border: 1px solid var(--border); border-radius: 50px; padding: 7px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--text2); cursor: pointer; transition: all var(--transition); }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .guided-controls { display: flex; gap: 10px; justify-content: center; }
+  .ctrl-btn { flex: 1; max-width: 160px; border: none; border-radius: 50px; padding: 12px 20px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all var(--transition); }
+  .ctrl-btn.primary { background: var(--accent); color: #fff; }
+  .ctrl-btn.primary:hover { background: var(--accent2); }
+  .ctrl-btn.secondary { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); }
+  .ctrl-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .guided-ex-nav { display: flex; gap: 8px; margin-top: 12px; justify-content: center; }
+  .ex-nav-btn { background: var(--bg2); border: 1px solid var(--border); border-radius: 50px; padding: 7px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--text2); cursor: pointer; transition: all var(--transition); }
+  .ex-nav-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .ex-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .guided-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; color: #fff; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background var(--transition); }
+  .guided-close:hover { background: rgba(255,255,255,0.35); }
+
+  .page-section { max-width: min(1600px, 95vw); margin: 0 auto; padding: 0 24px 56px; }
+  .section-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 400; color: var(--text); margin-bottom: 6px; }
+  .section-sub { color: var(--text2); margin-bottom: 28px; font-size: 0.95rem; }
+  .benefits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .benefit-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px; box-shadow: var(--shadow); }
+  .benefit-icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .benefit-title { font-weight: 500; font-size: 0.95rem; color: var(--text); margin-bottom: 6px; }
+  .benefit-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.55; }
+  .safety-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .safety-card { background: var(--warn-soft); border: 1px solid rgba(138,98,64,0.2); border-radius: var(--radius); padding: 20px; }
+  .safety-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .safety-title { font-weight: 500; color: var(--warn); font-size: 0.92rem; margin-bottom: 6px; }
+  .safety-text { font-size: 0.85rem; color: var(--text2); line-height: 1.55; }
+  .disclaimer { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-top: 20px; font-size: 0.84rem; color: var(--text3); text-align: center; font-style: italic; }
+  footer { border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 0.82rem; color: var(--text3); }
+  .guided-pose-wrap { margin: 0 -24px 16px; background: var(--surface2); border-bottom: 1px solid var(--border); overflow: hidden; max-height: 220px; display: flex; align-items: center; justify-content: center; }
+  .guided-pose-wrap img { width: 100%; max-height: 220px; object-fit: contain; display: block; }
+  .guided-pose-placeholder { padding: 24px; text-align: center; color: var(--text3); font-size: 2rem; opacity: 0.35; width: 100%; }
+  .step-auto-bar-wrap { height: 3px; background: var(--border); border-radius: 2px; margin: 0 0 14px; overflow: hidden; }
+  .step-auto-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 1s linear; width: 0%; }
+  .tts-btn { background: var(--bg2); border: 1px solid var(--border); border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; transition: all var(--transition); flex-shrink: 0; }
+  .tts-btn:hover { border-color: var(--accent); }
+  .tts-btn.speaking { background: var(--accent-soft); border-color: var(--accent); }
+  .guided-step-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .guided-step-row .guided-step-nav { margin-bottom: 0; flex: 1; }
+  .complete-badge { text-align: center; padding: 24px; display: none; }
+  .complete-badge.show { display: block; }
+  .badge-icon { font-size: 3rem; margin-bottom: 12px; }
+  .badge-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--accent); margin-bottom: 8px; }
+  .badge-sub { color: var(--text2); font-size: 0.92rem; }
+  @media (max-width: 600px) { .routine-header { grid-template-columns: 1fr; } .start-btn { width: 100%; } .hero { padding: 48px 20px 36px; } .guided-modal { margin: 0; border-radius: 16px 16px 0 0; align-self: flex-end; } .guided-overlay { align-items: flex-end; padding: 0; } }
+
+  /* ── Voice Settings ─────────────────────────────────────── */
+  .voice-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 50px; cursor: pointer; padding: 6px 14px; display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text2); transition: all var(--transition); font-family: 'DM Sans', sans-serif; }
+  .voice-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .voice-btn.muted { color: var(--warn); border-color: var(--warn); background: var(--warn-soft); }
+  .voice-panel { position: absolute; top: calc(100% + 10px); right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 20px; width: 320px; z-index: 300; animation: slideDown 0.2s cubic-bezier(0.4,0,0.2,1); }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+  .voice-panel-title { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+  .voice-panel-title button { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 1rem; line-height: 1; padding: 0; }
+  .voice-panel-title button:hover { color: var(--text); }
+  .vp-row { margin-bottom: 14px; }
+  .vp-label { font-size: 0.78rem; color: var(--text2); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .vp-label span { color: var(--accent); font-weight: 500; }
+  .vp-select { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--text); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6259' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; cursor: pointer; transition: border-color var(--transition); }
+  .vp-select:focus { outline: none; border-color: var(--accent); }
+  .vp-slider { width: 100%; accent-color: var(--accent); cursor: pointer; height: 4px; }
+  .vp-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .vp-mute-row { display: flex; align-items: center; justify-content: space-between; }
+  .vp-mute-label { font-size: 0.85rem; color: var(--text2); }
+  .vp-toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+  .vp-toggle input { opacity: 0; width: 0; height: 0; }
+  .vp-toggle-track { position: absolute; inset: 0; background: var(--border); border-radius: 22px; cursor: pointer; transition: background var(--transition); }
+  .vp-toggle input:checked + .vp-toggle-track { background: var(--accent); }
+  .vp-toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: transform var(--transition); pointer-events: none; }
+  .vp-toggle input:checked ~ .vp-toggle-thumb { transform: translateX(18px); }
+  .vp-test-btn { width: 100%; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); border-radius: 50px; padding: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all var(--transition); margin-top: 4px; }
+  .vp-test-btn:hover { background: var(--accent); color: #fff; }
+  .header-right { display: flex; align-items: center; gap: 10px; position: relative; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span class="logo-icon">☯</span>Qi Gong Guide</div>
+    <div class="header-right">
+      <button class="voice-btn" id="voiceSettingsBtn" aria-label="Voice settings">
+        <span id="voiceBtnIcon">🔊</span><span id="voiceBtnLabel">Voice</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span id="themeIcon">🌙</span><span id="themeLabel">Dark</span>
+      </button>
+      <!-- Voice Settings Panel -->
+      <div class="voice-panel" id="voicePanel" style="display:none;">
+        <div class="voice-panel-title">
+          🎙️ Voice Settings
+          <button id="voicePanelClose" aria-label="Close voice settings">✕</button>
+        </div>
+        <div class="vp-row">
+          <div class="vp-label">Voice</div>
+          <select class="vp-select" id="voiceSelect"><option>Loading voices…</option></select>
+        </div>
+        <div class="vp-row">
+          <div class="vp-label">Speed <span id="rateVal">0.82</span></div>
+          <input type="range" class="vp-slider" id="rateSlider" min="0.5" max="1.4" step="0.05" value="0.82">
+        </div>
+        <div class="vp-row">
+          <div class="vp-label">Pitch <span id="pitchVal">0.95</span></div>
+          <input type="range" class="vp-slider" id="pitchSlider" min="0.5" max="1.5" step="0.05" value="0.95">
+        </div>
+        <hr class="vp-divider">
+        <div class="vp-mute-row">
+          <span class="vp-mute-label">🔕 Mute voice guidance</span>
+          <label class="vp-toggle">
+            <input type="checkbox" id="muteToggle">
+            <div class="vp-toggle-track"></div>
+            <div class="vp-toggle-thumb"></div>
+          </label>
+        </div>
+        <hr class="vp-divider">
+        <button class="vp-test-btn" id="testVoiceBtn">▶ Test Voice</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-tag">✦ Guided Wellness Practice</div>
+    <h1>Ancient <em>Qi Gong</em><br>Modern Clarity</h1>
+    <p>Three 30-minute routines designed to cultivate balance, breath, and inner stillness — at every level of practice.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-val">4</span><span class="stat-lbl">Routines</span></div>
+      <div class="stat"><span class="stat-val">30</span><span class="stat-lbl">Minutes each</span></div>
+      <div class="stat"><span class="stat-val">∞</span><span class="stat-lbl">Benefits</span></div>
+    </div>
+  </section>
+
+  <section class="tabs-section" aria-label="Routine selection">
+    <div class="tabs-header" role="tablist" aria-label="Practice levels">
+      <div class="tab-indicator" id="tabIndicator"></div>
+      <button class="tab-btn active" role="tab" aria-selected="true" data-level="beginner" id="tab-beginner">Beginner</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-level="advanced" id="tab-advanced">Advanced</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-level="professional" id="tab-professional">Professional</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-level="brocades" id="tab-brocades">Eight Brocades</button>
+    </div>
+    <div class="content-layout">
+      <div id="panels"></div>
+      <aside class="sidebar" aria-label="Session progress">
+        <div class="sidebar-card">
+          <div class="sidebar-title">Exercise List</div>
+          <ul class="progress-list" id="sidebarList"></ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="page-section" aria-label="Benefits">
+    <h2 class="section-heading">Whole-Body Benefits</h2>
+    <p class="section-sub">Qi Gong works systematically through every system of the body.</p>
+    <div class="benefits-grid">
+      <div class="benefit-card"><div class="benefit-icon">🦵</div><div class="benefit-title">Legs & Foundation</div><div class="benefit-desc">Strengthens knees, ankles and hip joints. Builds root energy and lower-body stability through standing postures.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">🫀</div><div class="benefit-title">Spine & Posture</div><div class="benefit-desc">Decompresses vertebrae, elongates the spine, and corrects forward-head posture through twisting and lifting exercises.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">🫁</div><div class="benefit-title">Breathing & Lungs</div><div class="benefit-desc">Expands lung capacity, tones the diaphragm, and trains slow diaphragmatic breathing to reduce cortisol.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">🧠</div><div class="benefit-title">Nervous System</div><div class="benefit-desc">Activates the parasympathetic system, lowers heart rate, and promotes neuroplasticity through mindful movement.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">⚖️</div><div class="benefit-title">Balance & Coordination</div><div class="benefit-desc">Trains proprioception and single-leg stability, reducing fall risk and improving athletic coordination.</div></div>
+      <div class="benefit-card"><div class="benefit-icon">💪</div><div class="benefit-title">Chest & Shoulders</div><div class="benefit-desc">Opens the pectoral muscles, releases shoulder tension, and improves thoracic mobility essential for daily comfort.</div></div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-label="Safety information">
+    <h2 class="section-heading">Practice Safely</h2>
+    <p class="section-sub">Your wellbeing comes first. Please read before beginning.</p>
+    <div class="safety-grid">
+      <div class="safety-card"><div class="safety-icon">⚠️</div><div class="safety-title">No Forcing</div><div class="safety-text">Never push into pain or discomfort. Qi Gong is about yielding, not straining. Work within your comfortable range of motion and let it expand naturally over time.</div></div>
+      <div class="safety-card"><div class="safety-icon">🛑</div><div class="safety-title">Stop if Dizzy or in Pain</div><div class="safety-text">If you experience dizziness, chest tightness, sharp pain, or shortness of breath — stop immediately, sit down, and rest. Do not resume until symptoms pass.</div></div>
+      <div class="safety-card"><div class="safety-icon">🤰</div><div class="safety-title">Pregnancy & Illness</div><div class="safety-text">Consult your healthcare provider before practicing if you are pregnant, postpartum, recovering from surgery, or managing a chronic condition such as hypertension or osteoporosis.</div></div>
+      <div class="safety-card"><div class="safety-icon">🩹</div><div class="safety-title">Injuries</div><div class="safety-text">Modify or skip any exercise that affects an injured area. Many movements have gentler variations. When in doubt, observe rather than participate until you are fully healed.</div></div>
+    </div>
+    <div class="disclaimer" role="note">⚕️ This guide is for educational and wellness purposes only. It is <strong>not medical advice</strong> and does not replace professional medical care. Always consult a qualified healthcare provider for health concerns.</div>
+  </section>
+</main>
+
+<div class="guided-overlay" id="guidedOverlay" role="dialog" aria-modal="true" aria-label="Guided session">
+  <div class="guided-modal">
+    <div class="guided-top">
+      <button class="guided-close" id="guidedClose" aria-label="Close guided session">✕</button>
+      <div class="guided-label">Now Practicing</div>
+      <div class="guided-exercise-name" id="guidedExName">—</div>
+      <div class="guided-progress-bar-wrap"><div class="guided-progress-bar" id="guidedProgressBar" style="width:0%"></div></div>
+      <div class="guided-progress-txt"><span id="guidedElapsed">0:00</span><span id="guidedExNum">1 / 10</span><span>30:00</span></div>
+    </div>
+    <div class="guided-body">
+      <div class="complete-badge" id="completeBadge">
+        <div class="badge-icon">🏅</div>
+        <div class="badge-title">Session Complete!</div>
+        <div class="badge-sub">You've completed 30 minutes of Qi Gong.<br>Take a moment to rest and integrate.</div>
+      </div>
+      <div id="guidedContent">
+        <div class="guided-pose-wrap" id="guidedPoseWrap"></div>
+        <div class="guided-timer">
+          <div class="timer-display" id="timerDisplay">00:00</div>
+          <div class="timer-label">Remaining in this exercise</div>
+        </div>
+        <div class="guided-info">
+          <div class="guided-purpose" id="guidedPurpose"></div>
+          <div class="guided-breath" id="guidedBreath"></div>
+        </div>
+        <div class="step-auto-bar-wrap"><div class="step-auto-bar" id="stepAutoBar"></div></div>
+        <div class="guided-step-nav">
+          <button class="nav-btn" id="prevStep" aria-label="Previous instruction">← Step</button>
+          <div class="guided-step-txt" id="guidedStep"></div>
+          <button class="nav-btn" id="nextStep" aria-label="Next instruction">Step →</button>
+        </div>
+        <div style="display:flex;justify-content:center;margin-bottom:12px;gap:10px;align-items:center;">
+          <button class="tts-btn" id="ttsBtn" title="Read step aloud">🔊</button>
+          <span style="font-size:0.78rem;color:var(--text3);">Auto-reads each step</span>
+        </div>
+        <div class="guided-controls">
+          <button class="ctrl-btn primary" id="pauseResumeBtn">Pause</button>
+          <button class="ctrl-btn secondary" id="closeGuidedBtn">End Session</button>
+        </div>
+        <div class="guided-ex-nav">
+          <button class="ex-nav-btn" id="prevExBtn">← Previous</button>
+          <button class="ex-nav-btn" id="nextExBtn">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer><p>Qi Gong Routine Guide · A mindful movement companion · <em>Practice with awareness</em></p></footer>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// GOOGLE DRIVE IMAGES  —  add or update file IDs here ONLY
+// ════════════════════════════════════════════════════════════
+// How to get a file ID from Google Drive:
+//   1. Right-click the image → Share → "Anyone with the link"
+//   2. The share URL looks like:
+//        https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+//   3. Copy FILE_ID and paste it as the value below.
+//      Use null for images not yet uploaded (shows a placeholder).
+// Drive folder: https://drive.google.com/drive/folders/1ebuCn1mwZTnSbewktJJIk7FnKPtcSB2M
+const DRIVE_IMAGES = {
+  'Wuji Posture':                              '1pkCoMOynaQC-PsJXAmQQxB6XKmuAEQzk',
+  'Opening and Closing':                       '1u6GniX1SGdE6xRDS1GwjWdBkfaO_5WCA',
+  'Raising and Lowering':                      '1j2Q8wh6a1KPibONHzLY18jxdEgYIOGcc',
+  'Two Hands Hold Up the Heavens':             '1IaLo0N7kLpQZzHqmOTwsTzdvsA4ZaoH4',
+  'Drawing the Bow':                           '1CW6b-ibNVmSZPGvLAQAe9SYXP5lOJh7x',
+  'Separate Heaven and Earth':                 '1q02pqcn8o72JkSSs8UBxfK2yRj0BBsee',
+  'Wise Owl Gazes Backwards':                 '1ALhQSy7t8p22E7klolTpi0L5Qbc7EgUY',
+  'Two Hands Hold the Feet':                   '1Nzx7mcZHauLyAJ39TgOaGRLVoqE5Q9aU',
+  'Bouncing on the Toes':                      '1K5hcOiqPKbfHxvPu1Wf092YM28ro6lE_',
+  'Closing':                                   '1W7LgzoLeJOVSDS6tEwAtQgOJ9xsHv0D-',
+  'Opening + Raising Flow':                    '1YCfDGhmE4nKd97D1Mw6dK2t2wKG3oCgO',
+  'Warm-Up — Spinal Waves':                    '10liQ6SNBYry32jH5nEgveqqBs7bbK2cG',
+  'Final Standing Meditation':                 '131xTKoqdpUfSARxjevFtxdQieq-7SM3B',
+  'Standing Meditation (Zhan Zhuang)':         '1tBAr19JRkfRJssRsh750BYgAf_lQeOr_',
+  'Opening Form':                              '1xGimDnNMcESpTQLhca7jUkg1Zafyh29l',
+  'Raising and Lowering — Full Breath':        '1KiGQrK3R1Q5wpXrXAylVX-ybjMjpqzKt',
+  'Integration Meditation':                    '1q7jTd2u6QYdQN4_1yCmRzs6r7GHei8um',
+  'Closing Massage':                           '1uWgXrdokE-fCTbtW_d7JXdGmxSZm9qf0',
+  'Brocade 1 — Two Hands Hold Up the Heavens':          '1tuC4T7NMZo4OdiYRsvVG1OXuYypkf42p',
+  'Brocade 2 — Drawing the Bow to Shoot the Eagle':     '1CDOxFAvAK-mMEQKJSthJuNxWWSutwzB',
+  'Brocade 3 — Separate Heaven and Earth':              '14Nzbpn1_mMEm_zTTHiS3d6x2hYe13rYP',
+  'Brocade 4 — Wise Owl Gazes Backwards':               '1RHzzF6Nlmp7maFvUn016xvyT8PM4Bn7i',
+  'Brocade 5 — Sway the Head and Shake the Tail':       '1Fi32YZQGKqx8LRRIsxhseQizpMoFJyzm',
+  'Brocade 6 — Two Hands Hold the Feet':                '1q8POr8WsBB5dTRp3GI8BlHW9_D7atUOa',
+  'Brocade 7 — Clench Fists and Glare Fiercely':        '1skzVPII6RgbRXTN0sxHub7s_xmnZ22-h',
+  'Brocade 8 — Bouncing on the Toes':                   '1tXhEjqGBCnefryMbnb3MFIu_YTiKgABw',
+};
+
+// Helper — builds <img> from Drive if ID is set, or a placeholder if null
+function poseImg(name) {
+  const id = DRIVE_IMAGES[name];
+  if (id) {
+    return `<div class="pose-image-wrap"><img src="https://lh3.googleusercontent.com/d/${id}" alt="Visual guide for ${name}" loading="lazy"/></div>`;
+  }
+  return `<div class="pose-placeholder"><div class="pose-placeholder-icon">🖼️</div><div class="pose-placeholder-name">${name}</div><div class="pose-placeholder-hint">Add a Drive file ID for "${name}" in DRIVE_IMAGES above</div></div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ILLUSTRATIONS  —  maps each exercise to poseImg() by name
+// To add an image: set the file ID in DRIVE_IMAGES above only.
+// ════════════════════════════════════════════════════════════
+const ILLUSTRATIONS = {
+  beginner: [
+    [{ caption: 'Wuji Posture',                  svg: poseImg('Wuji Posture') }],
+    [{ caption: 'Opening and Closing',            svg: poseImg('Opening and Closing') }],
+    [{ caption: 'Raising and Lowering',           svg: poseImg('Raising and Lowering') }],
+    [{ caption: 'Two Hands Hold Up the Heavens',  svg: poseImg('Two Hands Hold Up the Heavens') }],
+    [{ caption: 'Drawing the Bow',                svg: poseImg('Drawing the Bow') }],
+    [{ caption: 'Separate Heaven and Earth',      svg: poseImg('Separate Heaven and Earth') }],
+    [{ caption: 'Wise Owl Gazes Backwards',       svg: poseImg('Wise Owl Gazes Backwards') }],
+    [{ caption: 'Two Hands Hold the Feet',        svg: poseImg('Two Hands Hold the Feet') }],
+    [{ caption: 'Bouncing on the Toes',           svg: poseImg('Bouncing on the Toes') }],
+    [{ caption: 'Closing',                        svg: poseImg('Closing') }],
+  ],
+  advanced: [
+    [{ caption: 'Wuji Posture',                  svg: poseImg('Wuji Posture') }],
+    [{ caption: 'Opening + Raising Flow',         svg: poseImg('Opening + Raising Flow') }],
+    [{ caption: 'Warm-Up — Spinal Waves',         svg: poseImg('Warm-Up — Spinal Waves') }],
+    [{ caption: 'Two Hands Hold Up the Heavens',  svg: poseImg('Two Hands Hold Up the Heavens') }],
+    [{ caption: 'Drawing the Bow',                svg: poseImg('Drawing the Bow') }],
+    [{ caption: 'Separate Heaven and Earth',      svg: poseImg('Separate Heaven and Earth') }],
+    [{ caption: 'Wise Owl Gazes Backwards',       svg: poseImg('Wise Owl Gazes Backwards') }],
+    [{ caption: 'Two Hands Hold the Feet',        svg: poseImg('Two Hands Hold the Feet') }],
+    [{ caption: 'Bouncing on the Toes',           svg: poseImg('Bouncing on the Toes') }],
+    [{ caption: 'Final Standing Meditation',      svg: poseImg('Final Standing Meditation') }],
+  ],
+  professional: [
+    [{ caption: 'Standing Meditation (Zhan Zhuang)',    svg: poseImg('Standing Meditation (Zhan Zhuang)') }],
+    [{ caption: 'Opening Form',                          svg: poseImg('Opening Form') }],
+    [{ caption: 'Raising and Lowering — Full Breath',    svg: poseImg('Raising and Lowering — Full Breath') }],
+    [{ caption: 'Two Hands Hold Up the Heavens',         svg: poseImg('Two Hands Hold Up the Heavens') }],
+    [{ caption: 'Drawing the Bow',                       svg: poseImg('Drawing the Bow') }],
+    [{ caption: 'Separate Heaven and Earth',             svg: poseImg('Separate Heaven and Earth') }],
+    [{ caption: 'Wise Owl Gazes Backwards',              svg: poseImg('Wise Owl Gazes Backwards') }],
+    [{ caption: 'Two Hands Hold the Feet',               svg: poseImg('Two Hands Hold the Feet') }],
+    [{ caption: 'Bouncing on the Toes',                  svg: poseImg('Bouncing on the Toes') }],
+    [{ caption: 'Integration Meditation',                svg: poseImg('Integration Meditation') }],
+    [{ caption: 'Closing Massage',                       svg: poseImg('Closing Massage') }],
+  ],
+  brocades: [
+    [{ caption: 'Brocade 1 — Two Hands Hold Up the Heavens',        svg: poseImg('Brocade 1 — Two Hands Hold Up the Heavens') }],
+    [{ caption: 'Brocade 2 — Drawing the Bow to Shoot the Eagle',   svg: poseImg('Brocade 2 — Drawing the Bow to Shoot the Eagle') }],
+    [{ caption: 'Brocade 3 — Separate Heaven and Earth',            svg: poseImg('Brocade 3 — Separate Heaven and Earth') }],
+    [{ caption: 'Brocade 4 — Wise Owl Gazes Backwards',             svg: poseImg('Brocade 4 — Wise Owl Gazes Backwards') }],
+    [{ caption: 'Brocade 5 — Sway the Head and Shake the Tail',     svg: poseImg('Brocade 5 — Sway the Head and Shake the Tail') }],
+    [{ caption: 'Brocade 6 — Two Hands Hold the Feet',              svg: poseImg('Brocade 6 — Two Hands Hold the Feet') }],
+    [{ caption: 'Brocade 7 — Clench Fists and Glare Fiercely',      svg: poseImg('Brocade 7 — Clench Fists and Glare Fiercely') }],
+    [{ caption: 'Brocade 8 — Bouncing on the Toes',                 svg: poseImg('Brocade 8 — Bouncing on the Toes') }],
+  ],
+};
+//  ROUTINE DATA
+// ============================================================
+const ROUTINES = {
+  beginner: {
+    name: "Beginner Qi Gong", level: "Beginner", duration: "30 minutes",
+    goal: "Build foundational body awareness, learn basic Qi Gong posture and breath, and gently mobilise all major joints.",
+    exercises: [
+      { name:"Wuji Posture", duration:3, purpose:"Establish the foundational standing posture that aligns the body with gravity and centres the mind before movement begins.", steps:["Stand with feet shoulder-width apart, toes pointing forward.","Soften the knees slightly — do not lock them.","Tuck the tailbone gently, lengthening the lower back.","Roll the shoulders back and down; allow the chest to open naturally.","Let the arms hang loosely at the sides with palms facing inward.","Close or soften the eyes. Bring attention to the soles of the feet.","Breathe slowly and naturally for the full 3 minutes."], breath:"Breathe in through the nose, out through the nose. Let the belly expand on the inhale and soften on the exhale.", benefits:"Calms the nervous system, corrects posture, develops body-mind connection and prepares the Qi to flow.", bodyAreas:["Feet","Ankles","Spine","Shoulders","Mind"], mistakes:"Do not stand rigidly or slouch. Avoid locking the knees. The posture should feel effortless, not stiff.", safety:"If standing is uncomfortable, perform seated in a chair with spine upright.", modification:"Sit on the edge of a chair with feet flat on the floor." },
+      { name:"Opening and Closing", duration:3, purpose:"Activate Qi circulation by expanding and condensing the energy field around the body through gentle arm movements.", steps:["From Wuji, slowly raise both arms forward to shoulder height with palms facing each other.","Inhale: gently separate hands outward as if holding a large balloon.","Exhale: slowly bring hands back toward each other, feeling slight magnetic resistance.","Repeat the opening-and-closing rhythm continuously and fluidly.","Maintain soft, unlocked elbows throughout.","Feel the energy and warmth building between your palms.","After 2.5 minutes, slowly lower arms back to sides on an exhale."], breath:"Inhale as the hands open and separate. Exhale as the hands close and return. Let the breath lead the movement.", benefits:"Sensitises the hands to energy, improves shoulder mobility and trains the mind to feel subtle bodily sensations.", bodyAreas:["Arms","Shoulders","Hands","Chest"], mistakes:"Avoid creating tension in the shoulders. Keep the arms at shoulder height — not higher.", safety:"If shoulder pain arises, lower the arms to a comfortable height.", modification:"Perform with arms lower (hip height) if shoulders are tight or painful." },
+      { name:"Raising and Lowering", duration:2, purpose:"Open the shoulders, gentle stretch the spine, and coordinate breath with full-body vertical movement.", steps:["Stand in Wuji posture, arms at sides.","Inhale: slowly raise both arms in front of you up to shoulder height or overhead, palms facing down.","At the top, pause briefly and feel the stretch through the torso.","Exhale: slowly lower the arms back to the sides with a gentle pressing sensation.","Visualise golden light flowing upward on the inhale and roots growing downward on the exhale.","Continue this cycle smoothly for 2 minutes."], breath:"Inhale while rising. Exhale while descending. Let the breath set the pace — never rush the movement.", benefits:"Releases shoulder tension, stimulates lymphatic flow and trains diaphragmatic breathing.", bodyAreas:["Shoulders","Arms","Lungs","Spine"], mistakes:"Avoid shrugging the shoulders toward the ears. Keep the neck long and relaxed throughout.", safety:"Keep the movement slow and controlled. If light-headed, pause and return to still Wuji.", modification:"Raise arms only to mid-chest height if full range is uncomfortable." },
+      { name:"Two Hands Hold Up the Heavens", duration:3, purpose:"Stretch the entire torso and open the Triple Warmer meridian, relieving tension from the ribcage and spine.", steps:["Interlace fingers in front of the lower abdomen.","Inhale: turn palms to face outward and raise hands overhead, pushing gently toward the sky.","Gaze upward if comfortable; lengthen through the spine and waist.","Hold for one to two breath cycles, feeling the stretch.","Exhale: separate the hands and lower them with palms facing outward and down, tracing down the sides of the body.","Pause with hands at sides. Repeat the sequence.","Perform 6 full repetitions over 3 minutes."], breath:"Deep inhale as arms rise. Long, slow exhale as arms descend. Let each cycle last roughly 15–20 seconds.", benefits:"Decompresses the lumbar spine, stretches the intercostal muscles and opens the chest for deeper breathing.", bodyAreas:["Spine","Waist","Ribcage","Shoulders","Arms"], mistakes:"Do not hyperextend the lower back. If looking up causes neck discomfort, gaze forward instead.", safety:"People with lower back issues should avoid deep back extension — keep the torso upright.", modification:"Raise arms only to forehead level and keep the gaze forward throughout." },
+      { name:"Drawing the Bow", duration:3, purpose:"Strengthen the legs, open the chest and stretch the upper back through a horse-stance archery movement.", steps:["Step feet wide (approximately 1.5 shoulder widths) and sink into a comfortable horse stance.","Cross arms in front of the chest, right over left.","Inhale: extend the right arm out to the right as if shooting an arrow, index finger pointing, thumb up.","Simultaneously draw the left elbow back and make a fist, as if pulling the bowstring.","Turn the gaze toward the outstretched right hand.","Exhale: return to the starting crossed-arm position.","Alternate sides for 3 minutes, maintaining steady leg position throughout."], breath:"Inhale as you draw and extend. Exhale as you return to centre. Breathe through the effort.", benefits:"Strengthens the legs and hips, opens the thoracic spine, stretches the pectoral and shoulder muscles and benefits the heart and lungs.", bodyAreas:["Legs","Hips","Chest","Upper Back","Arms","Eyes"], mistakes:"Avoid rising out of the horse stance when extending the arms. Keep the knees tracking over the toes.", safety:"If knee pain arises, stand higher (less bent) or perform with feet together.", modification:"Stand with feet just wider than hips and perform a gentle arm extension without the deep squat." },
+      { name:"Separate Heaven and Earth", duration:3, purpose:"Stretch the stomach and spleen meridians while massaging the internal organs through opposing arm movements.", steps:["Begin in Wuji. Bring hands together at the lower abdomen, palms up.","Inhale: push the right palm upward toward the sky (palm up, fingers pointing left) while the left palm presses downward (palm down, fingers pointing right).","Feel the full-body stretch and hold for one breath cycle.","Exhale: slowly bring hands back together at the abdomen.","Inhale: reverse — left palm rises, right palm presses down.","Continue alternating for 3 minutes.","Move slowly, feeling the stretch along the entire side of the body."], breath:"Long inhale as the arms separate. Full exhale as arms return to centre. Allow at least 6 seconds per phase.", benefits:"Improves digestive function, stretches the lateral body, massages the liver, spleen and stomach meridians.", bodyAreas:["Abdomen","Sides","Stomach","Spleen","Shoulders"], mistakes:"Do not tilt the torso sideways. The movement is purely vertical — one arm up, one arm down, without leaning.", safety:"Those with high blood pressure should raise the arm only to chest height, not fully overhead.", modification:"Raise the upper arm only to shoulder height rather than fully extended overhead." },
+      { name:"Wise Owl Gazes Backwards", duration:3, purpose:"Release neck and upper-back tension while stimulating the kidney and bladder meridians through spinal rotation.", steps:["Stand in Wuji with arms at sides.","Inhale to prepare.","Exhale: slowly rotate the head and torso to the right, turning as if trying to see behind you.","Allow the arms to follow naturally — the left arm swings across the front, right arm opens behind.","Hold the rotation briefly; gaze over the right shoulder.","Inhale: rotate back to centre.","Exhale: repeat on the left side.","Move with absolute slowness — the slower the better. Continue for 3 minutes."], breath:"Exhale as you rotate away from centre. Inhale as you return. The exhale deepens the twist naturally.", benefits:"Relieves cervical and thoracic tension, improves spinal rotation, stimulates kidney Qi and combats nervous system fatigue.", bodyAreas:["Neck","Upper Back","Spine","Kidneys","Eyes"], mistakes:"Avoid forcing the rotation. Never strain the neck. The twist should feel spacious, not compressive.", safety:"Anyone with cervical disc issues should keep the neck neutral and rotate the torso only.", modification:"Rotate only the torso and eyes, keeping the neck facing forward." },
+      { name:"Two Hands Hold the Feet", duration:3, purpose:"Strengthen the lower back and kidneys through a gentle forward-bend and back-extension sequence.", steps:["Stand in Wuji. Place both hands on the lower back, fingers pointing downward.","Inhale: gently arch the back, opening the chest and looking up slightly.","Exhale: slide the hands down the back of the legs toward the feet (or as far as comfortable).","Pause at the lowest comfortable point, keeping the knees soft.","Inhale: slowly roll back up, vertebra by vertebra, bringing hands back to the lower back.","Avoid locking the knees during the forward bend.","Repeat for 3 minutes — perform 4–6 full repetitions."], breath:"Inhale as you arch back. Exhale as you fold forward. Let the exhale lead you gently deeper.", benefits:"Strengthens the kidney and waist area, stretches the hamstrings and lower back, and improves flexibility of the spine.", bodyAreas:["Lower Back","Kidneys","Hamstrings","Spine"], mistakes:"Do not collapse the lower back or round the spine aggressively. Let gravity guide the descent — never yank yourself down.", safety:"Those with disc herniation, sciatica or severe low-back pain should skip this exercise or consult a practitioner.", modification:"Instead of bending forward, simply press the hands into the lower back and gently sway side to side." },
+      { name:"Bouncing on the Toes", duration:2, purpose:"Vibrate and stimulate the entire body, clearing stagnant Qi and massaging the internal organs through gentle impact.", steps:["Stand in Wuji with arms relaxed at sides.","Slowly rise up onto the toes.","Gently drop the heels back to the floor — do not slam, just allow a soft, controlled drop.","Repeat this rising and dropping rhythm continuously.","Let the vibration travel upward through the legs, hips, spine and shoulders.","Keep the jaw and hands loose. Let everything wobble gently.","Perform 30–50 gentle bounces over the 2 minutes."], breath:"Breathe naturally and continuously. No specific coordination with the bounce is needed.", benefits:"Stimulates bone density, massages organs, clears lymph, activates the digestive system and energises the whole body.", bodyAreas:["Heels","Spine","Organs","Lymph","Whole Body"], mistakes:"Do not bounce aggressively or too high. The heel drop should feel like a gentle tap, not a slam. Less is more.", safety:"Those with joint replacements, osteoporosis or pelvic floor issues should consult a practitioner before performing.", modification:"Simply rock weight gently from toes to heels without lifting if the bounce is too intense." },
+      { name:"Closing", duration:3, purpose:"Collect and seal the Qi cultivated during practice back into the lower Dantian energy centre below the navel.", steps:["Return to Wuji standing posture.","Place both hands over the lower abdomen (Dantian), right hand on skin, left hand over right.","Breathe slowly and deeply for several cycles.","With each inhale, imagine drawing warm golden energy into the Dantian.","With each exhale, feel it settle and consolidate there.","After 2 minutes, slowly rub the palms together until they are warm.","Gently massage the face, neck and ears with the warm palms.","Bow the head slightly in gratitude and return to stillness."], breath:"Slow, deep and natural. No specific technique — simply breathe and allow the body to rest.", benefits:"Integrates the physical and energetic benefits of the practice, calms the mind and prepares the body for daily activity.", bodyAreas:["Lower Abdomen","Dantian","Face","Whole Body"], mistakes:"Do not rush this closing. It is as important as any active movement. Give it the full time.", safety:"Completely safe for all practitioners.", modification:"May be performed seated if preferred." }
+    ]
+  },
+  advanced: {
+    name: "Advanced Qi Gong", level: "Advanced", duration: "30 minutes",
+    goal: "Develop deeper Qi sensitivity, stronger root energy, smoother transitions and more refined breath coordination across the Eight Brocades.",
+    exercises: [
+      { name:"Wuji Posture", duration:2, purpose:"Settle deeper into the foundational posture, scanning and releasing all residual tension before movement begins.", steps:["Stand in Wuji. Take 3 deep breaths to establish rhythm.","Scan systematically from crown to soles: scalp, jaw, shoulders, chest, abdomen, hips, legs.","With each exhale, consciously release any tension found.","Allow the breath to drop all the way into the lower Dantian.","Feel the feet rooting into the earth. Feel the crown rising.","Spend the 2 minutes building a felt-sense of vertical alignment."], breath:"5-count inhale through the nose, 7-count exhale through the nose. Build a slow, controlled rhythm.", benefits:"Deepens body-mind integration, pre-activates energy channels, and establishes the quiet clarity needed for advanced practice.", bodyAreas:["Whole Body","Nervous System","Dantian"], mistakes:"Avoid mental restlessness. If thoughts arise, return attention to the physical sensation of the breath.", safety:"Fully safe. Experienced practitioners may close the eyes completely.", modification:"Lean against a wall for support if needed." },
+      { name:"Opening + Raising Flow", duration:4, purpose:"Combine Opening/Closing and Raising/Lowering into one continuous flowing sequence to warm up all meridians.", steps:["Begin with arms at sides in Wuji.","Phase 1 — Opening (2 min): Raise arms to shoulder height. Perform smooth, continuous Opening and Closing with focused attention on the space between the palms.","Sustain the sensation of energy between hands throughout. Breathe in as hands open, breathe out as hands close.","Phase 2 — Raising Flow (2 min): Transition to Raising and Lowering, synchronising with a longer, 8-count breath cycle.","Carry the sense of energy from the Opening exercise into the Raising movements.","Let the arms float, as if buoyed by Qi rather than muscular effort.","End by lowering arms slowly to sides."], breath:"Phase 1: natural 4-count in/out. Phase 2: 8-count inhale rising, 8-count exhale descending. Extend the breath gradually.", benefits:"Comprehensive warm-up for the shoulder girdle and lung meridians; deepens breath capacity and energy sensitivity.", bodyAreas:["Arms","Shoulders","Lungs","Meridians"], mistakes:"Do not rush the transition between phases. Maintain seamless continuity of movement.", safety:"Pause between phases if dizzy. Allow a few natural breaths to stabilise.", modification:"Reduce arm height in either phase if shoulder fatigue arises." },
+      { name:"Warm-Up — Spinal Waves", duration:2, purpose:"Mobilise the entire vertebral column through gentle undulation, releasing deep spinal tension before the Eight Brocades.", steps:["Stand with feet shoulder-width apart, knees softly bent.","Begin at the sacrum: gently tilt the pelvis forward and back in a small wave.","Allow the wave to travel upward through the lumbar, thoracic and cervical spine.","Build into a full spinal wave: pelvis leads, then belly, ribs, chest, shoulders and head follow.","Reverse: head nods, then shoulders, chest, ribs, belly, pelvis.","Continue fluid forward-and-backward waves for 2 minutes.","Keep the movement slow, oily and continuous — like seaweed in water."], breath:"Inhale as the spine extends (opens). Exhale as the spine flexes (rounds). Let the breath drive the wave.", benefits:"Lubricates the facet joints, stimulates cerebrospinal fluid flow, massages the spinal cord and releases erector spinae muscles.", bodyAreas:["Spine","Sacrum","Neck","Core"], mistakes:"Avoid jerky or staccato movements. The wave must be smooth and unbroken from tail to crown.", safety:"Reduce the range of motion significantly if you have spinal stenosis or recent vertebral fractures.", modification:"Perform seated, allowing just the upper spine to wave." },
+      { name:"Two Hands Hold Up the Heavens", duration:3, purpose:"Advanced version: maintain horse stance throughout and add a deliberate pause at the apex for isometric engagement.", steps:["Sink into a low horse stance and maintain it for the entire exercise.","Inhale: interlace fingers and raise overhead, pressing palms toward the ceiling.","At the apex, hold for 3 breaths — feel the stretch through every fascial plane of the torso.","Exhale: lower hands in an arc, separating them at shoulder height and tracing down the sides.","While in horse stance, keep the back flat and knees over toes.","Repeat 5 times, deepening into the stretch with each repetition."], breath:"Long 8-count inhale ascending. 3 hold breaths at apex. Slow 8-count exhale descending.", benefits:"Intensified spinal decompression, triple warmer activation, lower body strength through sustained horse stance.", bodyAreas:["Spine","Legs","Triple Warmer","Shoulders"], mistakes:"Do not allow the horse stance to collapse during the upper body work. Independent upper/lower body control is the goal.", safety:"Rise out of horse stance if knee pain develops during the hold.", modification:"Reduce horse stance depth and perform a 1-breath hold at the apex." },
+      { name:"Drawing the Bow", duration:3, purpose:"Advanced version: add a sustained hold in the drawn position with deeper horse stance and Yi (intention) visualisation.", steps:["Sink into a deep horse stance (thighs approaching parallel).","Cross arms, right over left. Inhale and draw — extend right arm, draw left elbow back.","Hold the drawn position for 3 full breath cycles, maintaining the horse stance.","Focus the Yi (intention) along the length of the extended arm, as if the arrow carries your awareness.","Exhale: return to centre. Repeat on the left side.","Perform 4 full sets (2 per side) over 3 minutes."], breath:"One inhale to draw. Three held breaths in position. One exhale to return.", benefits:"Builds significant upper-body strength, develops Yi projection, expands lung capacity and strengthens the heart meridian.", bodyAreas:["Heart","Lungs","Legs","Chest","Arms"], mistakes:"Do not hold the breath — continue breathing during the held position.", safety:"Reduce hold to 1 breath if cardiovascular strain is felt.", modification:"Stand higher in the stance and hold for just 1 breath cycle." },
+      { name:"Separate Heaven and Earth", duration:3, purpose:"Advanced version: add slow-motion execution with 10-second holds at full extension, deepening the meridian stretch.", steps:["Begin with palms together at the abdomen, aligning them with the Dantian.","Inhale for 8 counts: one palm rises slowly overhead, the other descends toward the floor.","At full extension, pause and breathe 2–3 cycles. Feel the stretch through the entire meridian line.","Slowly draw both hands back to centre over 8 counts.","Alternate sides. The entire cycle should take roughly 30 seconds.","Perform 6 complete alternating cycles over 3 minutes."], breath:"8-count inhale as arms separate. Hold 2–3 breaths at full extension. 8-count exhale returning.", benefits:"Deep meridian opening, improved digestive organ function, lateral body flexibility and stress release.", bodyAreas:["Stomach","Spleen","Liver","Lateral Body","Shoulders"], mistakes:"Do not allow the torso to lean sideways during the stretch. The movement is purely vertical.", safety:"Hypertensive practitioners should not raise the arm fully overhead — stop at eye level.", modification:"Raise upper arm to shoulder height only." },
+      { name:"Wise Owl Gazes Backwards", duration:3, purpose:"Advanced version: add full arm sweep and integrate the gaze to stimulate kidney Qi and adrenal tonification.", steps:["Begin in Wuji. Feet grounded.","Inhale: begin the rotation. As you turn right, extend the left arm fully across the front of the body.","Right arm sweeps behind, opening the right side completely.","At maximum rotation, focus the gaze at a single point over the right shoulder.","Hold for one breath. Feel the rotation from the sacrum through the crown.","Exhale: return to centre. Inhale and repeat left.","Slow and deliberate: each full rotation should take 20–25 seconds."], breath:"Inhale into the rotation and hold. Exhale returning to centre. The breath deepens the twist.", benefits:"Advanced spinal detoxification, adrenal stimulation, improved thoracic rotation and kidney meridian activation.", bodyAreas:["Spine","Kidneys","Adrenals","Thorax","Eyes"], mistakes:"Avoid rotating beyond a comfortable range. The twist should create space, not compression.", safety:"Practitioners with herniated discs should reduce rotation to 50% of maximum.", modification:"Keep feet rooted and rotate the upper body only — no arm sweep." },
+      { name:"Two Hands Hold the Feet", duration:3, purpose:"Advanced version: slow-motion execution with longer holds and stronger back-extension arc on the ascending phase.", steps:["Hands on lower back. Inhale and open the chest into a gentle back-extension, looking up.","Hold the extension for 3 breaths, breathing into the front of the body.","Exhale: begin the forward fold — lead with the crown, keep the knees soft.","Reach as far toward the feet as possible. Hold for 3 breaths. Let gravity deepen the fold.","Inhale: slowly roll back up, vertebra by vertebra. Hands return to lower back.","3 to 4 full repetitions over 3 minutes.","The entire cycle should take 45–60 seconds per repetition."], breath:"Deep 8-count inhale arching back. 3 hold breaths. Slow 8-count exhale folding forward. 3 hold breaths. 8-count rising.", benefits:"Deep kidney nourishment, full spinal articulation, hamstring and lower back release, improved adrenal and reproductive health.", bodyAreas:["Kidneys","Spine","Hamstrings","Lower Back","Adrenals"], mistakes:"Do not round aggressively at the lower back. Let the fold come from the hips, not the waist.", safety:"Skip or significantly modify if you have disc herniation.", modification:"Rest hands on thighs during forward fold instead of reaching toward the floor." },
+      { name:"Bouncing on the Toes", duration:2, purpose:"Advanced version: vary the rhythm, add arm shaking and end with a sustained hold on the toes for balance training.", steps:["Begin with 30 gentle heel drops as in the beginner routine.","Increase the rhythm slightly for 20 drops, staying relaxed.","Begin shaking the arms and hands as you continue — let the whole body vibrate.","Slow to a stop. Rise onto toes and balance for 10 breaths.","Lower slowly. Shake out the legs.","Repeat the toe-balance once more at the end."], breath:"Breathe naturally throughout. During the toe balance, use slow 5-count breaths to maintain stability.", benefits:"Bone stimulation, deep lymphatic clearing, balance training, full-body energy revitalisation.", bodyAreas:["Spine","Organs","Balance","Whole Body"], mistakes:"Do not bounce aggressively. The shaking should feel liberating, not jarring.", safety:"Hold a wall for the toe balance if needed.", modification:"Skip the toe balance and continue gentle bouncing for the full 2 minutes." },
+      { name:"Final Standing Meditation", duration:1.5, purpose:"Integrate the practice, seal the Qi in the Dantian and transition mindfully from practice back to ordinary awareness.", steps:["Return to Wuji. Place hands over the lower Dantian.","Take 5 deep breaths, feeling the accumulated warmth in the hands and belly.","With each inhale, draw awareness inward. With each exhale, settle deeper.","Scan the entire body — notice any areas of warmth, tingling or ease.","In the final minute, allow the breath to return to its natural rate.","Gently rub palms together, warm the face and ears.","Open eyes slowly. Bow."], breath:"5 deliberate deep breaths, then allow the breath to find its natural rhythm. No control — just observation.", benefits:"Seals energetic gains, calms the nervous system, improves interoception and creates a clean transition from practice.", bodyAreas:["Dantian","Whole Body","Nervous System","Mind"], mistakes:"Do not rush the closing. A hurried ending diminishes the benefits of the entire practice.", safety:"Fully safe. Move gently after the stillness — give the body a moment to readjust.", modification:"May be performed seated." }
+    ]
+  },
+  brocades: {
+    name: "Eight Pieces of Brocade",
+    level: "Eight Brocades",
+    duration: "30 minutes",
+    goal: "Practise the complete classical Ba Duan Jin (八段錦) sequence — all eight movements in their traditional order — cultivating Qi through the full meridian system.",
+    exercises: [
+      {
+        name: "Brocade 1 — Two Hands Hold Up the Heavens",
+        duration: 4,
+        purpose: "Regulate and harmonise the Triple Warmer (San Jiao) meridian by creating a full-body vertical stretch, massaging the internal organs and opening the thoracic cavity.",
+        steps: [
+          "Stand in Wuji. Interlace fingers in front of the lower Dantian, palms facing up.",
+          "Inhale: slowly turn the palms outward and raise the joined hands overhead.",
+          "At the apex, press firmly upward with the palms while simultaneously pressing the heels gently into the ground — creating an opposing stretch through the whole body.",
+          "Hold for 1–2 breath cycles, gazing upward if comfortable.",
+          "Exhale: separate the hands and lower them in wide arcs down the sides of the body.",
+          "Pause with hands at sides. Breathe once naturally.",
+          "Perform 6–8 complete repetitions over 4 minutes.",
+          "Each repetition should feel fuller and more expansive than the last."
+        ],
+        breath: "Long smooth inhale as arms rise. Full exhale as arms descend. Let each complete cycle take 20–25 seconds.",
+        benefits: "Decompresses every vertebra of the spine, stretches the intercostal muscles, massages the liver and stomach, regulates the Triple Warmer and improves overall Qi circulation.",
+        bodyAreas: ["Triple Warmer", "Spine", "Ribcage", "Liver", "Stomach", "Shoulders"],
+        mistakes: "Do not hyperextend the lower back. If neck strain occurs when looking up, keep the gaze forward. Avoid shrugging the shoulders at the apex.",
+        safety: "Those with lower back disc issues should keep the torso upright and omit the backbend. High blood pressure: do not hold at the top for more than one breath.",
+        modification: "Raise arms only to forehead height. No backbend. Keep gaze level."
+      },
+      {
+        name: "Brocade 2 — Drawing the Bow to Shoot the Eagle",
+        duration: 4,
+        purpose: "Strengthen the heart and lung meridians, open the chest and upper back, and develop the Horse Stance foundation through an archery-drawing movement.",
+        steps: [
+          "Step wide into a deep Horse Stance — feet roughly twice shoulder-width, knees bent, thighs approaching parallel.",
+          "Cross the arms in front of the chest, right arm over left.",
+          "Inhale: extend the right arm fully to the right, index finger pointing upward, thumb extended — as if aiming an arrow.",
+          "Simultaneously draw the left arm back, making a fist, elbow pulling strongly to the left.",
+          "Turn the head and gaze along the right arm toward an imaginary target in the distance.",
+          "Hold the drawn position for 1–2 breath cycles.",
+          "Exhale: slowly return both arms to the crossed position at the chest.",
+          "Repeat on the left side. Continue alternating for 4 minutes."
+        ],
+        breath: "Inhale as you draw and extend. Hold and breathe in the drawn position. Full exhale returning to centre.",
+        benefits: "Strengthens the pectoral, deltoid and upper-back muscles, opens the heart and lung meridians, builds leg strength and improves eye focus and concentration.",
+        bodyAreas: ["Heart", "Lungs", "Chest", "Upper Back", "Legs", "Eyes"],
+        mistakes: "Do not rise out of the Horse Stance when extending the arm. Keep both knees tracking directly over the respective toes. The drawing arm's elbow must pull fully back — a half-draw defeats the purpose.",
+        safety: "Knee pain: rise to a higher stance. Shoulder injury: reduce the range of the drawing arm.",
+        modification: "Stand with feet just wider than hips. Perform a gentle arm extension without a deep squat."
+      },
+      {
+        name: "Brocade 3 — Separate Heaven and Earth",
+        duration: 3,
+        purpose: "Stimulate the stomach and spleen meridians through opposing vertical arm movements, massaging the digestive organs and improving lateral body flexibility.",
+        steps: [
+          "Stand in Wuji. Bring both hands together at the lower abdomen, palms facing up.",
+          "Inhale: push the right palm upward toward the sky (fingers pointing left at the top) while the left palm presses downward toward the earth (fingers pointing right).",
+          "Feel the full vertical stretch from the raised heel of the right hand to the pressing fingers of the left.",
+          "Hold for one breath cycle at full extension.",
+          "Exhale: slowly draw both hands back to meet at the abdomen.",
+          "Inhale: reverse — left palm rises, right palm presses down.",
+          "Continue alternating sides for 3 minutes. Each cycle should take 20–25 seconds.",
+          "The torso must remain perfectly upright — no lateral lean at all."
+        ],
+        breath: "Long smooth inhale as arms separate. Hold briefly at full extension. Full slow exhale as arms return. The breath drives the movement.",
+        benefits: "Massages the liver, gallbladder, spleen and stomach, improves digestive function, stretches the lateral fascial lines and balances left-right Qi flow.",
+        bodyAreas: ["Stomach", "Spleen", "Liver", "Gallbladder", "Lateral Body", "Shoulders"],
+        mistakes: "A sideways lean of the torso completely removes the therapeutic benefit. Keep both hips level. The stretch is vertical, not diagonal.",
+        safety: "High blood pressure: raise the upper arm only to chest or eye height. Never overhead.",
+        modification: "Raise the upper arm only to shoulder height. Reduce hold to half a breath."
+      },
+      {
+        name: "Brocade 4 — Wise Owl Gazes Backwards",
+        duration: 3,
+        purpose: "Tonify the kidney and bladder meridians, release the cervical and thoracic spine, and stimulate the adrenal glands through slow full-body rotation.",
+        steps: [
+          "Stand in Wuji. Feet firmly rooted. Arms relaxed at sides.",
+          "Inhale: slowly rotate the entire head, neck and torso to the right as one connected unit. Allow the arms to follow naturally.",
+          "The left arm swings gently across the front of the body; the right arm opens behind.",
+          "Turn until you are looking as far over the right shoulder as is comfortable — as if trying to see your heels.",
+          "Hold the maximum rotation for 1–2 breath cycles.",
+          "Exhale: slowly unwind back to centre, leading from the sacrum upward.",
+          "Repeat to the left side. Continue alternating for 3 minutes.",
+          "The slower the rotation, the greater the benefit."
+        ],
+        breath: "Inhale as you rotate outward. Hold and breathe in the rotated position. Exhale as you return. The exhale naturally deepens the rotation.",
+        benefits: "Relieves cervical and thoracic tension, stimulates kidney and adrenal function, combats nervous system fatigue and improves rotational mobility of the entire spine.",
+        bodyAreas: ["Cervical Spine", "Thoracic Spine", "Kidneys", "Adrenals", "Eyes", "Bladder Meridian"],
+        mistakes: "Never force the rotation beyond a comfortable range. The twist must feel spacious and releasing — never compressive or straining.",
+        safety: "Cervical disc issues: rotate only the torso, keeping the head neutral. Perform a smaller range of motion.",
+        modification: "Rotate torso and eyes only without turning the head. Reduce range to 30%."
+      },
+      {
+        name: "Brocade 5 — Sway the Head and Shake the Tail",
+        duration: 4,
+        purpose: "Eliminate excess heat from the heart, regulate the nervous system and release deep tension in the spine through a combined Horse Stance and lateral swaying movement.",
+        steps: [
+          "Step into a deep Horse Stance. Place both hands on the thighs just above the knees, fingers pointing inward.",
+          "Inhale: lean the torso forward slightly and begin to arc the upper body to the right in a smooth circular movement.",
+          "Let the head lead — it sweeps right, then down, then left, completing a full arc.",
+          "Simultaneously, push the hips/tail in the opposite direction to the head (head goes right, tail goes left) — like a fish wagging.",
+          "The movement is fluid and continuous, like a slow figure-eight through the spine.",
+          "Exhale as the torso completes the arc to the opposite side.",
+          "Alternate directions. Continue for 4 minutes.",
+          "Keep the horse stance stable throughout — the legs are the stable base; only the spine sways."
+        ],
+        breath: "Inhale as the torso arcs in one direction. Exhale as it arcs back. The breath is continuous and matched to the flowing movement.",
+        benefits: "Clears heart fire and nervous system excess, releases the entire spine from sacrum to occiput, massages the kidneys, strengthens the legs and cultivates fluid spinal mobility.",
+        bodyAreas: ["Heart", "Spine", "Kidneys", "Neck", "Legs", "Nervous System"],
+        mistakes: "Do not perform this as a rigid side-bend. The movement must be a smooth continuous arc — the head and tail move in opposition. Keep the horse stance stable.",
+        safety: "Neck issues: reduce the head movement. Lower back problems: perform in a high stance with a minimal arc.",
+        modification: "Perform in a high stance. Limit the arc to the upper thoracic spine and head only."
+      },
+      {
+        name: "Brocade 6 — Two Hands Hold the Feet to Strengthen the Kidneys",
+        duration: 4,
+        purpose: "Directly nourish and tonify the kidney and bladder meridians through an alternating backbend and forward fold sequence.",
+        steps: [
+          "Stand in Wuji. Place both hands on the lower back, fingers pointing down toward the sacrum.",
+          "Inhale: gently arch backward, opening the chest and allowing the head to tilt back slightly. Feel the front of the body opening.",
+          "Hold the backbend for one breath cycle — breathe into the chest and belly.",
+          "Exhale: slowly fold forward, sliding the hands down the backs of the thighs, calves and toward the feet.",
+          "Reach as far toward the feet or floor as is possible without strain — keep the knees soft.",
+          "Hold the forward fold for one breath cycle — let gravity deepen the stretch.",
+          "Inhale: slowly roll back up, vertebra by vertebra from the sacrum, hands returning to the lower back.",
+          "Perform 6–8 complete cycles over 4 minutes."
+        ],
+        breath: "Inhale arching backward. Hold and breathe. Exhale folding forward. Hold and breathe. Inhale rolling up. Each full cycle takes 25–35 seconds.",
+        benefits: "Nourishes kidney Jing (essence), stretches the entire posterior chain, releases lumbar tension, improves hamstring flexibility and supports reproductive and adrenal health.",
+        bodyAreas: ["Kidneys", "Bladder Meridian", "Lumbar Spine", "Hamstrings", "Adrenals", "Reproductive System"],
+        mistakes: "Do not round aggressively at the lower back during the forward fold — the bend comes from the hip crease, not the waist. Never yank yourself deeper.",
+        safety: "Disc herniation or acute sciatica: skip entirely or perform only the backbend phase. Consult a practitioner.",
+        modification: "Rest hands on shins or thighs during the fold. Omit the backbend if uncomfortable."
+      },
+      {
+        name: "Brocade 7 — Clench the Fists and Glare Fiercely",
+        duration: 4,
+        purpose: "Stimulate the liver meridian, increase overall Qi and blood circulation, and strengthen the tendons and sinews through powerful fist-clenching and focused intention.",
+        steps: [
+          "Step into a deep Horse Stance. Make loose fists at both hips, palms facing upward.",
+          "Take one slow breath to settle.",
+          "Inhale: slowly extend the right fist forward, rotating it as it extends so the palm faces down at full extension. Fix the gaze fiercely on an imaginary target beyond the fist.",
+          "Clench the fist with increasing force as it extends — feel the energy rise from the feet through the legs and core into the arm.",
+          "Hold for one breath at full extension, maintaining the fierce gaze.",
+          "Exhale: slowly withdraw the fist back to the hip, rotating back to palm-up. Relax the fist slightly.",
+          "Repeat on the left side. Alternate sides continuously for 4 minutes.",
+          "The internal quality of fierce focus (Yi) is as important as the physical movement."
+        ],
+        breath: "Smooth inhale as the fist extends and clenches. Exhale as it withdraws and relaxes. Never hold the breath.",
+        benefits: "Stimulates the liver and gallbladder meridians, strengthens the tendons and sinews, increases Qi and blood flow, develops internal power and mental focus.",
+        bodyAreas: ["Liver", "Gallbladder", "Tendons", "Arms", "Legs", "Eyes"],
+        mistakes: "Do not tense the shoulders when punching — the power comes from the whole body through a relaxed pathway, not from a stiff arm. Maintain the horse stance throughout.",
+        safety: "Shoulder injury: reduce the extension range. High blood pressure: use a lighter, less forceful extension.",
+        modification: "Perform in a higher stance. Use a moderate, non-forceful extension without the fierce clenching."
+      },
+      {
+        name: "Brocade 8 — Bouncing on the Toes to Eliminate Diseases",
+        duration: 4,
+        purpose: "Stimulate all meridians simultaneously through gentle heel-drop vibration, clear stagnant Qi and consolidate all the benefits of the previous seven brocades.",
+        steps: [
+          "Return to Wuji standing posture. Arms relaxed at sides. Everything loose.",
+          "Slowly rise up onto the toes, lifting the heels as high as comfortable.",
+          "Pause for a moment at the top — let the body become light.",
+          "Gently drop the heels back to the floor. This is not a stamp — it is a soft, controlled return.",
+          "Let the vibration travel upward through the heels, ankles, knees, hips, spine, shoulders and skull.",
+          "Keep the jaw loose, the hands soft, the whole body wobbling gently like jelly.",
+          "Repeat 20–30 times in the first minute. Then continue at a relaxed rhythm for the remaining 3 minutes.",
+          "In the final 30 seconds, slow to a stop. Stand completely still and absorb the residual vibration."
+        ],
+        breath: "Breathe naturally and continuously throughout. No specific coordination needed. Let the breath be free.",
+        benefits: "Stimulates all 12 main meridians simultaneously through vibration, massages every internal organ, activates the lymphatic system, promotes bone density, consolidates the benefits of the complete Ba Duan Jin sequence.",
+        bodyAreas: ["All Meridians", "Lymph System", "Spine", "Internal Organs", "Bones", "Whole Body"],
+        mistakes: "The heel drop must be gentle — never a hard stamp. The therapeutic effect comes from the subtle vibration, not the impact. Keeping the body stiff defeats the purpose.",
+        safety: "Joint replacements, osteoporosis, pelvic floor dysfunction: consult a practitioner. Reduce to a gentle rocking instead.",
+        modification: "Rock the weight gently between toes and heels without lifting. Or perform seated with gentle foot tapping."
+      }
+    ]
+  },
+  professional: {
+    name: "Professional Qi Gong", level: "Professional", duration: "30 minutes",
+    goal: "Practise the complete Eight Brocades (Ba Duan Jin) with mastery-level breath coordination, deep Qi sensitivity and meditative absorption.",
+    exercises: [
+      { name:"Standing Meditation (Zhan Zhuang)", duration:5, purpose:"Cultivate root energy, stillness and deep energetic presence through extended horse-stance meditation.", steps:["Step into a medium horse stance — thighs at roughly 45 degrees.","Arms curve in front at navel height as if holding a large sphere — elbows dropped, shoulders relaxed.","Close the eyes. Anchor the breath deep in the lower Dantian.","Spend the first 2 minutes settling — releasing every layer of tension.","Spend minutes 3–4 deepening the root: feel the feet sinking, the crown rising, the Dantian warming.","In the final minute, begin to feel the Qi filling the space between the palms.","Complete stillness. Absolute attention. Nothing is forced."], breath:"Turtle breathing: 10-count inhale, 2-count natural pause, 12-count exhale. Extremely slow. Belly-led.", benefits:"Builds extraordinary root energy, strengthens the legs and hips, calms the mind to meditative absorption, develops sensitivity to Qi.", bodyAreas:["Legs","Dantian","Spine","Mind","Whole Body"], mistakes:"Do not allow the mind to wander without redirecting. Each time thought arises, return to the felt sense of the feet and Dantian.", safety:"Rise out of horse stance if leg muscles begin to shake violently. Reduce stance height before discomfort becomes pain.", modification:"Perform in high stance (minimal knee bend) or seated with arms held in lap." },
+      { name:"Opening Form", duration:2, purpose:"Transition from stillness into movement while maintaining meditative awareness and Dantian connection.", steps:["Rise slowly from horse stance to Wuji.","Take 3 complete breath cycles in stillness before moving.","Slowly raise both arms forward to shoulder height, palms down — take 10 counts.","At shoulder height, turn palms to face each other.","Perform three Opening and Closing cycles, very slowly, feeling the energy between the palms.","On the third close, lower hands to Dantian. Pause. Begin."], breath:"10-count inhale raising. 10-count exhale lowering. Each opening-closing cycle: 8 counts each direction.", benefits:"Seamless transition from Zhan Zhuang stillness into dynamic practice, maintaining meditative quality throughout.", bodyAreas:["Arms","Shoulders","Dantian","Meridians"], mistakes:"Do not allow any break in meditative quality during the transition. Motion and stillness are one.", safety:"Fully safe for all practitioners capable of the standing meditation.", modification:"Perform from seated position with appropriate arm height adjustments." },
+      { name:"Raising and Lowering — Full Breath", duration:2, purpose:"Execute Raising and Lowering with complete 12-count breath cycles and full meditative absorption.", steps:["From Wuji, arms at sides.","Inhale for 12 counts: raise arms overhead, fully extended, palms up — feel the expansion from the soles to the fingertips.","Brief natural pause at apex — 2 counts.","Exhale for 12 counts: lower arms pressing gently downward, palms facing the earth — feel energy condensing.","Brief natural pause at nadir — 2 counts.","Repeat. Perform 4 full cycles over 2 minutes.","Absolute seamlessness and continuity: no jerks, no pauses except those built into the breath pattern."], breath:"12-count inhale rising, 2-count pause, 12-count exhale descending, 2-count pause. This is the full breath cycle.", benefits:"Maximum lung expansion, thorough oxygenation, full-body meridian activation, deep Qi cultivation.", bodyAreas:["Lungs","Spine","Arms","Whole Meridian System"], mistakes:"Do not allow the breath to speed up when arms reach the apex. The breath leads; the arms follow.", safety:"If dizziness occurs, revert to natural breathing while continuing the arm movement.", modification:"Reduce breath count to 8 if 12 counts causes strain." },
+      { name:"Two Hands Hold Up the Heavens", duration:2, purpose:"Brocade 1: Full triple warmer opening with mastery-level breath and Yi integration.", steps:["Interlace fingers at the Dantian, palms up.","Inhale slowly: turn palms out and raise overhead. Project Yi (intention) through the crown toward the heavens.","At apex, hold for 4 full breaths. Feel the sky pressing down and the earth rising up.","Exhale: separate the palms with deliberate slowness, tracing wide arcs down the sides.","Gather energy from the sides and return to Dantian.","4 repetitions over 2 minutes."], breath:"10-count inhale, 4 hold-breaths at apex (full natural breaths), 10-count exhale descending.", benefits:"Thorough Triple Warmer tonification, deep spinal decompression, opens the gateway between heaven and earth.", bodyAreas:["Triple Warmer","Spine","Lungs","Crown"], mistakes:"Yi (intention) is the key differentiator at professional level — the physical form is meaningless without projecting awareness through it.", safety:"Keep neck comfortable — look up only as far as is effortless.", modification:"Raise arms to forehead height and reduce the hold to 2 breaths." },
+      { name:"Drawing the Bow", duration:2, purpose:"Brocade 2: Full heart and lung brocade with deepest sustainable horse stance and Yi projection.", steps:["Sink to the deepest comfortable horse stance. Commit.","Cross arms at chest. Inhale: draw the bow on the right with total Yi — feel the arrow leave the fingertip.","Hold for 5 full breaths in the drawn position. The horse stance must not collapse.","Exhale: return. Inhale and draw left.","3 full sets per side over 2 minutes."], breath:"One inhale to draw. Five natural hold-breaths in position. One exhale to return.", benefits:"Maximum heart and lung stimulation, extreme upper-body endurance, Yi projection mastery.", bodyAreas:["Heart","Lungs","Legs","Arms"], mistakes:"The Yi projection must be complete — a listless arm extended without intention is not this brocade.", safety:"Reduce hold if cardiovascular stress arises. Never hold the breath.", modification:"Reduce horse stance depth and hold to 2 breaths." },
+      { name:"Separate Heaven and Earth", duration:2, purpose:"Brocade 3: Full stomach/spleen meridian opening with complete slow-motion execution.", steps:["Palms together at Dantian.","Inhale 10 counts: separate — right palm to heaven, left palm to earth.","Hold 5 breaths at full extension. Visualise light flowing through the entire vertical channel of the body.","Exhale 10 counts: return to Dantian.","Alternate sides. 3 full cycles per side."], breath:"10-count inhale. 5 hold-breaths. 10-count exhale. Each cycle lasts approximately 40 seconds.", benefits:"Maximum meridian opening, organ massage, lateral flexibility and meditative depth.", bodyAreas:["Stomach","Spleen","Lateral Body","Liver"], mistakes:"Do not allow the torso to rotate or tilt. Pure vertical opposition of the palms.", safety:"Hypertensive practitioners: raise upper arm to eye level only.", modification:"Shoulder height for the upper arm, reduce hold to 2 breaths." },
+      { name:"Wise Owl Gazes Backwards", duration:2, purpose:"Brocade 4: Full kidney/bladder meridian tonification with complete spinal rotation and sustained hold.", steps:["Wuji. Ground the feet deeply.","Inhale: initiate from the sacrum — rotate the entire spine to the right as one integrated unit.","The left arm sweeps fully across the front, right arm opens wide behind.","At maximum rotation, hold for 5 breaths, deepening the twist slightly with each exhale.","Exhale: unwind back to centre from the sacrum upward.","4 rotations per side."], breath:"Inhale into the rotation. 5 hold-breaths deepening. Full exhale unwinding.", benefits:"Kidney Qi tonification, spinal detoxification, maximum thoracic mobility, adrenal health.", bodyAreas:["Kidneys","Adrenals","Spine","Bladder Meridian"], mistakes:"The rotation must originate at the sacrum — do not lead with the shoulders.", safety:"Disc issues: reduce to 30% rotation, no arm sweep, no hold.", modification:"Seated rotation with hands on knees, no hold." },
+      { name:"Two Hands Hold the Feet", duration:2, purpose:"Brocade 5 & 6: Full kidney nourishment through slow-motion back extension and forward fold with maximum holds.", steps:["Hands on lower back. Inhale 10 counts: open the chest into a generous back extension.","Hold 5 breaths in extension — breathe into the front body.","Exhale 10 counts: fold forward. Crown leads. Spine pours forward.","Hold 5 breaths in forward fold. Hands reach toward or past the feet.","Inhale 10 counts: roll vertebra by vertebra back to standing.","3 full cycles in 2 minutes."], breath:"10-count inhale each phase. 5 hold-breaths each position. 10-count movement between positions.", benefits:"Deepest kidney meridian tonification, full spinal articulation, hamstring release, reproductive health support.", bodyAreas:["Kidneys","Spine","Hamstrings","Reproductive"], mistakes:"Do not round aggressively at the lower back. The fold comes from the hip crease, the pelvis tips forward.", safety:"Skip entirely if disc herniation is present.", modification:"Hands rest on thighs during forward fold. Back extension only if comfortable." },
+      { name:"Bouncing on the Toes", duration:2, purpose:"Brocade 7 & 8: Full nervous system reset and integrative vibration with balance training.", steps:["Begin with 20 gentle heel drops.","Increase to rapid gentle shaking — the whole body becomes a tuning fork.","Continue for 60 seconds. Let everything go.","Slow to stillness. Rise onto toes. Balance for 10–15 breaths.","Lower slowly. Arms rise slightly for balance.","Return to Wuji. Feel the silence after the vibration."], breath:"Natural breath during bouncing. Slow 6-count breaths during toe balance.", benefits:"Complete nervous system reset, maximum lymphatic stimulation, balance mastery, energetic clearing.", bodyAreas:["Whole Body","Lymph","Nervous System","Bones"], mistakes:"The stillness after the shaking is part of the brocade. Do not rush past it.", safety:"Wall nearby for toe balance. Skip balance hold if vestibular conditions are present.", modification:"Gentle weight shift instead of bounce; skip toe balance." },
+      { name:"Integration Meditation", duration:3, purpose:"Absorb the full energetic effect of the Eight Brocades into a deep meditative experience of the unified Qi field.", steps:["Return to Zhan Zhuang (horse stance) or Wuji if knees are fatigued.","Hold the arms in the sphere-holding position at Dantian level.","Close the eyes. Notice the fullness and warmth in the Dantian.","For 2 minutes: observe the Qi as a living, moving presence.","In the final minute: slowly draw the hands together until the palms rest over the Dantian.","Feel the energy collected, concentrated and settled.","Perfect stillness."], breath:"12-count inhale gathering. 14-count exhale settling. The slowest possible breathing consistent with complete ease.", benefits:"Full integration of practice benefits, deepest meditative state, maximum Qi consolidation in the Dantian.", bodyAreas:["Dantian","Whole Body","Mind"], mistakes:"This is not passive rest — it is active, attentive absorption. Maintain inner focus throughout.", safety:"Fully safe. Rise slowly after this extended stillness.", modification:"Seated in a chair with the same internal attention." },
+      { name:"Closing Massage", duration:2, purpose:"Complete the practice with self-massage to seal the Qi, stimulate circulation and prepare for re-entry into daily life.", steps:["Rub the palms together vigorously for 15 seconds until very warm.","Place warmed palms over the kidneys on the lower back. Hold for 30 seconds. Breathe.","Rub the palms warm again. Massage the face — forehead, cheeks, jaw, ears.","With fingertips, gently tap the skull from front to back.","Comb fingers through the scalp.","Rub hands warm once more. Place over the eyes for 20 seconds.","Lower hands. Bow deeply. Completion."], breath:"Natural, gentle breathing throughout. No specific control — the practice is complete.", benefits:"Seals all energetic work, stimulates facial circulation, tones the kidneys and adrenals, provides energising closure.", bodyAreas:["Kidneys","Face","Head","Eyes","Whole Body"], mistakes:"Perform the massage slowly and with gratitude — not mechanically.", safety:"Completely safe for all practitioners.", modification:"Focus on the hands and face only if the back reach is uncomfortable." }
+    ]
+  }
+};
+
+// ============================================================
+//  STATE
+// ============================================================
+let currentLevel = 'beginner';
+let guidedState = { active:false, level:'beginner', exerciseIndex:0, stepIndex:0, timeRemaining:0, totalElapsed:0, paused:true, interval:null };
+
+// THEME
+function setTheme(t) { document.documentElement.setAttribute('data-theme',t); document.getElementById('themeIcon').textContent=t==='dark'?'☀️':'🌙'; document.getElementById('themeLabel').textContent=t==='dark'?'Light':'Dark'; }
+document.getElementById('themeToggle').addEventListener('click',()=>{ const c=document.documentElement.getAttribute('data-theme')||'light'; setTheme(c==='dark'?'light':'dark'); });
+
+// TABS
+function initTabs() {
+  const buttons = document.querySelectorAll('.tab-btn');
+  updateIndicator();
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+      currentLevel = btn.dataset.level;
+      switchPanel(currentLevel); updateIndicator(); updateSidebar();
+    });
+  });
+}
+function updateIndicator() {
+  const active = document.querySelector('.tab-btn.active');
+  const ind = document.getElementById('tabIndicator');
+  if(!active) return;
+  ind.style.left = active.offsetLeft+'px'; ind.style.width = active.offsetWidth+'px';
+}
+function switchPanel(level) {
+  document.querySelectorAll('.routine-panel').forEach(p => { p.classList.remove('active'); setTimeout(()=>{ if(!p.classList.contains('active')) p.style.display='none'; },350); });
+  const next = document.getElementById('panel-'+level);
+  if(next) { next.style.display='block'; requestAnimationFrame(()=>requestAnimationFrame(()=>next.classList.add('active'))); }
+}
+
+// RENDER
+function renderAll() {
+  const container = document.getElementById('panels');
+  container.innerHTML = '';
+  Object.keys(ROUTINES).forEach((level, li) => {
+    const r = ROUTINES[level];
+    const illusBank = ILLUSTRATIONS[level] || [];
+    const panel = document.createElement('div');
+    panel.className = 'routine-panel'+(li===0?' active':'');
+    panel.id = 'panel-'+level;
+    panel.setAttribute('role','tabpanel');
+    panel.setAttribute('aria-labelledby','tab-'+level);
+    if(li!==0) panel.style.display='none';
+    const totalMin = r.exercises.reduce((a,e)=>a+e.duration,0);
+    panel.innerHTML = `
+      <div class="routine-header">
+        <div>
+          <div class="routine-name">${r.name}</div>
+          <div class="routine-meta">
+            <span class="meta-pill">⏱ ${totalMin} min</span>
+            <span class="meta-pill">🎯 ${r.level}</span>
+            <span class="meta-pill">${r.exercises.length} exercises</span>
+          </div>
+          <div class="routine-goal">${r.goal}</div>
+        </div>
+        <button class="start-btn" data-level="${level}" aria-label="Start guided session for ${r.name}">▶ Start Guided Session</button>
+      </div>
+      <div class="timeline" id="timeline-${level}">
+        ${r.exercises.map((ex, i) => renderCard(ex, i, level, illusBank[i]||[])).join('')}
+      </div>`;
+    container.appendChild(panel);
+  });
+  document.querySelectorAll('.card-header').forEach(h => {
+    h.addEventListener('click', () => {
+      const body=h.nextElementSibling, chev=h.querySelector('.card-chevron');
+      body.classList.toggle('open'); chev.classList.toggle('open');
+    });
+  });
+  document.querySelectorAll('.start-btn').forEach(btn => btn.addEventListener('click',()=>startGuided(btn.dataset.level)));
+}
+
+function renderCard(ex, i, level, illus) {
+  const steps = ex.steps.map(s=>`<li>${s}</li>`).join('');
+  const areas = ex.bodyAreas.map(a=>`<span class="tag">${a}</span>`).join('');
+  const mod = ex.modification ? `<div class="section-label">Modification</div><p>${ex.modification}</p>` : '';
+  const illustrationsHTML = illus && illus.length ? `
+    <div class="illus-slot">
+      <div class="illus-label">✦ Visual Guide</div>
+      ${illus.map(il => il.svg).join('')}
+    </div>` : '';
+  return `
+    <div class="timeline-item" id="ti-${level}-${i}">
+      <div class="timeline-dot"></div>
+      <div class="exercise-card" id="card-${level}-${i}">
+        <div class="card-header" role="button" tabindex="0" aria-controls="body-${level}-${i}">
+          <div class="card-title-group">
+            <div class="card-num">${String(i+1).padStart(2,'0')}</div>
+            <div><div class="card-title">${ex.name}</div><div class="card-dur">${ex.duration} min</div></div>
+          </div>
+          <div class="card-chevron">▾</div>
+        </div>
+        <div class="card-body" id="body-${level}-${i}">
+          ${illustrationsHTML}
+          <div class="section-label">Purpose</div><p>${ex.purpose}</p>
+          <div class="section-label">Breathing Cue</div>
+          <div class="breath-box">${ex.breath}</div>
+          <div class="section-label">Step-by-Step Instructions</div>
+          <ol class="steps-list">${steps}</ol>
+          <div class="section-label">Benefits</div><p>${ex.benefits}</p>
+          <div class="section-label">Body Areas</div>
+          <div class="tag-row">${areas}</div>
+          <div class="section-label">Common Mistakes</div>
+          <div class="mistake-box">${ex.mistakes}</div>
+          <div class="section-label">Safety Notes</div><p>${ex.safety}</p>
+          ${mod}
+        </div>
+      </div>
+    </div>`;
+}
+
+// SIDEBAR
+function updateSidebar() {
+  const list = document.getElementById('sidebarList');
+  list.innerHTML = ROUTINES[currentLevel].exercises.map((ex,i)=>`
+    <li class="progress-item" data-idx="${i}" id="si-${i}" tabindex="0">
+      <div class="prog-dot"></div>${ex.name}
+    </li>`).join('');
+  document.querySelectorAll('.progress-item').forEach(item => {
+    item.addEventListener('click',()=>{
+      const card=document.getElementById(`body-${currentLevel}-${item.dataset.idx}`);
+      const chev=document.querySelector(`#card-${currentLevel}-${item.dataset.idx} .card-chevron`);
+      if(card && !card.classList.contains('open')){ card.classList.add('open'); if(chev) chev.classList.add('open'); }
+      const el=document.getElementById(`ti-${currentLevel}-${item.dataset.idx}`);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    item.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' ') item.click(); });
+  });
+}
+
+// GUIDED MODE
+// ─── Voice Settings ──────────────────────────────────────────
+const ttsSettings = { voice: null, rate: 0.82, pitch: 0.95, muted: false };
+let ttsUtterance = null;
+
+function populateVoices() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+  const sel = document.getElementById('voiceSelect');
+  sel.innerHTML = '';
+  // preferred calm voices first
+  const preferred = ['Daniel','Samantha','Karen','Moira','Martha','Google UK English Female','Google UK English Male','Microsoft Zira','Microsoft David'];
+  const sorted = [...voices].sort((a,b) => {
+    const ai = preferred.indexOf(a.name), bi = preferred.indexOf(b.name);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1; if (bi !== -1) return 1;
+    if (a.lang==='en-GB' && b.lang!=='en-GB') return -1;
+    if (b.lang==='en-GB' && a.lang!=='en-GB') return 1;
+    if (a.lang.startsWith('en') && !b.lang.startsWith('en')) return -1;
+    if (b.lang.startsWith('en') && !a.lang.startsWith('en')) return 1;
+    return a.name.localeCompare(b.name);
+  });
+  sorted.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.name; o.textContent = `${v.name} (${v.lang})`;
+    if (preferred.includes(v.name)) o.textContent = '⭐ ' + o.textContent;
+    sel.appendChild(o);
+  });
+  // auto-select best voice
+  const best = sorted.find(v => preferred.includes(v.name)) || sorted.find(v => v.lang==='en-GB') || sorted.find(v => v.lang.startsWith('en')) || sorted[0];
+  if (best) { sel.value = best.name; ttsSettings.voice = best; }
+}
+
+function getBestVoice() {
+  const name = document.getElementById('voiceSelect')?.value;
+  return window.speechSynthesis.getVoices().find(v => v.name === name) || null;
+}
+
+function ttsSpeak(text) {
+  if (!window.speechSynthesis || ttsSettings.muted) return;
+  window.speechSynthesis.cancel();
+  ttsUtterance = new SpeechSynthesisUtterance(text);
+  ttsUtterance.voice = getBestVoice();
+  ttsUtterance.rate  = parseFloat(document.getElementById('rateSlider')?.value  || ttsSettings.rate);
+  ttsUtterance.pitch = parseFloat(document.getElementById('pitchSlider')?.value || ttsSettings.pitch);
+  ttsUtterance.lang  = ttsUtterance.voice?.lang || 'en-US';
+  ttsUtterance.onstart = () => { const b=document.getElementById('ttsBtn'); if(b) b.classList.add('speaking'); };
+  ttsUtterance.onend   = () => { const b=document.getElementById('ttsBtn'); if(b) b.classList.remove('speaking'); };
+  window.speechSynthesis.speak(ttsUtterance);
+}
+function ttsStop() { if (window.speechSynthesis) window.speechSynthesis.cancel(); }
+
+// ─── Voice panel wiring ──────────────────────────────────────
+window.speechSynthesis.onvoiceschanged = populateVoices;
+populateVoices();
+
+const voiceSettingsBtn = document.getElementById('voiceSettingsBtn');
+const voicePanel       = document.getElementById('voicePanel');
+voiceSettingsBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const open = voicePanel.style.display !== 'none';
+  voicePanel.style.display = open ? 'none' : 'block';
+  if (!open) populateVoices();
+});
+document.getElementById('voicePanelClose').addEventListener('click', () => voicePanel.style.display='none');
+document.addEventListener('click', e => { if (!voicePanel.contains(e.target) && e.target!==voiceSettingsBtn) voicePanel.style.display='none'; });
+
+document.getElementById('rateSlider').addEventListener('input', function() {
+  document.getElementById('rateVal').textContent = parseFloat(this.value).toFixed(2);
+});
+document.getElementById('pitchSlider').addEventListener('input', function() {
+  document.getElementById('pitchVal').textContent = parseFloat(this.value).toFixed(2);
+});
+document.getElementById('muteToggle').addEventListener('change', function() {
+  ttsSettings.muted = this.checked;
+  const btn = document.getElementById('voiceSettingsBtn');
+  const icon = document.getElementById('voiceBtnIcon');
+  const lbl  = document.getElementById('voiceBtnLabel');
+  if (this.checked) { btn.classList.add('muted'); icon.textContent='🔕'; lbl.textContent='Muted'; ttsStop(); }
+  else              { btn.classList.remove('muted'); icon.textContent='🔊'; lbl.textContent='Voice'; }
+});
+document.getElementById('testVoiceBtn').addEventListener('click', () => {
+  ttsSpeak('Breathe slowly and deeply. Let the movement flow from within.');
+});
+
+// ─── step auto-timer ────────────────────────────────────────
+function getStepDuration(ex) {
+  // evenly spread the exercise duration (minutes) across its steps (min 8s each)
+  return Math.max(8, Math.floor((ex.duration * 60) / ex.steps.length));
+}
+
+function startGuided(level) {
+  currentLevel=level;
+  guidedState={ active:true, level, exerciseIndex:0, stepIndex:0,
+    timeRemaining:ROUTINES[level].exercises[0].duration*60,
+    totalElapsed:0, paused:false, interval:null,
+    stepSecondsLeft:0, stepDuration:0 };
+  document.getElementById('guidedOverlay').classList.add('open');
+  document.getElementById('completeBadge').classList.remove('show');
+  document.getElementById('guidedContent').style.display='';
+  loadGuidedExercise(); startTimer();
+}
+function loadGuidedExercise() {
+  const {level,exerciseIndex} = guidedState;
+  const r=ROUTINES[level], ex=r.exercises[exerciseIndex];
+  guidedState.timeRemaining=ex.duration*60; guidedState.stepIndex=0;
+  guidedState.stepDuration=getStepDuration(ex);
+  guidedState.stepSecondsLeft=guidedState.stepDuration;
+  document.getElementById('guidedExName').textContent=ex.name;
+  document.getElementById('guidedPurpose').textContent=ex.purpose;
+  document.getElementById('guidedBreath').textContent=ex.breath;
+  document.getElementById('guidedExNum').textContent=`${exerciseIndex+1} / ${r.exercises.length}`;
+  // pose image
+  const poseWrap=document.getElementById('guidedPoseWrap');
+  const illusts=ILLUSTRATIONS[level];
+  if(illusts && illusts[exerciseIndex] && illusts[exerciseIndex][0]) {
+    poseWrap.innerHTML=illusts[exerciseIndex][0].svg;
+  } else {
+    poseWrap.innerHTML=`<div class="guided-pose-placeholder">🧘</div>`;
+  }
+  updateGuidedStep(true); updateGuidedProgressBar(); highlightTimelineItem(); updateSidebarProgress();
+  document.getElementById('prevExBtn').disabled=exerciseIndex===0;
+  document.getElementById('nextExBtn').disabled=exerciseIndex===r.exercises.length-1;
+  resetStepBar();
+}
+function resetStepBar() {
+  const bar=document.getElementById('stepAutoBar');
+  if(bar){ bar.style.transition='none'; bar.style.width='0%'; setTimeout(()=>{ bar.style.transition='width 1s linear'; },50); }
+}
+function updateStepBar() {
+  const bar=document.getElementById('stepAutoBar');
+  if(!bar) return;
+  const pct=Math.max(0,Math.min(100,((guidedState.stepDuration-guidedState.stepSecondsLeft)/guidedState.stepDuration)*100));
+  bar.style.width=pct+'%';
+}
+function updateGuidedStep(announce) {
+  const ex=ROUTINES[guidedState.level].exercises[guidedState.exerciseIndex];
+  const stepTxt=ex.steps[guidedState.stepIndex];
+  document.getElementById('guidedStep').textContent=stepTxt;
+  document.getElementById('prevStep').disabled=guidedState.stepIndex===0;
+  document.getElementById('nextStep').disabled=guidedState.stepIndex===ex.steps.length-1;
+  // reset step countdown
+  guidedState.stepSecondsLeft=guidedState.stepDuration;
+  resetStepBar();
+  if(announce!==false) ttsSpeak(stepTxt);
+}
+function updateGuidedProgressBar() {
+  const {level,exerciseIndex} = guidedState;
+  const r=ROUTINES[level];
+  const totalSecs=r.exercises.reduce((a,e)=>a+e.duration*60,0);
+  const pct=Math.min(100,(guidedState.totalElapsed/totalSecs)*100);
+  document.getElementById('guidedProgressBar').style.width=pct+'%';
+  const m=Math.floor(guidedState.totalElapsed/60), s=guidedState.totalElapsed%60;
+  document.getElementById('guidedElapsed').textContent=`${m}:${String(s).padStart(2,'0')}`;
+}
+function updateTimerDisplay() {
+  const m=Math.floor(guidedState.timeRemaining/60), s=guidedState.timeRemaining%60;
+  document.getElementById('timerDisplay').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function startTimer() {
+  clearInterval(guidedState.interval);
+  guidedState.interval=setInterval(()=>{
+    if(guidedState.paused) return;
+    guidedState.timeRemaining--; guidedState.totalElapsed++;
+    // step auto-advance
+    guidedState.stepSecondsLeft--;
+    updateStepBar();
+    if(guidedState.stepSecondsLeft<=0) {
+      const ex=ROUTINES[guidedState.level].exercises[guidedState.exerciseIndex];
+      if(guidedState.stepIndex<ex.steps.length-1){ guidedState.stepIndex++; updateGuidedStep(); }
+      else { guidedState.stepSecondsLeft=guidedState.stepDuration; resetStepBar(); } // hold last step
+    }
+    updateTimerDisplay(); updateGuidedProgressBar();
+    if(guidedState.timeRemaining<=0) advanceExercise();
+  },1000);
+}
+function advanceExercise() {
+  const {level,exerciseIndex}=guidedState, r=ROUTINES[level];
+  ttsStop();
+  if(exerciseIndex<r.exercises.length-1){ guidedState.exerciseIndex++; loadGuidedExercise(); updateTimerDisplay(); }
+  else { clearInterval(guidedState.interval); document.getElementById('completeBadge').classList.add('show'); document.getElementById('guidedContent').style.display='none'; clearTimelineHighlight(); updateSidebarProgress(true); ttsSpeak('Session complete! Well done. Take a moment to rest and integrate.'); }
+}
+function highlightTimelineItem() {
+  document.querySelectorAll('.timeline-item').forEach(el=>el.classList.remove('active-exercise'));
+  const el=document.getElementById(`ti-${guidedState.level}-${guidedState.exerciseIndex}`);
+  if(el){ el.classList.add('active-exercise'); el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+}
+function clearTimelineHighlight() { document.querySelectorAll('.timeline-item').forEach(el=>el.classList.remove('active-exercise')); }
+function updateSidebarProgress(complete) {
+  document.querySelectorAll('.progress-item').forEach((item,i)=>{
+    item.classList.remove('current','done');
+    if(complete){ item.classList.add('done'); return; }
+    if(i<guidedState.exerciseIndex) item.classList.add('done');
+    else if(i===guidedState.exerciseIndex) item.classList.add('current');
+  });
+}
+function closeGuided() { clearInterval(guidedState.interval); ttsStop(); guidedState.active=false; document.getElementById('guidedOverlay').classList.remove('open'); clearTimelineHighlight(); document.querySelectorAll('.progress-item').forEach(el=>el.classList.remove('current','done')); }
+
+document.getElementById('pauseResumeBtn').addEventListener('click',()=>{
+  guidedState.paused=!guidedState.paused;
+  document.getElementById('pauseResumeBtn').textContent=guidedState.paused?'Resume':'Pause';
+  if(guidedState.paused) ttsStop(); else { const ex=ROUTINES[guidedState.level].exercises[guidedState.exerciseIndex]; ttsSpeak(ex.steps[guidedState.stepIndex]); }
+});
+document.getElementById('prevStep').addEventListener('click',()=>{
+  if(guidedState.stepIndex>0){ guidedState.stepIndex--; updateGuidedStep(); }
+});
+document.getElementById('nextStep').addEventListener('click',()=>{
+  const ex=ROUTINES[guidedState.level].exercises[guidedState.exerciseIndex];
+  if(guidedState.stepIndex<ex.steps.length-1){ guidedState.stepIndex++; updateGuidedStep(); }
+});
+document.getElementById('ttsBtn').addEventListener('click',()=>{
+  const ex=ROUTINES[guidedState.level].exercises[guidedState.exerciseIndex];
+  ttsSpeak(ex.steps[guidedState.stepIndex]);
+});
+document.getElementById('prevExBtn').addEventListener('click',()=>{
+  if(guidedState.exerciseIndex>0){ ttsStop(); const prev=ROUTINES[guidedState.level].exercises.slice(0,guidedState.exerciseIndex); guidedState.totalElapsed=prev.reduce((a,e)=>a+e.duration*60,0); guidedState.exerciseIndex--; loadGuidedExercise(); updateTimerDisplay(); }
+});
+document.getElementById('nextExBtn').addEventListener('click',()=>{
+  const r=ROUTINES[guidedState.level]; ttsStop();
+  if(guidedState.exerciseIndex<r.exercises.length-1){ guidedState.totalElapsed+=guidedState.timeRemaining; guidedState.exerciseIndex++; loadGuidedExercise(); updateTimerDisplay(); }
+});
+document.getElementById('guidedClose').addEventListener('click',closeGuided);
+document.getElementById('closeGuidedBtn').addEventListener('click',closeGuided);
+document.getElementById('guidedOverlay').addEventListener('click',e=>{ if(e.target===document.getElementById('guidedOverlay')) closeGuided(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&guidedState.active) closeGuided(); });
+
+// INIT
+renderAll(); initTabs(); updateSidebar();
+</script>
+</body>
+</html>
