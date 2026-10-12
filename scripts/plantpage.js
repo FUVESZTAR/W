@@ -138,9 +138,9 @@ async function populate() {
     if (targetNr) {
       localStorage.setItem("selectedPlantNr", targetNr);
       console.log('encodeURIComponent(targetNr): ', encodeURIComponent(targetNr));
-      window.location.href = `P.?id=${encodeURIComponent(targetNr)}`;
+      window.location.href = `../P.?id=${encodeURIComponent(targetNr)}`;
     } else {
-      window.location.href = "P.";
+      window.location.href = "../P.";
     }
   });
 
