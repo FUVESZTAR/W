@@ -1389,7 +1389,7 @@ const msg = k  => t('nfcall.' + k);
  * to everyone -> ROTATE it and validate/rate-limit in Apps Script
  * (e.g. origin checks, allow-listed fields, length limits).            */
 const CFG = {
-  WRITER_URL: 'https://script.google.com/macros/s/AKfycbysWB68AM6TKlobnA3MLR_18LpJjGVkHolPf3G_WNziV3r93_fztJIenTVSoll-Kmtp/exec',
+  WRITER_URL: 'https://script.google.com/macros/s/AKfycbw3o3mdp8WRj-qbixqw679jr23ilJVAhD_4k669R6Qofa_ZJ5LUPj-KdXCHfff0yg0O/exec',
   SECRET:     '159753g9d5rt4Ht4eg7e5z4d6szo89fsef',
   SHEET_ID:   '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY',
   SHEET:      'plant_list',
@@ -1713,6 +1713,7 @@ $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none'
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
 
   /* ── Save to Google Sheet ── */
+  /* ── Save to Google Sheet ── */
   B('save-nfc').addEventListener('click', async () => {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
     renderPreview();
@@ -1721,7 +1722,7 @@ $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none'
       key: CFG.SECRET, nfcId: F.nfcId.value, plantId: F.plantId.value, nfcTyp: F.type.value, datum: F.date.value,
       nfcCreated: today,
       nfcPos: gpsToggle.classList.contains('on') ? F.gps.value : '',          // was: placeholder text
-      nfcData: el('nfc-preview').textContent, link: el('link-preview').textContent, other: F.other.value,
+      nfcData: el('nfc-preview').textContent, other: F.other.value,   // link is no longer sent or stored
       serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,           // was: placeholder text
     };
     B('save-nfc').disabled = true;
@@ -1733,7 +1734,7 @@ $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none'
     } catch (e) { showError(err, msg('err_save_fail') + e.message); }
     finally { B('save-nfc').disabled = false; }
   });
-
+  
   /* ── Write + verify tag (tap 1 = write, tap 2 = verify) ── */
   B('nfc-write-button').addEventListener('click', async () => {
     renderPreview();
