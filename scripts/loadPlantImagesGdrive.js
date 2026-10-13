@@ -14,7 +14,7 @@
 
 //const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbxxwaaITsAj_KN-d5RPZFBlfjLPtAA9f7Vwar7xTHPac4o_GXQEE_woiiv8E0V3q4Ok/exec';
 //const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycby86lOgUyAmkimMc07nJ5Su7FMywSMJBbBO6t6viZKo7vChkQyiIefY3Ojw6Hxh1UE/exec';
-const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbxOPArUr84SrVIeMG7M4TOZwuj06TkJAX6OWI7uZuy77zbXS0FTBOoBz95w2lh-IOda/exec';
+const APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbyhIFlR4qExdEjORTp814S7IRFyk9cIkFsVBaiL9cyBCHkB_8Ww9E1D0mo4VPDtox_9/exec';
 // State
 let _carouselImages  = [];   // [{src, name}]
 let _carouselIndex   = 0;
@@ -212,7 +212,7 @@ export async function loadPlantImage(plantLatinName, plantVariety, isPicture) {
 
 function normalizeName(value) {
   return String(value || '')
-    .normalize('NFD')                  // Normalize Unicode
+    .normalize('NFC')                  // Normalize Unicode NFD  NFC
     .toLowerCase()
     .replace(/\.[^/.]+$/, '')
     .replace(/[\u0300-\u036f]/g, '')  // Remove accents
