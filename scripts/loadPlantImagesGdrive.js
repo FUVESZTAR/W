@@ -41,8 +41,8 @@ export async function loadPlantImage(plantLatinName, plantVariety, isPicture) {
     (plantVariety || '')
       .trim()
       .replace(/\s+/g, '_');
-  //console.log('plantVariety: ',plantVariety);
-  //console.log('searchVariety: ',searchVariety);
+  console.log('plantVariety: ',plantVariety);
+  console.log('searchVariety: ',searchVariety);
 
   const imgText =
     `${searchLatin}_${searchVariety}`;
@@ -50,10 +50,7 @@ export async function loadPlantImage(plantLatinName, plantVariety, isPicture) {
 
   const searchId =
     normalizeName(imgText);
-   //console.log('searchId: ',searchId);
-
-  console.log( 'Search image:', searchId);
-
+  console.log('searchId: ',searchId);
 
   // Reset carousel
 
@@ -78,8 +75,8 @@ export async function loadPlantImage(plantLatinName, plantVariety, isPicture) {
       */
     const url =
       `${APPS_SCRIPT_URL}?search=${encodeURIComponent(searchId)}`;
-    let t3 = encodeURIComponent(imgText);
-    console.log( 'encodeURIComponent Search image:', t3);
+    //let t3 = encodeURIComponent(imgText);
+    //console.log( 'encodeURIComponent Search image:', t3);
     console.log('Requesting:',url);
 
 
