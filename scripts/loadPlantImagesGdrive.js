@@ -71,9 +71,13 @@ export async function loadPlantImage(plantLatinName, plantVariety,isPicture) {
   if(isPicture == "Y"){ // isPicture: is there picture in drive?
   try {
 
+    /*
     const url =
       `${APPS_SCRIPT_URL}?search=${encodeURIComponent(searchId)}`;
-    let t3 = encodeURIComponent(searchId);
+      */
+    const url =
+      `${APPS_SCRIPT_URL}?search=${encodeURIComponent(imgText)}`;
+    let t3 = encodeURIComponent(imgText);
     console.log( 'encodeURIComponent Search image:', t3);
     console.log('Requesting:',url);
 
