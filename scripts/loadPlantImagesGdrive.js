@@ -24,7 +24,7 @@ function driveImageUrl(fileId, size = 'w1000') {
 }
 
 
-export async function loadPlantImage(plantLatinName, plantVariety,isPicture) {
+export async function loadPlantImage(plantLatinName, plantVariety, isPicture) {
 
   // ----------------------------------------------------------
   // Build search name
