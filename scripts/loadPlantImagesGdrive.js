@@ -75,7 +75,7 @@ export async function loadPlantImage(plantLatinName, plantVariety,isPicture) {
       `${APPS_SCRIPT_URL}?search=${encodeURIComponent(searchId)}`;
 
 
-    //console.log('Requesting:',url);
+    console.log('Requesting:',url);
 
 
     const response =
