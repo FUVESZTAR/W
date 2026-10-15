@@ -1695,6 +1695,8 @@ function buildNfc() {
   return KEYS.map(k => isIncluded(k) ? F[k].value : '').join('/') + '/';
 }
 
+const buildLink = () => `${location.origin}/W/P.html` + (F.plantId.value ? `?id=${encodeURIComponent(F.plantId.value)}` : '');
+
 function renderPreview() {
   const nfc = buildNfc(), link = buildLink();
   const useNfc = incNfc.checked, useLink = incLink.checked;
