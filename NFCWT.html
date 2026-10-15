@@ -696,8 +696,19 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 
   <div class="col">   <!-- column 2 -->  
     <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
-   <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-
+  <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
+    <div class="panel open" id="gen-panel-review">
+      <div class="panel-header" onclick="togglePanel('gen-panel-review')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📋</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.data_card_title">Data</div>
+            <div class="panel-subtitle" data-i18n="nfcall.data_card_sub">Data stored in NFC</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
   <div class="form-group">
     <label for="gen-nfcId" data-i18n="nfcall.nfcId">NFC ID</label>
     <div class="field-row">
@@ -705,7 +716,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="number" id="gen-nfcId" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-plantId" data-i18n="nfcall.plantId">Plant ID</label>
     <div class="field-row">
@@ -713,7 +723,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-plantId" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-plantName" data-i18n="nfcall.lbl_plant">Plant Name</label>
     <div class="field-row">
@@ -721,7 +730,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-plantName" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-plantVariety" data-i18n="nfcall.lbl_variety">Plant Variety</label>
     <div class="field-row">
@@ -729,7 +737,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-plantVariety" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-latin-name" data-i18n="nfcall.lbl_latin">Latin Name</label>
     <div class="field-row">
@@ -737,7 +744,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-latin-name" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-nfcTyp-rw" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
     <div class="field-row">
@@ -745,7 +751,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-nfcTyp-rw" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-datum-rw" data-i18n="nfcall.lbl_datum">Date</label>
     <div class="field-row">
@@ -753,7 +758,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-datum-rw" placeholder="e.g., 2026-03-12" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-gps-rw" data-i18n="nfcall.gps_card_title">GPS Data</label>
     <div class="field-row">
@@ -761,7 +765,6 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-gps-rw" />
     </div>
   </div>
-
   <div class="form-group">
     <label for="gen-egyeb-rw" data-i18n="nfcall.oth_card_title">Other Info</label>
     <div class="field-row">
@@ -769,8 +772,8 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-egyeb-rw" />
     </div>
   </div>
-
 </div></div></div>
+    </div>
       </div><!-- column 2 end-->  
 
   <div class="col">   <!-- column 3 -->  
