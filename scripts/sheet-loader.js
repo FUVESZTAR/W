@@ -294,7 +294,7 @@ export async function loadActivePagePlants() {
   // You must use column letters, not header names, in the tq query
   // A=Plant_ID, B=LatinName, C=Name_Variety, D=Name_HU, E=Name_EN, F=Genus, G=Family, CQ=Active_in_page
   // Adjust the letters if your columns are in a different order!
-  const tq = `select A, B, C, D, E, F, G where CQ = 'Y'`;
+  const tq = `select A, B, C, D, E, F, G where K = 'Y'`;
 
   const gvizResponse = await fetchSheetResponseQr(tq);
   const { cols, rows } = gvizResponse.table;
