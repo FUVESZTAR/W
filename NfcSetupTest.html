@@ -1669,7 +1669,7 @@ const allChecks = () => [...Object.values(INC), incNfc, incLink];
       });
     }
     varSearch.refresh();
-    const sp = [...varSel.options].find(o => o.textContent === 'species');
+    const sp = [...varSel.options].find(o => o.textContent === 'sp');
     if (sp) { varSel.value = sp.value; varSel.dispatchEvent(new Event('change')); }
   }
 
