@@ -1652,6 +1652,7 @@ function buildNfc() {
 const buildLink = () => `${location.origin}/W/P.html` + (F.plantId.value ? `?id=${encodeURIComponent(F.plantId.value)}` : '');
 
 function renderPreview() {
+  if (!hasSelection()) return showError(err, msg('err_no_plant'));     // validate FIRST
   const nfc = buildNfc(), link = buildLink();
   const useNfc = incNfc.checked, useLink = incLink.checked;
 
@@ -1719,8 +1720,6 @@ function renderPreview() {
      Custom plants/varieties have no row, so the note is empty. */
      const row = plants.find(p => String(p.Plant_ID) === varSel.value);
      otherIn.value = row?.NFC_notes || '';
-
-  syncFromSelection(); renderPreview();
     syncFromSelection(); renderPreview();
   });
 
