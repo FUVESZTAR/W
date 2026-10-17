@@ -1649,7 +1649,7 @@ const allChecks = () => [...Object.values(INC), incNfc, incLink];
     // custom plant/variety get the next free Plant_ID (previously loaded but never used)
     F.plantId.value = (customPlant || customVar) ? (nextPlantId ?? '') : (row?.Plant_ID ?? '');
     F.type.value = typeIn.value; F.date.value = dateIn.value;
-    F.other.value = otherIn.value; F.gps.value = gpsPacket; MENT.comment.value = comment.value;
+    F.other.value = otherIn.value; F.gps.value = gpsPacket; MENT.comment.value = commentIn.value;
   }
 
   /* A field is really included only if its checkbox is ticked AND, for GPS and
