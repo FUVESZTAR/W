@@ -1821,7 +1821,7 @@ function renderPreview() {
       nfcData: el('nfc-preview').textContent, 
       other: F.other.value,   
       serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,           // was: placeholder text
-      serialNum: F.comment.value,          
+      serialNum: MENT.comment.value,          
     };
     B('save-nfc').disabled = true;
     try {
