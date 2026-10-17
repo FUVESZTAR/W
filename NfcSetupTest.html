@@ -643,16 +643,21 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="form-group" id="gen-oth_card_body">
-          <label for="gen-egyeb" data-i18n="nfcall.lbl_other_notes">Notes</label>
-          <textarea id="gen-egyeb" data-i18n-placeholder="nfcall.ph_other_notes" placeholder="Additional information"></textarea>
+        <div class="form-group" id="gen-other_card_body">
+          <label for="gen-other" data-i18n="nfcall.lbl_other_notes">Notes on NFC</label>
+          <textarea id="gen-other" data-i18n-placeholder="nfcall.ph_other_notes" placeholder="Additional information on NFC tag"></textarea>
+        </div>
+      </div></div></div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div class="form-group" id="gen-comment_card_body">
+          <label for="gen-comment" data-i18n="nfcall.lbl_comment_notes">Notes only in Save</label>
+          <textarea id="gen-comment" data-i18n-placeholder="nfcall.ph_comment_notes" placeholder="Additional information only in Save"></textarea>
         </div>
       </div></div></div>
     </div>
   </div><!-- column 1 end-->  
 
   <div class="col">   <!-- column 2 -->  
-    <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
   <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
     <div class="panel open" id="gen-panel-review">
       <div class="panel-header" onclick="togglePanel('gen-panel-review')">
@@ -729,6 +734,12 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <input type="text" id="gen-other-rw" />
     </div>
   </div>
+    <div class="form-group">
+    <label for="gen-comment-rw" data-i18n="nfcall.oth_card_title">Comment Info</label>
+    <div class="field-row">
+      <input type="text" id="gen-comment-rw" />
+    </div>
+  </div>      
 </div></div></div>
     </div>
       </div><!-- column 2 end-->  
@@ -1020,9 +1031,9 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="form-group" id="read-oth_card_body">
-          <label for="read-egyeb" data-i18n="nfcall.lbl_other_notes">Notes</label>
-          <textarea id="read-egyeb"></textarea>
+        <div class="form-group" id="read-other_card_body">
+          <label for="read-other" data-i18n="nfcall.lbl_other_notes">Notes</label>
+          <textarea id="read-other"></textarea>
         </div>
       </div></div></div>
     </div>
@@ -1556,9 +1567,12 @@ async function initGenerator() {
     nfcId: el('nfcId'), plantId: el('plantId'), name: el('plantName'), variety: el('plantVariety'),
     latin: el('latin-name'), type: el('nfcTyp-rw'), date: el('datum-rw'), gps: el('gps-rw'), other: el('other-rw'),
   };
+  const N = { // review fields = source of truth
+    comment: el('comment'),
+  };
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
-  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('egyeb');
+  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other');
   const err = el('error-message'), serialEl = el('serialNr');
   const B = n => el(n);
   /* ── NEW: "include" checkboxes ───────────────────────────────────────
@@ -1733,8 +1747,8 @@ function renderPreview() {
     const L = k => localStorage.getItem(k) || '';
     F.plantId.value = L('StPlantID'); F.name.value = L('StPlantName'); F.variety.value = L('StVariety');
     F.latin.value = L('StLatinName'); F.type.value = L('StNFCType'); F.date.value = L('StDate');
-    F.gps.value = L('StGPSCPacket'); F.other.value = L('StEgyebInfo');
-    ['StCopyState','StPlantName','StVariety','StPlantID','StLatinName','StDate','StNFCType','StGPSCPacket','StEgyebInfo']
+    F.gps.value = L('StGPSCPacket'); F.other.value = L('StOtherInfo');
+    ['StCopyState','StPlantName','StVariety','StPlantID','StLatinName','StDate','StNFCType','StGPSCPacket','StOtherInfo']
       .forEach(k => localStorage.removeItem(k));                 // one-shot hand-over
     renderPreview(); setReady(true); showError(err, msg('err_gen_dupl_nfc_ok'), 'success');
   });
@@ -1803,6 +1817,7 @@ $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none'
       nfcData: el('nfc-preview').textContent, 
       other: F.other.value,   
       serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,           // was: placeholder text
+      serialNum: F.comment.value,          
     };
     B('save-nfc').disabled = true;
     try {
@@ -1932,7 +1947,7 @@ function initReader() {
   }
 
   function clearForm() {
-    ['nfcId', 'plantId', 'name-plant', 'name-variety', 'latin-name', 'nfcTyp', 'datum', 'egyeb'].forEach(n => r(n).value = '');
+    ['nfcId', 'plantId', 'name-plant', 'name-variety', 'latin-name', 'nfcTyp', 'datum', 'other'].forEach(n => r(n).value = '');
     r('serialNr').textContent = msg('ph_serialnr_preview'); r('nfc-preview').textContent = msg('ph_nfc_preview');
     r('link-preview').textContent = msg('ph_link_preview'); r('pic-preview').textContent = msg('ph_pic_preview');
     ['nfc-size', 'link-size', 'total-size', 'posPacketSize'].forEach(n => r(n).textContent = '0 B');
@@ -1949,7 +1964,7 @@ function initReader() {
     r('nfc-preview').textContent = text; r('link-preview').textContent = link;
     r('nfcId').value = d.nfcId; r('plantId').value = d.plantId; r('name-plant').value = d.name;
     r('name-variety').value = d.variety; r('latin-name').value = d.latin; r('nfcTyp').value = d.type;
-    r('datum').value = d.date; r('egyeb').value = d.other;
+    r('datum').value = d.date; r('other').value = d.other;
     r('pic-preview').textContent = picName(d.latin, d.variety);
     r('posPacketOut').textContent = d.gps;
     if (d.gps) {
@@ -1979,7 +1994,7 @@ function initReader() {
     const S = (k, v) => localStorage.setItem(k, v);
     S('StCopyState', 'Y'); S('StPlantName', r('name-plant').value); S('StVariety', r('name-variety').value);
     S('StPlantID', r('plantId').value); S('StLatinName', r('latin-name').value); S('StDate', r('datum').value);
-    S('StNFCType', r('nfcTyp').value); S('StGPSCPacket', r('posPacketOut').textContent); S('StEgyebInfo', r('egyeb').value);
+    S('StNFCType', r('nfcTyp').value); S('StGPSCPacket', r('posPacketOut').textContent); S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
   r('gen-nfc').addEventListener('click',  () => switchTab('gen'));
