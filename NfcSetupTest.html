@@ -1567,6 +1567,7 @@ async function initGenerator() {
  * latin, type, date, gps, other – the same keys as the F object.     */
 const INC = {};
 KEYS.forEach(k => INC[k] = el('inc-' + k));
+console.log ('inc: ',INC[k]);
 const incNfc  = el('inc-nfcData');   // write the text record to the tag?
 const incLink = el('inc-link');      // write the URL record to the tag?
 const allChecks = () => [...Object.values(INC), incNfc, incLink];
@@ -1715,9 +1716,9 @@ function renderPreview() {
     const custom = varSel.value === '__custom__';
     varCustom.style.display = custom ? 'block' : 'none';
     if (custom && nextPlantId == null) nextPlantId = (await fetchMaxPlantId(plants)) + 1;
+    // prefill 
     typeIn.value = 'n'; dateIn.value = today;
-      /* prefill Notes from column F (NFC_notes) of the selected row.
-     Custom plants/varieties have no row, so the note is empty. */
+      // prefill Notes from column F (NFC_notes)
      const row = plants.find(p => String(p.Plant_ID) === varSel.value);
      otherIn.value = row?.NFC_notes || '';
     syncFromSelection(); renderPreview();
