@@ -1638,7 +1638,7 @@ const allChecks = () => [...Object.values(INC), incNfc, incLink];
   /* A field is really included only if its checkbox is ticked AND, for GPS and
  * Other, the panel's On/Off toggle is also On. */
 function isIncluded(k) {
-  if (!INC[k].checked) return false;
+  return INC[k] ? INC[k].checked : true;   // missing checkbox = included
 }
 
 /* Format: nfcId/plantId/name/variety/latin/type/date/gps/other/
@@ -1653,7 +1653,6 @@ function buildNfc() {
 const buildLink = () => `${location.origin}/W/P.html` + (F.plantId.value ? `?id=${encodeURIComponent(F.plantId.value)}` : '');
 
 function renderPreview() {
-  if (!hasSelection()) return showError(err, msg('err_no_plant'));     // validate FIRST
   const nfc = buildNfc(), link = buildLink();
   const useNfc = incNfc.checked, useLink = incLink.checked;
 
@@ -1671,7 +1670,7 @@ function renderPreview() {
   /* Visual feedback: dim excluded previews and fields */
   el('nfc-preview').classList.toggle('excluded', !useNfc);
   el('link-preview').classList.toggle('excluded', !useLink);
-  KEYS.forEach(k => INC[k].closest('.field-row').classList.toggle('off', !isIncluded(k)));
+  KEYS.forEach(k => INC[k]?.closest('.field-row')?.classList.toggle('off', !isIncluded(k)));
   setReady(F.name.value.trim() !== '');
 }
   const hasSelection = () => plantSel.value && (plantSel.value !== '__custom__' || plantCustom.value.trim());
