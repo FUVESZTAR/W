@@ -1567,7 +1567,7 @@ async function initGenerator() {
  * latin, type, date, gps, other – the same keys as the F object.     */
 const INC = {};
 KEYS.forEach(k => INC[k] = el('inc-' + k));
-console.log ('inc: ',INC[k]);
+
 const incNfc  = el('inc-nfcData');   // write the text record to the tag?
 const incLink = el('inc-link');      // write the URL record to the tag?
 const allChecks = () => [...Object.values(INC), incNfc, incLink];
