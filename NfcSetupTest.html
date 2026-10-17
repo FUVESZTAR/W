@@ -1574,12 +1574,12 @@ async function initGenerator() {
     nfcId: el('nfcId'), plantId: el('plantId'), name: el('plantName'), variety: el('plantVariety'),
     latin: el('latin-name'), type: el('nfcTyp-rw'), date: el('datum-rw'), gps: el('gps-rw'), other: el('other-rw'),
   };
-  const N = { // review fields = source of truth
+  const MENT = { // review fields only for Save = source of truth
     comment: el('comment'),
   };
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
-  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other');
+  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'); commentIn = el('comment');
   const err = el('error-message'), serialEl = el('serialNr');
   const B = n => el(n);
   /* ── NEW: "include" checkboxes ───────────────────────────────────────
@@ -1653,7 +1653,7 @@ const allChecks = () => [...Object.values(INC), incNfc, incLink];
     // custom plant/variety get the next free Plant_ID (previously loaded but never used)
     F.plantId.value = (customPlant || customVar) ? (nextPlantId ?? '') : (row?.Plant_ID ?? '');
     F.type.value = typeIn.value; F.date.value = dateIn.value;
-    F.other.value = otherIn.value; F.gps.value = gpsPacket;
+    F.other.value = otherIn.value; F.gps.value = gpsPacket; MENT.comment.value = comment.value;
   }
 
   /* A field is really included only if its checkbox is ticked AND, for GPS and
@@ -1702,7 +1702,7 @@ function renderPreview() {
   /* Review fields are editable -> typing there updates the preview too. */
   Object.values(F).forEach(i => i.addEventListener('input', debounce(renderPreview, 150)));
   allChecks().forEach(c => c.addEventListener('change', renderPreview));
-  [plantCustom, varCustom, typeIn, dateIn, otherIn].forEach(i => { i.addEventListener('input', liveUpdate); i.addEventListener('change', liveUpdate); });
+  [plantCustom, varCustom, typeIn, dateIn, otherIn, commentIn].forEach(i => { i.addEventListener('input', liveUpdate); i.addEventListener('change', liveUpdate); });
 
   /* ── Initial load: plants + next NFC id in parallel ── */
   showError(err, '');
@@ -1724,7 +1724,7 @@ function renderPreview() {
 
   typeIn.value = 'n'; dateIn.value = today;
   otherIn.value = '';            // MOVED UP: reset first, the variety handler may refill it below
-
+  commentIn.value = ''; 
   if (v === '__custom__') {
     nextPlantId = (await fetchMaxPlantId(plants)) + 1;
     plantCustom.value = ''; plantCustom.focus(); renderVarieties('');
@@ -1761,7 +1761,7 @@ function renderPreview() {
   });
   function clearForm() {
     Object.values(F).forEach(i => i.value = '');
-    plantCustom.value = varCustom.value = otherIn.value = '';
+    plantCustom.value = varCustom.value = otherIn.value = commentIn.value = '';
     plantCustom.style.display = varCustom.style.display = 'none';
     varSel.replaceChildren(new Option(msg('gen_opt_variety'), ''));
     typeIn.value = 'n'; dateIn.value = today; gpsPacket = '';
