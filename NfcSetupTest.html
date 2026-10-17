@@ -1803,14 +1803,14 @@ function renderPreview() {
     showError(err, 'QR code failed: ' + (e.message || e));
   }
 });
-  $('qrClose').('click', () => $('qrPopup').style.display = 'none');
+  $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none');
   
-  B('back-button').('click', () => location.href = 'Homepage.html');
-  B('list-nfc').('click',   () => location.href = 'pages/NfcListPage.html');
-  B('read-nfc').('click',   () => switchTab('read'));
+  B('back-button').addEventListener('click', () => location.href = 'Homepage.html');
+  B('list-nfc').addEventListener('click',   () => location.href = 'pages/NfcListPage.html');
+  B('read-nfc').addEventListener('click',   () => switchTab('read'));
 
   /* ── Save to Google Sheet ── */
-  B('save-nfc').('click', async () => {
+  B('save-nfc').addEventListener('click', async () => {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
     renderPreview();
     const serial = serialEl.textContent;
@@ -1834,7 +1834,7 @@ function renderPreview() {
   });
   
   /* ── Write + verify tag (tap 1 = write, tap 2 = verify) ── */
-  B('nfc-write-button').('click', async () => {
+  B('nfc-write-button').addEventListener('click', async () => {
     //await newId();            // NEW: fresh ID right before writing to avoid old ID when more users use it
     renderPreview();
     const text = el('nfc-preview').textContent.trim(), link = el('link-preview').textContent.trim();
@@ -1898,7 +1898,7 @@ if (!writeNfc && !writeLink) return showError(err, msg('err_nothing_selected'));
     clearInterval(tick); watchId = tick = null;
     el('gpsStartBtn').style.display = 'block'; el('gpsStopBtn').style.display = 'none'; el('liveDot').style.display = 'none';
   }
-  el('gpsStartBtn').('click', () => {
+  el('gpsStartBtn').addEventListener('click', () => {
     if (!navigator.geolocation) return setGps('Geolocation not supported', 'red');
     stopWatch();
     el('gpsStartBtn').style.display = 'none'; el('gpsStopBtn').style.display = 'block'; el('liveDot').style.display = 'inline';
@@ -1912,7 +1912,7 @@ if (!writeNfc && !writeLink) return showError(err, msg('err_nothing_selected'));
     }, e => setGps('GPS Error: ' + e.message, 'red'), { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
     tick = setInterval(() => el('updateTimer').textContent = `Last improvement: ${Math.floor((Date.now() - lastFix) / 1000)}s ago`, 1000);
   });
-  el('gpsStopBtn').('click', () => {
+  el('gpsStopBtn').addEventListener('click', () => {
     stopWatch();
     const b64 = packGps(fix);
     gpsPacket = `L|${b64}|L`;
