@@ -1803,7 +1803,7 @@ function renderPreview() {
     showError(err, 'QR code failed: ' + (e.message || e));
   }
 });
-$('qrClose').('click', () => $('qrPopup').style.display = 'none');
+  $('qrClose').('click', () => $('qrPopup').style.display = 'none');
   
   B('back-button').('click', () => location.href = 'Homepage.html');
   B('list-nfc').('click',   () => location.href = 'pages/NfcListPage.html');
