@@ -1921,7 +1921,7 @@ if (!writeNfc && !writeLink) return showError(err, msg('err_nothing_selected'));
     F.gps.value = gpsPacket; renderPreview();
   });
   // Save battery: stop GPS when the tab is hidden
-  document.('visibilitychange', () => { if (document.hidden && watchId != null) { stopWatch(); setGps('Tracking paused (tab hidden).', '#333'); } });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && watchId != null) { stopWatch(); setGps('Tracking paused (tab hidden).', '#333'); } });
 
 }
 
