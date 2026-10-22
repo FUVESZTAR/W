@@ -475,6 +475,41 @@ button:disabled { opacity:.55; cursor:not-allowed; }
         padding: 10px 25px;
         cursor: pointer;
     }
+    
+    /* ── Toggle switch (on/off) ─────────────────────────────────── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .8rem;
+  color: var(--muted);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.toggle-sw {
+  width: 52px; height: 28px;
+  background: #c8d8c8;
+  border-radius: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background .3s;
+  flex-shrink: 0;
+  position: relative;
+}
+.toggle-sw.on { background: var(--green); }
+.toggle-sw::after {
+  content:'';
+  position:absolute;
+  top:3px; left:3px;
+  width:22px; height:22px;
+  border-radius:50%;
+  background:#fff;
+  transition:transform .3s;
+  box-shadow: 0 1px 5px rgba(0,0,0,.22);
+}
+.toggle-sw.on::after { transform:translateX(24px); }
+.toggle-label-on { color:var(--green); font-weight:600; }
+    
     /* ── Debug ──────────────────────────────────────────────────────────────── */
 #debug-section {
   margin-top: 24px;
@@ -1147,6 +1182,8 @@ const TRANSLATIONS = {
     "nfcall.gen_btn_nfcread":       "NFC Reader",
     "nfcall.btn_qr":            "NFC QR Code",
     "nfcall.btn_back":          "\u2190 Back",
+    "nfcall.mode_off":          "Off",
+    "nfcall.mode_on":           "On",
     //error gen
     "nfcall.err_gen_no_save":       "Please select a plant and generate NFC data first",
     "nfcall.err_gen_no_config":     "Save is not configured: set SHEET_WRITER_URL in nfcgen_test.js",
@@ -1274,6 +1311,9 @@ const TRANSLATIONS = {
     "nfcall.gen_btn_nfcread":       "NFC Olvas\u00f3",
     "nfcall.btn_qr":            "NFC QR k\u00f3d",
     "nfcall.btn_back":          "\u2190 Vissza",
+    "nfcall.mode_off":          "Off",
+    "nfcall.mode_on":           "On",
+    
     "nfcall.err_no_plant":      "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s \u00e1ll\u00edtsd be az NFC adatokat",
     "nfcall.err_no_nfc":        "Nincs NFC adat a m\u00e1sol\u00e1shoz",
     "nfcall.err_no_link":       "Nincs hivatkoz\u00e1s a m\u00e1sol\u00e1shoz",
