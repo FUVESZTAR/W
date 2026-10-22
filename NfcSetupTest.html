@@ -494,13 +494,14 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     <div class="page-header">
       <div class="page-header-left">
         <div class="page-title">🌿 NFC</div>
-        <div class="page-subtitle" id="page-subtitle-dyn">NFC Generator &amp; Reader</div>
+        <div class="page-subtitle" id="page-subtitle-dyn" data-i18n="nfcall.main_title">NFC Generator &amp; Reader</div>
       </div>
       
     <!-- Tab switcher -->
     <div class="tab-bar">
-      <button class="tab-btn active" data-tab="gen" onclick="switchTab('gen')" type="button">🌱 Generator</button>
-      <button class="tab-btn" data-tab="read" onclick="switchTab('read')" type="button">📖 Reader</button>
+      <button class="tab-btn active" data-tab="gen" data-i18n="nfcall.main_btn_gen" onclick="switchTab('gen')" type="button">🌱 NFC Generator</button>
+      <button class="tab-btn" data-tab="read" data-i18n="nfcall.main_btn_rd" onclick="switchTab('read')" type="button">📖 NFC Reader</button>
+      <button class="tab-btn" data-tab="loc" data-i18n="nfcall.main_btn_loc" onclick="switchTab('loc')" type="button">📍 Location saver</button>
     </div>
 
       
@@ -1066,6 +1067,11 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 const TRANSLATIONS = {
   en: {
     // ── NFC Generator ─────────────────────────────────────────────────────────
+    "nfcall.main_title":     "NFC Generator &amp; Reader",
+    "nfcall.main_btn_gen":     "🌱 NFC Generator",
+    "nfcall.main_btn_gen":     "🌱 NFC Generator",
+    "nfcall.main_btn_rd":     "📖 NFC Reader",
+    "nfcall.main_btn_loc":     "📍 Location saver",
     "nfcall.gen_page_subtitle":     "Generate NFC tags for plants",
     "nfcall.main_card_title":   "Selection",
     "nfcall.main_card_sub":     "Choose a plant and variety.",
@@ -1149,6 +1155,8 @@ const TRANSLATIONS = {
     "nfcall.err_no_nfc":        "No NFC data to copy",
     "nfcall.err_no_link":       "No link to copy",
     "nfcall.err_no_pic":        "No picture name to copy",
+    "nfcall.err_save_start":    "Started to save NFC",
+    "nfcall.err_save_offline":  "NFC is saved offline localy!",
     "nfcall.err_save_fail":     "Failed to save NFC: ",
     "nfcall.err_copy_fail":     "Failed to copy: ",
     "nfcall.err_load_fail":     "Failed to load: ",
@@ -1187,6 +1195,10 @@ const TRANSLATIONS = {
   },
   
   hu: {
+    "nfcall.main_title":     "NFC gener\u00e1l\u00f3 &amp; olvas\u00f3",
+    "nfcall.main_btn_gen":     "🌱 NFC Gener\u00e1l\u00f3",
+    "nfcall.main_btn_rd":     "📖 NFC olvas\u00f3",
+    "nfcall.main_btn_loc":     "📍 Helyjel\u00f6l\u0151",
     "nfcall.gen_page_subtitle":     "NFC cimk\u00e9k gener\u00e1l\u00e1sa n\u00f6v\u00e9nyekhez",
     "nfcall.main_card_title":   "Kiv\u00e1laszt\u00e1s",
     "nfcall.main_card_sub":     "V\u00e1lassz n\u00f6v\u00e9nyt \u00e9s fajt\u00e1t.",
@@ -1262,6 +1274,8 @@ const TRANSLATIONS = {
     "nfcall.err_no_pic":        "Nincs k\u00e9 n\u00e9v a m\u00e1sol\u00e1shoz",
     "nfcall.err_gen_no_save":       "K\u00e9rlek v\u00e1lassz n\u00f6v\u00e9nyt \u00e9s gener\u00e1lj NFC adatot el\u0151bb",
     "nfcall.err_gen_no_config":     "A ment\u00e9s nincs be\u00e1ll\u00edtva: add meg a SHEET_WRITER_URL \u00e9rt\u00e9k\u00e9t",
+    "nfcall.err_save_start":    "Mentés elkezdve",
+    "nfcall.err_save_offline":  "NFC offline mentve az eszk\u00f6zre!",
     "nfcall.err_save_fail":     "Ment\u00e9s sikertelen: ",
     "nfcall.err_copy_fail":     "M\u00e1sol\u00e1s sikertelen: ",
     "nfcall.err_load_fail":    "Bet\u00f6lt\u00e9s sikertelen: ",
@@ -1576,6 +1590,7 @@ async function initGenerator() {
   const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment');
   const err = el('error-message'), serialEl = el('serialNr');
   const B = n => el(n);
+  
   /* ── NEW: "include" checkboxes ───────────────────────────────────────
  * INC[key] = checkbox in front of each review field (ids gen-inc-<key>).
  * KEYS (defined above the generator) = nfcId, plantId, name, variety,
@@ -1588,12 +1603,13 @@ const incLink = el('inc-link');      // write the URL record to the tag?
 const allChecks = () => [...Object.values(INC), incNfc, incLink];
 /* ── NEW: "include" checkboxes ───────────────────────────────────────*/
 
-
-  
   const today = new Date().toISOString().split('T')[0];
 
   let plants = [], gpsPacket = '', nextPlantId = null, watchId = null, tick = null;
   let lastFix = Date.now(), fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
+
+  let offlineSave = false;
+  let pickerOn = false;
 
   /* Buttons that need generated data are disabled until Generate succeeds. */
   const needsData = ['qr-button', 'copy-nfc', 'copy-link', 'copy-pic', 'save-nfc', 'nfc-write-button'];
@@ -1810,6 +1826,8 @@ function renderPreview() {
   /* ── Save to Google Sheet ── */
   B('save-nfc').addEventListener('click', async () => {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
+    showError(err, msg('err_save_start'));
+    //showError(err, msg('err_save_offline'));
     renderPreview();
     const serial = serialEl.textContent;
     const payload = {
@@ -1822,12 +1840,20 @@ function renderPreview() {
       serialNum: MENT.comment.value,          
     };
     B('save-nfc').disabled = true;
-    try {
-      const r = await fetch(CFG.WRITER_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload), redirect: 'follow' });
-      const j = await r.json().catch(() => ({}));
-      if (j.status === 'success') { showError(err, msg('err_save_ok'), 'success'); await newId(); renderPreview(); }
-      else showError(err, msg('err_save_fail') + (j.error || 'Unknown error'));
-    } catch (e) { showError(err, msg('err_save_fail') + e.message); }
+    if (!offlineSave){
+      if (!pickerOn){
+        try {
+          const r = await fetch(CFG.WRITER_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload), redirect: 'follow' });
+          const j = await r.json().catch(() => ({}));
+          if (j.status === 'success') { showError(err, msg('err_save_ok'), 'success'); await newId(); renderPreview(); }
+          else showError(err, msg('err_save_fail') + (j.error || 'Unknown error'));
+        } catch (e) { showError(err, msg('err_save_fail') + e.message); }
+      } else {
+      
+         }
+    } else {
+      
+        } 
     finally { B('save-nfc').disabled = false; }
   });
   
