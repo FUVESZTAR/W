@@ -831,7 +831,14 @@ button:disabled { opacity:.55; cursor:not-allowed; }
          <p class="status-msg" id="gen-error-message"></p>
          <div class="btn-grid cols-2">
           <button id="gen-nfc-write-button" class="btn-primary" type="button" data-i18n="nfcall.gen_btn_write">Write NFC</button>
+        </div>
+        <div class="btn-grid cols-2">
           <button id="gen-save-nfc"       class="btn-primary"   type="button" data-i18n="nfcall.btn_save">Save NFC</button>
+          <div class="toggle-row" onclick="event.stopPropagation()">
+             <span data-i18n="nfcall.mode_off">Online</span>
+             <button class="toggle-sw" id="gen-oth_card_toggle" aria-label="Other info on/off"></button>
+             <span class="toggle-label-on" data-i18n="nfcall.mode_on">Offline</span>
+          </div>
         </div>
         <div class="btn-grid cols-2">
           <button id="gen-dupl-nfc"   class="btn-primary"   type="button" data-i18n="nfcall.btn_dupl_nfc">Duplicate NFC</button> 
