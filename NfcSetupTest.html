@@ -864,14 +864,14 @@ button:disabled { opacity:.55; cursor:not-allowed; }
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
            <!-- Error / status message -->
          <p class="status-msg" id="gen-error-message"></p>
-         <div class="btn-grid cols-2">
+         <div class="btn-grid cols-1">
           <button id="gen-nfc-write-button" class="btn-primary" type="button" data-i18n="nfcall.gen_btn_write">Write NFC</button>
         </div>
         <div class="btn-grid cols-2">
           <button id="gen-save-nfc"       class="btn-primary"   type="button" data-i18n="nfcall.btn_save">Save NFC</button>
-          <div class="toggle-row" onclick="event.stopPropagation()">
+          <div class="toggle-row" onclick="saveMode()">
              <span data-i18n="nfcall.mode_off">Online</span>
-             <button class="toggle-sw" id="gen-oth_card_toggle" aria-label="Other info on/off"></button>
+             <button class="toggle-sw" id="gen-oth_card_toggle" aria-label="Online/Offline"></button>
              <span class="toggle-label-on" data-i18n="nfcall.mode_on">Offline</span>
           </div>
         </div>
@@ -1097,6 +1097,9 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + tab).classList.add('active');
     document.querySelector('.tab-btn[data-tab="' + tab + '"]').classList.add('active');
+  }
+  function saveMode() {
+
   }
   </script>
 
