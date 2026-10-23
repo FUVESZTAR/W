@@ -1975,13 +1975,13 @@ function renderPreview() {
           if (j.status === 'success') { showError(err, msg('err_save_ok'), 'success'); await newId(); renderPreview(); }
           else showError(err, msg('err_save_fail') + (j.error || 'Unknown error'));
         } catch (e) { showError(err, msg('err_save_fail') + e.message); }
+        finally { B('save-nfc').disabled = false; }
       } else {
       
          }
     } else {
       
         } 
-    finally { B('save-nfc').disabled = false; }
   });
   
   /* ── Write + verify tag (tap 1 = write, tap 2 = verify) ── */
