@@ -50,8 +50,10 @@ body{
 .badge{padding:2px 10px;border-radius:10px;font-size:.78rem;background:var(--green-pale2);color:var(--green);font-weight:600}
 
 /* Buttons */
-.btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.btn-grid{display:grid;gap:9px}
 .btn-grid.one{grid-template-columns:1fr}
+.btn-grid.cols-2 { grid-template-columns:1fr 1fr; }
+.btn-grid.cols-1 { grid-template-columns:1fr; }
 button.btn{
   padding:.75rem 1rem;font-size:.92rem;font-family:'DM Sans',sans-serif;border:none;
   border-radius:var(--radius-sm);cursor:pointer;font-weight:500;width:100%;
@@ -123,11 +125,14 @@ button:disabled{opacity:.55;cursor:not-allowed}
         <button type="button" data-mode="single" class="active" data-i18n="mode_single">Single (auto-save)</button>
         <button type="button" data-mode="multi" data-i18n="mode_multi">Multiple (session)</button>
       </div>
-      <div class="btn-grid">
+      <div class="btn-grid cols-2">
         <button id="startBtn" class="btn btn-primary" type="button" data-i18n="btn_start">Start reading</button>
         <button id="stopBtn" class="btn btn-danger" type="button" data-i18n="btn_stop" disabled>Stop reading</button>
       </div>
       <div id="status" class="status-box" data-i18n="st_ready">Ready. Press “Start reading”.</div>
+      <div class="btn-grid cols-1">
+          <button id="backBtn" class="btn-back" type="button" data-i18n="btn_back">← Back</button>
+      </div>
     </div>
   </section>
 
@@ -192,7 +197,7 @@ const TR = {
   en: {
     subtitle:'NFC Serial Saver', scan_title:'Scan', scan_sub:'Choose a mode and read the tags',
     mode_single:'Single (auto-save)', mode_multi:'Multiple (session)',
-    btn_start:'Start reading', btn_stop:'Stop reading', btn_save_all:'Save all', btn_clear:'Clear list',
+    btn_start:'Start reading', btn_stop:'Stop reading', btn_save_all:'Save all', btn_clear:'Clear list',btn_back:'\u2190 Back',
     last_title:'Last tag', last_sub:'Most recently read tag', lbl_serial:'Serial number', lbl_content:'Content',
     list_title:'Session list', list_sub:'Saved together at the end', empty:'No tags read yet.',
     no_content:'(no content)',
@@ -221,7 +226,7 @@ const TR = {
   hu: {
     subtitle:'NFC sorozatsz\u00e1m ment\u0151', scan_title:'Olvas\u00e1s', scan_sub:'V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket',
     mode_single:'Egyes (automatikus ment\u00e9s)', mode_multi:'T\u00f6bb (munkamenet)',
-    btn_start:'Olvas\u00e1s ind\u00edt\u00e1sa', btn_stop:'Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa', btn_save_all:'Mind ment\u00e9se', btn_clear:'Lista t\u00f6rl\u00e9se',
+    btn_start:'Olvas\u00e1s ind\u00edt\u00e1sa', btn_stop:'Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa', btn_save_all:'Mind ment\u00e9se', btn_clear:'Lista t\u00f6rl\u00e9se',btn_back:'\u2190 Vissza',
     last_title:'Utols\u00f3 cimke', last_sub:'Legutóbb beolvasott cimke', lbl_serial:'Sorozatsz\u00e1m', lbl_content:'Tartalom',
     list_title:'Munkamenet lista', list_sub:'A v\u00e9g\u00e9n egyben ment\u0151dik', empty:'M\u00e9g nincs beolvasott cimke.',
     no_content:'(nincs tartalom)',
@@ -410,6 +415,8 @@ async function saveAll() {
 $('startBtn').onclick = startScan;
 $('stopBtn').onclick = () => stopScan(false);
 $('saveAllBtn').onclick = saveAll;
+$('backBtn').onclick = () => location.href = 'Homepage.html';
+  
 $('clearBtn').onclick = () => {
   if (!items.length || !confirm(t('st_confirm_clear'))) return;
   items = []; status('st_cleared', 'info'); renderList();
