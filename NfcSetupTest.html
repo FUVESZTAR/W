@@ -1098,7 +1098,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
   }
   function switchTab(tab) {
     let modeView = tab; // 'gen' // 'pin' // 'read'
-    localStorage.setItem('actView') = tab;
+    localStorage.setItem('actView',tab);
     if (tab=='pin'){
       modeView = 'gen';
     } else { 
