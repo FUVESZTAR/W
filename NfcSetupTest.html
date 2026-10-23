@@ -1501,9 +1501,6 @@ const CFG = {
   SECRET:     '159753g9d5rt4sdfer7e5z4d6szo89fsef',
   SHEET_SOURCE_ID:   '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY',
   SHEET_SOURCE:      'plant_list',
-  SHEET_NFC:      'nfc_list',
-  SHEET_LOC:      'loc_list',
-  SHEET_REG:      'reg_list',
   PLANT_Q:    "select A, B, C, D, E, F where L = 'Y'",
 };
 
@@ -1960,15 +1957,15 @@ function renderPreview() {
     //showError(err, msg('err_save_offline'));
     renderPreview();
     const serial = serialEl.textContent;
-    let mode  = 'nfcSave';
+    let saveMode  = 'nfcSave';
     if (!pinSaveOn){
-      mode  = 'nfcSave';
+      saveMode  = 'nfcSave';
        } else {
-      mode  = 'pinSave';
+      saveMode  = 'pinSave';
          }
     const payload = {
       key: CFG.SECRET, 
-      action: 'nfcSerials',
+      action: saveMode,
       nfcId: F.nfcId.value, 
       plantId: F.plantId.value, 
       nfcTyp: F.type.value, 
