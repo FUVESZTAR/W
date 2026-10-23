@@ -124,14 +124,18 @@ function doPost(e) {
   }
 }
 
-/** NEW – save serial numbers (+ content) to reg_list: one row per tag.
- *  Column A = serial number, column B = content.
- *  A serial that is already in the sheet is NOT added again: its content
- *  (column B) is updated instead. Called while the script lock is held. */
+/** Save serial numbers (+ content) to reg_list, one row per tag.
+ *  Columns:  A = listing number | B = serial number | C = content | D = date of last update
+ *  A serial that is already in the sheet is NOT added again: its content (C)
+ *  and date (D) are updated, the listing number (A) stays the same.
+ *  Called while the script lock is held. */
 function saveSerials_(data) {
   var rows = data.rows;
   if (!Array.isArray(rows) || rows.length === 0) return json_({ error: 'Input validation failed: rows' });
   if (rows.length > MAX_REG_ROWS)               return json_({ error: 'Too many rows (max ' + MAX_REG_ROWS + ').' });
+
+  // Today's date, in the script's time zone (File > Project settings), e.g. 2026-10-23
+  var dateN = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');
 
   // Validate + de-duplicate inside the request
   var clean = [], seen = {};
@@ -152,32 +156,37 @@ function saveSerials_(data) {
   var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME_REG);
   if (!sheet) return json_({ error: 'Server error.' });
 
-  // Index existing serials (column A) -> row number
+  // Index existing serials (column B) -> row number, and find the highest listing number (column A)
   var last = sheet.getLastRow();
   var index = {};
+  var maxNr = 0;
   if (last >= 1) {
-    var colA = sheet.getRange(1, 1, last, 1).getValues();
-    for (var k = 0; k < colA.length; k++) {
-      var s = normSerial_(colA[k][0]);
+    var colAB = sheet.getRange(1, 1, last, 2).getValues();
+    for (var k = 0; k < colAB.length; k++) {
+      var nr = Number(colAB[k][0]);
+      if (colAB[k][0] !== '' && isFinite(nr) && nr > maxNr) maxNr = nr;   // header text / blanks are skipped
+      var s = normSerial_(colAB[k][1]);
       if (s) index[s] = k + 1;
     }
   }
 
   var toAdd = [], updated = 0;
   clean.forEach(function (c) {
-    if (index[c.norm]) {                                  // already registered -> update content
-      sheet.getRange(index[c.norm], 2).setNumberFormat('@').setValue(c.content);
+    if (index[c.norm]) {                                  // already registered -> update content + date
+      sheet.getRange(index[c.norm], 3, 1, 2).setNumberFormat('@').setValues([[c.content, dateN]]);
       updated++;
     } else {
-      toAdd.push([c.serial, c.content]);
+      maxNr++;                                            // next listing number
+      toAdd.push([maxNr, c.serial, c.content, dateN]);
     }
   });
 
   if (toAdd.length) {
     var start = sheet.getLastRow() + 1;
-    // Plain-text format: serials like "1E05..." must never become numbers/dates,
-    // and a value like "=IMPORTDATA(...)" is stored literally, never evaluated.
-    sheet.getRange(start, 1, toAdd.length, 2).setNumberFormat('@').setValues(toAdd);
+    // Column A: real numbers. Columns B-D: plain-text format, so serials like "1E05..."
+    // never become numbers/dates and a value like "=IMPORTDATA(...)" is stored literally.
+    sheet.getRange(start, 2, toAdd.length, 3).setNumberFormat('@');
+    sheet.getRange(start, 1, toAdd.length, 4).setValues(toAdd);
   }
   return json_({ status: 'success', added: toAdd.length, updated: updated });
 }
