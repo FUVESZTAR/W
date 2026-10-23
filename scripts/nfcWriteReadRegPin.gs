@@ -16,7 +16,7 @@
 
 var SPREADSHEET_ID = 'dsg';
 var SHEET_NAME_NFC = 'nfc_list';
-var SHEET_NAME_LOC = 'pin_list';
+var SHEET_NAME_PIN = 'pin_list';
 var SHEET_NAME_REG = 'reg_list';   // NEW: serial number (col A) + content (col B)
 var RATE_LIMIT     = 20;           // max POST requests per minute (all clients together)
 var BAD_KEY_LIMIT  = 5;            // max wrong-key attempts per minute, then block everything
@@ -111,8 +111,10 @@ function doPost(e) {
     cache.put(rateKey, String(count + 1), 65);
 
     // ── Routing ────────────────────────────────────────────────
-    if (data.action === 'nfcSerials') return saveSerials_(data);   // NEW
-    return saveNfc_(data);                                         // original behaviour
+    if (data.action === 'nfcSerials') return saveSerials_(data);   // NFC_Serial_Registrate
+    if (data.action === 'nfcSave') return saveNfc_(data);   // NFC_Save
+    if (data.action === 'pinSave') return savePin_(data);   // Pin_Save
+    return json_({ error: 'Duplicate NFC ID. Reload to get the next free ID.' });
 
   } catch (err) {
     console.error(err);
@@ -180,7 +182,7 @@ function saveSerials_(data) {
   return json_({ status: 'success', added: toAdd.length, updated: updated });
 }
 
-/** ORIGINAL – save one NFC record to nfc_list (unchanged logic). */
+/** NFC Save – save one NFC record to nfc_list. */
 function saveNfc_(data) {
   var nfcId      = text_(data.nfcId);
   var plantId    = text_(data.plantId);
@@ -223,6 +225,50 @@ function saveNfc_(data) {
   sheet.getRange(row, 2, 1, 9).setNumberFormat('@');
   sheet.getRange(row, 1, 1, 10).setValues([[
     Number(nfcId), plantId, nfcTyp, datum, nfcCreated, nfcPos, nfcData, other, serialNum, comment
+  ]]);
+  return json_({ status: 'success' });
+}
+
+/** Pin Save – save one Pin record to pin_list. */
+function savePin_(data) {
+  var pinId = 1;
+  var plantId    = text_(data.plantId);
+  var nfcTyp     = text_(data.nfcTyp);
+  var datum      = text_(data.datum);
+  var nfcCreated = text_(data.nfcCreated);
+  var nfcPos     = text_(data.nfcPos);
+  var nfcData    = text_(data.nfcData);
+  var other      = text_(data.other);
+  var serialNum  = text_(data.serialNum);
+  var comment    = text_(data.comment);
+
+  var bad = null;
+  if (plantId !== '' && !/^\d{1,9}$/.test(plantId))  bad = 'plantId';
+  else if (!/^[nopvmg]$/.test(nfcTyp))                    bad = 'nfcTyp';   // 'g' (mushroom) added
+  else if (!DATE_RE.test(datum))                          bad = 'datum';
+  else if (!DATE_RE.test(nfcCreated))                     bad = 'nfcCreated';
+  else if (nfcPos !== '' && !GPS_RE.test(nfcPos))         bad = 'nfcPos';
+  else if (nfcData.length === 0 || nfcData.length > 1000) bad = 'nfcData';
+  else if (other.length > 300)                            bad = 'other';
+  else if (comment.length > 300)                          bad = 'comment';
+  else if (HTML_RE.test(nfcData) || HTML_RE.test(other) || HTML_RE.test(comment)) bad = 'html';
+  else if (CTRL_RE.test(nfcData + other + comment))       bad = 'control characters';
+  if (bad) return json_({ error: 'Input validation failed: ' + bad });
+
+  var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME_PIN);
+
+  // Make pinId from last ids
+  try {
+    pinId = Number(maxNfcId_(sheet))+1;
+  } catch (err) {
+    console.error(err);
+    return json_({ error: 'Server error.' });
+  }
+
+  var row = sheet.getLastRow() + 1;
+  sheet.getRange(row, 2, 1, 9).setNumberFormat('@');
+  sheet.getRange(row, 1, 1, 10).setValues([[
+    Number(pinId), plantId, nfcTyp, datum, nfcCreated, nfcPos, nfcData, other, comment
   ]]);
   return json_({ status: 'success' });
 }
