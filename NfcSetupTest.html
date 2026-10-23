@@ -536,7 +536,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     <div class="tab-bar">
       <button class="tab-btn active" data-tab="gen" data-i18n="nfcall.main_btn_gen" onclick="switchTab('gen')" type="button">🌱 NFC Generator</button>
       <button class="tab-btn" data-tab="read" data-i18n="nfcall.main_btn_rd" onclick="switchTab('read')" type="button">📖 NFC Reader</button>
-      <button class="tab-btn" data-tab="loc" data-i18n="nfcall.main_btn_loc" onclick="switchTab('loc')" type="button">📍 Location saver</button>
+      <button class="tab-btn" data-tab="loc" data-i18n="nfcall.main_btn_loc" onclick="switchTab('pin')" type="button">📍 Location saver</button>
     </div>
 
       
@@ -1097,9 +1097,15 @@ button:disabled { opacity:.55; cursor:not-allowed; }
     togglePanel(id);
   }
   function switchTab(tab) {
+    let modeView = tab; // 'gen' // 'pin' // 'read'
+    localStorage.setItem('actView') = tab;
+    if (tab=='pin'){
+      modeView = 'gen';
+    } else { 
+      }
     document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('tab-' + modeView).classList.add('active');
     document.querySelector('.tab-btn[data-tab="' + tab + '"]').classList.add('active');
   }
   function saveMode() {
@@ -1743,8 +1749,7 @@ const allChecks = () => [...Object.values(INC), incNfc, incLink];
   let plants = [], gpsPacket = '', nextPlantId = null, watchId = null, tick = null;
   let lastFix = Date.now(), fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
 
-  let offlineSave = false;
-  let pinSaveOn = false;
+  let offlineSave = false; // localStorage.setItem('actView')
 
   /* Buttons that need generated data are disabled until Generate succeeds. */
   const needsData = ['qr-button', 'copy-nfc', 'copy-link', 'copy-pic', 'save-nfc', 'nfc-write-button'];
@@ -1969,7 +1974,8 @@ function renderPreview() {
     renderPreview();
     const serial = serialEl.textContent;
     let saveMode  = 'nfcSave';
-    if (!pinSaveOn){
+    let viewMode = localStorage.getItem('actView');
+    if (viewMode == 'gen'){
       saveMode  = 'nfcSave';
        } else {
       saveMode  = 'pinSave';
