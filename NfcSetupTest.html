@@ -1499,8 +1499,8 @@ const CFG = {
   // WRITER_URL: 'https://script.google.com/macros/s/AKfycbz6NHOWKPqSHH3IEY2ai1jezpYln_V63eI4ZOgQUsMnlYbbQvI_fZBxTUSTo3pQko84/exec',
   WRITER_URL: 'https://script.google.com/macros/s/AKfycbxEahXHII-H7uHQIQeSNbcSD8KDtV5tXSoXQvfMNbYsBS4SQQQdBlwFBmz5ZnLsMR7S/exec',
   SECRET:     '159753g9d5rt4sdfer7e5z4d6szo89fsef',
-  SHEET_ID:   '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY',
-  SHEET:      'plant_list',
+  SHEET_SOURCE_ID:   '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY',
+  SHEET_SOURCE:      'plant_list',
   PLANT_Q:    "select A, B, C, D, E, F where L = 'Y'",
 };
 
@@ -1566,11 +1566,11 @@ const safeUrl = s => { try { const u = new URL(s); return /^https?:$/.test(u.pro
 
 /* ── Google Sheets (gviz) with sessionStorage cache ─────────────────── */
 async function gviz(tq) {
-  const key = `${CFG.SHEET_ID}|${CFG.SHEET}|${tq}`;
+  const key = `${CFG.SHEET_SOURCE_ID}|${CFG.SHEET_SOURCE}|${tq}`;
   const hit = gvizCacheGet(key);
   if (hit) return hit;
-  const url = `https://docs.google.com/spreadsheets/d/${CFG.SHEET_ID}/gviz/tq?` +
-              new URLSearchParams({ tqx: 'out:json', sheet: CFG.SHEET, tq });
+  const url = `https://docs.google.com/spreadsheets/d/${CFG.SHEET_SOURCE_ID}/gviz/tq?` +
+              new URLSearchParams({ tqx: 'out:json', sheet: CFG.SHEET_SOURCE, tq });
   const r = await fetch(url);
   if (!r.ok) throw new Error(`Sheets ${r.status}`);
   const m = (await r.text()).match(/setResponse\(([\s\S]*?)\)\s*;?\s*$/);
@@ -1595,8 +1595,8 @@ async function fetchNextNfcId() {
 async function fetchMaxPlantId(plants) {
   const local = Math.max(0, ...plants.map(p => Number(p.Plant_ID) || 0));
   try {
-    const { rows } = (await fetch(`https://docs.google.com/spreadsheets/d/${CFG.SHEET_ID}/gviz/tq?` +
-      new URLSearchParams({ tqx: 'out:json', sheet: CFG.SHEET, tq: 'select max(A)' }))
+    const { rows } = (await fetch(`https://docs.google.com/spreadsheets/d/${CFG.SHEET_SOURCE_ID}/gviz/tq?` +
+      new URLSearchParams({ tqx: 'out:json', sheet: CFG.SHEET_SOURCE, tq: 'select max(A)' }))
       .then(r => r.text()).then(x => JSON.parse(x.match(/setResponse\(([\s\S]*?)\)\s*;?\s*$/)[1]))).table;
     return Number(rows?.[0]?.c?.[0]?.v) || local;
   } catch { return local; }
