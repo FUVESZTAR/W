@@ -1623,6 +1623,84 @@ function nextReading(ndef, signal, ms = 15000) {
 }
 
 /* =====================================================================
+ *  Online/offline save
+ * ===================================================================== */
+const QUEUE_KEY = 'nfc_offline_queue';
+
+function getQueue() {
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY)) || []; }
+  catch { return []; }
+}
+
+function setQueue(q) {
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
+}
+
+function queuePayload(payload) {
+  const q = getQueue();
+  q.push({
+    ...payload,
+    _localId: crypto.randomUUID(),   // for dedupe when syncing later
+    _savedAt: new Date().toISOString(),
+    _synced: false,
+  });
+  setQueue(q);
+  return q.length;
+}
+  function downloadQueueAsJson() {
+  const q = getQueue();
+  if (!q.length) return alert('Nothing to export.');
+
+  const blob = new Blob([JSON.stringify(q, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `nfc-payloads-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+  async function submitPayload(payload) {
+  if (navigator.onLine) {
+    try {
+      await sendToServer(payload);          // your existing upload function
+      return { status: 'sent' };
+    } catch (e) {
+      // network failed despite being "online" -> fall through to queue
+    }
+  }
+  queuePayload(payload);
+  return { status: 'queued' };
+}
+  async function syncQueue() {
+  const q = getQueue();
+  const remaining = [];
+  for (const item of q) {
+    const { _localId, _savedAt, _synced, ...payload } = item;
+    try {
+      await sendToServer(payload);
+    } catch {
+      remaining.push(item);   // keep failures for next attempt
+    }
+  }
+  setQueue(remaining);
+}
+document.getElementById('importFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const items = JSON.parse(await file.text());
+  for (const item of items) {
+    const { _localId, _savedAt, _synced, ...payload } = item;
+    await sendToServer(payload);
+  }
+});
+  /*
+window.addEventListener('online', syncQueue);
+  <input type="file" id="importFile" accept="application/json">
+*/
+  
+/* =====================================================================
  *  GENERATOR
  * ===================================================================== */
 async function initGenerator() {
