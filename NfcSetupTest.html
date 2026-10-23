@@ -893,7 +893,7 @@ button:disabled { opacity:.55; cursor:not-allowed; }
           <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_qr">NFC QR Code</button>
          </div>
         <div class="btn-grid cols-1">
-          <button id="gen-im-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_qr">NFC Save Import</button>
+          <button id="gen-im-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_im">NFC Save Import</button>
           <input type="file" id="importFile" accept="application/json">
         </div>
       </div></div></div>
@@ -1188,6 +1188,7 @@ const TRANSLATIONS = {
     "nfcall.btn_nfclist":       "NFC List",
     "nfcall.gen_btn_nfcread":       "NFC Reader",
     "nfcall.btn_qr":            "NFC QR Code",
+    "nfcall.btn_im":            "NFC JSON Import",
     "nfcall.btn_back":          "\u2190 Back",
     "nfcall.mode_off":          "Online",
     "nfcall.mode_on":           "Offline",
@@ -1317,6 +1318,7 @@ const TRANSLATIONS = {
     "nfcall.btn_nfclist":       "NFC Lista",
     "nfcall.gen_btn_nfcread":       "NFC Olvas\u00f3",
     "nfcall.btn_qr":            "NFC QR k\u00f3d",
+    "nfcall.btn_im":            "NFC JSON Betöltés",
     "nfcall.btn_back":          "\u2190 Vissza",
     "nfcall.mode_off":          "Off",
     "nfcall.mode_on":           "On",
@@ -1955,6 +1957,9 @@ function renderPreview() {
   B('back-button').addEventListener('click', () => location.href = 'Homepage.html');
   B('list-nfc').addEventListener('click',   () => location.href = 'pages/NfcListPage.html');
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
+
+  /*nfc import to save*/
+  B('im-button').addEventListener('click', () => location.href = 'Homepage.html');
 
   /* ── Save to Google Sheet ── */
   B('save-nfc').addEventListener('click', async () => {
