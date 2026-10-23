@@ -14,7 +14,7 @@
 // filter. The real protection is the validation, locking and rate limits below.
 // =============================================================
 
-var SPREADSHEET_ID = 'dsg';
+var SPREADSHEET_ID = '1nxRfS0k4zoX7SFlLefuUlPlgDpBZCNkRzxirR1CDGtE';
 var SHEET_NAME_NFC = 'nfc_list';
 var SHEET_NAME_PIN = 'pin_list';
 var SHEET_NAME_REG = 'reg_list';   // NEW: serial number (col A) + content (col B)
