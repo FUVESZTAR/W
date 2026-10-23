@@ -1739,7 +1739,7 @@ const allChecks = () => [...Object.values(INC), incNfc, incLink];
   let lastFix = Date.now(), fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
 
   let offlineSave = false;
-  let pickerOn = false;
+  let pinSaveOn = false;
 
   /* Buttons that need generated data are disabled until Generate succeeds. */
   const needsData = ['qr-button', 'copy-nfc', 'copy-link', 'copy-pic', 'save-nfc', 'nfc-write-button'];
@@ -1960,8 +1960,19 @@ function renderPreview() {
     //showError(err, msg('err_save_offline'));
     renderPreview();
     const serial = serialEl.textContent;
+    let mode  = 'nfcSave';
+    if (!pinSaveOn){
+      mode  = 'nfcSave';
+       } else {
+      mode  = 'pinSave';
+         }
     const payload = {
-      key: CFG.SECRET, nfcId: F.nfcId.value, plantId: F.plantId.value, nfcTyp: F.type.value, datum: F.date.value,
+      key: CFG.SECRET, 
+      action: 'nfcSerials',
+      nfcId: F.nfcId.value, 
+      plantId: F.plantId.value, 
+      nfcTyp: F.type.value, 
+      datum: F.date.value,
       nfcCreated: today,
       nfcPos: isIncluded('gps') ? F.gps.value : '',
       nfcData: el('nfc-preview').textContent, 
@@ -1969,9 +1980,10 @@ function renderPreview() {
       serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,           // was: placeholder text
       serialNum: MENT.comment.value,          
     };
+    
     B('save-nfc').disabled = true;
     if (!offlineSave){
-      if (!pickerOn){
+   
         try {
           const r = await fetch(CFG.WRITER_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload), redirect: 'follow' });
           const j = await r.json().catch(() => ({}));
@@ -1979,9 +1991,7 @@ function renderPreview() {
           else showError(err, msg('err_save_fail') + (j.error || 'Unknown error'));
         } catch (e) { showError(err, msg('err_save_fail') + e.message); }
         finally { B('save-nfc').disabled = false; }
-      } else {
-      
-         }
+     
     } else {
       
         } 
