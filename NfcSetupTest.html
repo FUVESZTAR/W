@@ -1406,7 +1406,7 @@ const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {par
 const rt  = k => 'nfcreg.' + k;                               // registry keys
 const PAGES = { home: 'Homepage.html', list: 'pages/NfcListPage.html' };   // ⚠️ exact spelling of your real files
 
-/* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script */
+/* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
   WRITER_URL: 'https://script.google.com/macros/s/xsd',
   SECRET: 'xsd', SHEET_SOURCE_ID: 'xds', SHEET_SOURCE: 'plant_list',
