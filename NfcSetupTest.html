@@ -1151,7 +1151,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.regBtn_start">Start reading</button>
         <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="nfcreg.regBtn_stop" disabled>Stop reading</button>
         </div>
-        <div id="rgStatus" class="rgStatus-box" data-i18n="nfcreg.regSt_ready">Ready. Press “Start reading”.</div>
+        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
         <div class="btn-grid cols-1">
           <button id="rgBackBtn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
         </div>
@@ -1227,6 +1227,9 @@ function switchTab(tab) {
   // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
   document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
 }
+    document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.panel-header[role="button"]')) { e.preventDefault(); e.target.click(); }
+});
   </script>
 
   <!-- Script 2: i18n + lang (combined, no imports/exports) -->
