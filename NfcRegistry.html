@@ -27,16 +27,16 @@ body{
 .page-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,1.9rem);font-weight:700;color:var(--green);line-height:1.1}
 .page-subtitle{font-size:.82rem;color:var(--muted);font-weight:300}
 
-/* Toggle groups (language + mode) */
-.toggle{display:flex;background:var(--green-pale2);border-radius:20px;padding:3px;gap:2px}
-.toggle button{
+/* RegToggle groups (language + mode) */
+.rgToggle{display:flex;background:var(--green-pale2);border-radius:20px;padding:3px;gap:2px}
+.rgToggle button{
   flex:1;padding:6px 14px;border-radius:16px;font-size:.8rem;font-weight:600;border:none;
   background:transparent;color:var(--green-mid);cursor:pointer;transition:all var(--tr);
   font-family:'DM Sans',sans-serif;
 }
-.toggle button.active{background:var(--green);color:#fff}
-.toggle button:hover:not(.active){background:rgba(47,125,50,.12)}
-.toggle.lang{flex-shrink:0}
+.rgToggle button.active{background:var(--green);color:#fff}
+.rgToggle button:hover:not(.active){background:rgba(47,125,50,.12)}
+.rgToggle.lang{flex-shrink:0}
 
 /* Panels */
 .panel{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow var(--tr)}
@@ -69,31 +69,31 @@ button.btn-back {background: none;color: var(--muted);border: 1px solid var(--bo
 button:disabled{opacity:.55;cursor:not-allowed}
 
 /* Status */
-.status-box{
+.rgStatus-box{
   text-align:center;font-weight:600;font-size:.88rem;padding:10px 12px;
   border-radius:var(--radius-sm);background:var(--green-pale);color:var(--muted);transition:.3s;
 }
-.status-box.info{background:#e3f0fc;color:#1565c0}
-.status-box.success{background:var(--green-pale2);color:var(--green)}
-.status-box.error{background:#fdecea;color:#c62828}
-.status-box.warn{background:#fff4e0;color:#b26a00}
-.live{color:var(--green-light);animation:blink 1s infinite;font-weight:700}
+.rgStatus-box.info{background:#e3f0fc;color:#1565c0}
+.rgStatus-box.success{background:var(--green-pale2);color:var(--green)}
+.rgStatus-box.error{background:#fdecea;color:#c62828}
+.rgStatus-box.warn{background:#fff4e0;color:#b26a00}
+.rgLive{color:var(--green-light);animation:blink 1s infinite;font-weight:700}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* Last read + list */
-.label{font-size:.79rem;font-weight:500}
-.preview{
+.rgLabel{font-size:.79rem;font-weight:500}
+.rgPreview{
   background:var(--green-pale);padding:12px 14px;border-radius:var(--radius-sm);word-break:break-all;
   font-family:monospace;font-size:.84rem;border:1px solid var(--border);min-height:48px;
 }
-.list{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto}
-.item{display:flex;align-items:flex-start;gap:10px;background:var(--green-pale);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px}
-.item .num{font-weight:600;color:var(--green);min-width:1.6em}
-.item .txt{flex:1;min-width:0;word-break:break-all}
-.item .ser{font-family:monospace;font-weight:600;font-size:.88rem}
-.item .con{font-family:monospace;font-size:.78rem;color:var(--muted)}
-.item .del{border:none;background:none;color:#c62828;font-size:1.1rem;cursor:pointer;line-height:1}
-.empty{text-align:center;color:var(--muted);font-size:.85rem;padding:10px}
+.rgList{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto}
+.rgItem{display:flex;align-items:flex-start;gap:10px;background:var(--green-pale);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px}
+.rgItem .rgNum{font-weight:600;color:var(--green);min-width:1.6em}
+.rgItem .rgTxt{flex:1;min-width:0;word-break:break-all}
+.rgItem .rgSer{font-family:monospace;font-weight:600;font-size:.88rem}
+.rgItem .rgCon{font-family:monospace;font-size:.78rem;color:var(--muted)}
+.rgItem .rgDel{border:none;background:none;color:#c62828;font-size:1.1rem;cursor:pointer;line-height:1}
+.rgEmpty{text-align:center;color:var(--muted);font-size:.85rem;padding:10px}
 @media(max-width:480px){.btn-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -105,7 +105,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
       <div class="page-title">🌿 NFC</div>
       <div class="page-subtitle" data-i18n="subtitle">NFC Serial Saver</div>
     </div>
-    <div class="toggle lang">
+    <div class="rgToggle lang">
       <button type="button" class="lang-btn" data-lang="en">EN</button>
       <button type="button" class="lang-btn" data-lang="hu">HU</button>
     </div>
@@ -119,20 +119,20 @@ button:disabled{opacity:.55;cursor:not-allowed}
         <div class="panel-title" data-i18n="scan_title">Scan</div>
         <div class="panel-subtitle" data-i18n="scan_sub">Choose a mode and read the tags</div>
       </div>
-      <span id="liveDot" class="live" style="display:none">● LIVE</span>
+      <span id="rgLiveDot" class="rgLive" style="display:none">● LIVE</span>
     </div>
     <div class="panel-body">
-      <div class="toggle" id="modeToggle">
-        <button type="button" data-mode="single" class="active" data-i18n="mode_single">Single (auto-save)</button>
-        <button type="button" data-mode="multi" data-i18n="mode_multi">Multiple (session)</button>
+      <div class="rgToggle" id="regModeToggle">
+        <button type="button" data-mode="single" class="active" data-i18n="rgMode_single">Single (auto-save)</button>
+        <button type="button" data-mode="multi" data-i18n="rgMode_multi">Multiple (session)</button>
       </div>
       <div class="btn-grid cols-2">
-        <button id="startBtn" class="btn btn-primary" type="button" data-i18n="btn_start">Start reading</button>
-        <button id="stopBtn" class="btn btn-danger" type="button" data-i18n="btn_stop" disabled>Stop reading</button>
+        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="btn_start">Start reading</button>
+        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="btn_stop" disabled>Stop reading</button>
       </div>
-      <div id="status" class="status-box" data-i18n="st_ready">Ready. Press “Start reading”.</div>
+      <div id="rgStatus" class="rgStatus-box" data-i18n="st_ready">Ready. Press “Start reading”.</div>
       <div class="btn-grid cols-1">
-          <button id="backBtn" class="btn-back" type="button" data-i18n="btn_back">← Back</button>
+          <button id="rgBackBtn" class="btn-back" type="button" data-i18n="btn_back">← Back</button>
       </div>
     </div>
   </section>
@@ -148,31 +148,31 @@ button:disabled{opacity:.55;cursor:not-allowed}
     </div>
     <div class="panel-body">
       <div>
-        <div class="label" data-i18n="lbl_serial">Serial number</div>
-        <div class="preview" id="lastSerial">–</div>
+        <div class="rgLabel" data-i18n="lbl_serial">Serial number</div>
+        <div class="rgPreview" id="rgLastSerial">–</div>
       </div>
       <div>
-        <div class="label" data-i18n="lbl_content">Content</div>
-        <div class="preview" id="lastContent">–</div>
+        <div class="rgLabel" data-i18n="lbl_content">Content</div>
+        <div class="rgPreview" id="rgLastContent">–</div>
       </div>
     </div>
   </section>
 
   <!-- Panel 3: Session list (multi mode) -->
-  <section class="panel" id="sessionPanel" style="display:none">
+  <section class="panel" id="rgSessionPanel" style="display:none">
     <div class="panel-header">
       <span class="panel-icon">📋</span>
       <div class="grow">
-        <div class="panel-title" data-i18n="list_title">Session list</div>
-        <div class="panel-subtitle" data-i18n="list_sub">Saved together at the end</div>
+        <div class="panel-title" data-i18n="rgList_title">Session list</div>
+        <div class="panel-subtitle" data-i18n="rgList_sub">Saved together at the end</div>
       </div>
-      <span class="badge" id="count">0</span>
+      <span class="badge" id="rgCount">0</span>
     </div>
     <div class="panel-body">
-      <div class="list" id="list"></div>
+      <div class="rgList" id="rgListId"></div>
       <div class="btn-grid">
-        <button id="saveAllBtn" class="btn btn-primary" type="button" data-i18n="btn_save_all" disabled>Save all</button>
-        <button id="clearBtn" class="btn btn-secondary" type="button" data-i18n="btn_clear" disabled>Clear list</button>
+        <button id="rgSaveAllBtn" class="btn btn-primary" type="button" data-i18n="btn_save_all" disabled>Save all</button>
+        <button id="rgClearBtn" class="btn btn-secondary" type="button" data-i18n="btn_clear" disabled>Clear list</button>
       </div>
     </div>
   </section>
@@ -197,10 +197,10 @@ const CFG = {
 const TR = {
   en: {
     subtitle:'NFC Serial Saver', scan_title:'Scan', scan_sub:'Choose a mode and read the tags',
-    mode_single:'Single (auto-save)', mode_multi:'Multiple (session)',
+    rgMode_single:'Single (auto-save)', rgMode_multi:'Multiple (session)',
     btn_start:'Start reading', btn_stop:'Stop reading', btn_save_all:'Save all', btn_clear:'Clear list',btn_back:'\u2190 Back',
     last_title:'Last tag', last_sub:'Most recently read tag', lbl_serial:'Serial number', lbl_content:'Content',
-    list_title:'Session list', list_sub:'Saved together at the end', empty:'No tags read yet.',
+    rgList_title:'Session list', rgList_sub:'Saved together at the end', rgEmpty:'No tags read yet.',
     no_content:'(no content)',
     st_ready:'Ready. Press “Start reading”.',
     st_ns:'Web NFC is not supported on this browser/device (use Chrome on Android).',
@@ -226,10 +226,10 @@ const TR = {
   },
   hu: {
     subtitle:'NFC sorozatsz\u00e1m ment\u0151', scan_title:'Olvas\u00e1s', scan_sub:'V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket',
-    mode_single:'Egyes (automatikus ment\u00e9s)', mode_multi:'T\u00f6bb (munkamenet)',
+    rgMode_single:'Egyes (automatikus ment\u00e9s)', rgMode_multi:'T\u00f6bb (munkamenet)',
     btn_start:'Olvas\u00e1s ind\u00edt\u00e1sa', btn_stop:'Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa', btn_save_all:'Mind ment\u00e9se', btn_clear:'Lista t\u00f6rl\u00e9se',btn_back:'\u2190 Vissza',
     last_title:'Utols\u00f3 cimke', last_sub:'Legutóbb beolvasott cimke', lbl_serial:'Sorozatsz\u00e1m', lbl_content:'Tartalom',
-    list_title:'Munkamenet lista', list_sub:'A v\u00e9g\u00e9n egyben ment\u0151dik', empty:'M\u00e9g nincs beolvasott cimke.',
+    rgList_title:'Munkamenet lista', rgList_sub:'A v\u00e9g\u00e9n egyben ment\u0151dik', rgEmpty:'M\u00e9g nincs beolvasott cimke.',
     no_content:'(nincs tartalom)',
     st_ready:'K\u00e9sz. Nyomd meg az \u201eOlvas\u00e1s ind\u00edt\u00e1sa\u201d gombot.',
     st_ns:'A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n (haszn\u00e1lj Chrome-ot Androidon).',
@@ -263,63 +263,63 @@ const t = (k, p = {}) => {
 };
 
 /* ── State ────────────────────────────────────────────────────────────── */
-let mode = 'single';
+let rgMode = 'single';
 let scan = null;          // AbortController of the active scan
-let items = [];           // [{serial, content}]
+let rgItems = [];           // [{serial, content}]
 let busy = false;         // save in progress
 let lastStatus = ['st_ready', 'info', {}];
 
 /* ── UI helpers ───────────────────────────────────────────────────────── */
-function status(key, type = 'info', params = {}) {
+function rgStatusSet(key, type = 'info', params = {}) {
   lastStatus = [key, type, params];
-  const el = $('status');
+  const el = $('rgStatus');
   el.textContent = t(key, params);
-  el.className = 'status-box ' + type;
+  el.className = 'rgStatus-box ' + type;
   el.removeAttribute('data-i18n');
 }
 function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang()));
-  if (lastStatus) status(...lastStatus);
-  renderList();
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.rgToggle('active', b.dataset.lang === lang()));
+  if (lastStatus) rgStatusSet(...lastStatus);
+  rgRenderList();
 }
-function updateButtons() {
-  const scanning = !!scan;
-  $('startBtn').disabled = scanning || busy;
-  $('stopBtn').disabled = !scanning;
-  $('liveDot').style.display = scanning ? 'inline' : 'none';
-  $('saveAllBtn').disabled = busy || !items.length;
-  $('clearBtn').disabled = busy || !items.length;
-  document.querySelectorAll('#modeToggle button').forEach(b => b.disabled = scanning || busy);
+function rgUpdateButtons() {
+  const rgScanning = !!scan;
+  $('rgStartBtn').disabled = rgScanning || busy;
+  $('rgStopBtn').disabled = !rgScanning;
+  $('rgLiveDot').style.display = rgScanning ? 'inline' : 'none';
+  $('rgSaveAllBtn').disabled = busy || !rgItems.length;
+  $('rgClearBtn').disabled = busy || !rgItems.length;
+  document.querySelectorAll('#regModeToggle button').forEach(b => b.disabled = rgScanning || busy);
 }
-function renderList() {
-  const list = $('list');
-  $('count').textContent = items.length;
-  list.replaceChildren();
-  if (!items.length) {
-    const e = document.createElement('div'); e.className = 'empty'; e.textContent = t('empty'); list.append(e);
+function rgRenderList() {
+  const rgListV= $('rgListId');
+  $('rgCount').textContent = rgItems.length;
+  rgListV.replaceChildren();
+  if (!rgItems.length) {
+    const e = document.createElement('div'); e.className = 'rgEmpty'; e.textContent = t('rgEmpty'); rgListV.append(e);
   }
-  items.forEach((it, i) => {
-    const row = document.createElement('div'); row.className = 'item';
-    const n = document.createElement('div'); n.className = 'num'; n.textContent = (i + 1) + '.';
-    const box = document.createElement('div'); box.className = 'txt';
-    const s = document.createElement('div'); s.className = 'ser'; s.textContent = it.serial;
-    const c = document.createElement('div'); c.className = 'con'; c.textContent = it.content || t('no_content');
+  rgItems.forEach((it, i) => {
+    const row = document.createElement('div'); row.className = 'rgItem';
+    const n = document.createElement('div'); n.className = 'rgNum'; n.textContent = (i + 1) + '.';
+    const box = document.createElement('div'); box.className = 'rgTxt';
+    const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
+    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t('no_content');
     box.append(s, c);
-    const d = document.createElement('button'); d.className = 'del'; d.type = 'button'; d.textContent = '✕';
+    const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '✕';
     d.disabled = busy;
-    d.onclick = () => { items.splice(i, 1); status('st_removed', 'info', { s: it.serial }); renderList(); updateButtons(); };
-    row.append(n, box, d); list.append(row);
+    d.onclick = () => { rgItems.splice(i, 1); rgStatus('st_removed', 'info', { s: it.serial }); rgRenderList(); rgUpdateButtons(); };
+    row.append(n, box, d); rgListV.append(row);
   });
-  updateButtons();
+  rgUpdateButtons();
 }
-function showLast(serial, content) {
-  $('lastSerial').textContent = serial || '–';
-  $('lastContent').textContent = content || '–';
+function rgShowLast(serial, content) {
+  $('rgLastSerial').textContent = serial || '–';
+  $('rgLastContent').textContent = content || '–';
 }
 
 /* ── NFC helpers ──────────────────────────────────────────────────────── */
-function decodeRecords(message) {
+function rgDecodeRecords(message) {
   return (message?.records || []).map(rec => {
     let value = '';
     try { value = new TextDecoder(rec.encoding || 'utf-8').decode(rec.data); } catch {}
@@ -327,13 +327,13 @@ function decodeRecords(message) {
   });
 }
 /* Content = all text/url records, in tag order, joined by " | " */
-const contentOf = records => records
+const rgContentOf = records => records
   .filter(r => (r.type === 'text' || r.type === 'url') && r.value)
   .map(r => r.value.trim()).filter(Boolean).join(' | ');
 
 /* ── Save to Google Sheet (same endpoint as the generator) ────────────
  * Column A = serial number, column B = content, one row per tag.        */
-async function save(rows) {
+async function rgSave(rows) {
   const payload = {
     key: CFG.SECRET,
     action: 'nfcSerials',
@@ -344,96 +344,96 @@ async function save(rows) {
     body: JSON.stringify(payload), redirect: 'follow',
   });
   const j = await r.json().catch(() => ({}));
-  if (j.status !== 'success') throw new Error(j.error || 'Unknown error');
+  if (j.rgStatus !== 'success') throw new Error(j.error || 'Unknown error');
 }
 
 /* ── Scanning ─────────────────────────────────────────────────────────── */
-function stopScan(silent) {
-  scan?.abort(); scan = null; updateButtons();
-  if (!silent) status('st_stopped', 'info');
+function rgStopScan(silent) {
+  scan?.abort(); scan = null; rgUpdateButtons();
+  if (!silent) rgStatusSet('st_stopped', 'info');
 }
 
-async function startScan() {
-  if (!('NDEFReader' in window)) return status('st_ns', 'error');
-  stopScan(true);
-  status('st_starting', 'info');
+async function rgStartScan() {
+  if (!('NDEFReader' in window)) return rgStatusSet('st_ns', 'error');
+  rgStopScan(true);
+  rgStatusSet('st_starting', 'info');
   const ac = new AbortController(); scan = ac;
   try {
     const ndef = new NDEFReader();
-    ndef.addEventListener('reading', e => onTag(e), { signal: ac.signal });
-    ndef.addEventListener('readingerror', () => status('st_read_err', 'warn'), { signal: ac.signal });
+    ndef.addEventListener('reading', e => rgOnTag(e), { signal: ac.signal });
+    ndef.addEventListener('readingerror', () => rgStatusSet('st_read_err', 'warn'), { signal: ac.signal });
     await ndef.scan({ signal: ac.signal });
-    status(mode === 'single' ? 'st_scan_single' : 'st_scan_multi', 'info');
+    rgStatusSet(rgMode === 'single' ? 'st_scan_single' : 'st_scan_multi', 'info');
   } catch (e) {
     scan = null;
     console.error(e);
-    status('st_read_err', 'error');
+    rgStatusSet('st_read_err', 'error');
   }
-  updateButtons();
+  rgUpdateButtons();
 }
 
-async function onTag(e) {
+async function rgOnTag(e) {
   if (busy) return;                                   // ignore taps while saving
   const serial = (e.serialNumber || '').toUpperCase();
-  const content = contentOf(decodeRecords(e.message));
-  if (!serial) return status('st_no_serial', 'warn');
-  showLast(serial, content);
+  const content = rgContentOf(rgDecodeRecords(e.message));
+  if (!serial) return rgStatusSet('st_no_serial', 'warn');
+  rgShowLast(serial, content);
   if (navigator.vibrate) navigator.vibrate(80);
 
-  if (mode === 'single') {
-    stopScan(true);                                   // one tag only
-    status('st_read', 'info', { s: serial });
-    busy = true; updateButtons();
-    status('st_saving', 'info');
-    try { await save([{ serial, content }]); status('st_saved_one', 'success', { s: serial }); }
-    catch (err) { console.error(err); status('st_save_fail_single', 'error', { e: err.message || err }); }
-    finally { busy = false; updateButtons(); }
+  if (rgMode === 'single') {
+    rgStopScan(true);                                   // one tag only
+    rgStatusSet('st_read', 'info', { s: serial });
+    busy = true; rgUpdateButtons();
+    rgStatusSet('st_saving', 'info');
+    try { await rgSave([{ serial, content }]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    catch (err) { console.error(err); rgStatusSet('st_save_fail_single', 'error', { e: err.message || err }); }
+    finally { busy = false; rgUpdateButtons(); }
   } else {
-    if (items.some(i => i.serial === serial)) return status('st_dup', 'warn', { s: serial });
-    items.push({ serial, content });
-    status('st_added', 'success', { s: serial, n: items.length });
-    renderList();
+    if (rgItems.some(i => i.serial === serial)) return rgStatusSet('st_dup', 'warn', { s: serial });
+    rgItems.push({ serial, content });
+    rgStatusSet('st_added', 'success', { s: serial, n: rgItems.length });
+    rgRenderList();
   }
 }
 
-async function saveAll() {
-  if (!items.length) return status('st_empty', 'warn');
-  stopScan(true);
-  busy = true; updateButtons(); renderList();
-  status('st_saving', 'info');
+async function rgSaveAll() {
+  if (!rgItems.length) return rgStatusSet('st_empty', 'warn');
+  rgStopScan(true);
+  busy = true; rgUpdateButtons(); rgRenderList();
+  rgStatusSet('st_saving', 'info');
   try {
-    const n = items.length;
-    await save(items);
-    items = [];
-    status('st_saved_many', 'success', { n });
+    const n = rgItems.length;
+    await rgSave(rgItems);
+    rgItems = [];
+    rgStatusSet('st_saved_many', 'success', { n });
   } catch (err) {
     console.error(err);
-    status('st_save_fail', 'error', { e: err.message || err });
-  } finally { busy = false; renderList(); }
+    rgStatusSet('st_save_fail', 'error', { e: err.message || err });
+  } finally { busy = false; rgRenderList(); }
 }
 
 /* ── Wiring ───────────────────────────────────────────────────────────── */
-$('startBtn').onclick = startScan;
-$('stopBtn').onclick = () => stopScan(false);
-$('saveAllBtn').onclick = saveAll;
-$('backBtn').onclick = () => location.href = 'Homepage.html';
+$('rgStartBtn').onclick = rgStartScan;
+$('rgStopBtn').onclick = () => rgStopScan(false);
+$('rgSaveAllBtn').onclick = rgSaveAll;
+$('rgBackBtn').onclick = () => location.href = 'Homepage.html';
   
-$('clearBtn').onclick = () => {
-  if (!items.length || !confirm(t('st_confirm_clear'))) return;
-  items = []; status('st_cleared', 'info'); renderList();
+$('rgClearBtn').onclick = () => {
+  if (!rgItems.length || !confirm(t('st_confirm_clear'))) return;
+  rgItems = []; rgStatusSet('st_cleared', 'info'); rgRenderList();
 };
-document.querySelectorAll('#modeToggle button').forEach(b => b.onclick = () => {
-  mode = b.dataset.mode;
-  document.querySelectorAll('#modeToggle button').forEach(x => x.classList.toggle('active', x === b));
-  $('sessionPanel').style.display = mode === 'multi' ? '' : 'none';
-  status('st_ready', 'info');
+document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => {
+  rgMode = b.dataset.rgMode;
+  document.querySelectorAll('#regModeToggle button').forEach(x => x.classList.rgToggle('active', x === b));
+  $('rgSessionPanel').style.display = rgMode === 'multi' ? '' : 'none';
+  rgStatusSet('st_ready', 'info');
 });
 document.querySelectorAll('.lang-btn').forEach(b => b.onclick = () => {
   try { localStorage.setItem(LANG_KEY, b.dataset.lang); } catch {}
   applyTranslations();
 });
-document.addEventListener('visibilitychange', () => { if (document.hidden && scan) stopScan(false); });
-window.addEventListener('beforeunload', e => { if (items.length) { e.preventDefault(); e.returnValue = t('st_unsaved'); } });
+document.addEventListener('visibilitychange', () => { if (document.hidden && scan) rgStopScan(false); });
+window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t('st_unsaved'); } });
 
 applyTranslations();
 })();
