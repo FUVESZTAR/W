@@ -910,9 +910,9 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
         <div class="btn-grid cols-2">
           <button id="gen-save-nfc"       class="btn-primary"   type="button" data-i18n="nfcall.btn_save">Save NFC</button>
-          <div class="toggle-row" onclick="saveMode()">
+          <div class="toggle-row">
              <span data-i18n="nfcall.mode_off">Online</span>
-             <button class="toggle-sw" id="gen-oth_card_toggle" aria-label="Online/Offline"></button>
+             <button class="toggle-sw" id="gen-onoffline_toggle" aria-label="Online/Offline"></button>
              <span class="toggle-label-on" data-i18n="nfcall.mode_on">Offline</span>
           </div>
         </div>
@@ -1144,16 +1144,16 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="rgToggle" id="regModeToggle">
-        <button type="button" data-mode="single" class="active" data-i18n="rgMode_single">Single (auto-save)</button>
-        <button type="button" data-mode="multi" data-i18n="rgMode_multi">Multiple (session)</button>
+        <button type="button" data-mode="single" class="active" data-i18n="nfcreg.rgMode_single">Single (auto-save)</button>
+        <button type="button" data-mode="multi" data-i18n="nfcreg.rgMode_multi">Multiple (session)</button>
         </div>
         <div class="btn-grid cols-2">
-        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="regBtn_start">Start reading</button>
-        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="regBtn_stop" disabled>Stop reading</button>
+        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.regBtn_start">Start reading</button>
+        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="nfcreg.regBtn_stop" disabled>Stop reading</button>
         </div>
-        <div id="rgStatus" class="rgStatus-box" data-i18n="regSt_ready">Ready. Press “Start reading”.</div>
+        <div id="rgStatus" class="rgStatus-box" data-i18n="nfcreg.regSt_ready">Ready. Press “Start reading”.</div>
         <div class="btn-grid cols-1">
-          <button id="rgBackBtn" class="btn-back" type="button" data-i18n="btn_back">← Back</button>
+          <button id="rgBackBtn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
         </div>
       </div></div></div>
     </div>
@@ -1214,25 +1214,19 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
   function togglePanelExcl(event, id) {
     togglePanel(id);
   }
-  function switchTab(tab) {
-    let modeView = tab; // 'gen' // 'pin' // 'read'
-    localStorage.setItem('actView',tab);
-    console.log('actView: ' + tab);
-    if (tab=='pin'){
-      modeView = 'gen';
-    } else { 
-      modeView = tab;
-      }
-    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + modeView).classList.add('active');
-    document.querySelector('.tab-btn[data-tab="' + tab + '"]').classList.add('active');
-    console.log('modeView: ' + modeView);
-  }
-    
-  function saveMode() {
+/* Active tab lives in ONE variable. 'pin' shows the generator view but saves with a different action. */
+let currentTab = 'gen';
 
-  }
+function switchTab(tab) {
+  const prev = currentTab;
+  currentTab = tab;
+  const view = tab === 'pin' ? 'gen' : tab;            // 'pin' re-uses the generator panels
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.getElementById('tab-' + view).classList.add('active');
+  // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
+  document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
+}
   </script>
 
   <!-- Script 2: i18n + lang (combined, no imports/exports) -->
@@ -1889,6 +1883,14 @@ document.getElementById('importFile').addEventListener('change', async (e) => {
     await sendToServer(payload);
   }
 });
+  /* One place that talks to Apps Script. Throws on any failure. */
+async function sendToServer(payload) {
+  const r = await fetch(CFG.WRITER_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain' },
+                                          body: JSON.stringify(payload), redirect: 'follow' });
+  const j = await r.json().catch(() => ({}));
+  if ((j.status ?? j.rgStatus) !== 'success') throw new Error(j.error || 'Unknown error');  // ⚠️ confirm field name
+  return j;
+}
   /*
 window.addEventListener('online', syncQueue);
   <input type="file" id="importFile" accept="application/json">
@@ -2148,48 +2150,55 @@ function renderPreview() {
 
   /* ── Save to Google Sheet ── */
   B('save-nfc').addEventListener('click', async () => {
-    if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
-    showError(err, msg('err_save_start'));
-    //showError(err, msg('err_save_offline'));
-    renderPreview();
-    const serial = serialEl.textContent;
-    let saveMode  = 'nfcSave';
-    let viewMode = localStorage.getItem('actView');
-    if (viewMode == 'gen'){
-      saveMode  = 'nfcSave';
-       } else {
-      saveMode  = 'pinSave';
-         }
-    const payload = {
-      key: CFG.SECRET, 
-      action: saveMode,
-      nfcId: F.nfcId.value, 
-      plantId: F.plantId.value, 
-      nfcTyp: F.type.value, 
-      datum: F.date.value,
-      nfcCreated: today,
-      nfcPos: isIncluded('gps') ? F.gps.value : '',
-      nfcData: el('nfc-preview').textContent, 
-      other: F.other.value,   
-      serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,           // was: placeholder text
-      serialNum: MENT.comment.value,          
-    };
-    
-    B('save-nfc').disabled = true;
-    if (!offlineSave){
-   
-        try {
-          const r = await fetch(CFG.WRITER_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload), redirect: 'follow' });
-          const j = await r.json().catch(() => ({}));
-          if (j.status === 'success') { showError(err, msg('err_save_ok'), 'success'); await newId(); renderPreview(); }
-          else showError(err, msg('err_save_fail') + (j.error || 'Unknown error'));
-        } catch (e) { showError(err, msg('err_save_fail') + e.message); }
-        finally { B('save-nfc').disabled = false; }
-     
+  if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
+  renderPreview();
+  const serial = serialEl.textContent;
+  const payload = {
+    key: CFG.SECRET,
+    action: currentTab === 'pin' ? 'pinSave' : 'nfcSave',   // from the tab variable, not localStorage
+    nfcId: F.nfcId.value, plantId: F.plantId.value, nfcTyp: F.type.value, datum: F.date.value,
+    nfcCreated: today,
+    nfcPos: isIncluded('gps') ? F.gps.value : '',
+    nfcData: el('nfc-preview').textContent,
+    other: F.other.value,
+    serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,
+    comment: MENT.comment.value,                             // was a 2nd "serialNum" key -> overwrote the serial
+  };
+  B('save-nfc').disabled = true;
+  showError(err, msg('err_save_start'), 'info');
+  try {
+    if (offlineSave) {                                       // offline: keep it on the device
+      queuePayload(payload);
+      showError(err, msg('err_save_offline'), 'success');
     } else {
-      
-        } 
-  });
+      await sendToServer(payload);
+      showError(err, msg('err_save_ok'), 'success');
+      await newId(); renderPreview();                        // fresh NFC id for the next tag
+    }
+  } catch (e) { showError(err, msg('err_save_fail') + e.message); }
+  finally { B('save-nfc').disabled = false; }
+});
+
+/* Online/Offline switch (replaces the empty global saveMode() and the inline onclick) */
+const sw = B('onoffline_toggle');
+sw.closest('.toggle-row').addEventListener('click', () => {
+  offlineSave = !offlineSave;
+  sw.classList.toggle('on', offlineSave);
+});
+
+/* JSON import: trigger the hidden input, validate, report, and keep what failed */
+B('im-button').addEventListener('click', () => $('importFile').click());
+$('importFile').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  try {
+    const items = JSON.parse(await file.text());
+    if (!Array.isArray(items)) throw new Error('Not a list');
+    let ok = 0;
+    for (const { _localId, _savedAt, _synced, ...payload } of items) { await sendToServer(payload); ok++; }
+    showError(err, `${ok} saved`, 'success');
+  } catch (x) { showError(err, msg('err_save_fail') + x.message); }
+  e.target.value = '';                                       // allow re-selecting the same file
+});
   
   /* ── Write + verify tag (tap 1 = write, tap 2 = verify) ── */
   B('nfc-write-button').addEventListener('click', async () => {
@@ -2289,21 +2298,20 @@ if (!writeNfc && !writeLink) return showError(err, msg('err_nothing_selected'));
 function initReader() {
   const r = id => $('read-' + id);
   const err = r('error-message');
-  let scan = null;                                    // AbortController of the active scan
+  let rdScan = null;                                    // AbortController of the active scan
 
   /* Reading only starts on button press (Web NFC needs a user gesture) and
    * stops when leaving the tab, so it can't clash with the Generator. */
-  const stopScan = () => { scan?.abort(); scan = null; r('read-nfc').disabled = false; };
-  const _switch = window.switchTab;
-  window.switchTab = tab => { _switch(tab); if (tab !== 'read') stopScan(); };
-
+  const stopScan = () => { scan?.abort(); rdScan = null; r('read-nfc').disabled = false; };
+  document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'read') stopScan(); });
+  
   async function startScan() {
     if (!('NDEFReader' in window)) return showError(err, msg('err_nfc_ns'));
-    stopScan(); scan = new AbortController();
+    stopScan(); rdScan = new AbortController();
     try {
       const ndef = new NDEFReader();
-      await ndef.scan({ signal: scan.signal });
-      ndef.addEventListener('reading', e => show({ uid: e.serialNumber, records: decodeRecords(e.message) }), { signal: scan.signal });
+      await ndef.scan({ signal: rdScan.signal });
+      ndef.addEventListener('reading', e => show({ uid: e.serialNumber, records: decodeRecords(e.message) }), { signal: rdScan.signal });
       showError(err, msg('err_read_nfc_scan_ok'), 'info');
     } catch (e) { showError(err, msg('err_nfc_read') + e); console.error(e); }
   }
@@ -2369,21 +2377,23 @@ function initReader() {
  * ===================================================================== */
   /* ── State ────────────────────────────────────────────────────────────── */
 let rgMode = 'single';
-let scan = null;          // AbortController of the active scan
+let rgScan = null;          // AbortController of the active scan
 let rgItems = [];           // [{serial, content}]
 let busy = false;         // save in progress
 let lastStatus = ['regSt_ready', 'info', {}];
 
 /* ── UI helpers ───────────────────────────────────────────────────────── */
+  /* Registry keys all live under "nfcreg." – rt() keeps call sites short */
+const rt = k => 'nfcreg.' + k;
+
 function rgStatusSet(key, type = 'info', params = {}) {
-  lastStatus = [key, type, params];
-  const el = $('rgStatusSet');
-  el.textContent = t(key, params);
-  el.className = 'rgStatus-box ' + type;
-  el.removeAttribute('data-i18n');
+  lastStatus = [key, type, params];                  // remembered so a language switch can re-render it
+  const box = $('rgStatus');
+  box.textContent = t(rt(key), params);
+  box.className = 'rgStatus-box ' + type;
 }
   function rgUpdateButtons() {
-  const rgScanning = !!scan;
+  const rgScanning = !!rgScan;
   $('rgStartBtn').disabled = rgScanning || busy;
   $('rgStopBtn').disabled = !rgScanning;
   $('rgLiveDot').style.display = rgScanning ? 'inline' : 'none';
@@ -2396,14 +2406,14 @@ function rgRenderList() {
   $('rgCount').textContent = rgItems.length;
   rgListV.replaceChildren();
   if (!rgItems.length) {
-    const e = document.createElement('div'); e.className = 'rgEmpty'; e.textContent = t('rgEmpty'); rgListV.append(e);
+    const e = document.createElement('div'); e.className = 'rgEmpty'; e.textContent = t(rt('gEmpty')); rgListV.append(e);
   }
   rgItems.forEach((it, i) => {
     const row = document.createElement('div'); row.className = 'rgItem';
     const n = document.createElement('div'); n.className = 'rgNum'; n.textContent = (i + 1) + '.';
     const box = document.createElement('div'); box.className = 'rgTxt';
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
-    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t('regNo_content');
+    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('egNo_content'));
     box.append(s, c);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '✕';
     d.disabled = busy;
@@ -2448,7 +2458,7 @@ async function rgSave(rows) {
 
 /* ── Scanning ─────────────────────────────────────────────────────────── */
 function rgStopScan(silent) {
-  scan?.abort(); scan = null; rgUpdateButtons();
+  scan?.abort(); rgScan = null; rgUpdateButtons();
   if (!silent) rgStatusSet('reg_st_stopped', 'info');
 }
 
@@ -2456,7 +2466,7 @@ async function rgStartScan() {
   if (!('NDEFReader' in window)) return rgStatusSet('reg_st_ns', 'error');
   rgStopScan(true);
   rgStatusSet('reg_st_starting', 'info');
-  const ac = new AbortController(); scan = ac;
+  const ac = new AbortController(); rgScan = ac;
   try {
     const ndef = new NDEFReader();
     ndef.addEventListener('reading', e => rgOnTag(e), { signal: ac.signal });
@@ -2464,7 +2474,7 @@ async function rgStartScan() {
     await ndef.scan({ signal: ac.signal });
     rgStatusSet(rgMode === 'single' ? 'reg_st_scan_single' : 'reg_st_scan_multi', 'info');
   } catch (e) {
-    scan = null;
+    rgScan = null;
     console.error(e);
     rgStatusSet('reg_st_read_err', 'error');
   }
@@ -2511,29 +2521,31 @@ async function rgSaveAll() {
   } finally { busy = false; rgRenderList(); }
 }
   /* ── Wiring ───────────────────────────────────────────────────────────── */
-  function initRegitry() {
-$('rgStartBtn').onclick = rgStartScan;
-$('rgStopBtn').onclick = () => rgStopScan(false);
-$('rgSaveAllBtn').onclick = rgSaveAll;
-$('rgBackBtn').onclick = () => location.href = 'Homepage.html';
-  
-$('rgClearBtn').onclick = () => {
-  if (!rgItems.length || !confirm(t('reg_st_confirm_clear'))) return;
-  rgItems = []; rgStatusSet('reg_st_cleared', 'info'); rgRenderList();
-};
-document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => {
-  rgMode = b.dataset.mode;
-  document.querySelectorAll('#regModeToggle button').forEach(x => x.classList.toggle('active', x === b));
-  $('reg-panel-session').style.display = rgMode === 'multi' ? '' : 'none';
-  rgStatusSet('regSt_ready', 'info');
-});
-document.querySelectorAll('.lang-btn').forEach(b => b.onclick = () => {
-  try { localStorage.setItem(LANG_KEY, b.dataset.lang); } catch {}
-  applyTranslations();
-});
-document.addEventListener('visibilitychange', () => { if (document.hidden && scan) rgStopScan(false); });
-window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t('reg_st_unsaved'); } });
-  }
+ function initRegitry() {
+  $('rgStartBtn').onclick   = rgStartScan;
+  $('rgStopBtn').onclick    = () => rgStopScan(false);
+  $('rgSaveAllBtn').onclick = rgSaveAll;
+  $('rgBackBtn').onclick    = () => location.href = PAGES.home;
+  $('rgClearBtn').onclick   = () => {
+    if (!rgItems.length || !confirm(t(rt('reg_st_confirm_clear')))) return;
+    rgItems = []; rgStatusSet('reg_st_cleared'); rgRenderList();
+  };
+
+  const sessionPanel = $('reg-panel-session');
+  const setMode = mode => {                          // single = auto-save, multi = session list
+    rgMode = mode;
+    document.querySelectorAll('#regModeToggle button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    sessionPanel.style.display = mode === 'multi' ? '' : 'none';
+    rgStatusSet('regSt_ready');
+  };
+  document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
+  setMode('single');
+
+  document.addEventListener('lang:changed', () => { rgStatusSet(...lastStatus); rgRenderList(); });
+  document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'reg') rgStopScan(true); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && rgScan) rgStopScan(false); });
+  window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t(rt('reg_st_unsaved')); } });
+}
   
 /* ── Boot ── */
 const boot = () => { initGenerator(); initReader(); initRegitry(); applyTranslations(); };
