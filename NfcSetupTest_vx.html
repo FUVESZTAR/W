@@ -2307,15 +2307,20 @@ function initReader() {
   document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'read') stopScan(); });
   
   async function startScan() {
-    if (!('NDEFReader' in window)) return showError(err, msg('err_nfc_ns'));
-    stopScan(); rdScan = new AbortController();
-    try {
-      const ndef = new NDEFReader();
-      await ndef.scan({ signal: rdScan.signal });
-      ndef.addEventListener('reading', e => show({ uid: e.serialNumber, records: decodeRecords(e.message) }), { signal: rdScan.signal });
-      showError(err, msg('err_read_nfc_scan_ok'), 'info');
-    } catch (e) { showError(err, msg('err_nfc_read') + e); console.error(e); }
-  }
+  if (!('NDEFReader' in window)) return showError(err, msg('err_nfc_ns'));
+  stopScan(); rdScan = new AbortController();
+  try {
+    const ndef = new NDEFReader();
+    // 1) listeners FIRST, so no early tag event can be missed
+    ndef.addEventListener('reading', e => show({ uid: e.serialNumber, records: decodeRecords(e.message) }),
+                          { signal: rdScan.signal });
+    ndef.addEventListener('readingerror', () => showError(err, msg('err_nfc_read_unreadable'), 'error'),
+                          { signal: rdScan.signal });
+    // 2) then start scanning
+    await ndef.scan({ signal: rdScan.signal });
+    showError(err, msg('err_read_nfc_scan_ok'), 'info');
+  } catch (e) { showError(err, msg('err_nfc_read') + e); console.error(e); }
+}
 
   function clearForm() {
     ['nfcId', 'plantId', 'name-plant', 'name-variety', 'latin-name', 'nfcTyp', 'datum', 'other'].forEach(n => r(n).value = '');
