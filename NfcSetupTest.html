@@ -1691,11 +1691,9 @@ const msg = k  => t('nfcall.' + k);
  * to everyone -> ROTATE it and validate/rate-limit in Apps Script
  * (e.g. origin checks, allow-listed fields, length limits).            */
 const CFG = {
-  // WRITER_URL: 'https://script.google.com/macros/s/AKfycbz6NHOWKPqSHH3IEY2ai1jezpYln_V63eI4ZOgQUsMnlYbbQvI_fZBxTUSTo3pQko84/exec',
-  // 2026.10.22 WRITER_URL: 'https://script.google.com/macros/s/AKfycbxEahXHII-H7uHQIQeSNbcSD8KDtV5tXSoXQvfMNbYsBS4SQQQdBlwFBmz5ZnLsMR7S/exec',
-  WRITER_URL: 'https://script.google.com/macros/s/AKfycbz-zEl907ls0HQeaI8vbTiP3cP6uvTpdw4lFE52NuDEbgaGml-4_ShuLnqYEwF2XZZG/exec',
-  SECRET:     '159753g9d5rt4sdfer7e5z4d6szo89fsef',
-  SHEET_SOURCE_ID:   '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY',
+  WRITER_URL: 'https://script.google.com/macros/s/xsd',
+  SECRET:     'xsd',
+  SHEET_SOURCE_ID:   'xds',
   SHEET_SOURCE:      'plant_list',
   PLANT_Q:    "select A, B, C, D, E, F where L = 'Y'",
 };
@@ -2362,7 +2360,7 @@ function initReader() {
     switchTab('gen');
   });
   r('gen-nfc').addEventListener('click',  () => switchTab('gen'));
-  r('list-nfc').addEventListener('click', () => location.href = 'pages/NFCListPage.html');
+  r('list-nfc').addEventListener('click', () => location.href = 'pages/NfcListPage.html');
   r('back-button').addEventListener('click', () => location.href = 'Homepage.html');
 }
 
@@ -2379,7 +2377,7 @@ let lastStatus = ['regSt_ready', 'info', {}];
 /* ── UI helpers ───────────────────────────────────────────────────────── */
 function rgStatusSet(key, type = 'info', params = {}) {
   lastStatus = [key, type, params];
-  const el = $('rgStatus');
+  const el = $('rgStatusSet');
   el.textContent = t(key, params);
   el.className = 'rgStatus-box ' + type;
   el.removeAttribute('data-i18n');
@@ -2409,7 +2407,7 @@ function rgRenderList() {
     box.append(s, c);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '✕';
     d.disabled = busy;
-    d.onclick = () => { rgItems.splice(i, 1); rgStatus('reg_st_removed', 'info', { s: it.serial }); rgRenderList(); rgUpdateButtons(); };
+    d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('reg_st_removed', 'info', { s: it.serial }); rgRenderList(); rgUpdateButtons(); };
     row.append(n, box, d); rgListV.append(row);
   });
   rgUpdateButtons();
@@ -2445,7 +2443,7 @@ async function rgSave(rows) {
     body: JSON.stringify(payload), redirect: 'follow',
   });
   const j = await r.json().catch(() => ({}));
-  if (j.rgStatus !== 'success') throw new Error(j.error || 'Unknown error');
+  if (j.status !== 'success') throw new Error(j.error || 'Unknown error');
 }
 
 /* ── Scanning ─────────────────────────────────────────────────────────── */
@@ -2524,9 +2522,9 @@ $('rgClearBtn').onclick = () => {
   rgItems = []; rgStatusSet('reg_st_cleared', 'info'); rgRenderList();
 };
 document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => {
-  rgMode = b.dataset.rgMode;
-  document.querySelectorAll('#regModeToggle button').forEach(x => x.classList.rgToggle('active', x === b));
-  $('rgSessionPanel').style.display = rgMode === 'multi' ? '' : 'none';
+  rgMode = b.dataset.mode;
+  document.querySelectorAll('#regModeToggle button').forEach(x => x.classList.toggle('active', x === b));
+  $('reg-panel-session').style.display = rgMode === 'multi' ? '' : 'none';
   rgStatusSet('regSt_ready', 'info');
 });
 document.querySelectorAll('.lang-btn').forEach(b => b.onclick = () => {
