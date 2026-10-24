@@ -1389,6 +1389,54 @@ const I18N = {
   "nfcall.err_read_gen_no_gps": { en: "No GPS!", hu: "Nincs GPS!" },
   "nfcall.err_nothing_selected": { en: "Select at least the NFC data or the link", hu: "V\u00e1lassz ki legal\u00e1bb az NFC adatot vagy a hivatkoz\u00e1st" },
   "nfcall.btn_exp": { en: "NFC Save to json", hu: "NFC ment\u00e9se json-ba!" },
+  // ── NFC Registry ────────────────────────────────────────────────────────────
+  // ── NFC Registration ──
+  "nfcreg.regSubtitle": { en: "", hu: "NFC sorozatsz\u00e1m ment\u0151" },
+  "nfcreg.scan_title": { en: "", hu: "Olvas\u00e1s" },
+  "nfcreg.scan_sub": { en: "", hu: "V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket" },
+  // ── Reading mode ──
+  "nfcreg.rgMode_single": { en: "Single (auto-save)", hu: "Egyes (automatikus ment\u00e9s)" },
+  "nfcreg.rgMode_multi": { en: "Multiple (session)", hu: "T\u00f6bb (munkamenet)" },
+  // ── Buttons ──
+  "nfcreg.regBtn_start": { en: "Start reading", hu: "Olvas\u00e1s ind\u00edt\u00e1sa" },
+  "nfcreg.regBtn_stop": { en: "Stop reading", hu: "Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa" },
+  "nfcreg.regBtn_save_all": { en: "Save all", hu: "Mind ment\u00e9se" },
+  "nfcreg.regBtn_clear": { en: "Clear list", hu: "Lista t\u00f6rl\u00e9se" },
+  "nfcreg.btn_back": { en: "\u2190 Back", hu: "\u2190 Vissza" },
+  // ── Last tag ──
+  "nfcreg.regLast_title": { en: "Last tag", hu: "Utols\u00f3 cimke" },
+  "nfcreg.regLast_sub": { en: "Most recently read tag", hu: "Legutóbb beolvasott cimke" },
+  "nfcreg.regLbl_serial": { en: "Serial number", hu: "Sorozatsz\u00e1m" },
+  "nfcreg.regLbl_content": { en: "Content", hu: "Tartalom" },
+  "nfcreg.regNo_content": { en: "(no content)", hu: "(nincs tartalom)" },
+  // ── Session list ──
+  "nfcreg.rgList_title": { en: "Session list", hu: "Munkamenet lista" },
+  "nfcreg.rgList_sub": { en: "Saved together at the end", hu: "A v\u00e9g\u00e9n egyben ment\u0151dik" },
+  "nfcreg.rgEmpty": { en: "No tags read yet.", hu: "M\u00e9g nincs beolvasott cimke." },
+  // ── Status messages ──
+  "nfcreg.regSt_ready": { en: "Ready. Press “Start reading”.", hu: "K\u00e9sz. Nyomd meg az \u201eOlvas\u00e1s ind\u00edt\u00e1sa\u201d gombot." },
+  "nfcreg.reg_st_ns": { en: "Web NFC is not supported on this browser/device (use Chrome on Android).", hu: "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n (haszn\u00e1lj Chrome-ot Androidon)." },
+  "nfcreg.reg_st_starting": { en: "Starting NFC scan…", hu: "NFC olvas\u00e1s ind\u00edt\u00e1sa\u2026" },
+  "nfcreg.reg_st_scan_single": { en: "Scanning active – hold ONE tag to the back of the phone. It will be saved automatically.", hu: "Olvas\u00e1s akt\u00edv \u2013 tarts EGY cimk\u00e9t a telefon h\u00e1t\u00e1hoz. Automatikusan ment\u0151dik." },
+  "nfcreg.reg_st_scan_multi": { en: "Scanning active – hold tags to the phone one by one. Press “Save all” when finished.", hu: "Olvas\u00e1s akt\u00edv \u2013 tartsd oda a cimk\u00e9ket egyenk\u00e9nt. Ha k\u00e9sz, nyomd meg a \u201eMind ment\u00e9se\u201d gombot." },
+  "nfcreg.reg_st_read": { en: "Tag read: {s}", hu: "Cimke beolvasva: {s}" },
+  "nfcreg.reg_st_saving": { en: "Saving to Google Sheet…", hu: "Ment\u00e9s a Google t\u00e1bl\u00e1zatba\u2026" },
+  "nfcreg.reg_st_saved_one": { en: "Saved ✅ {s}", hu: "Mentve \u2705 {s}" },
+  "nfcreg.reg_st_saved_many": { en: "{n} tag(s) saved to the sheet ✅", hu: "{n} cimke mentve a t\u00e1bl\u00e1zatba \u2705" },
+  "nfcreg.reg_st_added": { en: "Added to list: {s} ({n} total)", hu: "Hozz\u00e1adva a list\u00e1hoz: {s} (\u00f6sszesen {n})" },
+  "nfcreg.reg_st_dup": { en: "Already in the list: {s}", hu: "M\u00e1r szerepel a list\u00e1ban: {s}" },
+  "nfcreg.reg_st_no_serial": { en: "The tag was read but has no serial number.", hu: "A cimke beolvasva, de nincs sorozatsz\u00e1ma." },
+  "nfcreg.reg_st_read_err": { en: "NFC read error – try again.", hu: "NFC olvas\u00e1si hiba \u2013 pr\u00f3b\u00e1ld \u00fajra." },
+  "nfcreg.reg_st_stopped": { en: "Reading stopped.", hu: "Olvas\u00e1s le\u00e1ll\u00edtva." },
+  // ── Save errors ──
+  "nfcreg.reg_st_save_fail": { en: "Save failed: {e} – the list was kept, try again.", hu: "Ment\u00e9s sikertelen: {e} \u2013 a lista megmaradt, pr\u00f3b\u00e1ld \u00fajra." },
+  "nfcreg.reg_st_save_fail_single": { en: "Save failed: {e}", hu: "Ment\u00e9s sikertelen: {e}" },
+  // ── List messages ──
+  "nfcreg.reg_st_empty": { en: "The list is empty.", hu: "A lista \u00fcres." },
+  "nfcreg.reg_st_cleared": { en: "List cleared.", hu: "Lista t\u00f6r\u00f6lve." },
+  "nfcreg.reg_st_removed": { en: "Removed: {s}", hu: "Elt\u00e1vol\u00edtva: {s}" },
+  "nfcreg.reg_st_confirm_clear": { en: "Clear all tags from the list?", hu: "Törlöd az összes cimkét a listából?" },
+  "nfcreg.reg_st_unsaved": { en: "You have unsaved tags.", hu: "Vannak nem mentett cimk\u00e9k." },
 };
 
 const LANG_KEY = 'fuvesztar_lang';
@@ -1512,7 +1560,7 @@ function debounce(fn, ms) {
 
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
-const rt  = k => 'nfcreg.' + k;                               // registry keys
+const rt  = k => '.' + k;                               // registry keys
 const PAGES = { home: 'Homepage.html', list: 'pages/NfcListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
@@ -2074,7 +2122,7 @@ function initReader() {
 }
 
 /* =====================================================================
- *  REGISTRY  (all rg* names; status keys live under "nfcreg.")
+ *  REGISTRY  (all rg* names; status keys live under ".")
  * ===================================================================== */
 let rgMode = 'single', rgScan = null, rgItems = [], busy = false, lastStatus = ['regSt_ready', 'info', {}];
 
