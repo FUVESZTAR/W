@@ -1848,7 +1848,7 @@ async function initGenerator() {
   B('back-button').addEventListener('click', () => location.href = PAGES.home);
   B('list-nfc').addEventListener('click',   () => location.href = PAGES.list);
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
-  B('exp-button').addEventListener('click',   () => downloadQueueAsJson();
+  B('exp-button').addEventListener('click',   () => downloadQueueAsJson());
 
   /* ── Save: NFC page or Location-saver page (other action + id, no serial) ── */
   B('save-nfc').addEventListener('click', async () => {
