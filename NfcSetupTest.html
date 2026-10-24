@@ -1273,12 +1273,12 @@ const TRANSLATIONS = {
 "nfcall.import_bad_file":     { en: "The file is not a list of saved NFC items.", hu: "A fájl nem mentett NFC elemek listája." },
 "nfcall.pinId":               { en: "Pin ID", hu: "Helyjelölő ID" },
 "nfcall.err_nfc_read_unreadable": { en: "Tag detected but could not be read – try again.", hu: "A cimke észlelve, de nem olvasható – próbáld újra." },
-  const TRANSLATIONS = {
   // ── NFC Generator & Reader ──
   "nfcall.main_title": { en: "NFC Generator & Reader", hu: "NFC Gener\u00e1l\u00f3 & Olvas\u00f3" },
   "nfcall.main_btn_gen": { en: "🌱 NFC Generator", hu: "🌱 NFC Gener\u00e1l\u00f3" },
   "nfcall.main_btn_rd": { en: "📖 NFC Reader", hu: "📖 NFC Olvas\u00f3" },
-  "nfcall.main_btn_loc": { en: "📍 Location saver", hu: "📍 Helyjel\u00f6l\u0151" },
+  "nfcall.main_btn_pin": { en: "📍 Location saver", hu: "📍 Helyjel\u00f6l\u0151" },
+  "nfcall.main_btn_reg": { en: "🔖 NFC Registry", hu: "🔖 NFC Regisztáló" },
   "nfcall.gen_page_subtitle": { en: "Generate NFC tags for plants", hu: "NFC cimk\u00e9k gener\u00e1l\u00e1sa n\u00f6v\u00e9nyekhez" },
   "nfcall.main_card_title": { en: "Selection", hu: "Kiv\u00e1laszt\u00e1s" },
   "nfcall.main_card_sub": { en: "Choose a plant and variety.", hu: "V\u00e1lassz n\u00f6v\u00e9nyt \u00e9s fajt\u00e1t." },
@@ -1413,7 +1413,7 @@ function setCurrentLang(lang) {
 
 const LANGS = ['en', 'hu'];
 const FALLBACK = 'en';
-
+const I18N = [];
 /** t('key') or t('key', { s: 'ABC' }) replaces {s} in "Tag read: {s}" */
 function t(key, params) {
   const entry = I18N[key];
@@ -1440,7 +1440,7 @@ function applyTranslations() {
     const value = t(titleKey);
     if (typeof value === 'string') document.title = value;
   }
-}
+
 
 function updateLanguageButtons() {
   const lang = getCurrentLang();
@@ -1845,7 +1845,7 @@ async function initGenerator() {
   B('back-button').addEventListener('click', () => location.href = PAGES.home);
   B('list-nfc').addEventListener('click',   () => location.href = PAGES.list);
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
-  B('exp-button').addEventListener('click',   () => downloadQueueAsJson(););
+  B('exp-button').addEventListener('click',   () => downloadQueueAsJson();
 
   /* ── Save: NFC page or Location-saver page (other action + id, no serial) ── */
   B('save-nfc').addEventListener('click', async () => {
@@ -1869,7 +1869,7 @@ async function initGenerator() {
   });
 
   /* Online/Offline switch (HTML: remove onclick="saveMode()"); going back Online sends the queue */
-  const sw = B('gen-onoffline_toggle');
+  const sw = B('onoffline_toggle');
   sw.closest('.toggle-row').addEventListener('click', async () => {
     offlineSave = !offlineSave; sw.classList.toggle('on', offlineSave);
     if (!offlineSave && getQueue().length) {
