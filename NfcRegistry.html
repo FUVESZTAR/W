@@ -103,7 +103,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
   <div class="page-header">
     <div>
       <div class="page-title">🌿 NFC</div>
-      <div class="page-subtitle" data-i18n="subtitle">NFC Serial Saver</div>
+      <div class="page-subtitle" data-i18n="regSubtitle">NFC Serial Saver</div>
     </div>
     <div class="rgToggle lang">
       <button type="button" class="lang-btn" data-lang="en">EN</button>
@@ -127,10 +127,10 @@ button:disabled{opacity:.55;cursor:not-allowed}
         <button type="button" data-mode="multi" data-i18n="rgMode_multi">Multiple (session)</button>
       </div>
       <div class="btn-grid cols-2">
-        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="btn_start">Start reading</button>
-        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="btn_stop" disabled>Stop reading</button>
+        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="regBtn_start">Start reading</button>
+        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="regBtn_stop" disabled>Stop reading</button>
       </div>
-      <div id="rgStatus" class="rgStatus-box" data-i18n="st_ready">Ready. Press “Start reading”.</div>
+      <div id="rgStatus" class="rgStatus-box" data-i18n="regSt_ready">Ready. Press “Start reading”.</div>
       <div class="btn-grid cols-1">
           <button id="rgBackBtn" class="btn-back" type="button" data-i18n="btn_back">← Back</button>
       </div>
@@ -142,17 +142,17 @@ button:disabled{opacity:.55;cursor:not-allowed}
     <div class="panel-header">
       <span class="panel-icon">🔍</span>
       <div class="grow">
-        <div class="panel-title" data-i18n="last_title">Last tag</div>
-        <div class="panel-subtitle" data-i18n="last_sub">Most recently read tag</div>
+        <div class="panel-title" data-i18n="regLast_title">Last tag</div>
+        <div class="panel-subtitle" data-i18n="regLast_sub">Most recently read tag</div>
       </div>
     </div>
     <div class="panel-body">
       <div>
-        <div class="rgLabel" data-i18n="lbl_serial">Serial number</div>
+        <div class="rgLabel" data-i18n="regLbl_serial">Serial number</div>
         <div class="rgPreview" id="rgLastSerial">–</div>
       </div>
       <div>
-        <div class="rgLabel" data-i18n="lbl_content">Content</div>
+        <div class="rgLabel" data-i18n="regLbl_content">Content</div>
         <div class="rgPreview" id="rgLastContent">–</div>
       </div>
     </div>
@@ -171,8 +171,8 @@ button:disabled{opacity:.55;cursor:not-allowed}
     <div class="panel-body">
       <div class="rgList" id="rgListId"></div>
       <div class="btn-grid">
-        <button id="rgSaveAllBtn" class="btn btn-primary" type="button" data-i18n="btn_save_all" disabled>Save all</button>
-        <button id="rgClearBtn" class="btn btn-secondary" type="button" data-i18n="btn_clear" disabled>Clear list</button>
+        <button id="rgSaveAllBtn" class="btn btn-primary" type="button" data-i18n="regBtn_save_all" disabled>Save all</button>
+        <button id="rgClearBtn" class="btn btn-secondary" type="button" data-i18n="regBtn_clear" disabled>Clear list</button>
       </div>
     </div>
   </section>
@@ -196,62 +196,62 @@ const CFG = {
 /* ── i18n ─────────────────────────────────────────────────────────────── */
 const TR = {
   en: {
-    subtitle:'NFC Serial Saver', scan_title:'Scan', scan_sub:'Choose a mode and read the tags',
+    regSubtitle:'NFC Serial Saver', scan_title:'Scan', scan_sub:'Choose a mode and read the tags',
     rgMode_single:'Single (auto-save)', rgMode_multi:'Multiple (session)',
-    btn_start:'Start reading', btn_stop:'Stop reading', btn_save_all:'Save all', btn_clear:'Clear list',btn_back:'\u2190 Back',
-    last_title:'Last tag', last_sub:'Most recently read tag', lbl_serial:'Serial number', lbl_content:'Content',
+    regBtn_start:'Start reading', regBtn_stop:'Stop reading', regBtn_save_all:'Save all', regBtn_clear:'Clear list',btn_back:'\u2190 Back',
+    regLast_title:'Last tag', regLast_sub:'Most recently read tag', regLbl_serial:'Serial number', regLbl_content:'Content',
     rgList_title:'Session list', rgList_sub:'Saved together at the end', rgEmpty:'No tags read yet.',
-    no_content:'(no content)',
-    st_ready:'Ready. Press “Start reading”.',
-    st_ns:'Web NFC is not supported on this browser/device (use Chrome on Android).',
-    st_starting:'Starting NFC scan…',
-    st_scan_single:'Scanning active – hold ONE tag to the back of the phone. It will be saved automatically.',
-    st_scan_multi:'Scanning active – hold tags to the phone one by one. Press “Save all” when finished.',
-    st_read:'Tag read: {s}',
-    st_saving:'Saving to Google Sheet…',
-    st_saved_one:'Saved ✅ {s}',
-    st_saved_many:'{n} tag(s) saved to the sheet ✅',
-    st_added:'Added to list: {s} ({n} total)',
-    st_dup:'Already in the list: {s}',
-    st_no_serial:'The tag was read but has no serial number.',
-    st_read_err:'NFC read error – try again.',
-    st_stopped:'Reading stopped.',
-    st_save_fail:'Save failed: {e} – the list was kept, try again.',
-    st_save_fail_single:'Save failed: {e}',
-    st_empty:'The list is empty.',
-    st_cleared:'List cleared.',
-    st_removed:'Removed: {s}',
-    st_confirm_clear:'Clear all tags from the list?',
-    st_unsaved:'You have unsaved tags.',
+    regNo_content:'(no content)',
+    regSt_ready:'Ready. Press “Start reading”.',
+    reg_st_ns:'Web NFC is not supported on this browser/device (use Chrome on Android).',
+    reg_st_starting:'Starting NFC scan…',
+    reg_st_scan_single:'Scanning active – hold ONE tag to the back of the phone. It will be saved automatically.',
+    reg_st_scan_multi:'Scanning active – hold tags to the phone one by one. Press “Save all” when finished.',
+    reg_st_read:'Tag read: {s}',
+    reg_st_saving:'Saving to Google Sheet…',
+    reg_st_saved_one:'Saved ✅ {s}',
+    reg_st_saved_many:'{n} tag(s) saved to the sheet ✅',
+    reg_st_added:'Added to list: {s} ({n} total)',
+    reg_st_dup:'Already in the list: {s}',
+    reg_st_no_serial:'The tag was read but has no serial number.',
+    reg_st_read_err:'NFC read error – try again.',
+    reg_st_stopped:'Reading stopped.',
+    reg_st_save_fail:'Save failed: {e} – the list was kept, try again.',
+    reg_st_save_fail_single:'Save failed: {e}',
+    reg_st_empty:'The list is empty.',
+    reg_st_cleared:'List cleared.',
+    reg_st_removed:'Removed: {s}',
+    reg_st_confirm_clear:'Clear all tags from the list?',
+    reg_st_unsaved:'You have unsaved tags.',
   },
   hu: {
-    subtitle:'NFC sorozatsz\u00e1m ment\u0151', scan_title:'Olvas\u00e1s', scan_sub:'V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket',
+    regSubtitle:'NFC sorozatsz\u00e1m ment\u0151', scan_title:'Olvas\u00e1s', scan_sub:'V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket',
     rgMode_single:'Egyes (automatikus ment\u00e9s)', rgMode_multi:'T\u00f6bb (munkamenet)',
-    btn_start:'Olvas\u00e1s ind\u00edt\u00e1sa', btn_stop:'Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa', btn_save_all:'Mind ment\u00e9se', btn_clear:'Lista t\u00f6rl\u00e9se',btn_back:'\u2190 Vissza',
-    last_title:'Utols\u00f3 cimke', last_sub:'Legutóbb beolvasott cimke', lbl_serial:'Sorozatsz\u00e1m', lbl_content:'Tartalom',
+    regBtn_start:'Olvas\u00e1s ind\u00edt\u00e1sa', regBtn_stop:'Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa', regBtn_save_all:'Mind ment\u00e9se', regBtn_clear:'Lista t\u00f6rl\u00e9se',btn_back:'\u2190 Vissza',
+    regLast_title:'Utols\u00f3 cimke', regLast_sub:'Legutóbb beolvasott cimke', regLbl_serial:'Sorozatsz\u00e1m', regLbl_content:'Tartalom',
     rgList_title:'Munkamenet lista', rgList_sub:'A v\u00e9g\u00e9n egyben ment\u0151dik', rgEmpty:'M\u00e9g nincs beolvasott cimke.',
-    no_content:'(nincs tartalom)',
-    st_ready:'K\u00e9sz. Nyomd meg az \u201eOlvas\u00e1s ind\u00edt\u00e1sa\u201d gombot.',
-    st_ns:'A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n (haszn\u00e1lj Chrome-ot Androidon).',
-    st_starting:'NFC olvas\u00e1s ind\u00edt\u00e1sa\u2026',
-    st_scan_single:'Olvas\u00e1s akt\u00edv \u2013 tarts EGY cimk\u00e9t a telefon h\u00e1t\u00e1hoz. Automatikusan ment\u0151dik.',
-    st_scan_multi:'Olvas\u00e1s akt\u00edv \u2013 tartsd oda a cimk\u00e9ket egyenk\u00e9nt. Ha k\u00e9sz, nyomd meg a \u201eMind ment\u00e9se\u201d gombot.',
-    st_read:'Cimke beolvasva: {s}',
-    st_saving:'Ment\u00e9s a Google t\u00e1bl\u00e1zatba\u2026',
-    st_saved_one:'Mentve \u2705 {s}',
-    st_saved_many:'{n} cimke mentve a t\u00e1bl\u00e1zatba \u2705',
-    st_added:'Hozz\u00e1adva a list\u00e1hoz: {s} (\u00f6sszesen {n})',
-    st_dup:'M\u00e1r szerepel a list\u00e1ban: {s}',
-    st_no_serial:'A cimke beolvasva, de nincs sorozatsz\u00e1ma.',
-    st_read_err:'NFC olvas\u00e1si hiba \u2013 pr\u00f3b\u00e1ld \u00fajra.',
-    st_stopped:'Olvas\u00e1s le\u00e1ll\u00edtva.',
-    st_save_fail:'Ment\u00e9s sikertelen: {e} \u2013 a lista megmaradt, pr\u00f3b\u00e1ld \u00fajra.',
-    st_save_fail_single:'Ment\u00e9s sikertelen: {e}',
-    st_empty:'A lista \u00fcres.',
-    st_cleared:'Lista t\u00f6r\u00f6lve.',
-    st_removed:'Elt\u00e1vol\u00edtva: {s}',
-    st_confirm_clear:'Törlöd az összes cimkét a listából?',
-    st_unsaved:'Vannak nem mentett cimk\u00e9k.',
+    regNo_content:'(nincs tartalom)',
+    regSt_ready:'K\u00e9sz. Nyomd meg az \u201eOlvas\u00e1s ind\u00edt\u00e1sa\u201d gombot.',
+    reg_st_ns:'A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n (haszn\u00e1lj Chrome-ot Androidon).',
+    reg_st_starting:'NFC olvas\u00e1s ind\u00edt\u00e1sa\u2026',
+    reg_st_scan_single:'Olvas\u00e1s akt\u00edv \u2013 tarts EGY cimk\u00e9t a telefon h\u00e1t\u00e1hoz. Automatikusan ment\u0151dik.',
+    reg_st_scan_multi:'Olvas\u00e1s akt\u00edv \u2013 tartsd oda a cimk\u00e9ket egyenk\u00e9nt. Ha k\u00e9sz, nyomd meg a \u201eMind ment\u00e9se\u201d gombot.',
+    reg_st_read:'Cimke beolvasva: {s}',
+    reg_st_saving:'Ment\u00e9s a Google t\u00e1bl\u00e1zatba\u2026',
+    reg_st_saved_one:'Mentve \u2705 {s}',
+    reg_st_saved_many:'{n} cimke mentve a t\u00e1bl\u00e1zatba \u2705',
+    reg_st_added:'Hozz\u00e1adva a list\u00e1hoz: {s} (\u00f6sszesen {n})',
+    reg_st_dup:'M\u00e1r szerepel a list\u00e1ban: {s}',
+    reg_st_no_serial:'A cimke beolvasva, de nincs sorozatsz\u00e1ma.',
+    reg_st_read_err:'NFC olvas\u00e1si hiba \u2013 pr\u00f3b\u00e1ld \u00fajra.',
+    reg_st_stopped:'Olvas\u00e1s le\u00e1ll\u00edtva.',
+    reg_st_save_fail:'Ment\u00e9s sikertelen: {e} \u2013 a lista megmaradt, pr\u00f3b\u00e1ld \u00fajra.',
+    reg_st_save_fail_single:'Ment\u00e9s sikertelen: {e}',
+    reg_st_empty:'A lista \u00fcres.',
+    reg_st_cleared:'Lista t\u00f6r\u00f6lve.',
+    reg_st_removed:'Elt\u00e1vol\u00edtva: {s}',
+    reg_st_confirm_clear:'Törlöd az összes cimkét a listából?',
+    reg_st_unsaved:'Vannak nem mentett cimk\u00e9k.',
   },
 };
 const LANG_KEY = 'fuvesztar_lang';
@@ -267,7 +267,7 @@ let rgMode = 'single';
 let scan = null;          // AbortController of the active scan
 let rgItems = [];           // [{serial, content}]
 let busy = false;         // save in progress
-let lastStatus = ['st_ready', 'info', {}];
+let lastStatus = ['regSt_ready', 'info', {}];
 
 /* ── UI helpers ───────────────────────────────────────────────────────── */
 function rgStatusSet(key, type = 'info', params = {}) {
@@ -304,11 +304,11 @@ function rgRenderList() {
     const n = document.createElement('div'); n.className = 'rgNum'; n.textContent = (i + 1) + '.';
     const box = document.createElement('div'); box.className = 'rgTxt';
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
-    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t('no_content');
+    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t('regNo_content');
     box.append(s, c);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '✕';
     d.disabled = busy;
-    d.onclick = () => { rgItems.splice(i, 1); rgStatus('st_removed', 'info', { s: it.serial }); rgRenderList(); rgUpdateButtons(); };
+    d.onclick = () => { rgItems.splice(i, 1); rgStatus('reg_st_removed', 'info', { s: it.serial }); rgRenderList(); rgUpdateButtons(); };
     row.append(n, box, d); rgListV.append(row);
   });
   rgUpdateButtons();
@@ -350,24 +350,24 @@ async function rgSave(rows) {
 /* ── Scanning ─────────────────────────────────────────────────────────── */
 function rgStopScan(silent) {
   scan?.abort(); scan = null; rgUpdateButtons();
-  if (!silent) rgStatusSet('st_stopped', 'info');
+  if (!silent) rgStatusSet('reg_st_stopped', 'info');
 }
 
 async function rgStartScan() {
-  if (!('NDEFReader' in window)) return rgStatusSet('st_ns', 'error');
+  if (!('NDEFReader' in window)) return rgStatusSet('reg_st_ns', 'error');
   rgStopScan(true);
-  rgStatusSet('st_starting', 'info');
+  rgStatusSet('reg_st_starting', 'info');
   const ac = new AbortController(); scan = ac;
   try {
     const ndef = new NDEFReader();
     ndef.addEventListener('reading', e => rgOnTag(e), { signal: ac.signal });
-    ndef.addEventListener('readingerror', () => rgStatusSet('st_read_err', 'warn'), { signal: ac.signal });
+    ndef.addEventListener('readingerror', () => rgStatusSet('reg_st_read_err', 'warn'), { signal: ac.signal });
     await ndef.scan({ signal: ac.signal });
-    rgStatusSet(rgMode === 'single' ? 'st_scan_single' : 'st_scan_multi', 'info');
+    rgStatusSet(rgMode === 'single' ? 'reg_st_scan_single' : 'reg_st_scan_multi', 'info');
   } catch (e) {
     scan = null;
     console.error(e);
-    rgStatusSet('st_read_err', 'error');
+    rgStatusSet('reg_st_read_err', 'error');
   }
   rgUpdateButtons();
 }
@@ -376,39 +376,39 @@ async function rgOnTag(e) {
   if (busy) return;                                   // ignore taps while saving
   const serial = (e.serialNumber || '').toUpperCase();
   const content = rgContentOf(rgDecodeRecords(e.message));
-  if (!serial) return rgStatusSet('st_no_serial', 'warn');
+  if (!serial) return rgStatusSet('reg_st_no_serial', 'warn');
   rgShowLast(serial, content);
   if (navigator.vibrate) navigator.vibrate(80);
 
   if (rgMode === 'single') {
     rgStopScan(true);                                   // one tag only
-    rgStatusSet('st_read', 'info', { s: serial });
+    rgStatusSet('reg_st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons();
-    rgStatusSet('st_saving', 'info');
-    try { await rgSave([{ serial, content }]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
-    catch (err) { console.error(err); rgStatusSet('st_save_fail_single', 'error', { e: err.message || err }); }
+    rgStatusSet('reg_st_saving', 'info');
+    try { await rgSave([{ serial, content }]); rgStatusSet('reg_st_saved_one', 'success', { s: serial }); }
+    catch (err) { console.error(err); rgStatusSet('reg_st_save_fail_single', 'error', { e: err.message || err }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {
-    if (rgItems.some(i => i.serial === serial)) return rgStatusSet('st_dup', 'warn', { s: serial });
+    if (rgItems.some(i => i.serial === serial)) return rgStatusSet('reg_st_dup', 'warn', { s: serial });
     rgItems.push({ serial, content });
-    rgStatusSet('st_added', 'success', { s: serial, n: rgItems.length });
+    rgStatusSet('reg_st_added', 'success', { s: serial, n: rgItems.length });
     rgRenderList();
   }
 }
 
 async function rgSaveAll() {
-  if (!rgItems.length) return rgStatusSet('st_empty', 'warn');
+  if (!rgItems.length) return rgStatusSet('reg_st_empty', 'warn');
   rgStopScan(true);
   busy = true; rgUpdateButtons(); rgRenderList();
-  rgStatusSet('st_saving', 'info');
+  rgStatusSet('reg_st_saving', 'info');
   try {
     const n = rgItems.length;
     await rgSave(rgItems);
     rgItems = [];
-    rgStatusSet('st_saved_many', 'success', { n });
+    rgStatusSet('reg_st_saved_many', 'success', { n });
   } catch (err) {
     console.error(err);
-    rgStatusSet('st_save_fail', 'error', { e: err.message || err });
+    rgStatusSet('reg_st_save_fail', 'error', { e: err.message || err });
   } finally { busy = false; rgRenderList(); }
 }
 
@@ -419,21 +419,21 @@ $('rgSaveAllBtn').onclick = rgSaveAll;
 $('rgBackBtn').onclick = () => location.href = 'Homepage.html';
   
 $('rgClearBtn').onclick = () => {
-  if (!rgItems.length || !confirm(t('st_confirm_clear'))) return;
-  rgItems = []; rgStatusSet('st_cleared', 'info'); rgRenderList();
+  if (!rgItems.length || !confirm(t('reg_st_confirm_clear'))) return;
+  rgItems = []; rgStatusSet('reg_st_cleared', 'info'); rgRenderList();
 };
 document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => {
   rgMode = b.dataset.rgMode;
   document.querySelectorAll('#regModeToggle button').forEach(x => x.classList.rgToggle('active', x === b));
   $('rgSessionPanel').style.display = rgMode === 'multi' ? '' : 'none';
-  rgStatusSet('st_ready', 'info');
+  rgStatusSet('regSt_ready', 'info');
 });
 document.querySelectorAll('.lang-btn').forEach(b => b.onclick = () => {
   try { localStorage.setItem(LANG_KEY, b.dataset.lang); } catch {}
   applyTranslations();
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden && scan) rgStopScan(false); });
-window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t('st_unsaved'); } });
+window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t('reg_st_unsaved'); } });
 
 applyTranslations();
 })();
