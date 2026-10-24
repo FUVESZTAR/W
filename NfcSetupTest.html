@@ -934,6 +934,9 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_qr">NFC QR Code</button>
          </div>
         <div class="btn-grid cols-1">
+          <button id="gen-exp-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_exp">NFC Save to json</button>
+        </div>
+        <div class="btn-grid cols-1">
           <button id="gen-im-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_im">NFC Save Import</button>
           <input type="file" id="importFile" accept="application/json" hidden>
         </div>
@@ -1385,6 +1388,7 @@ const TRANSLATIONS = {
   "nfcall.err_read_nfc_scan_ok": { en: "Scanning active hold the NFC close to the phone", hu: "Szkenn\u00e9l\u00e9s akt\u00edv \u2013 tartsd oda az NFC cimk\u00e9t\u2026" },
   "nfcall.err_read_gen_no_gps": { en: "No GPS!", hu: "Nincs GPS!" },
   "nfcall.err_nothing_selected": { en: "Select at least the NFC data or the link", hu: "V\u00e1lassz ki legal\u00e1bb az NFC adatot vagy a hivatkoz\u00e1st" },
+  "nfcall.btn_exp": { en: "NFC Save to json", hu: "NFC ment\u00e9se json-ba!" },
 };
 
 const LANG_KEY = 'fuvesztar_lang';
@@ -1841,6 +1845,7 @@ async function initGenerator() {
   B('back-button').addEventListener('click', () => location.href = PAGES.home);
   B('list-nfc').addEventListener('click',   () => location.href = PAGES.list);
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
+  B('exp-button').addEventListener('click',   () => downloadQueueAsJson(););
 
   /* ── Save: NFC page or Location-saver page (other action + id, no serial) ── */
   B('save-nfc').addEventListener('click', async () => {
