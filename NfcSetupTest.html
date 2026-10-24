@@ -889,17 +889,17 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div>
       <div id="confirmPopup" class="popup-overlay">
             <div class="popup">
-               <h3>Confirm NFC Write</h3>
+               <h3 data-i18n="nfcall.popup_write_title">Confirm NFC Write</h3>
                <p>Do you want to continue?</p>
-               <button id="popupOk">OK</button>
-               <button id="popupCancel">Cancel</button>
+               <button id="popupOk" data-i18n="nfcall.popup_ok">OK</button>
+               <button id="popupCancel" data-i18n="nfcall.popup_cancel">Cancel</button>
             </div>
       </div>
       <div id="qrPopup" class="popup-overlay">
             <div class="popup">
-            <h3>NFC QR Code</h3>
+            <h3 data-i18n="nfcall.popup_qr_title">NFC QR Code</h3>
             <div id="qrBox" style="width:260px;max-width:80vw;margin:0 auto"></div>
-            <button id="qrClose" type="button">Close</button>
+            <button id="qrClose" type="button" data-i18n="nfcall.popup_close">Close</button>
             </div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
@@ -1113,8 +1113,8 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="panel-header-left">
           <span class="panel-icon">📝</span>
           <div>
-            <div class="panel-title" data-i18n="nfcall.oth_card_title">Other Info</div>
-            <div class="panel-subtitle" data-i18n="nfcall.oth_card_sub">Optional extra notes</div>
+            <div class="panel-title" data-i18n="nfcall.other_card_title">Other Info</div>
+            <div class="panel-subtitle" data-i18n="nfcall.other_card_sub">Optional extra notes</div>
           </div>
         </div>
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
@@ -1347,7 +1347,7 @@ const TRANSLATIONS = {
   "nfcall.btn_nfclist": { en: "NFC List", hu: "NFC Lista" },
   "nfcall.gen_btn_nfcread": { en: "NFC Reader", hu: "NFC Olvas\u00f3" },
   "nfcall.btn_qr": { en: "NFC QR Code", hu: "NFC QR k\u00f3d" },
-  "nfcall.btn_im": { en: "NFC JSON Import", hu: "NFC JSON Betöltés" },
+  "nfcall.btn_im": { en: "NFC JSON Import", hu: "NFC JSON Bet\u00f6lt\u00e9s" },
   "nfcall.btn_back": { en: "\u2190 Back", hu: "\u2190 Vissza" },
   "nfcall.mode_off": { en: "Online", hu: "Off" },
   "nfcall.mode_on": { en: "Offline", hu: "On" },
@@ -1513,14 +1513,16 @@ function debounce(fn, ms) {
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
 const rt  = k => 'nfcreg.' + k;                               // registry keys
-const PAGES = { home: 'Homepage.html', list: 'pages/NfcListPage.html' };   // ⚠️ exact spelling of your real files
+const PAGES = { home: 'Homepage.html', list: 'pages/NfcListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
-  WRITER_URL: 'https://script.google.com/macros/s/xsd',
-  SECRET: 'xsd', SHEET_SOURCE_ID: 'xds', SHEET_SOURCE: 'plant_list',
+  WRITER_URL: 'https://script.google.com/macros/s/AKfycbyDEqYNn5tEG4ntQw1nkpcySaaGPaTlpgYb5kyXzUuUxDLHjyfrdLTirff07NfYxbKw/exec',
+  SECRET: '159753g9d5rt4sdfer7e5z4d6szo89fsef', 
+  SHEET_SOURCE_ID: '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY', 
+  SHEET_SOURCE: 'plant_list',
   PLANT_Q: "select A, B, C, D, E, F where L = 'Y'",
-  PIN_ID_QUERY: '?action=pinLastId',                          // ⚠️ GET that returns {lastId} for the Location saver page
+  PIN_ID_QUERY: '?action=pinLastId',                          // GET that returns {lastId} for the Location saver page
 };
 
 /* ── Shared helpers ── */
@@ -1678,7 +1680,7 @@ async function initGenerator() {
   const allChecks = () => [...Object.values(INC), incNfc, incLink];
   const isIncluded = k => INC[k] ? INC[k].checked : true;
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toLocaleDateString('sv-SE');   // local yyyy-mm-dd
   let plants = [], gpsPacket = '', nextPlantId = null, watchId = null, tick = null, offlineSave = false;
   let lastFix = Date.now(), fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
   const ids = { nfc: null, pin: null };                        // each page has its own running id
@@ -1769,7 +1771,8 @@ async function initGenerator() {
     KEYS.forEach(k => INC[k]?.closest('.field-row')?.classList.toggle('off', !isIncluded(k)));
     setReady(F.name.value.trim() !== '');
   }
-  const hasSelection = () => plantSel.value && (plantSel.value !== '__custom__' || plantCustom.value.trim());
+  const hasSelection = () => F.name.value.trim() !== '';   // true for a selection, a custom name AND after \"Duplicate NFC\"")
+  
 
   /* Each input updates ONLY its own review field (no more overwriting manual edits) */
   const bind = (input, field) => ['input', 'change'].forEach(ev => input.addEventListener(ev, () => { field.value = input.value; renderPreview(); }));
@@ -1862,7 +1865,9 @@ async function initGenerator() {
           comment: MENT.comment.value };                      
     B('save-nfc').disabled = true; showError(err, msg('err_save_start'), 'info');
     try {
-      if (offlineSave) { queuePayload(payload); showError(err, msg('err_save_offline'), 'success'); }   // ⚠️ offline: ids can repeat
+      if (offlineSave) {\n        queuePayload(payload); showError(err, msg('err_save_offline'), 'success');\n
+      if (mode() === 'nfc') { const n = Number(F.nfcId.value) + 1; ids.nfc = n; F.nfcId.value = n; renderPreview(); }   // next local id\n      
+        }
       else { await sendToServer(payload); showError(err, msg('err_save_ok'), 'success'); await newId(); renderPreview(); }
     } catch (e) { showError(err, msg('err_save_fail') + e.message); }
     finally { B('save-nfc').disabled = false; }
@@ -2051,7 +2056,9 @@ function initReader() {
     const S = (k, v) => localStorage.setItem(k, v);
     S('StCopyState', 'Y'); S('StPlantName', r('name-plant').value); S('StVariety', r('name-variety').value);
     S('StPlantID', r('plantId').value); S('StLatinName', r('latin-name').value); S('StDate', r('datum').value);
-    S('StNFCType', r('nfcTyp').value); S('StGPSCPacket', r('posPacketOut').textContent); S('StOtherInfo', r('other').value);
+    S('StNFCType', r('nfcTyp').value); 
+    S('StGPSCPacket', /^L\\|[\\s\\S]*\\|L$/.test(r('posPacketOut').textContent) ? r('posPacketOut').textContent : '');
+    S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
   r('gen-nfc').addEventListener('click',  () => switchTab('gen'));
