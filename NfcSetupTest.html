@@ -1865,10 +1865,17 @@ async function initGenerator() {
           comment: MENT.comment.value };                      
     B('save-nfc').disabled = true; showError(err, msg('err_save_start'), 'info');
     try {
-      if (offlineSave) {\n        queuePayload(payload); showError(err, msg('err_save_offline'), 'success');\n
-      if (mode() === 'nfc') { const n = Number(F.nfcId.value) + 1; ids.nfc = n; F.nfcId.value = n; renderPreview(); }   // next local id\n      
+      if (offlineSave) {
+        queuePayload(payload);
+        showError(err, msg('err_save_offline'), 'success');
+        if (mode() === 'nfc') {                       /* next local id, so queued tags do not share one id */
+          const n = Number(F.nfcId.value) + 1; ids.nfc = n; F.nfcId.value = n; renderPreview();
         }
-      else { await sendToServer(payload); showError(err, msg('err_save_ok'), 'success'); await newId(); renderPreview(); }
+      } else {
+        await sendToServer(payload);
+        showError(err, msg('err_save_ok'), 'success');
+        await newId(); renderPreview();
+      }
     } catch (e) { showError(err, msg('err_save_fail') + e.message); }
     finally { B('save-nfc').disabled = false; }
   });
