@@ -1896,8 +1896,8 @@ async function initGenerator() {
   B('read-nfc').addEventListener('click',   () => switchTab('read'));
   B('exp-button').addEventListener('click',   () => downloadQueueAsJson());
 
-  /* ── Save: NFC page or Location-saver page (other action + id, no serial) ── */
-  B('save-nfc').addEventListener('click', async () => {
+  //save function
+  function saveNfc() {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
     renderPreview();
     const pos = isIncluded('gps') ? F.gps.value : '', serial = serialEl.textContent;
@@ -1924,7 +1924,10 @@ async function initGenerator() {
       }
     } catch (e) { showError(err, msg('err_save_fail') + e.message); }
     finally { B('save-nfc').disabled = false; }
-  });
+  }
+
+  /* ── Save: NFC page or Location-saver page (other action + id, no serial) ── */
+  B('save-nfc').addEventListener('click', async () => {saveNfc();});
 
   /* Online/Offline switch (HTML: remove onclick="saveMode()"); going back Online sends the queue */
   const sw = B('onoffline_toggle');
@@ -1992,6 +1995,7 @@ async function initGenerator() {
       if (writeLink && (!wu || wu.value !== link)) throw new Error(msg('wr_url_mismatch'));
       serialEl.textContent = second.uid;
       showError(err, msg('err_gen_nfc_ok'), 'success');
+      saveNfc();
     } catch (e) { console.error(e); showError(err, msg('err_gen_nfc_write') + (e.message || e)); }
     finally { ac.abort(); B('nfc-write-button').disabled = false; }
   });
