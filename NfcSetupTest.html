@@ -2212,7 +2212,7 @@ function initRegitry() {
     rgMode = m;
     document.querySelectorAll('#regModeToggle button').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
     sessionPanel.style.display = m === 'multi' ? '' : 'none';
-    rgStatusSet('nfcreg.st_ready');
+    rgStatusSet('nfcreg.st_ready', 'info');
   };
   document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
   setMode('single'); rgRenderList();
