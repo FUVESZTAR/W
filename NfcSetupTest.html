@@ -1391,8 +1391,8 @@ const I18N = {
   "nfcall.btn_exp": { en: "NFC Save to json", hu: "NFC ment\u00e9se json-ba!" },
   // ── NFC Registry ────────────────────────────────────────────────────────────
   // ── NFC Registration ──
-  "nfcreg.scan_title": { en: "", hu: "Olvas\u00e1s" },
-  "nfcreg.scan_sub": { en: "", hu: "V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket" },
+  "nfcreg.scan_title": { en: "Reading", hu: "Olvas\u00e1s" },
+  "nfcreg.scan_sub": { en: "Choose a mode and read the tags", hu: "V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket" },
   // ── Reading mode ──
   "nfcreg.mode_single": { en: "Single (auto-save)", hu: "Egyes (automatikus ment\u00e9s)" },
   "nfcreg.mode_multi": { en: "Multiple (session)", hu: "T\u00f6bb (munkamenet)" },
@@ -1558,7 +1558,7 @@ function debounce(fn, ms) {
 
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
-const rt  = k => '.' + k;                               // registry keys
+const rt  = k => ''nfcreg.' + k;                               // registry keys
 const PAGES = { home: 'Homepage.html', list: 'pages/NfcListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
@@ -2142,16 +2142,16 @@ function rgUpdateButtons() {
 }
 function rgRenderList() {
   const list = $('rgListId'); $('rgCount').textContent = rgItems.length; list.replaceChildren();
-  if (!rgItems.length) { const e = document.createElement('div'); e.className = 'rgEmpty'; e.textContent = t(rt('nfcreg.empty')); list.append(e); }
+  if (!rgItems.length) { const e = document.createElement('div'); e.className = 'rgEmpty'; e.textContent = t(rt('empty')); list.append(e); }
   rgItems.forEach((it, i) => {
     const row = document.createElement('div'); row.className = 'rgItem';
     const n = document.createElement('div'); n.className = 'rgNum'; n.textContent = (i + 1) + '.';
     const box = document.createElement('div'); box.className = 'rgTxt';
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
-    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('nfcreg.no_content'));
+    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
     box.append(s, c);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
-    d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('nfcreg.st_removed', 'info', { s: it.serial }); rgRenderList(); };
+    d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('st_removed', 'info', { s: it.serial }); rgRenderList(); };
     row.append(n, box, d); list.append(row);
   });
   rgUpdateButtons();
@@ -2164,67 +2164,67 @@ const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', row
 
 function rgStopScan(silent) {
   rgScan?.abort(); rgScan = null; rgUpdateButtons();
-  if (!silent) rgStatusSet('nfcreg.st_stopped');
+  if (!silent) rgStatusSet('st_stopped');
 }
 async function rgStartScan() {
-  if (!('NDEFReader' in window)) return rgStatusSet('nfcreg.st_ns', 'error');
-  rgStopScan(true); rgStatusSet('nfcreg.st_starting');
+  if (!('NDEFReader' in window)) return rgStatusSet('st_ns', 'error');
+  rgStopScan(true); rgStatusSet('st_starting');
   const ac = new AbortController(); rgScan = ac;
   try {
     const ndef = new NDEFReader();
     ndef.addEventListener('reading', rgOnTag, { signal: ac.signal });
-    ndef.addEventListener('readingerror', () => rgStatusSet('nfcreg.st_read_err', 'warn'), { signal: ac.signal });
+    ndef.addEventListener('readingerror', () => rgStatusSet('st_read_err', 'warn'), { signal: ac.signal });
     await ndef.scan({ signal: ac.signal });
     rgStatusSet(rgMode === 'single' ? 'nfcreg.st_scan_single' : 'nfcreg.st_scan_multi');
-  } catch (e) { rgScan = null; console.error(e); rgStatusSet('nfcreg.st_read_err', 'error'); }
+  } catch (e) { rgScan = null; console.error(e); rgStatusSet('st_read_err', 'error'); }
   rgUpdateButtons();
 }
 async function rgOnTag(e) {
   if (busy) return;                                            // ignore taps while saving
   const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
-  if (!serial) return rgStatusSet('nfcreg.st_no_serial', 'warn');
+  if (!serial) return rgStatusSet('st_no_serial', 'warn');
   rgShowLast(serial, content);
   if (navigator.vibrate) navigator.vibrate(80);
   if (rgMode === 'single') {                                   // one tag -> save at once
     rgStopScan(true); 
     status('st_read', 'info', { s: serial });
-    busy = true; rgUpdateButtons(); rgStatusSet('nfcreg.st_saving');
-    try { await rgSave([{ serial, content }]); rgStatusSet('nfcreg.st_saved_one', 'success', { s: serial }); }
-    catch (er) { console.error(er); rgStatusSet('nfcreg.st_save_fail_single', 'error', { e: er.message || er }); }
+    busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
+    try { await rgSave([{ serial, content }]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
-    if (rgItems.some(i => i.serial === serial)) return rgStatusSet('nfcreg.st_dup', 'warn', { s: serial });
+    if (rgItems.some(i => i.serial === serial)) return rgStatusSet('st_dup', 'warn', { s: serial });
     rgItems.push({ serial, content });
-    rgStatusSet('nfcreg.st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
+    rgStatusSet('st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
   }
 }
 async function rgSaveAll() {
-  if (!rgItems.length) return rgStatusSet('nfcreg.st_empty', 'warn');
-  rgStopScan(true); busy = true; rgUpdateButtons(); rgRenderList(); rgStatusSet('nfcreg.st_saving');
-  try { const n = rgItems.length; await rgSave(rgItems); rgItems = []; rgStatusSet('nfcreg.st_saved_many', 'success', { n }); }
-  catch (er) { console.error(er); rgStatusSet('nfcreg.st_save_fail', 'error', { e: er.message || er }); }   // the list is kept
+  if (!rgItems.length) return rgStatusSet('st_empty', 'warn');
+  rgStopScan(true); busy = true; rgUpdateButtons(); rgRenderList(); rgStatusSet('st_saving');
+  try { const n = rgItems.length; await rgSave(rgItems); rgItems = []; rgStatusSet('st_saved_many', 'success', { n }); }
+  catch (er) { console.error(er); rgStatusSet('st_save_fail', 'error', { e: er.message || er }); }   // the list is kept
   finally { busy = false; rgRenderList(); }
 }
 function initRegitry() {
   $('rgStartBtn').onclick = rgStartScan; $('rgStopBtn').onclick = () => rgStopScan(false);
   $('rgSaveAllBtn').onclick = rgSaveAll; $('rgBackBtn').onclick = () => location.href = PAGES.home;
   $('rgClearBtn').onclick = () => {
-    if (!rgItems.length || !confirm(t(rt('nfcreg.reg_st_confirm_clear')))) return;
-    rgItems = []; rgStatusSet('nfcreg.st_cleared'); rgRenderList();
+    if (!rgItems.length || !confirm(t(rt('reg_st_confirm_clear')))) return;
+    rgItems = []; rgStatusSet('st_cleared'); rgRenderList();
   };
   const sessionPanel = $('reg-panel-session');
   const setMode = m => {                                       // single = auto-save, multi = session list
     rgMode = m;
     document.querySelectorAll('#regModeToggle button').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
     sessionPanel.style.display = m === 'multi' ? '' : 'none';
-    rgStatusSet('nfcreg.st_ready', 'info');
+    rgStatusSet('st_ready', 'info');
   };
   document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
   setMode('single'); rgRenderList();
   document.addEventListener('lang:changed', () => { rgStatusSet(...lastStatus); rgRenderList(); });
   document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'reg') rgStopScan(true); });
   document.addEventListener('visibilitychange', () => { if (document.hidden && rgScan) rgStopScan(false); });
-  window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t(rt('nfcreg.st_unsaved')); } });
+  window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t(rt('st_unsaved')); } });
 }
 
 /* ── Boot ── */
