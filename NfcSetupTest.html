@@ -398,21 +398,17 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 .status-msg.success { color:var(--green); }
 .status-msg.info    { color:#1565c0; }
 
-/* ── Responsive ─────────────────────────────────────────────── */
-@media(max-width:480px) {
-  .panel-header { padding:14px 15px; }
-  .panel-body-pad { padding:14px 15px 16px; }
-  .btn-grid { grid-template-columns:1fr; }
-  .btn-grid.cols-1 { grid-template-columns:1fr; }
-  .btn-grid.cols-2 { grid-template-columns:1fr; }
-  .btn-grid.cols-3 { grid-template-columns:1fr; }
-}
-
 /* ── Tab styles ─────────────────────────────────────────────── */
 .tab-bar {
-  display: flex;
+  display: grid;
   gap: 6px;
   margin-bottom: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.btn-grid.cols-3 { grid-template-columns:1fr 1fr 1fr; }
+.btn-grid.cols-2 { grid-template-columns:1fr 1fr; }
+.btn-grid.cols-1 { grid-template-columns:1fr; }
 }
 .tab-btn {
   padding: 8px 20px;
@@ -454,6 +450,17 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 .field-row.off input[type="text"],
 .field-row.off input[type="number"] { opacity: .45; }
 .nfc-preview.excluded { opacity: .45; text-decoration: line-through; }
+ 
+/* ── Responsive ─────────────────────────────────────────────── */
+@media(max-width:480px) {
+  .panel-header { padding:14px 15px; }
+  .panel-body-pad { padding:14px 15px 16px; }
+  .btn-grid { grid-template-columns:1fr; }
+  .btn-grid.cols-1 { grid-template-columns:1fr; }
+  .btn-grid.cols-2 { grid-template-columns:1fr; }
+  .btn-grid.cols-3 { grid-template-columns:1fr; }
+  .tab-bar { grid-template-columns:1fr 1fr; }
+}  
     
  /* ── Pop up window ──────────────────────────────────────────────────────────────── */
     .popup-overlay {
@@ -573,21 +580,18 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div>
       
     <!-- Tab switcher -->
-    <div class="tab-bar">
-      <button class="tab-btn active" data-tab="gen" data-i18n="nfcall.main_btn_gen" onclick="switchTab('gen')" type="button">🌱 NFC Generator</button>
-      <button class="tab-btn" data-tab="read" data-i18n="nfcall.main_btn_rd" onclick="switchTab('read')" type="button">📖 NFC Reader</button>
-      <button class="tab-btn" data-tab="pin" data-i18n="nfcall.main_btn_pin" onclick="switchTab('pin')" type="button">📍 Location saver</button>
-      <button class="tab-btn" data-tab="reg" data-i18n="nfcall.main_btn_reg" onclick="switchTab('reg')" type="button">🔖 NFC Registry</button>
-    </div>
-
+      <div class="tab-bar">
+       <button class="tab-btn active" data-tab="gen" data-i18n="nfcall.main_btn_gen" onclick="switchTab('gen')" type="button">🌱 NFC Generator</button>
+       <button class="tab-btn" data-tab="read" data-i18n="nfcall.main_btn_rd" onclick="switchTab('read')" type="button">📖 NFC Reader</button>
+       <button class="tab-btn" data-tab="pin" data-i18n="nfcall.main_btn_pin" onclick="switchTab('pin')" type="button">📍 Location saver</button>
+       <button class="tab-btn" data-tab="reg" data-i18n="nfcall.main_btn_reg" onclick="switchTab('reg')" type="button">🔖 NFC Registry</button>
+     </div>
       
       <div class="lang-toggle">
         <button class="lang-btn" data-lang="en" type="button">EN</button>
         <button class="lang-btn" data-lang="hu" type="button">HU</button>
       </div>
     </div>
-
-
 
     <!-- Generator section -->
     <div id="tab-gen" class="tab-section active">
@@ -875,7 +879,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 
     
 
-    <!-- ── Generator Panel 7: Actions ────────────────────────────────── -->
+    <!-- ── Generator Panel 7: Actions 1 ────────────────────────────────── -->
     <div class="panel open" id="gen-panel-actions">
       <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-actions')">
         <div class="panel-header-left">
@@ -893,13 +897,6 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
                <p>Do you want to continue?</p>
                <button id="popupOk" data-i18n="nfcall.popup_ok">OK</button>
                <button id="popupCancel" data-i18n="nfcall.popup_cancel">Cancel</button>
-            </div>
-      </div>
-      <div id="qrPopup" class="popup-overlay">
-            <div class="popup">
-            <h3 data-i18n="nfcall.popup_qr_title">NFC QR Code</h3>
-            <div id="qrBox" style="width:260px;max-width:80vw;margin:0 auto"></div>
-            <button id="qrClose" type="button" data-i18n="nfcall.popup_close">Close</button>
             </div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
@@ -920,6 +917,34 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <button id="gen-dupl-nfc"   class="btn-primary"   type="button" data-i18n="nfcall.btn_dupl_nfc">Duplicate NFC</button> 
           <button id="gen-clear-button"   class="btn-secondary" type="button" data-i18n="nfcall.btn_clear">Clear Fields</button>
         </div>
+        <div class="btn-grid cols-1">
+          <button id="gen-back-button" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- ── Generator Panel 8: Actions 2 ────────────────────────────────── -->
+    <div class="panel open" id="gen-panel-actions2">
+      <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-actions2')">
+        <div class="panel-header-left">
+          <span class="panel-icon">⚡</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.actions_title2">Actions</div>
+            <div class="panel-subtitle" data-i18n="nfcall.gen_actions_sub2">Write, save, copy</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div id="qrPopup" class="popup-overlay">
+            <div class="popup">
+            <h3 data-i18n="nfcall.popup_qr_title">NFC QR Code</h3>
+            <div id="qrBox" style="width:260px;max-width:80vw;margin:0 auto"></div>
+            <button id="qrClose" type="button" data-i18n="nfcall.popup_close">Close</button>
+            </div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+           <!-- Error / status message -->
+         <p class="status-msg" id="gen-error-message2"></p>
         <div class="btn-grid cols-3">
           <button id="gen-copy-nfc"  class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_nfc">Copy NFC</button>
           <button id="gen-copy-link" class="btn-secondary" type="button" data-i18n="nfcall.btn_copy_link">Copy Link</button>
@@ -929,14 +954,11 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <button id="gen-read-nfc" class="btn-link" type="button" data-i18n="nfcall.gen_btn_nfcread">NFC Reader</button>
           <button id="gen-list-nfc" class="btn-link" type="button" data-i18n="nfcall.btn_nfclist">NFC List</button>
         </div>
-        <div class="btn-grid cols-2">
-          <button id="gen-back-button" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
+        <div class="btn-grid cols-1">
           <button id="gen-qr-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_qr">NFC QR Code</button>
          </div>
-        <div class="btn-grid cols-1">
+        <div class="btn-grid cols-2">
           <button id="gen-exp-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_exp">NFC Save to json</button>
-        </div>
-        <div class="btn-grid cols-1">
           <button id="gen-im-button" class="btn-secondary" type="button" data-i18n="nfcall.btn_im">NFC Save Import</button>
           <input type="file" id="importFile" accept="application/json" hidden>
         </div>
@@ -1337,6 +1359,8 @@ const I18N = {
   "nfcall.lbl_total_size": { en: "Total:", hu: "\u00d6sszesen:" },
   "nfcall.actions_title": { en: "Actions", hu: "M\u0171veletek" },
   "nfcall.gen_actions_sub": { en: "Write, save, copy", hu: "\u00edr\u00e1s, ment\u00e9s, m\u00e1sol\u00e1s" },
+  "nfcall.actions_title2": { en: "Actions", hu: "M\u0171veletek" },
+  "nfcall.gen_actions_sub2": { en: "Copy, save, links ", hu: "M\u00e1sol\u00e1s, ment\u00e9s, linkek" },
   "nfcall.btn_dupl_nfc": { en: "Duplicate NFC", hu: "NFC duplik\u00e1l\u00e1s" },
   "nfcall.gen_btn_write": { en: "Write NFC", hu: "NFC \u00edr\u00e1sa" },
   "nfcall.btn_save": { en: "Save NFC", hu: "NFC ment\u00e9se" },
@@ -1563,7 +1587,6 @@ const PAGES = { home: 'Homepage.html', list: 'pages/NfcListPage.html' };   // ex
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
-  //WRITER_URL: 'https://script.google.com/macros/s/AKfycbyDEqYNn5tEG4ntQw1nkpcySaaGPaTlpgYb5kyXzUuUxDLHjyfrdLTirff07NfYxbKw/exec',
   WRITER_URL: 'https://script.google.com/macros/s/AKfycbwCcwwXBPMvL7P66UVBcoPEApO29AS_oAS7c9bxN8KF7NazkOlGGraQp8otA_7Y5JbA/exec',
   SECRET: '159753g9d5rt4sdfer7e5z4d6szo89fsef', 
   SHEET_SOURCE_ID: '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY', 
@@ -1719,7 +1742,7 @@ async function initGenerator() {
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
   const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment');
-  const err = el('error-message'), serialEl = el('serialNr');
+  const err = el('error-message'), err2 = el('error-message2'), serialEl = el('serialNr');
 
   /* "include" checkboxes: INC[key] sits in front of each review field (ids gen-inc-<key>) */
   const INC = {}; KEYS.forEach(k => INC[k] = el('inc-' + k));
@@ -1876,20 +1899,20 @@ async function initGenerator() {
   B('clear-button').addEventListener('click', () => { plantSel.value = ''; clearForm(); });
 
   /* ── Copy / QR / navigation ── */
-  B('copy-nfc').addEventListener('click',  () => copyText(err, el('nfc-preview').textContent,  'err_no_nfc',  'err_copy_nfc_ok'));
-  B('copy-link').addEventListener('click', () => copyText(err, el('link-preview').textContent, 'err_no_link', 'err_copy_link_ok', 'ph_link_preview'));
-  B('copy-pic').addEventListener('click',  () => copyText(err, el('pic-preview').textContent,  'err_no_pic',  'err_copy_pic_ok', 'ph_pic_preview'));
+  B('copy-nfc').addEventListener('click',  () => copyText(err2, el('nfc-preview').textContent,  'err_no_nfc',  'err_copy_nfc_ok'));
+  B('copy-link').addEventListener('click', () => copyText(err2, el('link-preview').textContent, 'err_no_link', 'err_copy_link_ok', 'ph_link_preview'));
+  B('copy-pic').addEventListener('click',  () => copyText(err2, el('pic-preview').textContent,  'err_no_pic',  'err_copy_pic_ok', 'ph_pic_preview'));
   B('qr-button').addEventListener('click', () => {             // QR is generated locally (lib/qrcode.js): no data leaves the device
-    if (!hasSelection()) return showError(err, msg('err_no_plant'));
+    if (!hasSelection()) return showError(err2, msg('err_no_plant'));
     renderPreview();
     const payload = [incNfc.checked ? buildNfc() : '', incLink.checked ? buildLink() : ''].filter(Boolean).join(' ');
-    if (!payload) return showError(err, msg('err_nothing_selected'));
+    if (!payload) return showError(err2, msg('err_nothing_selected'));
     qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8']; // accented Hungarian characters as UTF-8
     try {
       const qr = qrcode(0, 'M'); qr.addData(payload, 'Byte'); qr.make();   // make() throws if the payload is too long
       $('qrBox').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 4, scalable: true });
       $('qrPopup').style.display = 'flex';
-    } catch (e) { showError(err, msg('err_qr_gen') + (e.message || e)); }
+    } catch (e) { showError(err2, msg('err_qr_gen') + (e.message || e)); }
   });
   $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none');
   B('back-button').addEventListener('click', () => location.href = PAGES.home);
@@ -1949,8 +1972,8 @@ async function initGenerator() {
       if (!Array.isArray(items)) throw new Error(msg('import_bad_file'));
       let n = 0;
       for (const { _localId, _savedAt, _synced, ...payload } of items) { await sendToServer(payload); n++; }
-      showError(err, msg('import_ok', { n }), 'success');
-    } catch (x) { showError(err, msg('err_save_fail') + x.message); }
+      showError(err2, msg('import_ok', { n }), 'success');
+    } catch (x) { showError(err2, msg('err_save_fail') + x.message); }
     e.target.value = '';                                        // allows re-selecting the same file
   });
 
