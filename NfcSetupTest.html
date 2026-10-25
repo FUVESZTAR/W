@@ -67,6 +67,12 @@ body {
 }
 .page-subtitle { font-size:.82rem; color:var(--muted); font-weight:300; }
 
+.tab-bar {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+}   
 /* Language switcher */
 .lang-toggle {
   display: flex;
@@ -271,16 +277,6 @@ body {
   color: var(--green);
   font-weight: 600;
 }
-#gen-gpsStatus {
-  text-align: center;
-  font-weight: 600;
-  font-size: .84rem;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  transition: .3s;
-  background: var(--green-pale);
-  color: var(--muted);
-}
 .live-indicator {
   color: var(--green-light);
   animation: blink 1s infinite;
@@ -315,6 +311,9 @@ body {
   border-radius: 10px;
 }
 
+
+
+    
 /* ── Buttons ────────────────────────────────────────────────── */
 .btn-grid {
   display: grid;
@@ -324,7 +323,7 @@ body {
 .btn-grid.cols-3 { grid-template-columns:1fr 1fr 1fr; }
 .btn-grid.cols-2 { grid-template-columns:1fr 1fr; }
 .btn-grid.cols-1 { grid-template-columns:1fr; }
-
+    
 button.btn-primary,
 button.btn-secondary,
 button.btn-link,
@@ -369,6 +368,16 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 button.btn-danger{background:#c62828;color:#fff}
 button.btn-danger:hover:not(:disabled){background:#b71c1c}
 
+#gen-gpsStatus {
+  text-align: center;
+  font-weight: 600;
+  font-size: .84rem;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: .3s;
+  background: var(--green-pale);
+  color: var(--muted);
+}
 /* GPS start/stop buttons */
 #gen-gpsStartBtn, #gen-gpsStopBtn {
   padding: .7rem 1rem;
@@ -410,12 +419,6 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 }  
 
     /* ── Tab styles ─────────────────────────────────────────────── */
-.tab-bar {
-  display: grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
-  gap: 6px;
-  margin-bottom: 0.5rem;
-}
 .tab-btn {
   padding: 8px 20px;
   border-radius: var(--radius-sm);
