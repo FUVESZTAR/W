@@ -1898,7 +1898,7 @@ async function initGenerator() {
   B('exp-button').addEventListener('click',   () => downloadQueueAsJson());
 
   //save function
-  function saveNfc() {
+  async function saveNfc() {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
     renderPreview();
     const pos = isIncluded('gps') ? F.gps.value : '', serial = serialEl.textContent;
