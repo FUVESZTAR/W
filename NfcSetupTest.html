@@ -1147,12 +1147,12 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="rgToggle" id="regModeToggle">
-        <button type="button" data-mode="single" class="active" data-i18n="nfcreg.rgMode_single">Single (auto-save)</button>
-        <button type="button" data-mode="multi" data-i18n="nfcreg.rgMode_multi">Multiple (session)</button>
+        <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
+        <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
         </div>
         <div class="btn-grid cols-2">
-        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.regBtn_start">Start reading</button>
-        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="nfcreg.regBtn_stop" disabled>Stop reading</button>
+        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
+        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
         </div>
         <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
         <div class="btn-grid cols-1">
@@ -1166,18 +1166,18 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="panel-header-left">
           <span class="panel-icon">🔍</span>
           <div>
-            <div class="panel-title" data-i18n="nfcreg.regLast_title">Last tag</div>
-            <div class="panel-subtitle" data-i18n="nfcreg.regLast_sub">Most recently read tag</div>
+            <div class="panel-title" data-i18n="nfcreg.last_title">Last tag</div>
+            <div class="panel-subtitle" data-i18n="nfcreg.last_sub">Most recently read tag</div>
           </div>
         </div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div>
-          <div class="rgLabel" data-i18n="nfcreg.regLbl_serial">Serial number</div>
+          <div class="rgLabel" data-i18n="nfcreg.last_serial">Serial number</div>
           <div class="rgPreview" id="rgLastSerial">–</div>
         </div>
         <div>
-          <div class="rgLabel" data-i18n="nfcreg.regLbl_content">Content</div>
+          <div class="rgLabel" data-i18n="nfcreg.last_content">Content</div>
           <div class="rgPreview" id="rgLastContent">–</div>
         </div>
       </div></div></div>
@@ -1190,8 +1190,8 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div class="grow">
-             <div class="panel-title" data-i18n="nfcreg.rgList_title">Session list</div>
-             <div class="panel-subtitle" data-i18n="nfcreg.rgList_sub">Saved together at the end</div>
+             <div class="panel-title" data-i18n="nfcreg.list_title">Session list</div>
+             <div class="panel-subtitle" data-i18n="nfcreg.list_sub">Saved together at the end</div>
           </div>
           <span class="badge" id="rgCount">0</span>
         </div>
@@ -1199,8 +1199,8 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="rgList" id="rgListId"></div>
         <div class="btn-grid">
-           <button id="rgSaveAllBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.regBtn_save_all" disabled>Save all</button>
-           <button id="rgClearBtn" class="btn btn-secondary" type="button" data-i18n="nfcreg.regBtn_clear" disabled>Clear list</button>
+           <button id="rgSaveAllBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.save_all" disabled>Save all</button>
+           <button id="rgClearBtn" class="btn btn-secondary" type="button" data-i18n="nfcreg.btn_clear" disabled>Clear list</button>
         </div>
       </div></div></div>
     </div>
@@ -1243,36 +1243,36 @@ function switchTab(tab) {
  */
 const I18N = {
   // ── popups ──
-"nfcall.popup_write_title":   { en: "Confirm NFC Write",                       hu: "NFC írás megerősítése" },
-"nfcall.popup_write_text":    { en: "The NFC tag is ready. Do you want to continue?", hu: "Az NFC cimke kész. Folytatod?" },
-"nfcall.popup_ok":            { en: "OK",                                      hu: "OK" },
-"nfcall.popup_cancel":        { en: "Cancel",                                  hu: "Mégse" },
-"nfcall.popup_qr_title":      { en: "NFC QR Code",                             hu: "NFC QR kód" },
-"nfcall.popup_close":         { en: "Close",                                   hu: "Bezárás" },
-"nfcall.err_qr_gen":          { en: "QR code failed: ",                        hu: "A QR kód létrehozása sikertelen: " },
+"nfcall.popup_write_title":   { en: "Confirm NFC Write", hu: "NFC \u00edr\u00e1s meger\u0151s\u00edt\u00e9se" },
+"nfcall.popup_write_text":    { en: "The NFC tag is ready. Do you want to continue?", hu: "Az NFC cimke k\u00e9sz. Folytatod?" },
+"nfcall.popup_ok":            { en: "OK", hu: "OK" },
+"nfcall.popup_cancel":        { en: "Cancel", hu: "M\u00e9gse" },
+"nfcall.popup_qr_title":      { en: "NFC QR Code", hu: "NFC QR k\u00f3d" },
+"nfcall.popup_close":         { en: "Close", hu: "Bez\u00e1r\u00e1s" },
+"nfcall.err_qr_gen":          { en: "QR code failed: ", hu: "A QR k\u00f3d l\u00e9trehoz\u00e1sa sikertelen: " },
 // ── GPS ──
-"nfcall.gps_unsupported":     { en: "Geolocation not supported",               hu: "A helymeghatározás nem támogatott" },
-"nfcall.gps_fetching":        { en: "Fetching GPS satellites…",                hu: "GPS műholdak keresése…" },
-"nfcall.gps_updating":        { en: "Updating… ({acc}m accuracy)",             hu: "Frissítés… ({acc}m pontosság)" },
-"nfcall.gps_error":           { en: "GPS Error: ",                             hu: "GPS hiba: " },
-"nfcall.gps_stopped":         { en: "Tracking stopped. Data preserved.",       hu: "Követés leállítva. Az adat megmaradt." },
-"nfcall.gps_paused":          { en: "Tracking paused (tab hidden).",           hu: "Követés szüneteltetve (a lap rejtett)." },
-"nfcall.gps_last_improve":    { en: "Last improvement: {s}s ago",              hu: "Utolsó javulás: {s} mp-cel ezelőtt" },
-"nfcall.gps_locked":          { en: "Status: Data locked",                     hu: "Állapot: Adat rögzítve" },
-"nfcall.live":                { en: "● LIVE",                                  hu: "● ÉLŐ" },
+"nfcall.gps_unsupported":     { en: "Geolocation not supported", hu: "A helymeghat\u00e1roz\u00e1s nem t\u00e1mogatott" },
+"nfcall.gps_fetching":        { en: "Fetching GPS satellites…", hu: "GPS m\u0171holdak keres\u00e9se…" },
+"nfcall.gps_updating":        { en: "Updating… ({acc}m accuracy)", hu: "Friss\u00edt\u00e9s… ({acc}m pontoss\u00e1g)" },
+"nfcall.gps_error":           { en: "GPS Error: ", hu: "GPS hiba: " },
+"nfcall.gps_stopped":         { en: "Tracking stopped. Data preserved.", hu: "K\u00f6vet\u00e9s le\u00e1ll\u00edtva. Az adat megmaradt." },
+"nfcall.gps_paused":          { en: "Tracking paused (tab hidden).", hu: "K\u00f6vet\u00e9s sz\u00fcneteltetve (a lap rejtett)." },
+"nfcall.gps_last_improve":    { en: "Last improvement: {s}s ago", hu: "Utols\u00f3 javul\u00e1s: {s} mp-cel ezel\u0151tt" },
+"nfcall.gps_locked":          { en: "Status: Data locked", hu: "\u00c1llapot: Adat r\u00f6gz\u00edtve" },
+"nfcall.live":                { en: "● LIVE", hu: "● \u00c9L\u0150" },
 // ── NFC write ──
-"nfcall.wr_detected":         { en: "Tag detected. Writing data…",             hu: "Cimke észlelve. Adat írása…" },
-"nfcall.wr_verify":           { en: "Write successful. Remove the tag, then tap it again to verify.", hu: "Az írás sikeres. Vedd el a cimkét, majd érintsd újra az ellenőrzéshez." },
-"nfcall.wr_no_uid":           { en: "Could not read the NFC tag ID.",          hu: "Az NFC cimke azonosítója nem olvasható." },
-"nfcall.wr_other_tag":        { en: "A different NFC tag was used for verification.", hu: "Az ellenőrzéshez másik NFC cimkét használtál." },
-"nfcall.wr_text_mismatch":    { en: "The NFC text does not match the data written.", hu: "Az NFC szöveg nem egyezik a kiírt adattal." },
-"nfcall.wr_url_mismatch":     { en: "The NFC URL does not match the URL written.",   hu: "Az NFC hivatkozás nem egyezik a kiírt hivatkozással." },
+"nfcall.wr_detected":         { en: "Tag detected. Writing data…", hu: "Cimke \u00e9szlelve. Adat \u00edr\u00e1sa…" },
+"nfcall.wr_verify":           { en: "Write successful. Remove the tag, then tap it again to verify.", hu: "Az \u00edr\u00e1s sikeres. Vedd el a cimk\u00e9t, majd \u00e9rintsd \u00fajra az ellen\u0151rz\u00e9shez." },
+"nfcall.wr_no_uid":           { en: "Could not read the NFC tag ID.", hu: "Az NFC cimke azonos\u00edt\u00f3ja nem olvashat\u00f3." },
+"nfcall.wr_other_tag":        { en: "A different NFC tag was used for verification.", hu: "Az ellen\u0151rz\u00e9shez m\u00e1sik NFC cimk\u00e9t haszn\u00e1lt\u00e1l." },
+"nfcall.wr_text_mismatch":    { en: "The NFC text does not match the data written.", hu: "Az NFC sz\u00f6veg nem egyezik a ki\u00edrt adattal." },
+"nfcall.wr_url_mismatch":     { en: "The NFC URL does not match the URL written.", hu: "Az NFC hivatkoz\u00e1s nem egyezik a ki\u00edrt hivatkoz\u00e1ssal." },
 // ── export / import ──
-"nfcall.export_empty":        { en: "Nothing to export.",                      hu: "Nincs exportálható adat." },
-"nfcall.import_ok":           { en: "{n} saved",                               hu: "{n} elem mentve" },
-"nfcall.import_bad_file":     { en: "The file is not a list of saved NFC items.", hu: "A fájl nem mentett NFC elemek listája." },
-"nfcall.pinId":               { en: "Pin ID", hu: "Helyjelölő ID" },
-"nfcall.err_nfc_read_unreadable": { en: "Tag detected but could not be read – try again.", hu: "A cimke észlelve, de nem olvasható – próbáld újra." },
+"nfcall.export_empty":        { en: "Nothing to export.", hu: "Nincs export\u00e1lhat\u00f3 adat." },
+"nfcall.import_ok":           { en: "{n} saved", hu: "{n} elem mentve" },
+"nfcall.import_bad_file":     { en: "The file is not a list of saved NFC items.", hu: "A f\u00e1jl nem mentett NFC elemek list\u00e1ja." },
+"nfcall.pinId":               { en: "Pin ID", hu: "Helyjel\u00f6l\u0151 ID" },
+"nfcall.err_nfc_read_unreadable": { en: "Tag detected but could not be read – try again.", hu: "A cimke \u00e9szlelve, de nem olvashat\u00f3 – pr\u00f3b\u00e1ld \u00fajra." },
   // ── NFC Generator & Reader ──
   "nfcall.main_title": { en: "NFC Generator & Reader", hu: "NFC Gener\u00e1l\u00f3 & Olvas\u00f3" },
   "nfcall.main_btn_gen": { en: "🌱 NFC Generator", hu: "🌱 NFC Gener\u00e1l\u00f3" },
@@ -1391,52 +1391,50 @@ const I18N = {
   "nfcall.btn_exp": { en: "NFC Save to json", hu: "NFC ment\u00e9se json-ba!" },
   // ── NFC Registry ────────────────────────────────────────────────────────────
   // ── NFC Registration ──
-  "nfcreg.regSubtitle": { en: "", hu: "NFC sorozatsz\u00e1m ment\u0151" },
   "nfcreg.scan_title": { en: "", hu: "Olvas\u00e1s" },
   "nfcreg.scan_sub": { en: "", hu: "V\u00e1lassz m\u00f3dot \u00e9s olvasd be a cimk\u00e9ket" },
   // ── Reading mode ──
-  "nfcreg.rgMode_single": { en: "Single (auto-save)", hu: "Egyes (automatikus ment\u00e9s)" },
-  "nfcreg.rgMode_multi": { en: "Multiple (session)", hu: "T\u00f6bb (munkamenet)" },
+  "nfcreg.mode_single": { en: "Single (auto-save)", hu: "Egyes (automatikus ment\u00e9s)" },
+  "nfcreg.mode_multi": { en: "Multiple (session)", hu: "T\u00f6bb (munkamenet)" },
   // ── Buttons ──
-  "nfcreg.regBtn_start": { en: "Start reading", hu: "Olvas\u00e1s ind\u00edt\u00e1sa" },
-  "nfcreg.regBtn_stop": { en: "Stop reading", hu: "Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa" },
-  "nfcreg.regBtn_save_all": { en: "Save all", hu: "Mind ment\u00e9se" },
-  "nfcreg.regBtn_clear": { en: "Clear list", hu: "Lista t\u00f6rl\u00e9se" },
-  "nfcreg.btn_back": { en: "\u2190 Back", hu: "\u2190 Vissza" },
+  "nfcreg.btn_start": { en: "Start reading", hu: "Olvas\u00e1s ind\u00edt\u00e1sa" },
+  "nfcreg.btn_stop": { en: "Stop reading", hu: "Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa" },
+  "nfcreg.save_all": { en: "Save all", hu: "Mind ment\u00e9se" },
+  "nfcreg.btn_clear": { en: "Clear list", hu: "Lista t\u00f6rl\u00e9se" },
   // ── Last tag ──
-  "nfcreg.regLast_title": { en: "Last tag", hu: "Utols\u00f3 cimke" },
-  "nfcreg.regLast_sub": { en: "Most recently read tag", hu: "Legutóbb beolvasott cimke" },
-  "nfcreg.regLbl_serial": { en: "Serial number", hu: "Sorozatsz\u00e1m" },
-  "nfcreg.regLbl_content": { en: "Content", hu: "Tartalom" },
-  "nfcreg.regNo_content": { en: "(no content)", hu: "(nincs tartalom)" },
+  "nfcreg.last_title": { en: "Last tag", hu: "Utols\u00f3 cimke" },
+  "nfcreg.last_sub": { en: "Most recently read tag", hu: "Legut\u00f3bb beolvasott cimke" },
+  "nfcreg.last_serial": { en: "Serial number", hu: "Sorozatsz\u00e1m" },
+  "nfcreg.last_content": { en: "Content", hu: "Tartalom" },
+  "nfcreg.no_content": { en: "(no content)", hu: "(nincs tartalom)" },
   // ── Session list ──
-  "nfcreg.rgList_title": { en: "Session list", hu: "Munkamenet lista" },
-  "nfcreg.rgList_sub": { en: "Saved together at the end", hu: "A v\u00e9g\u00e9n egyben ment\u0151dik" },
-  "nfcreg.rgEmpty": { en: "No tags read yet.", hu: "M\u00e9g nincs beolvasott cimke." },
+  "nfcreg.list_title": { en: "Session list", hu: "Munkamenet lista" },
+  "nfcreg.list_sub": { en: "Saved together at the end", hu: "A v\u00e9g\u00e9n egyben ment\u0151dik" },
+  "nfcreg.empty": { en: "No tags read yet.", hu: "M\u00e9g nincs beolvasott cimke." },
   // ── Status messages ──
-  "nfcreg.regSt_ready": { en: "Ready. Press “Start reading”.", hu: "K\u00e9sz. Nyomd meg az \u201eOlvas\u00e1s ind\u00edt\u00e1sa\u201d gombot." },
-  "nfcreg.reg_st_ns": { en: "Web NFC is not supported on this browser/device (use Chrome on Android).", hu: "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n (haszn\u00e1lj Chrome-ot Androidon)." },
-  "nfcreg.reg_st_starting": { en: "Starting NFC scan…", hu: "NFC olvas\u00e1s ind\u00edt\u00e1sa\u2026" },
-  "nfcreg.reg_st_scan_single": { en: "Scanning active – hold ONE tag to the back of the phone. It will be saved automatically.", hu: "Olvas\u00e1s akt\u00edv \u2013 tarts EGY cimk\u00e9t a telefon h\u00e1t\u00e1hoz. Automatikusan ment\u0151dik." },
-  "nfcreg.reg_st_scan_multi": { en: "Scanning active – hold tags to the phone one by one. Press “Save all” when finished.", hu: "Olvas\u00e1s akt\u00edv \u2013 tartsd oda a cimk\u00e9ket egyenk\u00e9nt. Ha k\u00e9sz, nyomd meg a \u201eMind ment\u00e9se\u201d gombot." },
-  "nfcreg.reg_st_read": { en: "Tag read: {s}", hu: "Cimke beolvasva: {s}" },
-  "nfcreg.reg_st_saving": { en: "Saving to Google Sheet…", hu: "Ment\u00e9s a Google t\u00e1bl\u00e1zatba\u2026" },
-  "nfcreg.reg_st_saved_one": { en: "Saved ✅ {s}", hu: "Mentve \u2705 {s}" },
-  "nfcreg.reg_st_saved_many": { en: "{n} tag(s) saved to the sheet ✅", hu: "{n} cimke mentve a t\u00e1bl\u00e1zatba \u2705" },
-  "nfcreg.reg_st_added": { en: "Added to list: {s} ({n} total)", hu: "Hozz\u00e1adva a list\u00e1hoz: {s} (\u00f6sszesen {n})" },
-  "nfcreg.reg_st_dup": { en: "Already in the list: {s}", hu: "M\u00e1r szerepel a list\u00e1ban: {s}" },
-  "nfcreg.reg_st_no_serial": { en: "The tag was read but has no serial number.", hu: "A cimke beolvasva, de nincs sorozatsz\u00e1ma." },
-  "nfcreg.reg_st_read_err": { en: "NFC read error – try again.", hu: "NFC olvas\u00e1si hiba \u2013 pr\u00f3b\u00e1ld \u00fajra." },
-  "nfcreg.reg_st_stopped": { en: "Reading stopped.", hu: "Olvas\u00e1s le\u00e1ll\u00edtva." },
+  "nfcreg.st_ready": { en: "Ready. Press “Start reading”.", hu: "K\u00e9sz. Nyomd meg az \u201eOlvas\u00e1s ind\u00edt\u00e1sa\u201d gombot." },
+  "nfcreg.st_ns": { en: "Web NFC is not supported on this browser/device (use Chrome on Android).", hu: "A Web NFC nem t\u00e1mogatott ezen a b\u00f6ng\u00e9sz\u0151n/eszk\u00f6z\u00f6n (haszn\u00e1lj Chrome-ot Androidon)." },
+  "nfcreg.st_starting": { en: "Starting NFC scan…", hu: "NFC olvas\u00e1s ind\u00edt\u00e1sa\u2026" },
+  "nfcreg.st_scan_single": { en: "Scanning active – hold ONE tag to the back of the phone. It will be saved automatically.", hu: "Olvas\u00e1s akt\u00edv \u2013 tarts EGY cimk\u00e9t a telefon h\u00e1t\u00e1hoz. Automatikusan ment\u0151dik." },
+  "nfcreg.st_scan_multi": { en: "Scanning active – hold tags to the phone one by one. Press “Save all” when finished.", hu: "Olvas\u00e1s akt\u00edv \u2013 tartsd oda a cimk\u00e9ket egyenk\u00e9nt. Ha k\u00e9sz, nyomd meg a \u201eMind ment\u00e9se\u201d gombot." },
+  "nfcreg.st_read": { en: "Tag read: {s}", hu: "Cimke beolvasva: {s}" },
+  "nfcreg.st_saving": { en: "Saving to Google Sheet…", hu: "Ment\u00e9s a Google t\u00e1bl\u00e1zatba\u2026" },
+  "nfcreg.st_saved_one": { en: "Saved ✅ {s}", hu: "Mentve \u2705 {s}" },
+  "nfcreg.st_saved_many": { en: "{n} tag(s) saved to the sheet ✅", hu: "{n} cimke mentve a t\u00e1bl\u00e1zatba \u2705" },
+  "nfcreg.st_added": { en: "Added to list: {s} ({n} total)", hu: "Hozz\u00e1adva a list\u00e1hoz: {s} (\u00f6sszesen {n})" },
+  "nfcreg.st_dup": { en: "Already in the list: {s}", hu: "M\u00e1r szerepel a list\u00e1ban: {s}" },
+  "nfcreg.st_no_serial": { en: "The tag was read but has no serial number.", hu: "A cimke beolvasva, de nincs sorozatsz\u00e1ma." },
+  "nfcreg.st_read_err": { en: "NFC read error – try again.", hu: "NFC olvas\u00e1si hiba \u2013 pr\u00f3b\u00e1ld \u00fajra." },
+  "nfcreg.st_stopped": { en: "Reading stopped.", hu: "Olvas\u00e1s le\u00e1ll\u00edtva." },
   // ── Save errors ──
-  "nfcreg.reg_st_save_fail": { en: "Save failed: {e} – the list was kept, try again.", hu: "Ment\u00e9s sikertelen: {e} \u2013 a lista megmaradt, pr\u00f3b\u00e1ld \u00fajra." },
-  "nfcreg.reg_st_save_fail_single": { en: "Save failed: {e}", hu: "Ment\u00e9s sikertelen: {e}" },
+  "nfcreg.st_save_fail": { en: "Save failed: {e} – the list was kept, try again.", hu: "Ment\u00e9s sikertelen: {e} \u2013 a lista megmaradt, pr\u00f3b\u00e1ld \u00fajra." },
+  "nfcreg.st_save_fail_single": { en: "Save failed: {e}", hu: "Ment\u00e9s sikertelen: {e}" },
   // ── List messages ──
-  "nfcreg.reg_st_empty": { en: "The list is empty.", hu: "A lista \u00fcres." },
-  "nfcreg.reg_st_cleared": { en: "List cleared.", hu: "Lista t\u00f6r\u00f6lve." },
-  "nfcreg.reg_st_removed": { en: "Removed: {s}", hu: "Elt\u00e1vol\u00edtva: {s}" },
-  "nfcreg.reg_st_confirm_clear": { en: "Clear all tags from the list?", hu: "Törlöd az összes cimkét a listából?" },
-  "nfcreg.reg_st_unsaved": { en: "You have unsaved tags.", hu: "Vannak nem mentett cimk\u00e9k." },
+  "nfcreg.st_empty": { en: "The list is empty.", hu: "A lista \u00fcres." },
+  "nfcreg.st_cleared": { en: "List cleared.", hu: "Lista t\u00f6r\u00f6lve." },
+  "nfcreg.st_removed": { en: "Removed: {s}", hu: "Elt\u00e1vol\u00edtva: {s}" },
+  "nfcreg.st_confirm_clear": { en: "Clear all tags from the list?", hu: "T\u00f6rl\u00f6d az \u00f6sszes cimk\u00e9t a list\u00e1b\u00f3l?" },
+  "nfcreg.st_unsaved": { en: "You have unsaved tags.", hu: "Vannak nem mentett cimk\u00e9k." },
 };
 
 const LANG_KEY = 'fuvesztar_lang';
@@ -2124,7 +2122,7 @@ function initReader() {
 /* =====================================================================
  *  REGISTRY  (all rg* names; status keys live under ".")
  * ===================================================================== */
-let rgMode = 'single', rgScan = null, rgItems = [], busy = false, lastStatus = ['regSt_ready', 'info', {}];
+let rgMode = 'single', rgScan = null, rgItems = [], busy = false, lastStatus = ['nfcreg.st_ready', 'info', {}];
 
 function rgStatusSet(key, type = 'info', params = {}) {
   lastStatus = [key, type, params];                            // remembered so a language switch can re-render it
@@ -2139,16 +2137,16 @@ function rgUpdateButtons() {
 }
 function rgRenderList() {
   const list = $('rgListId'); $('rgCount').textContent = rgItems.length; list.replaceChildren();
-  if (!rgItems.length) { const e = document.createElement('div'); e.className = 'rgEmpty'; e.textContent = t(rt('rgEmpty')); list.append(e); }
+  if (!rgItems.length) { const e = document.createElement('div'); e.className = 'rgEmpty'; e.textContent = t(rt('nfcreg.empty')); list.append(e); }
   rgItems.forEach((it, i) => {
     const row = document.createElement('div'); row.className = 'rgItem';
     const n = document.createElement('div'); n.className = 'rgNum'; n.textContent = (i + 1) + '.';
     const box = document.createElement('div'); box.className = 'rgTxt';
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
-    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('regNo_content'));
+    const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('nfcreg.no_content'));
     box.append(s, c);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
-    d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('reg_st_removed', 'info', { s: it.serial }); rgRenderList(); };
+    d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('nfcreg.st_removed', 'info', { s: it.serial }); rgRenderList(); };
     row.append(n, box, d); list.append(row);
   });
   rgUpdateButtons();
@@ -2161,65 +2159,67 @@ const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', row
 
 function rgStopScan(silent) {
   rgScan?.abort(); rgScan = null; rgUpdateButtons();
-  if (!silent) rgStatusSet('reg_st_stopped');
+  if (!silent) rgStatusSet('nfcreg.st_stopped');
 }
 async function rgStartScan() {
-  if (!('NDEFReader' in window)) return rgStatusSet('reg_st_ns', 'error');
-  rgStopScan(true); rgStatusSet('reg_st_starting');
+  if (!('NDEFReader' in window)) return rgStatusSet('nfcreg.st_ns', 'error');
+  rgStopScan(true); rgStatusSet('nfcreg.st_starting');
   const ac = new AbortController(); rgScan = ac;
   try {
     const ndef = new NDEFReader();
     ndef.addEventListener('reading', rgOnTag, { signal: ac.signal });
-    ndef.addEventListener('readingerror', () => rgStatusSet('reg_st_read_err', 'warn'), { signal: ac.signal });
+    ndef.addEventListener('readingerror', () => rgStatusSet('nfcreg.st_read_err', 'warn'), { signal: ac.signal });
     await ndef.scan({ signal: ac.signal });
-    rgStatusSet(rgMode === 'single' ? 'reg_st_scan_single' : 'reg_st_scan_multi');
-  } catch (e) { rgScan = null; console.error(e); rgStatusSet('reg_st_read_err', 'error'); }
+    rgStatusSet(rgMode === 'single' ? 'nfcreg.st_scan_single' : 'nfcreg.st_scan_multi');
+  } catch (e) { rgScan = null; console.error(e); rgStatusSet('nfcreg.st_read_err', 'error'); }
   rgUpdateButtons();
 }
 async function rgOnTag(e) {
   if (busy) return;                                            // ignore taps while saving
   const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
-  if (!serial) return rgStatusSet('reg_st_no_serial', 'warn');
+  if (!serial) return rgStatusSet('nfcreg.st_no_serial', 'warn');
   rgShowLast(serial, content);
   if (navigator.vibrate) navigator.vibrate(80);
   if (rgMode === 'single') {                                   // one tag -> save at once
-    rgStopScan(true); busy = true; rgUpdateButtons(); rgStatusSet('reg_st_saving');
-    try { await rgSave([{ serial, content }]); rgStatusSet('reg_st_saved_one', 'success', { s: serial }); }
-    catch (er) { console.error(er); rgStatusSet('reg_st_save_fail_single', 'error', { e: er.message || er }); }
+    rgStopScan(true); 
+    status('st_read', 'info', { s: serial });
+    busy = true; rgUpdateButtons(); rgStatusSet('nfcreg.st_saving');
+    try { await rgSave([{ serial, content }]); rgStatusSet('nfcreg.st_saved_one', 'success', { s: serial }); }
+    catch (er) { console.error(er); rgStatusSet('nfcreg.st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
-    if (rgItems.some(i => i.serial === serial)) return rgStatusSet('reg_st_dup', 'warn', { s: serial });
+    if (rgItems.some(i => i.serial === serial)) return rgStatusSet('nfcreg.st_dup', 'warn', { s: serial });
     rgItems.push({ serial, content });
-    rgStatusSet('reg_st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
+    rgStatusSet('nfcreg.st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
   }
 }
 async function rgSaveAll() {
-  if (!rgItems.length) return rgStatusSet('reg_st_empty', 'warn');
-  rgStopScan(true); busy = true; rgUpdateButtons(); rgRenderList(); rgStatusSet('reg_st_saving');
-  try { const n = rgItems.length; await rgSave(rgItems); rgItems = []; rgStatusSet('reg_st_saved_many', 'success', { n }); }
-  catch (er) { console.error(er); rgStatusSet('reg_st_save_fail', 'error', { e: er.message || er }); }   // the list is kept
+  if (!rgItems.length) return rgStatusSet('nfcreg.st_empty', 'warn');
+  rgStopScan(true); busy = true; rgUpdateButtons(); rgRenderList(); rgStatusSet('nfcreg.st_saving');
+  try { const n = rgItems.length; await rgSave(rgItems); rgItems = []; rgStatusSet('nfcreg.st_saved_many', 'success', { n }); }
+  catch (er) { console.error(er); rgStatusSet('nfcreg.st_save_fail', 'error', { e: er.message || er }); }   // the list is kept
   finally { busy = false; rgRenderList(); }
 }
 function initRegitry() {
   $('rgStartBtn').onclick = rgStartScan; $('rgStopBtn').onclick = () => rgStopScan(false);
   $('rgSaveAllBtn').onclick = rgSaveAll; $('rgBackBtn').onclick = () => location.href = PAGES.home;
   $('rgClearBtn').onclick = () => {
-    if (!rgItems.length || !confirm(t(rt('reg_st_confirm_clear')))) return;
-    rgItems = []; rgStatusSet('reg_st_cleared'); rgRenderList();
+    if (!rgItems.length || !confirm(t(rt('nfcreg.reg_st_confirm_clear')))) return;
+    rgItems = []; rgStatusSet('nfcreg.st_cleared'); rgRenderList();
   };
   const sessionPanel = $('reg-panel-session');
   const setMode = m => {                                       // single = auto-save, multi = session list
     rgMode = m;
     document.querySelectorAll('#regModeToggle button').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
     sessionPanel.style.display = m === 'multi' ? '' : 'none';
-    rgStatusSet('regSt_ready');
+    rgStatusSet('nfcreg.st_ready');
   };
   document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
   setMode('single'); rgRenderList();
   document.addEventListener('lang:changed', () => { rgStatusSet(...lastStatus); rgRenderList(); });
   document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'reg') rgStopScan(true); });
   document.addEventListener('visibilitychange', () => { if (document.hidden && rgScan) rgStopScan(false); });
-  window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t(rt('reg_st_unsaved')); } });
+  window.addEventListener('beforeunload', e => { if (rgItems.length) { e.preventDefault(); e.returnValue = t(rt('nfcreg.st_unsaved')); } });
 }
 
 /* ── Boot ── */
