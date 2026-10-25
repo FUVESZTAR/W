@@ -57,6 +57,14 @@ body {
   gap: 0.5rem;
   flex-wrap: wrap;
 }
+.tab-bar {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+} 
+    
 .page-header-left { display:flex; flex-direction:column; gap:3px; }
 .page-title {
   font-family:'Playfair Display',serif;
@@ -67,12 +75,7 @@ body {
 }
 .page-subtitle { font-size:.82rem; color:var(--muted); font-weight:300; }
 
-.tab-bar {
-  display: grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
-  gap: 6px;
-  margin-bottom: 0.5rem;
-}   
+  
 /* Language switcher */
 .lang-toggle {
   display: flex;
