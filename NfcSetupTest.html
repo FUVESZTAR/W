@@ -1757,8 +1757,8 @@ async function initGenerator() {
   setReady(false);
 
   /* ── Location saver mode: other id, no NFC-only controls ── */
-  const NFC_ONLY = ['nfc-write-button', 'gen-list-nfc', 'dupl-nfc', 'copy-nfc', 'copy-link'];
-  const PIN_ONLY = ['gen-list-pin'];
+  const NFC_ONLY = ['nfc-write-button', 'list-nfc', 'dupl-nfc', 'copy-nfc', 'copy-link'];
+  const PIN_ONLY = ['list-pin'];
   const idLabel = document.querySelector('label[for="gen-nfcId"]');
   async function applyMode() {
     const pin = mode() === 'pin';
@@ -2227,7 +2227,7 @@ async function rgSaveAll() {
 function initRegitry() {
   $('reg-start-btn').onclick = rgStartScan; $('reg-stop-btn').onclick = () => rgStopScan(false);
   $('reg-save-all-btn').onclick = rgSaveAll; $('reg-back-btn').onclick = () => location.href = PAGES.home;
-  $('reg-list-reg').onclick = () => location.href = PAGES.listreg;
+  $('reg-list-reg-btn').onclick = () => location.href = PAGES.listreg;
   $('reg-clear-btn').onclick = () => {
     if (!rgItems.length || !confirm(t(rt('reg_st_confirm_clear')))) return;
     rgItems = []; rgStatusSet('st_cleared'); rgRenderList();
