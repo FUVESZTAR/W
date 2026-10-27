@@ -1577,7 +1577,7 @@ function debounce(fn, ms) {
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
 const rt  = k => 'nfcreg.' + k;                               // registry keys
-const PAGES = { home: 'Homepage.html', list: 'pages/NfcListPage.html' };   // exact spelling of your real files
+const PAGES = { home: 'Homepage.html', listnfc: 'pages/NfcListPage.html' , listpin: 'pages/PinListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
