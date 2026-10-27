@@ -312,11 +312,7 @@ body {
   background: var(--green-pale2);
   padding: 1px 7px;
   border-radius: 10px;
-}
-
-
-
-    
+}  
 /* ── Buttons ────────────────────────────────────────────────── */
 .btn-grid {
   display: grid;
@@ -876,9 +872,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <div class="nfc-preview" id="gen-pic-preview" data-i18n="nfcall.ph_pic_preview" data-i18n-live>Picture name will appear here…</div>
         </div>
       </div></div></div>
-    </div>
-
-    
+    </div> 
 
     <!-- ── Generator Panel 7: Actions 1 ────────────────────────────────── -->
     <div class="panel open" id="gen-panel-actions">
@@ -1768,7 +1762,7 @@ async function initGenerator() {
   async function applyMode() {
     const pin = mode() === 'pin';
     NFC_ONLY.forEach(n => B(n).style.display = pin ? 'none' : '');
-    PIN_ONLY.forEach(n => B(n).style.display = nfc ? 'none' : '');
+    PIN_ONLY.forEach(n => B(n).style.display = pin ? '' : 'none');
     serialEl.closest('.form-group').style.display = pin ? 'none' : '';
     idLabel.dataset.i18n = pin ? 'nfcall.pinId' : 'nfcall.nfcId'; idLabel.textContent = t(idLabel.dataset.i18n);
     if (ids[mode()] == null) await newId();
@@ -1918,7 +1912,8 @@ async function initGenerator() {
   });
   $('qrClose').addEventListener('click', () => $('qrPopup').style.display = 'none');
   B('back-button').addEventListener('click', () => location.href = PAGES.home);
-  B('list-nfc').addEventListener('click',   () => location.href = PAGES.list);
+  B('list-nfc').addEventListener('click',   () => location.href = PAGES.listNfc);
+  B('list-pin').addEventListener('click',   () => location.href = PAGES.listPin);
   B('exp-button').addEventListener('click',   () => downloadQueueAsJson());
 
   //save function
