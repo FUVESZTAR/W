@@ -23,7 +23,7 @@ const FOLDER_ID = '1C3hue-BEja_cumoATlSqe4UZsBLM7dnC';  // 'YOUR_FOLDER_ID'
 function doGet(e) {
 
   const search = (e.parameter.search || '').trim();
-
+  
   if (!search) {
     return jsonResponse({
       success: false,
@@ -32,7 +32,7 @@ function doGet(e) {
   }
 
   try {
-
+    const decoded = decodeURIComponent(search);
     const results = findImages(search);
 
     return jsonResponse({
@@ -56,13 +56,13 @@ function doGet(e) {
 // ------------------------------------------------------------
 
 function findImages(search) {
-
+  //console.log('findImages search:',search);
   const folder = DriveApp.getFolderById(FOLDER_ID);
 
   const files = folder.getFiles();
 
   const searchNormalized = normalizeName(search);
-
+  //console.log('searchNormalized:',searchNormalized);
   const results = [];
 
 
@@ -130,17 +130,29 @@ function findImages(search) {
 // ------------------------------------------------------------
 
 function normalizeName(value) {
-
   return String(value || '')
+    .normalize('NFC')                  // Normalize Unicode. NFD () or NFC
     .toLowerCase()
     .replace(/\.[^/.]+$/, '')
+    .replace(/[\u0300-\u036f]/g, '')  // Remove accents
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '');
-
 }
 
+function test() { 
+  const original = 'vitis_vinifera_GYO20_fehér'; 
+  //const original = 'malus_domestica_á'; 
+  console.log('original:',original);
+  const normalized = normalizeName(original);
+  console.log('normalized:',normalized);
+  //const encoded = encodeURIComponent(original);
+  //console.log('encoded:',encoded);
+  //const decoded = decodeURIComponent(encoded);
+  //console.log('decoded:',decoded);
+  //Logger.log(findImages(normalized)); 
+  }
 
-// ------------------------------------------------------------
+  // ------------------------------------------------------------
 // JSON response
 // ------------------------------------------------------------
 
@@ -151,5 +163,3 @@ function jsonResponse(data) {
     .setMimeType(ContentService.MimeType.JSON);
 
 }
-
-function test() { Logger.log(findImages('malus_domestica')); }
