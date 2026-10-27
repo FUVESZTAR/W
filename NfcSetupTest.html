@@ -1167,12 +1167,13 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
         </div>
         <div class="btn-grid cols-2">
-        <button id="rgStartBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
-        <button id="rgStopBtn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
+        <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
+        <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
         </div>
         <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
         <div class="btn-grid cols-1">
-          <button id="rgBackBtn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
+          <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
+          <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
         </div>
       </div></div></div>
     </div>
@@ -1215,8 +1216,8 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="rgList" id="rgListId"></div>
         <div class="btn-grid">
-           <button id="rgSaveAllBtn" class="btn btn-primary" type="button" data-i18n="nfcreg.save_all" disabled>Save all</button>
-           <button id="rgClearBtn" class="btn btn-secondary" type="button" data-i18n="nfcreg.btn_clear" disabled>Clear list</button>
+           <button id="reg-save-all-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.save_all" disabled>Save all</button>
+           <button id="reg-clear-btn" class="btn btn-secondary" type="button" data-i18n="nfcreg.btn_clear" disabled>Clear list</button>
         </div>
       </div></div></div>
     </div>
@@ -1364,7 +1365,7 @@ const I18N = {
   "nfcall.btn_clear": { en: "Clear Fields", hu: "Mez\u0151k t\u00f6rl\u00e9se" },
   "nfcall.btn_nfclist": { en: "NFC List", hu: "NFC lista" },
   "nfcall.btn_pinlist": { en: "Pin List", hu: "Helyjel\u00f6l\u0151 lista" },
-  "nfcall.btn_pinlist": { en: "Registrated NFC List", hu: "Regisztr\u00e1lt NFC lista" },
+  "nfcall.btn_reglist": { en: "Registrated NFC List", hu: "Regisztr\u00e1lt NFC lista" },
   "nfcall.btn_qr": { en: "QR Code", hu: "QR k\u00f3d" },
   "nfcall.btn_im": { en: "JSON Import", hu: "JSON Bet\u00f6lt\u00e9s" },
   "nfcall.btn_back": { en: "\u2190 Back", hu: "\u2190 Vissza" },
@@ -1577,7 +1578,7 @@ function debounce(fn, ms) {
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
 const rt  = k => 'nfcreg.' + k;                               // registry keys
-const PAGES = { home: 'Homepage.html', listnfc: 'pages/NfcListPage.html' , listpin: 'pages/PinListPage.html' };   // exact spelling of your real files
+const PAGES = { home: 'Homepage.html', listnfc: 'pages/NfcListPage.html' , listpin: 'pages/PinListPage.html' , listreg: 'pages/RegListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
@@ -2153,9 +2154,9 @@ function rgStatusSet(key, type = 'info', params = {}) {
 }
 function rgUpdateButtons() {
   const scanning = !!rgScan;
-  $('rgStartBtn').disabled = scanning || busy; $('rgStopBtn').disabled = !scanning;
+  $('reg-start-btn').disabled = scanning || busy; $('reg-stop-btn').disabled = !scanning;
   $('rgLiveDot').style.display = scanning ? 'inline' : 'none';
-  $('rgSaveAllBtn').disabled = busy || !rgItems.length; $('rgClearBtn').disabled = busy || !rgItems.length;
+  $('reg-save-all-btn').disabled = busy || !rgItems.length; $('reg-clear-btn').disabled = busy || !rgItems.length;
   document.querySelectorAll('#regModeToggle button').forEach(b => b.disabled = scanning || busy);
 }
 function rgRenderList() {
@@ -2224,9 +2225,10 @@ async function rgSaveAll() {
   finally { busy = false; rgRenderList(); }
 }
 function initRegitry() {
-  $('rgStartBtn').onclick = rgStartScan; $('rgStopBtn').onclick = () => rgStopScan(false);
-  $('rgSaveAllBtn').onclick = rgSaveAll; $('rgBackBtn').onclick = () => location.href = PAGES.home;
-  $('rgClearBtn').onclick = () => {
+  $('reg-start-btn').onclick = rgStartScan; $('reg-stop-btn').onclick = () => rgStopScan(false);
+  $('reg-save-all-btn').onclick = rgSaveAll; $('reg-back-btn').onclick = () => location.href = PAGES.home;
+  $('reg-list-reg').onclick = () => location.href = PAGES.listreg;
+  $('reg-clear-btn').onclick = () => {
     if (!rgItems.length || !confirm(t(rt('reg_st_confirm_clear')))) return;
     rgItems = []; rgStatusSet('st_cleared'); rgRenderList();
   };
