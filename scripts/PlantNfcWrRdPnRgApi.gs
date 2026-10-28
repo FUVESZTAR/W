@@ -143,18 +143,19 @@ function saveSerials_(data) {
     var r = rows[i] || {};
     var serial  = text_(r.serialNum).toUpperCase();
     var content = text_(r.nfcData);
-    var nfcSt = text_(r.nfcStatus);
+    var nfcSt = text_(r.nfcStatus).toLowerCase();
     if (!SERIAL_REQ_RE.test(serial))             return json_({ error: 'Input validation failed: serialNum (row ' + (i + 1) + ')' });
     if (content.length > 1000)                   return json_({ error: 'Input validation failed: nfcData (row ' + (i + 1) + ')' });
-    if (nfcSt.length > 10)                       return json_({ error: 'Input validation failed: nfcData (row ' + (i + 1) + ')' });
     if (HTML_RE.test(content))                   return json_({ error: 'Input validation failed: html (row ' + (i + 1) + ')' });
     if (CTRL_RE.test(content))                   return json_({ error: 'Input validation failed: control characters (row ' + (i + 1) + ')' });
-    if (HTML_RE.test(nfcSt))                     return json_({ error: 'Input validation failed: html (row ' + (i + 1) + ')' });
-    if (CTRL_RE.test(nfcSt))                     return json_({ error: 'Input validation failed: control characters (row ' + (i + 1) + ')' });
-    var n = normSerial_(serial);
-    if (seen[n] !== undefined) { clean[seen[n]].content = content; continue; }   // last one wins
+    // validation: replace the 4 nfcSt checks with one whitelist
+    if (nfcSt !== 'active' && nfcSt !== 'inactive') return json_({ error: 'Input validation failed: nfcStatus (row ' + (i + 1) + ')' });
+    
+        var n = normSerial_(serial);
+    // duplicate serial inside one request: the last one wins, including the status
+    if (seen[n] !== undefined) { clean[seen[n]].content = content; clean[seen[n]].nfcSt = nfcSt; continue; }
     seen[n] = clean.length;
-    clean.push({ serial: serial, content: content, norm: n, nfcSt: nfcSt});
+    clean.push({ serial: serial, content: content, norm: n, nfcSt: nfcSt });
   }
 
   var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME_REG);
@@ -176,7 +177,7 @@ function saveSerials_(data) {
   var toAdd = [], updated = 0;
   clean.forEach(function (c) {
     if (index[c.norm]) {                                  // already registered -> update content (C) + date (D)
-      sheet.getRange(index[c.norm], 3, 1, 2).setNumberFormat('@').setValues([[c.content, dateN, c.nfcSt]]);
+      sheet.getRange(index[c.norm], 3, 1, 3).setNumberFormat('@').setValues([[dateN, c.nfcSt, c.content]]);   // C, D, E
       updated++;
     } else {
       maxNr++;                                            // next listing number
@@ -250,6 +251,8 @@ function saveNfc_(data) {
   else if (!SERIAL_RE.test(serialNum))                    bad = 'serialNum';
   else if (HTML_RE.test(nfcData) || HTML_RE.test(other) || HTML_RE.test(comment)) bad = 'html';
   else if (CTRL_RE.test(nfcData + other + comment))       bad = 'control characters';
+
+  
   if (bad) return json_({ error: 'Input validation failed: ' + bad });
 
   var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME_NFC);
