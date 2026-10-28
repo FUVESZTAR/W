@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NFC Generator &amp; Reader</title>
-  <link rel="icon" href="ico/favicon.ico" />
+  <link rel="icon" href="../ico/favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
   <style>
 /* ── Design tokens ──────────────────────────────────────────── */
@@ -35,7 +35,7 @@ body {
   color: var(--charcoal);
   line-height: 1.6;
   min-height: 100vh;
-  cursor: url('ico/leaf.cur') 0 0, auto;
+  cursor: url('../ico/leaf.cur') 0 0, auto;
 }
 
 /* ── Layout wrapper ─────────────────────────────────────────── */
@@ -1162,9 +1162,13 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="rgToggle" id="regModeToggle">
+        <div class="rgToggle" id="regModeToggleMode">
         <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
         <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
+        </div>
+        <div class="rgToggle" id="regModeToggleActiveState">
+        <button type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
+        <button type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
         </div>
         <div class="btn-grid cols-2">
         <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
@@ -1196,6 +1200,10 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div>
           <div class="rgLabel" data-i18n="nfcreg.last_content">Content</div>
           <div class="rgPreview" id="rgLastContent">–</div>
+        </div>
+        <div>
+          <div class="rgLabel" data-i18n="nfcreg.last_nfc_status">NFC Status</div>
+          <div class="rgPreview" id="rgLastNfcStatus">–</div>
         </div>
       </div></div></div>
     </div>
@@ -1415,6 +1423,8 @@ const I18N = {
   // ── Reading mode ──
   "nfcreg.mode_single": { en: "Single (auto-save)", hu: "Egyes (automatikus ment\u00e9s)" },
   "nfcreg.mode_multi": { en: "Multiple (session)", hu: "T\u00f6bb (munkamenet)" },
+  "nfcreg.status_active": { en: "Active", hu: "Akt\u00edv" },
+  "nfcreg.status_inactive": { en: "Inactive", hu: "Inakt\u00edv" },
   // ── Buttons ──
   "nfcreg.btn_start": { en: "Start reading", hu: "Olvas\u00e1s ind\u00edt\u00e1sa" },
   "nfcreg.btn_stop": { en: "Stop reading", hu: "Olvas\u00e1s le\u00e1ll\u00edt\u00e1sa" },
@@ -1425,6 +1435,7 @@ const I18N = {
   "nfcreg.last_sub": { en: "Most recently read tag", hu: "Legut\u00f3bb beolvasott cimke" },
   "nfcreg.last_serial": { en: "Serial number", hu: "Sorozatsz\u00e1m" },
   "nfcreg.last_content": { en: "Content", hu: "Tartalom" },
+  "nfcreg.last_nfc_status": { en: "NFC Status", hu: "NFC st\u00e1tusz" },
   "nfcreg.no_content": { en: "(no content)", hu: "(nincs tartalom)" },
   // ── Session list ──
   "nfcreg.list_title": { en: "Session list", hu: "Munkamenet lista" },
@@ -1561,7 +1572,7 @@ function debounce(fn, ms) {
 
   </script>
   <!-- Script 3: qr localy -->
-  <script src="lib/qrcode.js"></script>
+  <script src="../lib/qrcode.js"></script>
   
   <!-- Script 4: new JS Read / write -->
    <script>
@@ -1578,11 +1589,11 @@ function debounce(fn, ms) {
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
 const rt  = k => 'nfcreg.' + k;                               // registry keys
-const PAGES = { home: 'Homepage.html', listnfc: 'pages/NfcListPage.html' , listpin: 'pages/PinListPage.html' , listreg: 'pages/RegListPage.html' };   // exact spelling of your real files
+const PAGES = { home: '../Homepage.html', listNfc: 'pages/NfcListPage.html' , listPin: 'pages/PinListPage.html' , listReg: 'pages/RegListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
-  WRITER_URL: 'https://script.google.com/macros/s/AKfycbwCcwwXBPMvL7P66UVBcoPEApO29AS_oAS7c9bxN8KF7NazkOlGGraQp8otA_7Y5JbA/exec',
+  WRITER_URL: 'https://script.google.com/macros/s/AKfycbypnTXrRGz0Xpb1fylxkIAOTMkENY886zG-1ZsHeL_VUcwEll7BCKc1KXNxUqjAAQMX/exec',
   SECRET: '159753g9d5rt4sdfer7e5z4d6szo89fsef', 
   SHEET_SOURCE_ID: '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY', 
   SHEET_SOURCE: 'plant_list',
@@ -2139,14 +2150,14 @@ function initReader() {
     S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
-  r('list-nfc').addEventListener('click', () => location.href = PAGES.list);
+  r('list-nfc').addEventListener('click', () => location.href = PAGES.listNfc);
   r('back-button').addEventListener('click', () => location.href = PAGES.home);
 }
 
 /* =====================================================================
  *  REGISTRY  (all rg* names; status keys live under ".")
  * ===================================================================== */
-let rgMode = 'single', rgScan = null, rgItems = [], busy = false, lastStatus = ['nfcreg.st_ready', 'info', {}];
+let rgMode = 'single', rgActive = 'active', rgScan = null, rgItems = [], busy = false, lastStatus = ['st_ready', 'info', {}];
 
 function rgStatusSet(key, type = 'info', params = {}) {
   lastStatus = [key, type, params];                            // remembered so a language switch can re-render it
@@ -2157,7 +2168,8 @@ function rgUpdateButtons() {
   $('reg-start-btn').disabled = scanning || busy; $('reg-stop-btn').disabled = !scanning;
   $('rgLiveDot').style.display = scanning ? 'inline' : 'none';
   $('reg-save-all-btn').disabled = busy || !rgItems.length; $('reg-clear-btn').disabled = busy || !rgItems.length;
-  document.querySelectorAll('#regModeToggle button').forEach(b => b.disabled = scanning || busy);
+  document.querySelectorAll('#regModeToggleMode button').forEach(b => b.disabled = scanning || busy);
+  //document.querySelectorAll('#regModeToggleActiveState button').forEach(b => b.disabled = scanning || busy);
 }
 function rgRenderList() {
   const list = $('rgListId'); $('rgCount').textContent = rgItems.length; list.replaceChildren();
@@ -2168,18 +2180,23 @@ function rgRenderList() {
     const box = document.createElement('div'); box.className = 'rgTxt';
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
     const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
-    box.append(s, c);
+    const st1 = document.createElement('div'); st1.className = 'rgCon'; st1.textContent = t(rt('status_' + it.tagStatus));
+    box.append(s, c, st1);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
     d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('st_removed', 'info', { s: it.serial }); rgRenderList(); };
     row.append(n, box, d); list.append(row);
   });
   rgUpdateButtons();
 }
-const rgShowLast = (serial, content) => { $('rgLastSerial').textContent = serial || '\u2013'; $('rgLastContent').textContent = content || '\u2013'; };
-/* Content = all text/url records in tag order, joined by " | " */
+const rgShowLast = (serial, content, tagStatus) => {
+    $('rgLastSerial').textContent = serial || '–';
+    $('rgLastContent').textContent = content || '–';
+    $('rgLastNfcStatus').textContent = tagStatus || '–';
+  };
+  /* Content = all text/url records in tag order, joined by " | " */
 const rgContentOf = recs => recs.filter(r => (r.type === 'text' || r.type === 'url') && r.value).map(r => r.value.trim()).filter(Boolean).join(' | ');
 /* Column A = serial number, column B = content, one row per tag */
-const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcData: r.content })) });
+const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, nfcData: r.content})) });
 
 function rgStopScan(silent) {
   rgScan?.abort(); rgScan = null; rgUpdateButtons();
@@ -2194,26 +2211,26 @@ async function rgStartScan() {
     ndef.addEventListener('reading', rgOnTag, { signal: ac.signal });
     ndef.addEventListener('readingerror', () => rgStatusSet('st_read_err', 'warn'), { signal: ac.signal });
     await ndef.scan({ signal: ac.signal });
-    rgStatusSet(rgMode === 'single' ? 'nfcreg.st_scan_single' : 'nfcreg.st_scan_multi');
+    rgStatusSet(rgMode === 'single' ? 'st_scan_single' : 'st_scan_multi');
   } catch (e) { rgScan = null; console.error(e); rgStatusSet('st_read_err', 'error'); }
   rgUpdateButtons();
 }
 async function rgOnTag(e) {
   if (busy) return;                                            // ignore taps while saving
-  const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
+  const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message)), tagStatus = rgActive;
   if (!serial) return rgStatusSet('st_no_serial', 'warn');
-  rgShowLast(serial, content);
+  rgShowLast(serial, content, tagStatus);
   if (navigator.vibrate) navigator.vibrate(80);
   if (rgMode === 'single') {                                   // one tag -> save at once
     rgStopScan(true); 
-    status('st_read', 'info', { s: serial });
+    rgStatusSet('st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
-    try { await rgSave([{ serial, content }]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    try { await rgSave([{ serial, content, tagStatus}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
     catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
     if (rgItems.some(i => i.serial === serial)) return rgStatusSet('st_dup', 'warn', { s: serial });
-    rgItems.push({ serial, content });
+    rgItems.push({ serial, content, tagStatus });
     rgStatusSet('st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
   }
 }
@@ -2227,20 +2244,27 @@ async function rgSaveAll() {
 function initRegitry() {
   $('reg-start-btn').onclick = rgStartScan; $('reg-stop-btn').onclick = () => rgStopScan(false);
   $('reg-save-all-btn').onclick = rgSaveAll; $('reg-back-btn').onclick = () => location.href = PAGES.home;
-  $('reg-list-reg-btn').onclick = () => location.href = PAGES.listreg;
+  $('reg-list-reg-btn').onclick = () => location.href = PAGES.listReg;
   $('reg-clear-btn').onclick = () => {
-    if (!rgItems.length || !confirm(t(rt('reg_st_confirm_clear')))) return;
+    if (!rgItems.length || !confirm(t(rt('st_confirm_clear')))) return;
     rgItems = []; rgStatusSet('st_cleared'); rgRenderList();
   };
   const sessionPanel = $('reg-panel-session');
   const setMode = m => {                                       // single = auto-save, multi = session list
     rgMode = m;
-    document.querySelectorAll('#regModeToggle button').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+    document.querySelectorAll('#regModeToggleMode button').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
     sessionPanel.style.display = m === 'multi' ? '' : 'none';
     rgStatusSet('st_ready', 'info');
   };
-  document.querySelectorAll('#regModeToggle button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
-  setMode('single'); rgRenderList();
+  document.querySelectorAll('#regModeToggleMode button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
+  setMode('single'); 
+  const setActState = z => {                                       // single = auto-save, multi = session list
+    rgActive = z;
+    document.querySelectorAll('#regModeToggleActiveState button').forEach(b => b.classList.toggle('active', b.dataset.mode === z));
+  };
+  document.querySelectorAll('#regModeToggleActiveState button').forEach(b => b.onclick = () => setActState(b.dataset.mode));
+  setActState('active'); 
+  rgRenderList();
   document.addEventListener('lang:changed', () => { rgStatusSet(...lastStatus); rgRenderList(); });
   document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'reg') rgStopScan(true); });
   document.addEventListener('visibilitychange', () => { if (document.hidden && rgScan) rgStopScan(false); });
