@@ -123,12 +123,12 @@ function doPost(e) {
 }
 
 /** Save serial numbers (+ content) to reg_list, one row per tag.
- *  Columns: A = listing number | B = serial  | C = date of last update | D = nfc status | E = content
- *  A known serial is NOT added again: its date (C) and status (D) and content (E) are updated.
+ *  Columns: A = listing number | B = serial  | D = date of last update | C = content
+ *  A known serial is NOT added again: its content (C) and date (D) are updated.
  *  Called while the script lock is held. 
  * { serial, content }
  * 
- *  in sheet:  toAdd.push([maxNr, c.serial, dateN, c.nfcSt, c.content]
+ *  in sheet:  toAdd.push([maxNr, c.serial, dateN, c.content]
  * */
 function saveSerials_(data) {
   var rows = data.rows;
@@ -143,18 +143,14 @@ function saveSerials_(data) {
     var r = rows[i] || {};
     var serial  = text_(r.serialNum).toUpperCase();
     var content = text_(r.nfcData);
-    var nfcSt = text_(r.nfcStatus);
     if (!SERIAL_REQ_RE.test(serial))             return json_({ error: 'Input validation failed: serialNum (row ' + (i + 1) + ')' });
     if (content.length > 1000)                   return json_({ error: 'Input validation failed: nfcData (row ' + (i + 1) + ')' });
-    if (nfcSt.length > 10)                       return json_({ error: 'Input validation failed: nfcData (row ' + (i + 1) + ')' });
     if (HTML_RE.test(content))                   return json_({ error: 'Input validation failed: html (row ' + (i + 1) + ')' });
     if (CTRL_RE.test(content))                   return json_({ error: 'Input validation failed: control characters (row ' + (i + 1) + ')' });
-    if (HTML_RE.test(nfcSt))                     return json_({ error: 'Input validation failed: html (row ' + (i + 1) + ')' });
-    if (CTRL_RE.test(nfcSt))                     return json_({ error: 'Input validation failed: control characters (row ' + (i + 1) + ')' });
     var n = normSerial_(serial);
     if (seen[n] !== undefined) { clean[seen[n]].content = content; continue; }   // last one wins
     seen[n] = clean.length;
-    clean.push({ serial: serial, content: content, norm: n, nfcSt: nfcSt});
+    clean.push({ serial: serial, content: content, norm: n });
   }
 
   var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME_REG);
@@ -176,20 +172,19 @@ function saveSerials_(data) {
   var toAdd = [], updated = 0;
   clean.forEach(function (c) {
     if (index[c.norm]) {                                  // already registered -> update content (C) + date (D)
-      sheet.getRange(index[c.norm], 3, 1, 2).setNumberFormat('@').setValues([[c.content, dateN, c.nfcSt]]);
+      sheet.getRange(index[c.norm], 3, 1, 2).setNumberFormat('@').setValues([[c.content, dateN]]);
       updated++;
     } else {
       maxNr++;                                            // next listing number
-      toAdd.push([maxNr, c.serial, dateN, c.nfcSt, c.content]);    // FIX: was [nr, serial, date, state, content] = columns C/D swapped
+      toAdd.push([maxNr, c.serial, dateN, c.content]);    // FIX: was [nr, serial, date, content] = columns C/D swapped
     }
   });
 
   if (toAdd.length) {
     var start = sheet.getLastRow() + 1;
     // Column A real numbers; B-D plain text, so "1E05..." never becomes a number and "=IMPORTDATA(...)" stays literal.
-    sheet.getRange(start, 2, toAdd.length, 4).setNumberFormat('@');
-    sheet.getRange(start, 1, toAdd.length, 5).setValues(toAdd);
-    //getRange(row, firstColumn, numRows, numColumns)
+    sheet.getRange(start, 2, toAdd.length, 3).setNumberFormat('@');
+    sheet.getRange(start, 1, toAdd.length, 4).setValues(toAdd);
   }
   return json_({ status: 'success', added: toAdd.length, updated: updated });
 }
@@ -204,15 +199,15 @@ function saveSerialsAfterNfcSave_(nfcData, serialNum) {
   try {
     var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME_REG);
     if (!sheet) { console.error('Sheet not found: ' + SHEET_NAME_REG); return false; }
-    var nfcSt = 'active';             // local to this function
+
     var dateN = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');
     var nr    = maxNfcId_(sheet) + 1;                     // highest number in column A (from row 2) + 1
     var row   = sheet.getLastRow() + 1;                   // first empty row under the last row
 
     // B-D as plain text, so "1E05..." never becomes a number and "=IMPORTDATA(...)" stays literal.
     // Column A stays a real number.
-    sheet.getRange(row, 2, 1, 4).setNumberFormat('@');
-    sheet.getRange(row, 1, 1, 5).setValues([[nr, serialNum, dateN, nfcSt, text_(nfcData)]]);
+    sheet.getRange(row, 2, 1, 3).setNumberFormat('@');
+    sheet.getRange(row, 1, 1, 4).setValues([[nr, serialNum, dateN, text_(nfcData)]]);
     return true;
   } catch (err) {
     console.error(err);
