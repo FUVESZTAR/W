@@ -2192,7 +2192,7 @@ const rgShowLast = (serial, content, tagStatus) => { $('rgLastSerial').textConte
 /* Content = all text/url records in tag order, joined by " | " */
 const rgContentOf = recs => recs.filter(r => (r.type === 'text' || r.type === 'url') && r.value).map(r => r.value.trim()).filter(Boolean).join(' | ');
 /* Column A = serial number, column B = content, one row per tag */
-const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcData: r.content, nfcStatus: r.tagStatus })) });
+const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, nfcData: r.content})) });
 
 function rgStopScan(silent) {
   rgScan?.abort(); rgScan = null; rgUpdateButtons();
