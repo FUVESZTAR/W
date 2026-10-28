@@ -2169,7 +2169,7 @@ function rgUpdateButtons() {
   $('rgLiveDot').style.display = scanning ? 'inline' : 'none';
   $('reg-save-all-btn').disabled = busy || !rgItems.length; $('reg-clear-btn').disabled = busy || !rgItems.length;
   document.querySelectorAll('#regModeToggleMode button').forEach(b => b.disabled = scanning || busy);
-  document.querySelectorAll('#regModeToggleActiveState button').forEach(b => b.disabled = scanning || busy);
+  //document.querySelectorAll('#regModeToggleActiveState button').forEach(b => b.disabled = scanning || busy);
 }
 function rgRenderList() {
   const list = $('rgListId'); $('rgCount').textContent = rgItems.length; list.replaceChildren();
