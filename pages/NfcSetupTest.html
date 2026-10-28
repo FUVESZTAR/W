@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NFC Generator &amp; Reader</title>
-  <link rel="icon" href="ico/favicon.ico" />
+  <link rel="icon" href="../ico/favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
   <style>
 /* ── Design tokens ──────────────────────────────────────────── */
@@ -35,7 +35,7 @@ body {
   color: var(--charcoal);
   line-height: 1.6;
   min-height: 100vh;
-  cursor: url('ico/leaf.cur') 0 0, auto;
+  cursor: url('../ico/leaf.cur') 0 0, auto;
 }
 
 /* ── Layout wrapper ─────────────────────────────────────────── */
@@ -1572,7 +1572,7 @@ function debounce(fn, ms) {
 
   </script>
   <!-- Script 3: qr localy -->
-  <script src="lib/qrcode.js"></script>
+  <script src="../lib/qrcode.js"></script>
   
   <!-- Script 4: new JS Read / write -->
    <script>
@@ -1589,7 +1589,7 @@ function debounce(fn, ms) {
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
 const rt  = k => 'nfcreg.' + k;                               // registry keys
-const PAGES = { home: 'Homepage.html', listnfc: 'pages/NfcListPage.html' , listpin: 'pages/PinListPage.html' , listreg: 'pages/RegListPage.html' };   // exact spelling of your real files
+const PAGES = { home: '../Homepage.html', listnfc: 'pages/NfcListPage.html' , listpin: 'pages/PinListPage.html' , listreg: 'pages/RegListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
