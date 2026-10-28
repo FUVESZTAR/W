@@ -1589,11 +1589,11 @@ function debounce(fn, ms) {
 const $   = id => document.getElementById(id);
 const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {param})
 const rt  = k => 'nfcreg.' + k;                               // registry keys
-const PAGES = { home: '../Homepage.html', listnfc: 'pages/NfcListPage.html' , listpin: 'pages/PinListPage.html' , listreg: 'pages/RegListPage.html' };   // exact spelling of your real files
+const PAGES = { home: '../Homepage.html', listNfc: 'pages/NfcListPage.html' , listPin: 'pages/PinListPage.html' , listReg: 'pages/RegListPage.html' };   // exact spelling of your real files
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
-  WRITER_URL: 'https://script.google.com/macros/s/AKfycbxyv93TTJ7fAQOYVhR1N8PN0YQh9bgtxwoWRfTI12QrZyBLLZhSZ3sxXt_aHmEgKXBX/exec',
+  WRITER_URL: 'https://script.google.com/macros/s/AKfycbypnTXrRGz0Xpb1fylxkIAOTMkENY886zG-1ZsHeL_VUcwEll7BCKc1KXNxUqjAAQMX/exec',
   SECRET: '159753g9d5rt4sdfer7e5z4d6szo89fsef', 
   SHEET_SOURCE_ID: '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY', 
   SHEET_SOURCE: 'plant_list',
@@ -2150,14 +2150,14 @@ function initReader() {
     S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
-  r('list-nfc').addEventListener('click', () => location.href = PAGES.list);
+  r('list-nfc').addEventListener('click', () => location.href = PAGES.listNfc);
   r('back-button').addEventListener('click', () => location.href = PAGES.home);
 }
 
 /* =====================================================================
  *  REGISTRY  (all rg* names; status keys live under ".")
  * ===================================================================== */
-let rgMode = 'single', rgActive = 'active', rgScan = null, rgItems = [], busy = false, lastStatus = ['nfcreg.st_ready', 'info', {}];
+let rgMode = 'single', rgActive = 'active', rgScan = null, rgItems = [], busy = false, lastStatus = ['st_ready', 'info', {}];
 
 function rgStatusSet(key, type = 'info', params = {}) {
   lastStatus = [key, type, params];                            // remembered so a language switch can re-render it
@@ -2180,16 +2180,20 @@ function rgRenderList() {
     const box = document.createElement('div'); box.className = 'rgTxt';
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
     const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
-    const st1 = document.createElement('div'); c.className = 'rgTagSt'; c.textContent = it.tagStatus || t(rt('no_content'));
-    box.append(s, c);
+    const st1 = document.createElement('div'); st1.className = 'rgCon'; st1.textContent = t(rt('status_' + it.tagStatus));
+    box.append(s, c, st1);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
     d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('st_removed', 'info', { s: it.serial }); rgRenderList(); };
     row.append(n, box, d); list.append(row);
   });
   rgUpdateButtons();
 }
-const rgShowLast = (serial, content, tagStatus) => { $('rgLastSerial').textContent = serial || '\u2013'; $('rgLastContent').textContent = content || '\u2013'; ; $('rgLastContent').textContent = tagStatus || '\u2013'; };
-/* Content = all text/url records in tag order, joined by " | " */
+const rgShowLast = (serial, content, tagStatus) => {
+    $('rgLastSerial').textContent = serial || '–';
+    $('rgLastContent').textContent = content || '–';
+    $('rgLastNfcStatus').textContent = tagStatus || '–';
+  };
+  /* Content = all text/url records in tag order, joined by " | " */
 const rgContentOf = recs => recs.filter(r => (r.type === 'text' || r.type === 'url') && r.value).map(r => r.value.trim()).filter(Boolean).join(' | ');
 /* Column A = serial number, column B = content, one row per tag */
 const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, nfcData: r.content})) });
@@ -2207,7 +2211,7 @@ async function rgStartScan() {
     ndef.addEventListener('reading', rgOnTag, { signal: ac.signal });
     ndef.addEventListener('readingerror', () => rgStatusSet('st_read_err', 'warn'), { signal: ac.signal });
     await ndef.scan({ signal: ac.signal });
-    rgStatusSet(rgMode === 'single' ? 'nfcreg.st_scan_single' : 'nfcreg.st_scan_multi');
+    rgStatusSet(rgMode === 'single' ? 'st_scan_single' : 'st_scan_multi');
   } catch (e) { rgScan = null; console.error(e); rgStatusSet('st_read_err', 'error'); }
   rgUpdateButtons();
 }
@@ -2219,7 +2223,7 @@ async function rgOnTag(e) {
   if (navigator.vibrate) navigator.vibrate(80);
   if (rgMode === 'single') {                                   // one tag -> save at once
     rgStopScan(true); 
-    status('st_read', 'info', { s: serial });
+    rgStatusSet('st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
     try { await rgSave([{ serial, content, tagStatus}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
     catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
@@ -2240,9 +2244,9 @@ async function rgSaveAll() {
 function initRegitry() {
   $('reg-start-btn').onclick = rgStartScan; $('reg-stop-btn').onclick = () => rgStopScan(false);
   $('reg-save-all-btn').onclick = rgSaveAll; $('reg-back-btn').onclick = () => location.href = PAGES.home;
-  $('reg-list-reg-btn').onclick = () => location.href = PAGES.listreg;
+  $('reg-list-reg-btn').onclick = () => location.href = PAGES.listReg;
   $('reg-clear-btn').onclick = () => {
-    if (!rgItems.length || !confirm(t(rt('reg_st_confirm_clear')))) return;
+    if (!rgItems.length || !confirm(t(rt('st_confirm_clear')))) return;
     rgItems = []; rgStatusSet('st_cleared'); rgRenderList();
   };
   const sessionPanel = $('reg-panel-session');
