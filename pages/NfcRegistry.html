@@ -416,7 +416,7 @@ async function saveAll() {
 $('startBtn').onclick = startScan;
 $('stopBtn').onclick = () => stopScan(false);
 $('saveAllBtn').onclick = saveAll;
-$('backBtn').onclick = () => location.href = 'Homepage.html';
+$('backBtn').onclick = () => location.href = '../Homepage.html';
   
 $('clearBtn').onclick = () => {
   if (!items.length || !confirm(t('st_confirm_clear'))) return;
