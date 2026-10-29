@@ -735,7 +735,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 
   <div class="col">   <!-- column 2 -->  
   <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
-    <div class="panel open" id="gen-panel-review">
+    <div class="panel" id="gen-panel-review">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('gen-panel-review')">
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
@@ -1051,7 +1051,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div><!-- column 1 end-->  
       <div class="col"><!-- column 2 -->  
     <!-- ── Reader Panel 4: Data ─────────────────────────────────────── -->
-    <div class="panel open" id="read-panel-data">
+    <div class="panel" id="read-panel-data">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanel('read-panel-data')">
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
@@ -1124,7 +1124,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div>
 
     <!-- ── Reader Panel 6: Other ────────────────────────────────────── -->
-    <div class="panel open" id="read-panel-other">
+    <div class="panel" id="read-panel-other">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'read-panel-other')">
         <div class="panel-header-left">
           <span class="panel-icon">📝</span>
@@ -1191,6 +1191,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
             <div class="panel-subtitle" data-i18n="nfcreg.last_sub">Most recently read tag</div>
           </div>
         </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div>
@@ -1220,16 +1221,17 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           </div>
           <span class="badge" id="rgCount">0</span>
         </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="rgList" id="rgListId"></div>
         <div class="btn-grid">
            <button id="reg-save-all-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.save_all" disabled>Save all</button>
            <button id="reg-clear-btn" class="btn btn-secondary" type="button" data-i18n="nfcreg.btn_clear" disabled>Clear list</button>
         </div>
+        <div class="rgList" id="rgListId"></div> 
       </div></div></div>
     </div>
-       </div><!-- column 2 end -->  
+    </div><!-- column 2 end -->  
     </div><!-- end tab-reg -->
   </main>
 
