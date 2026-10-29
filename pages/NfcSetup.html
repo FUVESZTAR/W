@@ -2145,8 +2145,8 @@ function initReader() {
     const S = (k, v) => localStorage.setItem(k, v);
     S('StCopyState', 'Y'); S('StPlantName', r('name-plant').value); S('StVariety', r('name-variety').value);
     S('StPlantID', r('plantId').value); S('StLatinName', r('latin-name').value); S('StDate', r('datum').value);
-    S('StNFCType', r('nfcTyp').value); 
-    S('StGPSCPacket', /^L\\|[\\s\\S]*\\|L$/.test(r('posPacketOut').textContent) ? r('posPacketOut').textContent : '');
+    S('StNFCType', r('nfcTyp').value);
+    S('StGPSCPacket', /^L\|[\s\S]*\|L$/.test(r('posPacketOut').textContent) ? r('posPacketOut').textContent : '');
     S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
