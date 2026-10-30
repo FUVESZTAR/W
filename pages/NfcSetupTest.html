@@ -1365,7 +1365,7 @@ const I18N = {
   "nfcall.serialNr": { en: "NFC HW ID", hu: "NFC HW ID" },
   "nfcall.lbl_latin": { en: "Latin Name", hu: "Latin n\u00e9v" },
   "nfcall.lbl_datum": { en: "Date", hu: "D\u00e1tum" },
-  "nfcall.lbl_where: { en: "Location", hu: "Helysz\u00edn" },
+  "nfcall.lbl_where": { en: "Location", hu: "Helysz\u00edn" },
   "nfcall.lbl_nfcTyp": { en: "Type", hu: "T\u00edpus" },
   "nfcall.lbl_nfc": { en: "NFC", hu: "NFC" },
   "nfcall.opt_n": { en: "n \u2013 plant", hu: "n \u2013 n\u00f6v\u00e9ny" },
@@ -1790,7 +1790,7 @@ async function initGenerator() {
   const MENT = { comment: el('comment-rw') , location: el('where-rw'), gps: el('gps-rw')};                  // only goes into Save, never onto the tag
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
-  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment'), locationIn= el('where'),; 
+  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment'), locationIn= el('where'); 
   const err = el('error-message'), err2 = el('error-message2'), serialEl = el('serialNr');
 
   /* "include" checkboxes: INC[key] sits in front of each review field (ids gen-inc-<key>) */
