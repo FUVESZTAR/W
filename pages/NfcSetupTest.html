@@ -1854,7 +1854,7 @@ async function initGenerator() {
   const isIncluded = k => INC[k] ? INC[k].checked : true;
 
   const today = new Date().toLocaleDateString('sv-SE');   // local yyyy-mm-dd
-  let plants = [], nextPlantId = null, watchId = null, tick = null, offlineSave = false;
+  let plants = [], nextPlantId = null, offlineSave = false;
   const ids = { nfc: null, pin: null };                        // each page has its own running id
   const mode = () => currentTab === 'pin' ? 'pin' : 'nfc';
 
