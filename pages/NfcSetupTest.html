@@ -1787,7 +1787,7 @@ async function initGenerator() {
   const el = id => $('gen-' + id), B = el;
   const F = { nfcId: el('nfcId'), plantId: el('plantId'), name: el('plantName'), variety: el('plantVariety'),
               latin: el('latin-name'), type: el('nfcTyp-rw'), date: el('datum-rw'), other: el('other-rw') };
-  const MENT = { comment: el('comment-rw') , location: el('where-rw'), gps: el('gps-rw')};                  // only goes into Save, never onto the tag
+  const MENT = { comment: el('comment-rw') , locationSave: el('where-rw'), gps: el('gps-rw')};                  // only goes into Save, never onto the tag
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
   const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment'), locationIn= el('where'); 
@@ -1874,7 +1874,7 @@ async function initGenerator() {
     F.latin.value   = row?.LatinName || (customPlant ? F.latin.value : '');
     F.plantId.value = (customPlant || customVar) ? (nextPlantId ?? '') : (row?.Plant_ID ?? '');   // custom -> next free Plant_ID
     F.type.value = typeIn.value; F.date.value = dateIn.value; F.other.value = otherIn.value;
-    MENT.gps.value = gpsPacket; MENT.location.value = locationIn.value ;MENT.comment.value = commentIn.value;
+    MENT.gps.value = gpsPacket; MENT.locationSave.value = locationIn.value ;MENT.comment.value = commentIn.value;
   }
 
   /* Format: nfcId/plantId/name/variety/latin/type/date/gps/other/ – an unchecked field keeps its "/" but is empty,
@@ -1936,7 +1936,7 @@ async function initGenerator() {
   });
   function clearForm() {
     Object.entries(F).forEach(([k, i]) => { if (k !== 'nfcId') i.value = ''; });     // keep the running id
-    plantCustom.value = varCustom.value = otherIn.value = commentIn.value = MENT.comment.value = MENT.location.value ='';
+    plantCustom.value = varCustom.value = otherIn.value = commentIn.value = MENT.comment.value = MENT.locationSave.value ='';
     plantCustom.style.display = varCustom.style.display = 'none';
     varSel.replaceChildren(new Option(msg('gen_opt_variety'), ''));
     typeIn.value = 'n'; dateIn.value = today; gpsPacket = '';
@@ -1978,12 +1978,12 @@ async function initGenerator() {
     const pos = isIncluded('gps') ? MENT.gps.value : '', serial = serialEl.textContent;
     const payload = mode() === 'pin'
   ? { key: CFG.SECRET, action: 'pinSave', plantId: F.plantId.value, nfcTyp: F.type.value,
-      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value, location: MENT.location.value}
+      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value, location: MENT.locationSave.value}
   : { key: CFG.SECRET, action: 'nfcSave', nfcId: F.nfcId.value, plantId: F.plantId.value,
           nfcTyp: F.type.value, datum: F.date.value, nfcCreated: today, nfcPos: pos,
           nfcData: el('nfc-preview').textContent, other: F.other.value,
           serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,
-          comment: MENT.comment.value , location: MENT.location.value  };                      
+          comment: MENT.comment.value , location: MENT.locationSave.value  };                      
     B('save-nfc').disabled = true; showError(err, msg('err_save_start'), 'info');
     try {
       if (offlineSave) {
@@ -2224,7 +2224,7 @@ function rgRenderList() {
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
     const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
     const st1 = document.createElement('div'); st1.className = 'rgCon'; st1.textContent = t(rt('status_' + it.tagStatus));
-    const loc1 = document.createElement('div'); loc1.className = 'rgCon'; loc1.textContent = t(rt('status_' + it.location));
+    const loc1 = document.createElement('div'); loc1.className = 'rgCon'; loc1.textContent = t(rt('status_' + it.locationSave));
     const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = t(rt('status_' + it.gps));
     box.append(s, c, st1);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
@@ -2241,7 +2241,7 @@ const rgShowLast = (serial, content, tagStatus) => {
   /* Content = all text/url records in tag order, joined by " | " */
 const rgContentOf = recs => recs.filter(r => (r.type === 'text' || r.type === 'url') && r.value).map(r => r.value.trim()).filter(Boolean).join(' | ');
 /* Column A = serial number, column B = content, one row per tag */
-const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, location: r.location, gps: r.gps, nfcData: r.content})) });
+const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, location: r.locationSave, gps: r.gps, nfcData: r.content})) });
 
 function rgStopScan(silent) {
   rgScan?.abort(); rgScan = null; rgUpdateButtons();
@@ -2264,7 +2264,7 @@ async function rgOnTag(e) {
   if (busy) return;                                            // ignore taps while saving
   const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
   let tagStatus = rgActive;
-  let location = "test1" , gps = "test2";
+  let locationS = "test1" , gps = "test2";
   if (!serial) return rgStatusSet('st_no_serial', 'warn');
   rgShowLast(serial, content, tagStatus);
   if (navigator.vibrate) navigator.vibrate(80);
@@ -2272,12 +2272,12 @@ async function rgOnTag(e) {
     rgStopScan(true); 
     rgStatusSet('st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
-    try { await rgSave([{ serial, tagStatus, location, gps, content}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    try { await rgSave([{ serial, tagStatus, locationS, gps, content}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
     catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
     if (rgItems.some(i => i.serial === serial)) return rgStatusSet('st_dup', 'warn', { s: serial });
-    rgItems.push({ serial, tagStatus, location, gps, content });
+    rgItems.push({ serial, tagStatus, locationSave, gps, content });
     rgStatusSet('st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
   }
 }
