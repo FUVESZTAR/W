@@ -1205,6 +1205,12 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <button id="gps-state-btn1" type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
           <button id="gps-state-btn2" type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
         </div>
+        <div class="rgToggle" id="regModeToggleGsp">
+           <label data-i18n="nfcall.gps_card_title">GPS Data</label>
+           <button id="gps-state-btn1" type="button" data-mode="active" data-i18n="nfcreg.status_active">Active</button>
+           <button id="gps-state-btn2" type="button" data-mode="inactive" class="active" data-i18n="nfcreg.status_inactive">Inactive</button>
+        </div>
+        <p class="status-msg" id="reg-gps-status"></p>
         <div class="btn-grid cols-2">
           <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
           <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
@@ -1507,6 +1513,11 @@ const I18N = {
   "nfcreg.st_removed": { en: "Removed: {s}", hu: "Elt\u00e1vol\u00edtva: {s}" },
   "nfcreg.st_confirm_clear": { en: "Clear all tags from the list?", hu: "T\u00f6rl\u00f6d az \u00f6sszes cimk\u00e9t a list\u00e1b\u00f3l?" },
   "nfcreg.st_unsaved": { en: "You have unsaved tags.", hu: "Vannak nem mentett cimk\u00e9k." },
+  // ── GPS messages ──
+  "nfcall.gps_auto_locked":  { en: "GPS locked ({acc} m)",             hu: "GPS r\u00f6gz\u00edtve ({acc} m)" },
+  "nfcall.gps_auto_timeout": { en: "GPS locked after 30 s ({acc} m)",  hu: "GPS r\u00f6gz\u00edtve 30 mp ut\u00e1n ({acc} m)" },
+  "nfcall.gps_nofix":        { en: "No GPS fix after 30 s",            hu: "30 mp ut\u00e1n sincs GPS jel" },
+  "nfcall.gps_off":          { en: "GPS off",                          hu: "GPS kikapcsolva" },
 };
 
 const LANG_KEY = 'fuvesztar_lang';
@@ -1630,6 +1641,49 @@ function unpackGps(packet) {                                   // strips the L|�
              alt: v.getUint16(8) - 1000, acc: v.getUint16(10) - 1000 };
   } catch { return null; }
 }
+
+    /* =====================================================================
+ *  GPS ENGINE – one instance shared by the Generator panel and the Registry toggle
+ * ===================================================================== */
+const GPS_AUTO_MS  = 30000;   // auto mode: lock after 30 s ...
+const GPS_AUTO_ACC = 10;      // ... or as soon as the accuracy is 10 m or better
+const gpsCtl = (() => {
+  let watchId = null, timer = null, hasFix = false, auto = false, packet = '', lastFix = 0;
+  let fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
+  const subs = [];
+  const emit = (type, error) => subs.forEach(f => f(type, { fix, packet, error }));
+  const halt = () => { if (watchId != null) navigator.geolocation.clearWatch(watchId); clearTimeout(timer); watchId = timer = null; };
+  const pack = () => `L|${packGps(fix)}|L`;
+  function lock(type) { halt(); auto = false; if (hasFix) packet = pack(); emit(type); }   // stop + keep the best fix
+
+  document.addEventListener('visibilitychange', () => {        // save battery: stop when the tab is hidden
+    if (document.hidden && watchId != null) { halt(); auto = false; emit('paused'); }
+  });
+
+  return {
+    on: f => subs.push(f),
+    get packet() { return packet; },                           // locked "L|…|L" packet, '' if none
+    running: () => watchId != null,
+    active:  () => watchId != null || packet !== '',           // used for the Registry toggle
+    lastFix: () => lastFix,
+    current: () => packet || (watchId != null && hasFix ? pack() : ''),   // locked packet, else latest fix
+    start({ auto: a = false } = {}) {
+      if (!navigator.geolocation) return emit('unsupported');
+      halt(); packet = ''; hasFix = false; auto = a; lastFix = Date.now();
+      watchId = navigator.geolocation.watchPosition(p => {
+        lastFix = Date.now(); hasFix = true;
+        fix = { lat: p.coords.latitude, lon: p.coords.longitude, alt: p.coords.altitude || 0, acc: p.coords.accuracy };
+        emit('fix');
+        if (auto && fix.acc <= GPS_AUTO_ACC) lock('locked');   // accurate enough -> lock now
+      }, e => { if (e.code === 1) { halt(); auto = false; } emit('error', e); },   // 1 = permission denied
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
+      if (auto) timer = setTimeout(() => lock(hasFix ? 'timeout' : 'nofix'), GPS_AUTO_MS);
+      emit('started');
+    },
+    stop()  { lock('stopped'); },                              // = "Stop & Lock Data"
+    reset() { halt(); packet = ''; hasFix = false; auto = false; emit('reset'); }
+  };
+})();
 
   </script>
   <!-- Script 3: qr localy -->
@@ -1800,8 +1854,7 @@ async function initGenerator() {
   const isIncluded = k => INC[k] ? INC[k].checked : true;
 
   const today = new Date().toLocaleDateString('sv-SE');   // local yyyy-mm-dd
-  let plants = [], gpsPacket = '', nextPlantId = null, watchId = null, tick = null, offlineSave = false;
-  let lastFix = Date.now(), fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
+  let plants = [], nextPlantId = null, watchId = null, tick = null, offlineSave = false;
   const ids = { nfc: null, pin: null };                        // each page has its own running id
   const mode = () => currentTab === 'pin' ? 'pin' : 'nfc';
 
@@ -1874,7 +1927,7 @@ async function initGenerator() {
     F.latin.value   = row?.LatinName || (customPlant ? F.latin.value : '');
     F.plantId.value = (customPlant || customVar) ? (nextPlantId ?? '') : (row?.Plant_ID ?? '');   // custom -> next free Plant_ID
     F.type.value = typeIn.value; F.date.value = dateIn.value; F.other.value = otherIn.value;
-    MENT.gps.value = gpsPacket; MENT.locationSave.value = locationIn.value ;MENT.comment.value = commentIn.value;
+    MENT.gps.value = gpsCtl.packet; MENT.locationSave.value = locationIn.value; MENT.comment.value = commentIn.value;
   }
 
   /* Format: nfcId/plantId/name/variety/latin/type/date/gps/other/ – an unchecked field keeps its "/" but is empty,
@@ -1939,7 +1992,8 @@ async function initGenerator() {
     plantCustom.value = varCustom.value = otherIn.value = commentIn.value = MENT.comment.value = MENT.locationSave.value ='';
     plantCustom.style.display = varCustom.style.display = 'none';
     varSel.replaceChildren(new Option(msg('gen_opt_variety'), ''));
-    typeIn.value = 'n'; dateIn.value = today; gpsPacket = '';
+    typeIn.value = 'n'; dateIn.value = today; 
+    gpsCtl.reset();
     el('nfc-preview').textContent = msg('ph_nfc_preview'); el('link-preview').textContent = msg('ph_link_preview');
     el('pic-preview').textContent = msg('ph_pic_preview'); serialEl.textContent = msg('ph_serialnr_preview');
     ['nfc-size', 'link-size', 'total-size'].forEach(n => el(n).textContent = '0 B');
@@ -2076,37 +2130,45 @@ async function initGenerator() {
   });
 
   /* ── GPS ── */
+    /* ── GPS panel: only the display; the engine is gpsCtl ── */
   const gStatus = el('gpsStatus');
   const setGps = (text, color) => { gStatus.textContent = text; gStatus.style.background = color; gStatus.style.color = '#fff'; };
-  function stopWatch() {
-    if (watchId != null) navigator.geolocation.clearWatch(watchId);
-    clearInterval(tick); watchId = tick = null;
-    el('gpsStartBtn').style.display = 'block'; el('gpsStopBtn').style.display = 'none'; el('liveDot').style.display = 'none';
-  }
-  el('gpsStartBtn').addEventListener('click', () => {
-    if (!navigator.geolocation) return setGps(msg('gps_unsupported'), 'red');
-    stopWatch();
-    el('gpsStartBtn').style.display = 'none'; el('gpsStopBtn').style.display = 'block'; el('liveDot').style.display = 'inline';
-    setGps(msg('gps_fetching'), 'orange');
-    watchId = navigator.geolocation.watchPosition(p => {
-      lastFix = Date.now();
-      fix = { lat: p.coords.latitude, lon: p.coords.longitude, alt: p.coords.altitude || 0, acc: p.coords.accuracy };
-      el('gpsDispLat').textContent = fix.lat.toFixed(6); el('gpsDispLon').textContent = fix.lon.toFixed(6);
-      el('gpsDispAlt').textContent = Math.round(fix.alt) + 'm'; el('gpsDispAcc').textContent = Math.round(fix.acc) + 'm';
-      setGps(msg('gps_updating', { acc: Math.round(fix.acc) }), '#0056b3');
-    }, e => setGps(msg('gps_error') + e.message, 'red'), { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
-    tick = setInterval(() => el('updateTimer').textContent = msg('gps_last_improve', { s: Math.floor((Date.now() - lastFix) / 1000) }), 1000);
+  const showBtns = on => { el('gpsStartBtn').style.display = on ? 'none' : 'block'; el('gpsStopBtn').style.display = on ? 'block' : 'none'; el('liveDot').style.display = on ? 'inline' : 'none'; };
+  let tick = null;
+  const endTick = () => { clearInterval(tick); tick = null; };
+
+  gpsCtl.on((type, d) => {
+    const f = d.fix;
+    switch (type) {
+      case 'started':
+        showBtns(true); setGps(msg('gps_fetching'), 'orange'); endTick();
+        tick = setInterval(() => el('updateTimer').textContent = msg('gps_last_improve', { s: Math.floor((Date.now() - gpsCtl.lastFix()) / 1000) }), 1000);
+        break;
+      case 'fix':
+        el('gpsDispLat').textContent = f.lat.toFixed(6); el('gpsDispLon').textContent = f.lon.toFixed(6);
+        el('gpsDispAlt').textContent = Math.round(f.alt) + 'm'; el('gpsDispAcc').textContent = Math.round(f.acc) + 'm';
+        setGps(msg('gps_updating', { acc: Math.round(f.acc) }), '#0056b3');
+        break;
+      case 'locked': case 'timeout': case 'stopped': case 'nofix':
+        showBtns(false); endTick();
+        if (d.packet) { el('posPacketOut').textContent = d.packet; el('posPacketSize').textContent = `${d.packet.length - 4} B`; MENT.gps.value = d.packet; }
+        el('updateTimer').textContent = msg('gps_locked'); setGps(msg('gps_stopped'), '#333');
+        break;
+      case 'paused':
+        showBtns(false); endTick(); setGps(msg('gps_paused'), '#333');
+        break;
+      case 'reset':
+        showBtns(false); endTick(); MENT.gps.value = '';
+        ['Lat', 'Lon', 'Alt', 'Acc'].forEach(n => el('gpsDisp' + n).textContent = '\u2013');
+        el('posPacketOut').textContent = msg('no_data_locked'); el('posPacketSize').textContent = '0 B';
+        el('updateTimer').textContent = msg('gps_standby'); gStatus.textContent = msg('gps_ready'); gStatus.style.background = ''; gStatus.style.color = '';
+        break;
+      case 'unsupported': setGps(msg('gps_unsupported'), 'red'); break;
+      case 'error': setGps(msg('gps_error') + (d.error?.message || ''), 'red'); break;
+    }
   });
-  el('gpsStopBtn').addEventListener('click', () => {
-    stopWatch();
-    const b64 = packGps(fix); gpsPacket = `L|${b64}|L`;
-    el('posPacketOut').textContent = gpsPacket; el('posPacketSize').textContent = `${b64.length} B`;
-    el('updateTimer').textContent = msg('gps_locked'); setGps(msg('gps_stopped'), '#333');
-    MENT.gps.value = gpsPacket; renderPreview();
-  });
-  document.addEventListener('visibilitychange', () => {        // save battery: stop GPS when the tab is hidden
-    if (document.hidden && watchId != null) { stopWatch(); setGps(msg('gps_paused'), '#333'); }
-  });
+  el('gpsStartBtn').addEventListener('click', () => gpsCtl.start());   // manual: no auto-lock
+  el('gpsStopBtn').addEventListener('click',  () => gpsCtl.stop());    // Stop & Lock Data
 
   /* ── Initial load LAST: every handler above already works while the Sheet is still answering ── */
   showError(err, ''); plantSel.disabled = true; dateIn.value = today;
@@ -2146,9 +2208,7 @@ function initReader() {
     ['nfcId', 'plantId', 'name-plant', 'name-variety', 'latin-name', 'nfcTyp', 'datum', 'other'].forEach(n => r(n).value = '');
     r('serialNr').textContent = msg('ph_serialnr_preview'); r('nfc-preview').textContent = msg('ph_nfc_preview');
     r('link-preview').textContent = msg('ph_link_preview'); r('pic-preview').textContent = msg('ph_pic_preview');
-    ['nfc-size', 'link-size', 'total-size', 'posPacketSize'].forEach(n => r(n).textContent = '0 B');
-    r('posPacketOut').textContent = '';
-    ['Lat', 'Lon', 'Alt', 'Acc'].forEach(n => r('gpsDisp' + n).textContent = '\u2013');
+    ['nfc-size', 'link-size', 'total-size'].forEach(n => r(n).textContent = '0 B');
   }
   function show({ uid, records }) {
     clearForm();
@@ -2160,12 +2220,6 @@ function initReader() {
     r('name-variety').value = d.variety; r('latin-name').value = d.latin; r('nfcTyp').value = d.type;
     r('datum').value = d.date; r('other').value = d.other;
     r('pic-preview').textContent = picName(d.latin, d.variety);
-    r('posPacketOut').textContent = d.gps;
-    if (d.gps) {
-      r('posPacketSize').textContent = fmt(bytes(d.gps));
-      const g = unpackGps(d.gps);
-      if (g) { r('gpsDispLat').textContent = g.lat; r('gpsDispLon').textContent = g.lon; r('gpsDispAlt').textContent = g.alt + 'm'; r('gpsDispAcc').textContent = g.acc + 'm'; }
-    }
     const [a, b] = [bytes(text), bytes(link)];
     r('nfc-size').textContent = fmt(a); r('link-size').textContent = fmt(b); r('total-size').textContent = fmt(a + b);
   }
@@ -2175,11 +2229,6 @@ function initReader() {
   r('copy-nfc').addEventListener('click',  () => copyText(err, r('nfc-preview').textContent,  'err_no_nfc',  'err_copy_nfc_ok'));
   r('copy-link').addEventListener('click', () => copyText(err, r('link-preview').textContent, 'err_no_link', 'err_copy_link_ok', 'ph_link_preview'));
   r('copy-pic').addEventListener('click',  () => copyText(err, r('pic-preview').textContent,  'err_no_pic',  'err_copy_pic_ok', 'ph_pic_preview'));
-  r('copy-gps').addEventListener('click', () => {
-    const lat = r('gpsDispLat').textContent, lon = r('gpsDispLon').textContent;
-    if (lat === '\u2013' || !lat) return showError(err, msg('err_no_gps'));
-    copyText(err, `${lat},${lon}`, 'err_no_gps', 'err_copy_gps_ok');
-  });
   r('open-link-button').addEventListener('click', () => {
     const u = safeUrl(r('link-preview').textContent.trim());   // blocks javascript: links from rogue tags
     if (u) location.href = u; else showError(err, msg('err_bad_link'));
@@ -2189,7 +2238,6 @@ function initReader() {
     S('StCopyState', 'Y'); S('StPlantName', r('name-plant').value); S('StVariety', r('name-variety').value);
     S('StPlantID', r('plantId').value); S('StLatinName', r('latin-name').value); S('StDate', r('datum').value);
     S('StNFCType', r('nfcTyp').value); 
-    S('StGPSCPacket', /^L\|[\\s\\S]*\|L$/.test(r('posPacketOut').textContent) ? r('posPacketOut').textContent : '');
     S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
@@ -2225,7 +2273,8 @@ function rgRenderList() {
     const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
     const st1 = document.createElement('div'); st1.className = 'rgCon'; st1.textContent = t(rt('status_' + it.tagStatus));
     const loc1 = document.createElement('div'); loc1.className = 'rgCon'; loc1.textContent = it.locationSave || '–';
-    const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = it.gps;
+    // const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = it.gps;
+    const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = it.gps ? '📍' : '–';
     box.append(s, c, st1, loc1, gps1);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
     d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('st_removed', 'info', { s: it.serial }); rgRenderList(); };
@@ -2265,7 +2314,7 @@ async function rgOnTag(e) {
   const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
   let tagStatus = rgActive;
   const locationSave = $('reg-where').value.trim();
-  let gps = '';   // fill from your GPS toggle logic when ready
+  const gps = gpsCtl.current();                                // locked packet, else latest fix, else ''
   if (!serial) return rgStatusSet('st_no_serial', 'warn');
   rgShowLast(serial, content, tagStatus);
   if (navigator.vibrate) navigator.vibrate(80);
@@ -2273,7 +2322,7 @@ async function rgOnTag(e) {
     rgStopScan(true); 
     rgStatusSet('st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
-    try { await rgSave([{ serial, tagStatus, locationSave, gps, content}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    try { await rgSave([{ serial, tagStatus, locationSave, gps, content }]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
     catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
@@ -2312,6 +2361,23 @@ function initRegitry() {
   };
   document.querySelectorAll('#regModeToggleActiveState button').forEach(b => b.onclick = () => setActState(b.dataset.mode));
   setActState('active'); 
+    /* GPS toggle: Active = start a fresh fix with auto-lock (30 s or <= 10 m); Inactive = stop and discard */
+  const gpsBtns = document.querySelectorAll('#regModeToggleGsp button');
+  const gpsBox  = $('reg-gps-status');
+  const syncGpsToggle = () => gpsBtns.forEach(b => b.classList.toggle('active', (b.dataset.mode === 'active') === gpsCtl.active()));
+  gpsBtns.forEach(b => b.onclick = () => b.dataset.mode === 'active' ? gpsCtl.start({ auto: true }) : gpsCtl.reset());
+  gpsCtl.on((type, d) => {
+    syncGpsToggle();                                           // also follows the Generator buttons
+    const acc = Math.round(d.fix.acc);
+    gpsBox.className = 'status-msg ' + (type === 'error' || type === 'nofix' ? 'error' : type === 'locked' || type === 'timeout' ? 'success' : 'info');
+    gpsBox.textContent = ({
+      started: msg('gps_fetching'), fix: msg('gps_updating', { acc }),
+      locked: msg('gps_auto_locked', { acc }), timeout: msg('gps_auto_timeout', { acc }), nofix: msg('gps_nofix'),
+      stopped: msg('gps_stopped'), paused: msg('gps_paused'), reset: msg('gps_off'),
+      unsupported: msg('gps_unsupported'), error: msg('gps_error') + (d.error?.message || '')
+    })[type] || '';
+  });
+  syncGpsToggle();
   rgRenderList();
   document.addEventListener('lang:changed', () => { rgStatusSet(...lastStatus); rgRenderList(); });
   document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'reg') rgStopScan(true); });
