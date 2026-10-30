@@ -1894,10 +1894,10 @@ async function initGenerator() {
   }
   const hasSelection = () => F.name.value.trim() !== '';   // true for a selection, a custom name AND after \"Duplicate NFC\"")
   
-
+ 
   /* Each input updates ONLY its own review field (no more overwriting manual edits) */
   const bind = (input, field) => ['input', 'change'].forEach(ev => input.addEventListener(ev, () => { field.value = input.value; renderPreview(); }));
-  bind(typeIn, F.type); bind(dateIn, F.date); bind(otherIn, F.other); bind(commentIn, MENT.comment);
+  bind(typeIn, F.type); bind(dateIn, F.date); bind(otherIn, F.other); bind(commentIn, MENT.comment); bind(locationIn, MENT.locationSave);
   plantCustom.addEventListener('input', debounce(() => { F.name.value    = clean(plantCustom.value); renderPreview(); }, 150));   // clean(): "/" is the separator
   varCustom  .addEventListener('input', debounce(() => { F.variety.value = clean(varCustom.value);   renderPreview(); }, 150));
   Object.values(F).forEach(i => i.addEventListener('input', debounce(renderPreview, 150)));      // review fields are editable
@@ -1978,7 +1978,7 @@ async function initGenerator() {
     const pos = MENT.gps.value, serial = serialEl.textContent;
     const payload = mode() === 'pin'
   ? { key: CFG.SECRET, action: 'pinSave', plantId: F.plantId.value, nfcTyp: F.type.value,
-      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value, location: MENT.locationSave.value}
+      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value, location: MENT.locationSave.value }
   : { key: CFG.SECRET, action: 'nfcSave', nfcId: F.nfcId.value, plantId: F.plantId.value,
           nfcTyp: F.type.value, datum: F.date.value, nfcCreated: today, nfcPos: pos,
           nfcData: el('nfc-preview').textContent, other: F.other.value,
@@ -2189,7 +2189,7 @@ function initReader() {
     S('StCopyState', 'Y'); S('StPlantName', r('name-plant').value); S('StVariety', r('name-variety').value);
     S('StPlantID', r('plantId').value); S('StLatinName', r('latin-name').value); S('StDate', r('datum').value);
     S('StNFCType', r('nfcTyp').value); 
-    S('StGPSCPacket', /^L\\|[\\s\\S]*\\|L$/.test(r('posPacketOut').textContent) ? r('posPacketOut').textContent : '');
+    S('StGPSCPacket', /^L\|[\\s\\S]*\|L$/.test(r('posPacketOut').textContent) ? r('posPacketOut').textContent : '');
     S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
@@ -2224,9 +2224,9 @@ function rgRenderList() {
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
     const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
     const st1 = document.createElement('div'); st1.className = 'rgCon'; st1.textContent = t(rt('status_' + it.tagStatus));
-    const loc1 = document.createElement('div'); loc1.className = 'rgCon'; loc1.textContent = t(rt('status_' + it.locationSave));
-    const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = t(rt('status_' + it.gps));
-    box.append(s, c, st1);
+    const loc1 = document.createElement('div'); loc1.className = 'rgCon'; loc1.textContent = it.locationSave || '–';
+    const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = it.gps;
+    box.append(s, c, st1, loc1, gps1);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
     d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('st_removed', 'info', { s: it.serial }); rgRenderList(); };
     row.append(n, box, d); list.append(row);
@@ -2264,7 +2264,8 @@ async function rgOnTag(e) {
   if (busy) return;                                            // ignore taps while saving
   const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
   let tagStatus = rgActive;
-  let locationS = "test1" , gps = "test2";
+  const locationSave = $('reg-where').value.trim();
+  let gps = '';   // fill from your GPS toggle logic when ready
   if (!serial) return rgStatusSet('st_no_serial', 'warn');
   rgShowLast(serial, content, tagStatus);
   if (navigator.vibrate) navigator.vibrate(80);
@@ -2272,7 +2273,7 @@ async function rgOnTag(e) {
     rgStopScan(true); 
     rgStatusSet('st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
-    try { await rgSave([{ serial, tagStatus, locationS, gps, content}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    try { await rgSave([{ serial, tagStatus, locationSave, gps, content}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
     catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
