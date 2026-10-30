@@ -667,6 +667,10 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <label for="gen-datum" data-i18n="nfcall.lbl_datum">Date</label>
           <input type="text" id="gen-datum" placeholder="e.g., 2026-03-12" />
         </div>
+        <div class="form-group">
+          <label for="gen-where" data-i18n="nfcall.lbl_where">Location</label>
+          <input type="text" id="gen-where" placeholder="e.g., Gyor"/>
+        </div>
       </div></div></div>
     </div>
 
@@ -740,7 +744,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div>
-            <div class="panel-title" data-i18n="nfcall.data_card_title">Data</div>
+            <div class="panel-title" data-i18n="nfcall.data_card_title">Data on NFC</div>
             <div class="panel-subtitle" data-i18n="nfcall.data_card_sub">Data stored in NFC</div>
           </div>
         </div>
@@ -779,14 +783,14 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     <label for="gen-latin-name" data-i18n="nfcall.lbl_latin">Latin Name</label>
     <div class="field-row">
       <input type="checkbox" class="inc-chk" id="gen-inc-latin" checked aria-label="Include Latin name">
-      <input type="text" id="gen-latin-name" />
+      <input type="text" id="gen-latin-name"/>
     </div>
   </div>
   <div class="form-group">
     <label for="gen-nfcTyp-rw" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
     <div class="field-row">
       <input type="checkbox" class="inc-chk" id="gen-inc-type" checked aria-label="Include NFC type">
-      <input type="text" id="gen-nfcTyp-rw" />
+      <input type="text" id="gen-nfcTyp-rw"/>
     </div>
   </div>
   <div class="form-group">
@@ -796,21 +800,42 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       <input type="text" id="gen-datum-rw" placeholder="e.g., 2026-03-12" />
     </div>
   </div>
-  <div class="form-group">
-    <label for="gen-gps-rw" data-i18n="nfcall.gps_card_title">GPS Data</label>
-    <div class="field-row">
-      <input type="checkbox" class="inc-chk" id="gen-inc-gps" checked aria-label="Include GPS">
-      <input type="text" id="gen-gps-rw" />
-    </div>
-  </div>
-  <div class="form-group">
+    <div class="form-group">
     <label for="gen-other-rw" data-i18n="nfcall.lbl_other_notes">Other Info in NFC tag</label>
     <div class="field-row">
       <input type="checkbox" class="inc-chk" id="gen-inc-other" checked aria-label="Include other info for NFC tag">
       <input type="text" id="gen-other-rw" />
     </div>
+  </div>  
+</div></div></div>
+    </div>
+
+     <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
+    <div class="panel" id="gen-panel-save-review">
+      <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('gen-panel-save-review')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📋</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.data_save_card_title">Data in Save</div>
+            <div class="panel-subtitle" data-i18n="nfcall.data_save_card_sub">Data stored in Save</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+  <div class="form-group">
+    <label for="gen-where-rw" data-i18n="nfcall.lbl_where">Location</label>
+    <div class="field-row">
+      <input type="text" id="gen-where-rw" placeholder="e.g., Gyor" />
+    </div>
+  </div>      
+  <div class="form-group">
+    <label for="gen-gps-rw" data-i18n="nfcall.gps_card_title">GPS Data</label>
+    <div class="field-row">
+      <input type="text" id="gen-gps-rw" />
+    </div>
   </div>
-    <div class="form-group">
+  <div class="form-group">
     <label for="gen-comment-rw" data-i18n="nfcall.lbl_comment_notes">Comments only in Save</label>
     <div class="field-row">
       <input type="text" id="gen-comment-rw" />
@@ -1251,10 +1276,10 @@ function switchTab(tab) {
   const prev = currentTab;
   currentTab = tab;
   const view = tab === 'pin' ? 'gen' : tab;            // 'pin' re-uses the generator panels
-  //document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-   document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
-  //document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  //document.getElementById('tab-' + view).classList.add('active');
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  // document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.getElementById('tab-' + view).classList.add('active');
   // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
   document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
 }
@@ -1319,8 +1344,10 @@ const I18N = {
   "nfcall.gen_ph_search_variety": { en: "Search varieties\u2026", hu: "Keres\u00e9s fajt\u00e1k k\u00f6z\u00f6tt\u2026" },
   "nfcall.gen_ph_custom_variety": { en: "Enter custom variety", hu: "Egyedi fajta megad\u00e1sa" },
   "nfcall.gen_ph_custom_plant": { en: "Enter custom plant name", hu: "Egyedi n\u00f6v\u00e9nyn\u00e9v megad\u00e1sa" },
-  "nfcall.data_card_title": { en: "Data", hu: "Adatok" },
-  "nfcall.data_card_sub": { en: "Data stored", hu: "Mentett adatok" },
+  "nfcall.data_card_title": { en: "Data on NFC", hu: "Adatok az NFC-n" },
+  "nfcall.data_card_sub": { en: "Data stored on NFC", hu: "Mentett adatok az NFC-n" },
+  "nfcall.data_save_card_title": { en: "Data in Save", hu: "Adatok a Ment\u00e9sben" },
+  "nfcall.data_save_card_sub": { en: "Data stored in Save", hu: "Mentett adatok a Ment\u00e9sben" },
   "nfcall.time_type_card_title": { en: "Type and datum", hu: "T\u00edpus \u00e9s d\u00e1tum" },
   "nfcall.time_type_card_sub": { en: "Type and date", hu: "T\u00edpus \u00e9s d\u00e1tum" },
   "nfcall.plantId": { en: "Plant ID", hu: "N\u00f6v\u00e9ny ID" },
@@ -1328,6 +1355,7 @@ const I18N = {
   "nfcall.serialNr": { en: "NFC HW ID", hu: "NFC HW ID" },
   "nfcall.lbl_latin": { en: "Latin Name", hu: "Latin n\u00e9v" },
   "nfcall.lbl_datum": { en: "Date", hu: "D\u00e1tum" },
+  "nfcall.lbl_where: { en: "Location", hu: "Helysz\u00edn" },
   "nfcall.lbl_nfcTyp": { en: "Type", hu: "T\u00edpus" },
   "nfcall.opt_n": { en: "n \u2013 plant", hu: "n \u2013 n\u00f6v\u00e9ny" },
   "nfcall.opt_o": { en: "o \u2013 graft", hu: "o \u2013 olt\u00e1s" },
@@ -1747,8 +1775,8 @@ function downloadQueueAsJson() {                               // not wired to a
 async function initGenerator() {
   const el = id => $('gen-' + id), B = el;
   const F = { nfcId: el('nfcId'), plantId: el('plantId'), name: el('plantName'), variety: el('plantVariety'),
-              latin: el('latin-name'), type: el('nfcTyp-rw'), date: el('datum-rw'), gps: el('gps-rw'), other: el('other-rw') };
-  const MENT = { comment: el('comment-rw') };                  // only goes into Save, never onto the tag
+              latin: el('latin-name'), type: el('nfcTyp-rw'), date: el('datum-rw'), other: el('other-rw') };
+  const MENT = { comment: el('comment-rw') , location: el('where-rw'), gps: el('gps-rw')};                  // only goes into Save, never onto the tag
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
   const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment');
@@ -1890,14 +1918,14 @@ async function initGenerator() {
     const L = k => localStorage.getItem(k) || '';
     F.plantId.value = L('StPlantID'); F.name.value = L('StPlantName'); F.variety.value = L('StVariety');
     F.latin.value = L('StLatinName'); F.type.value = L('StNFCType'); F.date.value = L('StDate');
-    F.gps.value = L('StGPSCPacket'); F.other.value = L('StOtherInfo');
-    ['StCopyState', 'StPlantName', 'StVariety', 'StPlantID', 'StLatinName', 'StDate', 'StNFCType', 'StGPSCPacket', 'StOtherInfo']
+    F.other.value = L('StOtherInfo');
+    ['StCopyState', 'StPlantName', 'StVariety', 'StPlantID', 'StLatinName', 'StDate', 'StNFCType', 'StOtherInfo']
       .forEach(k => localStorage.removeItem(k));               // one-shot hand-over
     renderPreview(); setReady(true); showError(err, msg('err_gen_dupl_nfc_ok'), 'success');
   });
   function clearForm() {
     Object.entries(F).forEach(([k, i]) => { if (k !== 'nfcId') i.value = ''; });     // keep the running id
-    plantCustom.value = varCustom.value = otherIn.value = commentIn.value = MENT.comment.value = '';
+    plantCustom.value = varCustom.value = otherIn.value = commentIn.value = MENT.comment.value = MENT.location.value ='';
     plantCustom.style.display = varCustom.style.display = 'none';
     varSel.replaceChildren(new Option(msg('gen_opt_variety'), ''));
     typeIn.value = 'n'; dateIn.value = today; gpsPacket = '';
@@ -1936,7 +1964,7 @@ async function initGenerator() {
   async function saveNfc() {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
     renderPreview();
-    const pos = isIncluded('gps') ? F.gps.value : '', serial = serialEl.textContent;
+    const pos = isIncluded('gps') ? MENT.gps.value : '', serial = serialEl.textContent;
     const payload = mode() === 'pin'
   ? { key: CFG.SECRET, action: 'pinSave', plantId: F.plantId.value, nfcTyp: F.type.value,
       datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value }
