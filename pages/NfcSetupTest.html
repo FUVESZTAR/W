@@ -1188,16 +1188,26 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div class="rgToggle" id="regModeToggleMode">
-        <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
-        <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
+          <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
+          <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
         </div>
         <div class="rgToggle" id="regModeToggleActiveState">
-        <button type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
-        <button type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
+          <label for="reg-where" data-i18n="nfcall.lbl_nfc">NFC</label>
+          <button type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
+          <button type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
+        </div>
+        <div class="form-group">
+          <label for="reg-where" data-i18n="nfcall.lbl_where">Location</label>
+          <input type="text" id="reg-where" placeholder="e.g., Gyor"/>
+        </div>
+        <div class="rgToggle" id="regModeToggleGsp">
+          <label for="gps-state-btn1" data-i18n="nfcall.gps_card_title">GPS Data</label>
+          <button id="gps-state-btn1" type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
+          <button id="gps-state-btn2" type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
         </div>
         <div class="btn-grid cols-2">
-        <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
-        <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
+          <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
+          <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
         </div>
         <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
         <div class="btn-grid cols-2">
@@ -1357,6 +1367,7 @@ const I18N = {
   "nfcall.lbl_datum": { en: "Date", hu: "D\u00e1tum" },
   "nfcall.lbl_where: { en: "Location", hu: "Helysz\u00edn" },
   "nfcall.lbl_nfcTyp": { en: "Type", hu: "T\u00edpus" },
+  "nfcall.lbl_nfc": { en: "NFC", hu: "NFC" },
   "nfcall.opt_n": { en: "n \u2013 plant", hu: "n \u2013 n\u00f6v\u00e9ny" },
   "nfcall.opt_o": { en: "o \u2013 graft", hu: "o \u2013 olt\u00e1s" },
   "nfcall.opt_m": { en: "m \u2013 seed", hu: "m \u2013 mag" },
@@ -1643,7 +1654,7 @@ const PAGES = { home: '../Homepage.html', listNfc: 'pages/NfcListPage.html' , li
 
 /* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
 const CFG = {
-  WRITER_URL: 'https://script.google.com/macros/s/AKfycbypnTXrRGz0Xpb1fylxkIAOTMkENY886zG-1ZsHeL_VUcwEll7BCKc1KXNxUqjAAQMX/exec',
+  WRITER_URL: 'https://script.google.com/macros/s/AKfycbxUOhbupkL6UtMOv7zLxISSwwjx4nnvIrG0aUkmMmzPYK9t-envsS1e9zVVzoO6_OSS/exec',
   SECRET: '159753g9d5rt4sdfer7e5z4d6szo89fsef', 
   SHEET_SOURCE_ID: '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY', 
   SHEET_SOURCE: 'plant_list',
@@ -1779,7 +1790,7 @@ async function initGenerator() {
   const MENT = { comment: el('comment-rw') , location: el('where-rw'), gps: el('gps-rw')};                  // only goes into Save, never onto the tag
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
-  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment');
+  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment'), locationIn= el('where'),; 
   const err = el('error-message'), err2 = el('error-message2'), serialEl = el('serialNr');
 
   /* "include" checkboxes: INC[key] sits in front of each review field (ids gen-inc-<key>) */
@@ -1863,7 +1874,7 @@ async function initGenerator() {
     F.latin.value   = row?.LatinName || (customPlant ? F.latin.value : '');
     F.plantId.value = (customPlant || customVar) ? (nextPlantId ?? '') : (row?.Plant_ID ?? '');   // custom -> next free Plant_ID
     F.type.value = typeIn.value; F.date.value = dateIn.value; F.other.value = otherIn.value;
-    F.gps.value = gpsPacket; MENT.comment.value = commentIn.value;
+    MENT.gps.value = gpsPacket; MENT.location.value = locationIn.value ;MENT.comment.value = commentIn.value;
   }
 
   /* Format: nfcId/plantId/name/variety/latin/type/date/gps/other/ – an unchecked field keeps its "/" but is empty,
@@ -1967,12 +1978,12 @@ async function initGenerator() {
     const pos = isIncluded('gps') ? MENT.gps.value : '', serial = serialEl.textContent;
     const payload = mode() === 'pin'
   ? { key: CFG.SECRET, action: 'pinSave', plantId: F.plantId.value, nfcTyp: F.type.value,
-      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value }
+      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value, location: MENT.location.value}
   : { key: CFG.SECRET, action: 'nfcSave', nfcId: F.nfcId.value, plantId: F.plantId.value,
           nfcTyp: F.type.value, datum: F.date.value, nfcCreated: today, nfcPos: pos,
           nfcData: el('nfc-preview').textContent, other: F.other.value,
           serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,
-          comment: MENT.comment.value };                      
+          comment: MENT.comment.value , location: MENT.location.value  };                      
     B('save-nfc').disabled = true; showError(err, msg('err_save_start'), 'info');
     try {
       if (offlineSave) {
@@ -2091,7 +2102,7 @@ async function initGenerator() {
     const b64 = packGps(fix); gpsPacket = `L|${b64}|L`;
     el('posPacketOut').textContent = gpsPacket; el('posPacketSize').textContent = `${b64.length} B`;
     el('updateTimer').textContent = msg('gps_locked'); setGps(msg('gps_stopped'), '#333');
-    F.gps.value = gpsPacket; renderPreview();
+    MENT.gps.value = gpsPacket; renderPreview();
   });
   document.addEventListener('visibilitychange', () => {        // save battery: stop GPS when the tab is hidden
     if (document.hidden && watchId != null) { stopWatch(); setGps(msg('gps_paused'), '#333'); }
@@ -2213,6 +2224,8 @@ function rgRenderList() {
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
     const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
     const st1 = document.createElement('div'); st1.className = 'rgCon'; st1.textContent = t(rt('status_' + it.tagStatus));
+    const loc1 = document.createElement('div'); loc1.className = 'rgCon'; loc1.textContent = t(rt('status_' + it.location));
+    const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = t(rt('status_' + it.gps));
     box.append(s, c, st1);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
     d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('st_removed', 'info', { s: it.serial }); rgRenderList(); };
@@ -2228,7 +2241,7 @@ const rgShowLast = (serial, content, tagStatus) => {
   /* Content = all text/url records in tag order, joined by " | " */
 const rgContentOf = recs => recs.filter(r => (r.type === 'text' || r.type === 'url') && r.value).map(r => r.value.trim()).filter(Boolean).join(' | ');
 /* Column A = serial number, column B = content, one row per tag */
-const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, nfcData: r.content})) });
+const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, location: r.location, gps: r.gps, nfcData: r.content})) });
 
 function rgStopScan(silent) {
   rgScan?.abort(); rgScan = null; rgUpdateButtons();
@@ -2249,7 +2262,9 @@ async function rgStartScan() {
 }
 async function rgOnTag(e) {
   if (busy) return;                                            // ignore taps while saving
-  const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message)), tagStatus = rgActive;
+  const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
+  let tagStatus = rgActive;
+  let location = "test1" , gps = "test2";
   if (!serial) return rgStatusSet('st_no_serial', 'warn');
   rgShowLast(serial, content, tagStatus);
   if (navigator.vibrate) navigator.vibrate(80);
@@ -2257,12 +2272,12 @@ async function rgOnTag(e) {
     rgStopScan(true); 
     rgStatusSet('st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
-    try { await rgSave([{ serial, content, tagStatus}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    try { await rgSave([{ serial, tagStatus, location, gps, content}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
     catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
     if (rgItems.some(i => i.serial === serial)) return rgStatusSet('st_dup', 'warn', { s: serial });
-    rgItems.push({ serial, content, tagStatus });
+    rgItems.push({ serial, tagStatus, location, gps, content });
     rgStatusSet('st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
   }
 }
