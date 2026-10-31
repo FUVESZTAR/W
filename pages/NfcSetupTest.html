@@ -1372,7 +1372,7 @@ function switchTab(tab) {
   // document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.getElementById('tab-' + view).classList.add('active');
-  if ((currentTab === 'gen' || currentTab === 'reg') { document.getElementById('tab-both').classList.add('active');}
+  if (currentTab === 'gen' || currentTab === 'reg') { document.getElementById('tab-both').classList.add('active');}
   // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
   document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
 }
