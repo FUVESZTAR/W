@@ -2109,7 +2109,6 @@ async function initGenerator() {
   async function saveNfc() {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
     renderPreview();
-    const pos = MENT.gps.value, serial = serialEl.textContent;
     const pos = gpsForSave(MENT.gps.value); MENT.gps.value = pos;     // "Data in Save" shows exactly what is sent
     const serial = serialEl.textContent;
 
