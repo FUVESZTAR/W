@@ -638,7 +638,60 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
-
+    </div></div>
+    <!-- ── Generator -->
+    <!-- ── Registry -->
+    <div id="tab-both" class="tab-section">
+    <div class="col">   <!-- column 1 -->
+    <!-- ── Register Panel 1: Mode + scan ──────────────────────────────── -->
+    <div class="panel open" id="reg-panel-scan">
+      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-scan')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📡</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcreg.scan_title">Scan</div>
+            <div class="panel-subtitle" data-i18n="nfcreg.scan_sub">Choose a mode and read the tags</div>
+          </div>
+          <span id="rgLiveDot" class="rgLive" style="display:none" data-i18n="nfcall.live">● LIVE</span>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div class="rgToggle" id="regModeToggleMode">
+          <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
+          <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
+        </div>
+        <div class="rgToggle" id="regModeToggleActiveState">
+          <label for="reg-where" data-i18n="nfcall.lbl_nfc">NFC</label>
+          <button type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
+          <button type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
+        </div>
+        <div class="form-group">
+          <label for="reg-where" data-i18n="nfcall.lbl_where">Location</label>
+          <input type="text" id="reg-where" placeholder="e.g., Gyor"/>
+        </div>
+        <div class="rgToggle" id="regModeToggleGsp">
+           <label data-i18n="nfcall.gps_card_title">GPS Data</label>
+           <button id="gps-state-btn1" type="button" data-mode="active" data-i18n="nfcreg.status_active">Active</button>
+           <button id="gps-state-btn2" type="button" data-mode="inactive" class="active" data-i18n="nfcreg.status_inactive">Inactive</button>
+        </div>
+        <p class="status-msg" id="reg-gps-status"></p>
+        <div class="btn-grid cols-2">
+          <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
+          <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
+        </div>
+        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
+        <div class="btn-grid cols-2">
+          <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
+          <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
+        </div>
+      </div></div></div>
+    </div>
+    </div></div> 
+    <!-- ── Registry -->
+    <!-- ── Generator -->
+    <div id="tab-gen" class="tab-section active">
+    <div class="col">   <!-- column 1 -->
     <!-- ── Generator Panel 2: NFC Data Typ and Date───────────────────────────────── -->
     <div class="panel open" id="gen-panel-data">
       <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-data')">
@@ -810,7 +863,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 </div></div></div>
     </div>
 
-     <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
+     <!-- ── Generator Panel 6: NFC Data Review───────────────────────────────── -->
     <div class="panel" id="gen-panel-save-review">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('gen-panel-save-review')">
         <div class="panel-header-left">
@@ -846,7 +899,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div><!-- column 2 end-->  
 
   <div class="col">   <!-- column 3 -->  
-    <!-- ── Generator Panel 6: NFC Preview ────────────────────────────── -->
+    <!-- ── Generator Panel 7: NFC Preview ────────────────────────────── -->
     <div class="panel open" id="gen-panel-preview">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('gen-panel-preview')">
         <div class="panel-header-left">
@@ -899,7 +952,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div> 
 
-    <!-- ── Generator Panel 7: Actions 1 ────────────────────────────────── -->
+    <!-- ── Generator Panel 8: Actions 1 ────────────────────────────────── -->
     <div class="panel open" id="gen-panel-actions">
       <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-actions')">
         <div class="panel-header-left">
@@ -943,7 +996,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div>
 
-    <!-- ── Generator Panel 8: Actions 2 ────────────────────────────────── -->
+    <!-- ── Generator Panel 9: Actions 2 ────────────────────────────────── -->
     <div class="panel" id="gen-panel-actions2">
       <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-actions2')">
         <div class="panel-header-left">
@@ -988,7 +1041,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 
     </div><!-- end tab-gen -->
 
-    <!-- Registry section -->
+    <!-- Reader section -->
     <div id="tab-read" class="tab-section">
     <div class="col"> <!-- column 1 -->  
     <!-- ── Reader Panel 1: Actions ──────────────────────────────────── -->
@@ -1075,7 +1128,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div>
     </div><!-- column 1 end-->  
       <div class="col"><!-- column 2 -->  
-    <!-- ── Reader Panel 4: Data ─────────────────────────────────────── -->
+    <!-- ── Reader Panel 4: Data on NFC─────────────────────────────────────── -->
     <div class="panel" id="read-panel-data">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanel('read-panel-data')">
         <div class="panel-header-left">
@@ -1119,8 +1172,56 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div>
 
-    <!-- ── Reader Panel 5: GPS ──────────────────────────────────────── -->
-    <div class="panel open" id="read-panel-gps">
+            <!-- ── Reader Panel 5: Other ────────────────────────────────────── -->
+    <div class="panel" id="read-panel-other">
+      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'read-panel-other')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📝</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.other_card_title">Other Info</div>
+            <div class="panel-subtitle" data-i18n="nfcall.other_card_sub">Optional extra notes</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div class="form-group" id="read-other_card_body">
+          <label for="read-other" data-i18n="nfcall.lbl_other_notes">Notes</label>
+          <textarea id="read-other"></textarea>
+        </div>
+      </div></div></div>
+    </div>
+
+             <!-- ── Readere Panel 6: Data in Save───────────────────────────────── -->
+    <div class="panel" id="read-panel-save-review">
+      <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('read-panel-save-review')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📋</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.data_save_card_title">Data in Save</div>
+            <div class="panel-subtitle" data-i18n="nfcall.data_save_card_sub">Data stored in Save</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+  <div class="form-group">
+    <label for="read-where-rw" data-i18n="nfcall.lbl_where">Location</label>
+    <div class="field-row">
+      <input type="text" id="read-where-rw" placeholder="e.g., Gyor" />
+    </div>
+  </div>      
+  <div class="form-group">
+    <label for="read-comment-rw" data-i18n="nfcall.lbl_comment_notes">Comments only in Save</label>
+    <div class="field-row">
+      <input type="text" id="read-comment-rw" />
+    </div>
+  </div>      
+</div></div></div>
+    </div>
+
+    <!-- ── Reader Panel 7: GPS ──────────────────────────────────────── -->
+    <div class="panel" id="read-panel-gps">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'read-panel-gps')">
         <div class="panel-header-left">
           <span class="panel-icon">📡</span>
@@ -1144,26 +1245,6 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
             <span class="badge" id="read-posPacketSize">0 B</span>
             <div style="display:none" id="read-posPacketOut" data-i18n="nfcall.no_data_locked" data-i18n-live>No data locked…</div>
           </div>
-        </div>
-      </div></div></div>
-    </div>
-
-    <!-- ── Reader Panel 6: Other ────────────────────────────────────── -->
-    <div class="panel" id="read-panel-other">
-      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'read-panel-other')">
-        <div class="panel-header-left">
-          <span class="panel-icon">📝</span>
-          <div>
-            <div class="panel-title" data-i18n="nfcall.other_card_title">Other Info</div>
-            <div class="panel-subtitle" data-i18n="nfcall.other_card_sub">Optional extra notes</div>
-          </div>
-        </div>
-        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
-      </div>
-      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="form-group" id="read-other_card_body">
-          <label for="read-other" data-i18n="nfcall.lbl_other_notes">Notes</label>
-          <textarea id="read-other"></textarea>
         </div>
       </div></div></div>
     </div>
@@ -1291,6 +1372,7 @@ function switchTab(tab) {
   // document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.getElementById('tab-' + view).classList.add('active');
+  if ((currentTab === 'gen' || currentTab === 'reg') { document.getElementById('tab-both').classList.add('active');}
   // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
   document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
 }
@@ -2211,7 +2293,9 @@ function initReader() {
     ['nfcId', 'plantId', 'name-plant', 'name-variety', 'latin-name', 'nfcTyp', 'datum', 'other'].forEach(n => r(n).value = '');
     r('serialNr').textContent = msg('ph_serialnr_preview'); r('nfc-preview').textContent = msg('ph_nfc_preview');
     r('link-preview').textContent = msg('ph_link_preview'); r('pic-preview').textContent = msg('ph_pic_preview');
-    ['nfc-size', 'link-size', 'total-size'].forEach(n => r(n).textContent = '0 B');
+    ['nfc-size', 'link-size', 'total-size', 'posPacketSize'].forEach(n => r(n).textContent = '0 B');
+    r('posPacketOut').textContent = '';
+    ['Lat', 'Lon', 'Alt', 'Acc'].forEach(n => r('gpsDisp' + n).textContent = '\u2013');
   }
   function show({ uid, records }) {
     clearForm();
@@ -2223,6 +2307,12 @@ function initReader() {
     r('name-variety').value = d.variety; r('latin-name').value = d.latin; r('nfcTyp').value = d.type;
     r('datum').value = d.date; r('other').value = d.other;
     r('pic-preview').textContent = picName(d.latin, d.variety);
+    r('posPacketOut').textContent = d.gps;
+    if (d.gps) {
+      r('posPacketSize').textContent = fmt(bytes(d.gps));
+      const g = unpackGps(d.gps);
+      if (g) { r('gpsDispLat').textContent = g.lat; r('gpsDispLon').textContent = g.lon; r('gpsDispAlt').textContent = g.alt + 'm'; r('gpsDispAcc').textContent = g.acc + 'm'; }
+    }
     const [a, b] = [bytes(text), bytes(link)];
     r('nfc-size').textContent = fmt(a); r('link-size').textContent = fmt(b); r('total-size').textContent = fmt(a + b);
   }
@@ -2232,6 +2322,11 @@ function initReader() {
   r('copy-nfc').addEventListener('click',  () => copyText(err, r('nfc-preview').textContent,  'err_no_nfc',  'err_copy_nfc_ok'));
   r('copy-link').addEventListener('click', () => copyText(err, r('link-preview').textContent, 'err_no_link', 'err_copy_link_ok', 'ph_link_preview'));
   r('copy-pic').addEventListener('click',  () => copyText(err, r('pic-preview').textContent,  'err_no_pic',  'err_copy_pic_ok', 'ph_pic_preview'));
+  r('copy-gps').addEventListener('click', () => {
+    const lat = r('gpsDispLat').textContent, lon = r('gpsDispLon').textContent;
+    if (lat === '\u2013' || !lat) return showError(err, msg('err_no_gps'));
+    copyText(err, `${lat},${lon}`, 'err_no_gps', 'err_copy_gps_ok');
+  });
   r('open-link-button').addEventListener('click', () => {
     const u = safeUrl(r('link-preview').textContent.trim());   // blocks javascript: links from rogue tags
     if (u) location.href = u; else showError(err, msg('err_bad_link'));
@@ -2240,7 +2335,8 @@ function initReader() {
     const S = (k, v) => localStorage.setItem(k, v);
     S('StCopyState', 'Y'); S('StPlantName', r('name-plant').value); S('StVariety', r('name-variety').value);
     S('StPlantID', r('plantId').value); S('StLatinName', r('latin-name').value); S('StDate', r('datum').value);
-    S('StNFCType', r('nfcTyp').value); 
+    S('StNFCType', r('nfcTyp').value);
+    S('StGPSCPacket', /^L\|[\s\S]*\|L$/.test(r('posPacketOut').textContent) ? r('posPacketOut').textContent : '');
     S('StOtherInfo', r('other').value);
     switchTab('gen');
   });
