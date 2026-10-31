@@ -1193,7 +1193,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div>
 
-             <!-- ── Readere Panel 6: Data in Save───────────────────────────────── -->
+    <!-- ── Readere Panel 6: Data in Save───────────────────────────────── -->
     <div class="panel" id="read-panel-save-review">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('read-panel-save-review')">
         <div class="panel-header-left">
@@ -1748,8 +1748,8 @@ const PAGES = { home: '../Homepage.html', listNfc: 'pages/NfcListPage.html' , li
 /*const CFG = {
   WRITER_URL: 'https://script.google.com/macros/s//exec',
   SECRET: 'f', 
-  SHEET_SOURCE_ID: 'f', 
-  SHEET_SOURCE: 'plant_list',
+  READ_SHEET_SOURCE_ID: 'f', 
+  READ_SHEET_SOURCE: 'plant_list',
   PLANT_Q: "select A, B, C, D, E, F where L = 'Y'",
   PIN_ID_QUERY: '?action=pinLastId',                          // GET that returns {lastId} for the Location saver page
 };*/
@@ -1794,10 +1794,10 @@ function parseNfc(str) {
 
 /* ── Google Sheets (gviz) with sessionStorage cache; {fresh:true} bypasses it ── */
 async function gviz(tq, { fresh = false } = {}) {
-  const key = `${CFG.SHEET_SOURCE_ID}|${CFG.SHEET_SOURCE}|${tq}`;
+  const key = `${CFG.READ_SHEET_SOURCE_ID}|${CFG.READ_SHEET_SOURCE}|${tq}`;
   if (!fresh) { const hit = gvizCacheGet(key); if (hit) return hit; }
-  const r = await fetch(`https://docs.google.com/spreadsheets/d/${CFG.SHEET_SOURCE_ID}/gviz/tq?` +
-                        new URLSearchParams({ tqx: 'out:json', sheet: CFG.SHEET_SOURCE, tq }));
+  const r = await fetch(`https://docs.google.com/spreadsheets/d/${CFG.READ_SHEET_SOURCE_ID}/gviz/tq?` +
+                        new URLSearchParams({ tqx: 'out:json', sheet: CFG.READ_SHEET_SOURCE, tq }));
   if (!r.ok) throw new Error(`Sheets ${r.status}`);
   const m = (await r.text()).match(/setResponse\(([\s\S]*?)\)\s*;?\s*$/);
   if (!m) throw new Error('Unexpected Sheets response');
