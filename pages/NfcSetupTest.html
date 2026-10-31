@@ -591,7 +591,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div>
 
     <!-- Generator section -->
-    <div id="tab-gen" class="tab-section active">
+    <div id="tab1-gen" class="tab-section active">
     <div class="col">   <!-- column 1 -->
     <!-- ── Generator Panel 1: Selection ──────────────────────────────── -->
     <div class="panel open" id="gen-panel-selection">
@@ -638,10 +638,44 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
+    <!-- ── Generator Panel 2: NFC Data Typ and Date───────────────────────────────── -->
+    <div class="panel open" id="gen-panel-data">
+      <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-data')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📋</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.time_type_card_title">Type and datum</div>
+            <div class="panel-subtitle" data-i18n="nfcall.time_type_card_sub">Type of NFC and date of planting/grafting</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div class="form-group">
+          <label for="gen-nfcTyp" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
+          <select id="gen-nfcTyp">
+            <option value="n" selected data-i18n="nfcall.opt_n">n – plant</option>
+            <option value="o" data-i18n="nfcall.opt_o">o – graft</option>
+            <option value="p" data-i18n="nfcall.opt_p">p – seedling</option>
+            <option value="v" data-i18n="nfcall.opt_v">v – sowing</option>
+            <option value="m" data-i18n="nfcall.opt_m">m – seed</option>
+            <option value="g" data-i18n="nfcall.opt_g">g – mushroom</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="gen-datum" data-i18n="nfcall.lbl_datum">Date</label>
+          <input type="text" id="gen-datum" placeholder="e.g., 2026-03-12" />
+        </div>
+        <div class="form-group">
+          <label for="gen-where" data-i18n="nfcall.lbl_where">Location</label>
+          <input type="text" id="gen-where" placeholder="e.g., Gyor"/>
+        </div>
+      </div></div></div>
+    </div>  
     </div></div>
     <!-- ── Generator -->
     <!-- ── Registry -->
-    <div id="tab-both" class="tab-section">
+    <div id="tab1-reg" class="tab-section">
     <div class="col">   <!-- column 1 -->
     <!-- ── Register Panel 1: Mode + scan ──────────────────────────────── -->
     <div class="panel open" id="reg-panel-scan">
@@ -689,44 +723,9 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div>
     </div></div> 
     <!-- ── Registry -->
-    <!-- ── Generator -->
-    <div id="tab-gen" class="tab-section active">
+    <!-- ── Gps -->
+    <div id="tab1-gps" class="tab-section active">
     <div class="col">   <!-- column 1 -->
-    <!-- ── Generator Panel 2: NFC Data Typ and Date───────────────────────────────── -->
-    <div class="panel open" id="gen-panel-data">
-      <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-data')">
-        <div class="panel-header-left">
-          <span class="panel-icon">📋</span>
-          <div>
-            <div class="panel-title" data-i18n="nfcall.time_type_card_title">Type and datum</div>
-            <div class="panel-subtitle" data-i18n="nfcall.time_type_card_sub">Type of NFC and date of planting/grafting</div>
-          </div>
-        </div>
-        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
-      </div>
-      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="form-group">
-          <label for="gen-nfcTyp" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
-          <select id="gen-nfcTyp">
-            <option value="n" selected data-i18n="nfcall.opt_n">n – plant</option>
-            <option value="o" data-i18n="nfcall.opt_o">o – graft</option>
-            <option value="p" data-i18n="nfcall.opt_p">p – seedling</option>
-            <option value="v" data-i18n="nfcall.opt_v">v – sowing</option>
-            <option value="m" data-i18n="nfcall.opt_m">m – seed</option>
-            <option value="g" data-i18n="nfcall.opt_g">g – mushroom</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="gen-datum" data-i18n="nfcall.lbl_datum">Date</label>
-          <input type="text" id="gen-datum" placeholder="e.g., 2026-03-12" />
-        </div>
-        <div class="form-group">
-          <label for="gen-where" data-i18n="nfcall.lbl_where">Location</label>
-          <input type="text" id="gen-where" placeholder="e.g., Gyor"/>
-        </div>
-      </div></div></div>
-    </div>
-
     <!-- ── Generator Panel 3: GPS ────────────────────────────────────── -->
     <div class="panel" id="gen-panel-gps">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'gen-panel-gps')">
@@ -764,7 +763,10 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
-
+       </div> </div>
+    <!-- ── Generator -->
+    <div id="tab2-gen" class="tab-section active">
+    <div class="col">   <!-- column 1 --> 
     <!-- ── Generator Panel 4: Other info ─────────────────────────────── -->
     <div class="panel" id="gen-panel-other">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanelExcl(event,'gen-panel-other')">
@@ -1038,11 +1040,10 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div>
   </div><!-- column 3 end-->  
-
     </div><!-- end tab-gen -->
 
     <!-- Reader section -->
-    <div id="tab-read" class="tab-section">
+    <div id="tab1-read" class="tab-section">
     <div class="col"> <!-- column 1 -->  
     <!-- ── Reader Panel 1: Actions ──────────────────────────────────── -->
     <div class="panel open" id="read-panel-actions">
@@ -1252,52 +1253,8 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div><!-- end tab-read -->
 
     <!-- Registrator section -->
-    <div id="tab-reg" class="tab-section">
+    <div id="tab2-reg" class="tab-section">
     <div class="col">   <!-- column 1 -->
-    <!-- ── Register Panel 1: Mode + scan ──────────────────────────────── -->
-    <div class="panel open" id="reg-panel-scan">
-      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-scan')">
-        <div class="panel-header-left">
-          <span class="panel-icon">📡</span>
-          <div>
-            <div class="panel-title" data-i18n="nfcreg.scan_title">Scan</div>
-            <div class="panel-subtitle" data-i18n="nfcreg.scan_sub">Choose a mode and read the tags</div>
-          </div>
-          <span id="rgLiveDot" class="rgLive" style="display:none" data-i18n="nfcall.live">● LIVE</span>
-        </div>
-        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
-      </div>
-      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="rgToggle" id="regModeToggleMode">
-          <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
-          <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
-        </div>
-        <div class="rgToggle" id="regModeToggleActiveState">
-          <label for="reg-where" data-i18n="nfcall.lbl_nfc">NFC</label>
-          <button type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
-          <button type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
-        </div>
-        <div class="form-group">
-          <label for="reg-where" data-i18n="nfcall.lbl_where">Location</label>
-          <input type="text" id="reg-where" placeholder="e.g., Gyor"/>
-        </div>
-        <div class="rgToggle" id="regModeToggleGsp">
-           <label data-i18n="nfcall.gps_card_title">GPS Data</label>
-           <button id="gps-state-btn1" type="button" data-mode="active" data-i18n="nfcreg.status_active">Active</button>
-           <button id="gps-state-btn2" type="button" data-mode="inactive" class="active" data-i18n="nfcreg.status_inactive">Inactive</button>
-        </div>
-        <p class="status-msg" id="reg-gps-status"></p>
-        <div class="btn-grid cols-2">
-          <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
-          <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
-        </div>
-        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
-        <div class="btn-grid cols-2">
-          <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
-          <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
-        </div>
-      </div></div></div>
-    </div>
   <!-- ── Register Panel 2: Last read ──────────────────────────────── -->
     <div class="panel open" id="reg-panel-read">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-read')">
@@ -1325,8 +1282,6 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
-      </div><!-- column 1 end --> 
-      <div class="col"> <!-- column 2 --> 
    <!-- ── Register Panel 3: Session list (multi mode) ──────────────────────────────── -->
     <div class="panel open" id="reg-panel-session">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-session')">
@@ -1348,7 +1303,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="rgList" id="rgListId"></div> 
       </div></div></div>
     </div>
-    </div><!-- column 2 end -->  
+    </div><!-- column 1 end -->  
     </div><!-- end tab-reg -->
   </main>
 
@@ -1371,8 +1326,9 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
   // document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  document.getElementById('tab-' + view).classList.add('active');
-  if (currentTab === 'gen' || currentTab === 'reg') { document.getElementById('tab-both').classList.add('active');}
+  document.getElementById('tab1-' + view).classList.add('active');
+  document.getElementById('tab2-' + view).classList.add('active');
+  if (currentTab === 'gen' || currentTab === 'reg') { document.getElementById('tab-gps').classList.add('active');}
   // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
   document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
 }
