@@ -1323,9 +1323,12 @@ function switchTab(tab) {
   const prev = currentTab;
   currentTab = tab;
   const view = tab === 'pin' ? 'gen' : tab;            // 'pin' re-uses the generator panels
+  console.log('currentTab: ', currentTab);
+  console.log('view: ', view);
   document.querySelectorAll('.tab-section-gen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-section-red').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-section-reg').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-section-gps').forEach(s => s.classList.remove('active'));
   // document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.querySelectorAll('.tab-section-' + view).forEach(s => s.classList.add('active')); //
