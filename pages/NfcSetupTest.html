@@ -435,11 +435,11 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
   background: var(--green);
   color: #fff;
 }
-.tab-section-gen,.tab-section-red, .tab-section-reg, .tab-section-gps  { display: none; }
+.tab-section-gen,.tab-section-read, .tab-section-reg, .tab-section-gps  { display: none; }
     /* The old rule `display: contents` made every panel a direct child of the
    single-column wrapper. Replace it with an auto-fitting grid:
    as many columns as fit, each at least 340px, otherwise 1 column (phones). */
-.tab-section-gen.active,.tab-section-red.active, .tab-section-reg.active, .tab-section-gps.active {
+.tab-section-gen.active,.tab-section-read.active, .tab-section-reg.active, .tab-section-gps.active {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 1rem;
@@ -1043,7 +1043,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div><!-- end tab-gen -->
 
     <!-- Reader section -->
-    <div id="tab1-read" class="tab-section-red">
+    <div id="tab1-read" class="tab-section-read">
     <div class="col"> <!-- column 1 -->  
     <!-- ── Reader Panel 1: Actions ──────────────────────────────────── -->
     <div class="panel open" id="read-panel-actions">
@@ -1326,7 +1326,7 @@ function switchTab(tab) {
   console.log('currentTab: ', currentTab);
   console.log('view: ', view);
   document.querySelectorAll('.tab-section-gen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-section-red').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-section-read').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-section-reg').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-section-gps').forEach(s => s.classList.remove('active'));
   // document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
