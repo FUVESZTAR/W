@@ -1333,7 +1333,7 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.querySelectorAll('.tab-section-' + view).forEach(s => s.classList.add('active')); //
   //document.getElementById('tab1-' + view).classList.add('active');
-  if (currentTab === 'gen' || currentTab === 'reg') { document.querySelectorAll('.tab-section-gps').forEach(s => s.classList.add('active'));}
+  if (currentTab === 'gen' || currentTab === 'pin' || currentTab === 'reg') { document.querySelectorAll('.tab-section-gps').forEach(s => s.classList.add('active')); }
   // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
   document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
 }
@@ -2040,7 +2040,8 @@ async function initGenerator() {
     el('pic-preview').textContent = msg('ph_pic_preview'); serialEl.textContent = msg('ph_serialnr_preview');
     ['nfc-size', 'link-size', 'total-size'].forEach(n => el(n).textContent = '0 B');
     allChecks().forEach(c => c.checked = true);
-    document.querySelectorAll('#tab-gen .off, #tab-gen .excluded').forEach(e => e.classList.remove('off', 'excluded'));
+    document.querySelectorAll('#tab1-gen .off, #tab1-gen .excluded').forEach(e => e.classList.remove('off', 'excluded'));
+    document.querySelectorAll('#tab2-gen .off, #tab2-gen .excluded').forEach(e => e.classList.remove('off', 'excluded'));
     setReady(false);
   }
   B('clear-button').addEventListener('click', () => { plantSel.value = ''; clearForm(); });
@@ -2073,9 +2074,6 @@ async function initGenerator() {
     renderPreview();
     const pos = gpsForSave(MENT.gps.value); MENT.gps.value = pos;     // "Data in Save" shows exactly what is sent
     const serial = serialEl.textContent;
-
-
-    
     const payload = mode() === 'pin'
   ? { key: CFG.SECRET, action: 'pinSave', plantId: F.plantId.value, nfcTyp: F.type.value,
       datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value, location: MENT.locationSave.value }
