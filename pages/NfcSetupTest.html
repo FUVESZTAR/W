@@ -2076,7 +2076,7 @@ async function initGenerator() {
     const serial = serialEl.textContent;
     const payload = mode() === 'pin'
   ? { key: CFG.SECRET, action: 'pinSave', plantId: F.plantId.value, nfcTyp: F.type.value,
-      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value, location: MENT.locationSave.value }
+      datum: F.date.value, nfcCreated: today, nfcPos: pos, nfcData: el('nfc-preview').textContent, other: F.other.value, comment: MENT.comment.value, location: MENT.locationSave.value }
   : { key: CFG.SECRET, action: 'nfcSave', nfcId: F.nfcId.value, plantId: F.plantId.value,
           nfcTyp: F.type.value, datum: F.date.value, nfcCreated: today, nfcPos: pos,
           nfcData: el('nfc-preview').textContent, other: F.other.value,
