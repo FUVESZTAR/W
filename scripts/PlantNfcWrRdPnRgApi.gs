@@ -444,7 +444,7 @@ function saveSerialsAfterNfcSave_(nfcData, serialNum, location, nfcPos) {
 /**  const payload = { key: CFG.SECRET, action: 'nfcSave', nfcId: F.nfcId.value, plantId: F.plantId.value,*/
 /**                    nfcTyp: F.type.value, datum: F.date.value, nfcCreated: today, nfcPos: nfcPos, nfcData: el('nfc-preview').textContent, other: F.other.value,*/
 /**                    serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,comment: MENT.comment.value, MENT.location.value }; */
-/**  in sheet: setValues([[Number(nfcId), plantId, serialNum, nfcTyp, datum, nfcCreated, nfcData, location, nfcPos, other, comment]])     */
+/**  in sheet: setValues([[Number(nfcId), plantId, serialNum, nfcTyp, datum, nfcCreated, nfcData, other, location, nfcPos,  comment]])     */
 function saveNfc_(data) {
   var nfcId      = text_(data.nfcId);
   var plantId    = text_(data.plantId);
@@ -488,7 +488,7 @@ function saveNfc_(data) {
 
   var row = sheet.getLastRow() + 1;
   sheet.getRange(row, 2, 1, 10).setNumberFormat('@');
-  sheet.getRange(row, 1, 1, 11).setValues([[Number(nfcId), plantId, serialNum, nfcTyp, datum, nfcCreated, nfcData, location, nfcPos, other, comment]]);
+  sheet.getRange(row, 1, 1, 11).setValues([[Number(nfcId), plantId, serialNum, nfcTyp, datum, nfcCreated, nfcData, other, location, nfcPos, comment]]);
   //save finished then register
 //nfcData; serialNum
   saveSerialsAfterNfcSave_(nfcData, serialNum, location, nfcPos);
@@ -522,6 +522,6 @@ function savePin_(data) {
   var pinId = maxNfcId_(sheet) + 1;                       // safe: the script lock is held
   var row = sheet.getLastRow() + 1;
   sheet.getRange(row, 2, 1, 9).setNumberFormat('@');
-  sheet.getRange(row, 1, 1, 10).setValues([[pinId, plantId, nfcTyp, datum, created, nfcData, location, nfcPos, other, comment]]);
+  sheet.getRange(row, 1, 1, 10).setValues([[pinId, plantId, nfcTyp, datum, created, nfcData, other, location, nfcPos, comment]]);
   return json_({ status: 'success', pinId: pinId });
 }
