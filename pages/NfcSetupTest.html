@@ -705,17 +705,16 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <label for="reg-where" data-i18n="nfcall.lbl_where">Location</label>
           <input type="text" id="reg-where" placeholder="e.g., Gyor"/>
         </div>
+        <p class="status-msg" id="reg-gps-status"></p>
         <div class="rgToggle" id="regModeToggleGsp">
            <label data-i18n="nfcall.gps_card_title">GPS Data</label>
            <button id="gps-state-btn1" type="button" data-mode="active" data-i18n="nfcreg.status_active">Active</button>
            <button id="gps-state-btn2" type="button" data-mode="inactive" class="active" data-i18n="nfcreg.status_inactive">Inactive</button>
         </div>
-        <p class="status-msg" id="reg-gps-status"></p>
         <div class="btn-grid cols-2">
           <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
           <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
         </div>
-        
         <div class="btn-grid cols-2">
           <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
           <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
