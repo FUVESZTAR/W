@@ -12,6 +12,6 @@ const CFG = {
   WRITE_SHEET_SOURCE_REG: 'reg_list',
   PLANT_Q: "select A, B, C, D, E, F where L = 'Y'",
   PIN_ID_QUERY: '?action=pinLastId',                          // GET that returns {lastId} for the Location saver page
- 
+  //https://script.google.com/u/4/home/projects/1hocxA70zRBF6uA8AyI0vk4E8_wzvgNcLd08DzuDibULG897V5vFjX30j/edit
 };
 
