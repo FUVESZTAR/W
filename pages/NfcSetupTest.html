@@ -1556,6 +1556,7 @@ const I18N = {
   "nfcall.gps_auto_timeout": { en: "GPS locked after 30 s ({acc} m)",  hu: "GPS r\u00f6gz\u00edtve 30 mp ut\u00e1n ({acc} m)" },
   "nfcall.gps_nofix":        { en: "No GPS fix after 30 s",            hu: "30 mp ut\u00e1n sincs GPS jel" },
   "nfcall.gps_off":          { en: "GPS off",                          hu: "GPS kikapcsolva" },
+  "nfcall.err_gps_lookup": { en: "Could not load GPS from the sheet", hu: "A GPS adat nem t\u00f6lthet\u0151 be a t\u00e1bl\u00e1zatb\u00f3l" },
 };
 
 const LANG_KEY = 'fuvesztar_lang';
@@ -1808,6 +1809,28 @@ async function loadPlants() {
   const heads = cols.map(c => (c.label || '').trim() || c.id);
   return rows.filter(r => r?.c?.some(c => c?.v != null)).map(r => Object.fromEntries(heads.map((h, i) => [h, r.c[i]?.v ?? ''])));
 }
+/* GPS packet is read from this column of the write sheet (J = 10th) */
+const GPS_COL = 'J';
+
+/* Same as gviz(), but for any sheet; never cached, because a GPS value can change */
+async function gvizSheet(sheetId, sheetName, tq) {
+  const r = await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?` +
+                        new URLSearchParams({ tqx: 'out:json', sheet: sheetName, tq }));
+  if (!r.ok) throw new Error(`Sheets ${r.status}`);
+  const m = (await r.text()).match(/setResponse\(([\s\S]*?)\)\s*;?\s*$/);
+  if (!m) throw new Error('Unexpected Sheets response');
+  return JSON.parse(m[1]);
+}
+
+/* Finds the row whose column A = NFC id and returns the GPS packet ("L|...|L") or '' */
+async function fetchGpsByNfcId(nfcId) {
+  const id = String(nfcId || '').trim();
+  if (!/^\d{1,9}$/.test(id)) return '';                       // only digits go into the query
+  const { table } = await gvizSheet(CFG.WRITE_SHEET_SOURCE_ID, CFG.WRITE_SHEET_SOURCE_NFCpage,
+                                    `select ${GPS_COL} where A = ${id}`);
+  const v = table.rows?.at(-1)?.c?.[0]?.v;                    // last matching row
+  return v ? String(v).trim() : '';
+}  
 /* Next id from Apps Script (never cached). kind: 'nfc' | 'pin' (pin = separate id on the other sheet) */
 async function fetchNextId(kind) {
   const r = await fetch(CFG.WRITER_URL + (kind === 'pin' ? CFG.PIN_ID_QUERY : ''), { redirect: 'follow' });
@@ -2230,7 +2253,7 @@ async function initGenerator() {
 function initReader() {
   const r = id => $('read-' + id), err = r('error-message');
   let scan = null;                                             // AbortController of the active scan
-
+ 
   /* Reading starts only on button press (Web NFC needs a user gesture) and stops when leaving the tab */
   const stopScan = () => { scan?.abort(); scan = null; r('read-nfc').disabled = false; };
   document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'read') stopScan(); });
@@ -2256,39 +2279,55 @@ function initReader() {
     r('posPacketOut').textContent = '';
     ['Lat', 'Lon', 'Alt', 'Acc'].forEach(n => r('gpsDisp' + n).textContent = '\u2013');
   }
+  function showGps(packet) {
+  r('posPacketOut').textContent = packet || '';
+  if (!packet) return;
+  r('posPacketSize').textContent = fmt(bytes(packet));
+  const g = unpackGps(packet);
+  if (g) { r('gpsDispLat').textContent = g.lat; r('gpsDispLon').textContent = g.lon;
+           r('gpsDispAlt').textContent = g.alt + 'm'; r('gpsDispAcc').textContent = g.acc + 'm'; }
+}
   function show({ uid, records }) {
-    clearForm();
-    r('serialNr').textContent = uid || '';
-    const text = records.find(x => x.type === 'text')?.value || '', link = records.find(x => x.type === 'url')?.value || '';
-    const d = parseNfc(text);
-    r('nfc-preview').textContent = text; r('link-preview').textContent = link;
+     clearForm();
+  r('serialNr').textContent = uid || '';
+  const text = records.find(x => x.type === 'text')?.value || '';
+  const d = parseNfc(text);
+  // built from the plant id; falls back to the URL record on the tag if there is no id
+  const link = plantLink(d.plantId) || records.find(x => x.type === 'url')?.value || '';
+  r('nfc-preview').textContent = text; r('link-preview').textContent = link;
     r('nfcId').value = d.nfcId; r('plantId').value = d.plantId; r('name-plant').value = d.name;
     r('name-variety').value = d.variety; r('latin-name').value = d.latin; r('nfcTyp').value = d.type;
     r('datum').value = d.date; r('other').value = d.other;
     r('pic-preview').textContent = picName(d.latin, d.variety);
-    r('posPacketOut').textContent = d.gps;
-    if (d.gps) {
-      r('posPacketSize').textContent = fmt(bytes(d.gps));
-      const g = unpackGps(d.gps);
-      if (g) { r('gpsDispLat').textContent = g.lat; r('gpsDispLon').textContent = g.lon; r('gpsDispAlt').textContent = g.alt + 'm'; r('gpsDispAcc').textContent = g.acc + 'm'; }
-    }
+    
+    const tagId = d.nfcId;                                        // "2" in your example
+    fetchGpsByNfcId(tagId)
+       .then(p => { if (r('nfcId').value === tagId) showGps(p); }) // ignore the result if another tag was read meanwhile
+       .catch(e => { console.warn(e); showError(err, msg('err_gps_lookup')); });
     const [a, b] = [bytes(text), bytes(link)];
     r('nfc-size').textContent = fmt(a); r('link-size').textContent = fmt(b); r('total-size').textContent = fmt(a + b);
   }
-
+  /* Always built from the Plant ID field, so a manual edit of the ID is used too */
+  const currentLink = () => plantLink(r('plantId').value) || r('link-preview').textContent.trim();
+  r('copy-link').addEventListener('click', () =>
+  copyText(err, currentLink(), 'err_no_link', 'err_copy_link_ok', 'ph_link_preview'));
+  r('open-link-button').addEventListener('click', () => {
+  const u = safeUrl(currentLink());          // still blocks javascript: and other unsafe links
+     /* Link built from the plant id (2nd field of the NFC text). Same format the Generator uses. */
+  const plantLink = id => {
+    id = String(id || '').trim();
+    return /^\d{1,9}$/.test(id) ? `${location.origin}/W/P.html?id=${encodeURIComponent(id)}` : '';
+  };  
+  if (u) location.href = u; else showError(err, msg('err_bad_link'));
+   });
   r('read-nfc').addEventListener('click', startScan);
   r('clear-button').addEventListener('click', clearForm);
   r('copy-nfc').addEventListener('click',  () => copyText(err, r('nfc-preview').textContent,  'err_no_nfc',  'err_copy_nfc_ok'));
-  r('copy-link').addEventListener('click', () => copyText(err, r('link-preview').textContent, 'err_no_link', 'err_copy_link_ok', 'ph_link_preview'));
   r('copy-pic').addEventListener('click',  () => copyText(err, r('pic-preview').textContent,  'err_no_pic',  'err_copy_pic_ok', 'ph_pic_preview'));
   r('copy-gps').addEventListener('click', () => {
     const lat = r('gpsDispLat').textContent, lon = r('gpsDispLon').textContent;
     if (lat === '\u2013' || !lat) return showError(err, msg('err_no_gps'));
     copyText(err, `${lat},${lon}`, 'err_no_gps', 'err_copy_gps_ok');
-  });
-  r('open-link-button').addEventListener('click', () => {
-    const u = safeUrl(r('link-preview').textContent.trim());   // blocks javascript: links from rogue tags
-    if (u) location.href = u; else showError(err, msg('err_bad_link'));
   });
   r('dupl-nfc').addEventListener('click', () => {              // hand the data to the Generator
     const S = (k, v) => localStorage.setItem(k, v);
