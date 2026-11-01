@@ -435,11 +435,11 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
   background: var(--green);
   color: #fff;
 }
-.tab-section { display: none; }
+.tab-section-gen,.tab-section-read, .tab-section-reg, .tab-section-gps  { display: none; }
     /* The old rule `display: contents` made every panel a direct child of the
    single-column wrapper. Replace it with an auto-fitting grid:
    as many columns as fit, each at least 340px, otherwise 1 column (phones). */
-.tab-section.active {
+.tab-section-gen.active,.tab-section-read.active, .tab-section-reg.active, .tab-section-gps.active {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 1rem;
@@ -591,7 +591,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div>
 
     <!-- Generator section -->
-    <div id="tab-gen" class="tab-section active">
+    <div id="tab1-gen" class="tab-section-gen active">
     <div class="col">   <!-- column 1 -->
     <!-- ── Generator Panel 1: Selection ──────────────────────────────── -->
     <div class="panel open" id="gen-panel-selection">
@@ -638,7 +638,6 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
-
     <!-- ── Generator Panel 2: NFC Data Typ and Date───────────────────────────────── -->
     <div class="panel open" id="gen-panel-data">
       <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-data')">
@@ -667,9 +666,66 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <label for="gen-datum" data-i18n="nfcall.lbl_datum">Date</label>
           <input type="text" id="gen-datum" placeholder="e.g., 2026-03-12" />
         </div>
+        <div class="form-group">
+          <label for="gen-where" data-i18n="nfcall.lbl_where">Location</label>
+          <input type="text" id="gen-where" placeholder="e.g., Gyor"/>
+        </div>
+      </div></div></div>
+    </div>  
+    </div></div>
+    <!-- ── Generator -->
+    <!-- ── Registry -->
+    <div id="tab1-reg" class="tab-section-reg">
+    <div class="col">   <!-- column 1 -->
+    <!-- ── Register Panel 1: Mode + scan ──────────────────────────────── -->
+    <div class="panel open" id="reg-panel-scan">
+      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-scan')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📡</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcreg.scan_title">Scan</div>
+            <div class="panel-subtitle" data-i18n="nfcreg.scan_sub">Choose a mode and read the tags</div>
+          </div>
+          <span id="rgLiveDot" class="rgLive" style="display:none" data-i18n="nfcall.live">● LIVE</span>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div class="rgToggle" id="regModeToggleMode">
+          <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
+          <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
+        </div>
+        <div class="rgToggle" id="regModeToggleActiveState">
+          <label for="reg-where" data-i18n="nfcall.lbl_nfc">NFC</label>
+          <button type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
+          <button type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
+        </div>
+        <div class="form-group">
+          <label for="reg-where" data-i18n="nfcall.lbl_where">Location</label>
+          <input type="text" id="reg-where" placeholder="e.g., Gyor"/>
+        </div>
+        <div class="rgToggle" id="regModeToggleGsp">
+           <label data-i18n="nfcall.gps_card_title">GPS Data</label>
+           <button id="gps-state-btn1" type="button" data-mode="active" data-i18n="nfcreg.status_active">Active</button>
+           <button id="gps-state-btn2" type="button" data-mode="inactive" class="active" data-i18n="nfcreg.status_inactive">Inactive</button>
+        </div>
+        <p class="status-msg" id="reg-gps-status"></p>
+        <div class="btn-grid cols-2">
+          <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
+          <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
+        </div>
+        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
+        <div class="btn-grid cols-2">
+          <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
+          <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
+        </div>
       </div></div></div>
     </div>
-
+    </div></div> 
+    <!-- ── Registry -->
+    <!-- ── Gps -->
+    <div id="tab1-gps" class="tab-section-gps active">
+    <div class="col">   <!-- column 1 -->
     <!-- ── Generator Panel 3: GPS ────────────────────────────────────── -->
     <div class="panel" id="gen-panel-gps">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'gen-panel-gps')">
@@ -707,7 +763,10 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
-
+       </div> </div>
+    <!-- ── Generator -->
+    <div id="tab2-gen" class="tab-section-gen active">
+    <div class="col">   <!-- column 1 --> 
     <!-- ── Generator Panel 4: Other info ─────────────────────────────── -->
     <div class="panel" id="gen-panel-other">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanelExcl(event,'gen-panel-other')">
@@ -735,12 +794,12 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
 
   <div class="col">   <!-- column 2 -->  
   <!-- ── Generator Panel 5: NFC Data Review───────────────────────────────── -->
-    <div class="panel open" id="gen-panel-review">
+    <div class="panel" id="gen-panel-review">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('gen-panel-review')">
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
           <div>
-            <div class="panel-title" data-i18n="nfcall.data_card_title">Data</div>
+            <div class="panel-title" data-i18n="nfcall.data_card_title">Data on NFC</div>
             <div class="panel-subtitle" data-i18n="nfcall.data_card_sub">Data stored in NFC</div>
           </div>
         </div>
@@ -779,14 +838,14 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     <label for="gen-latin-name" data-i18n="nfcall.lbl_latin">Latin Name</label>
     <div class="field-row">
       <input type="checkbox" class="inc-chk" id="gen-inc-latin" checked aria-label="Include Latin name">
-      <input type="text" id="gen-latin-name" />
+      <input type="text" id="gen-latin-name"/>
     </div>
   </div>
   <div class="form-group">
     <label for="gen-nfcTyp-rw" data-i18n="nfcall.lbl_nfcTyp">NFC Type</label>
     <div class="field-row">
       <input type="checkbox" class="inc-chk" id="gen-inc-type" checked aria-label="Include NFC type">
-      <input type="text" id="gen-nfcTyp-rw" />
+      <input type="text" id="gen-nfcTyp-rw"/>
     </div>
   </div>
   <div class="form-group">
@@ -796,21 +855,42 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       <input type="text" id="gen-datum-rw" placeholder="e.g., 2026-03-12" />
     </div>
   </div>
-  <div class="form-group">
-    <label for="gen-gps-rw" data-i18n="nfcall.gps_card_title">GPS Data</label>
-    <div class="field-row">
-      <input type="checkbox" class="inc-chk" id="gen-inc-gps" checked aria-label="Include GPS">
-      <input type="text" id="gen-gps-rw" />
-    </div>
-  </div>
-  <div class="form-group">
+    <div class="form-group">
     <label for="gen-other-rw" data-i18n="nfcall.lbl_other_notes">Other Info in NFC tag</label>
     <div class="field-row">
       <input type="checkbox" class="inc-chk" id="gen-inc-other" checked aria-label="Include other info for NFC tag">
       <input type="text" id="gen-other-rw" />
     </div>
+  </div>  
+</div></div></div>
+    </div>
+
+     <!-- ── Generator Panel 6: NFC Data Review───────────────────────────────── -->
+    <div class="panel" id="gen-panel-save-review">
+      <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('gen-panel-save-review')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📋</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.data_save_card_title">Data in Save</div>
+            <div class="panel-subtitle" data-i18n="nfcall.data_save_card_sub">Data stored in Save</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+  <div class="form-group">
+    <label for="gen-where-rw" data-i18n="nfcall.lbl_where">Location</label>
+    <div class="field-row">
+      <input type="text" id="gen-where-rw" placeholder="e.g., Gyor" />
+    </div>
+  </div>      
+  <div class="form-group">
+    <label for="gen-gps-rw" data-i18n="nfcall.gps_card_title">GPS Data</label>
+    <div class="field-row">
+      <input type="text" id="gen-gps-rw" />
+    </div>
   </div>
-    <div class="form-group">
+  <div class="form-group">
     <label for="gen-comment-rw" data-i18n="nfcall.lbl_comment_notes">Comments only in Save</label>
     <div class="field-row">
       <input type="text" id="gen-comment-rw" />
@@ -821,7 +901,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div><!-- column 2 end-->  
 
   <div class="col">   <!-- column 3 -->  
-    <!-- ── Generator Panel 6: NFC Preview ────────────────────────────── -->
+    <!-- ── Generator Panel 7: NFC Preview ────────────────────────────── -->
     <div class="panel open" id="gen-panel-preview">
       <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('gen-panel-preview')">
         <div class="panel-header-left">
@@ -874,7 +954,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div> 
 
-    <!-- ── Generator Panel 7: Actions 1 ────────────────────────────────── -->
+    <!-- ── Generator Panel 8: Actions 1 ────────────────────────────────── -->
     <div class="panel open" id="gen-panel-actions">
       <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-actions')">
         <div class="panel-header-left">
@@ -918,7 +998,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div>
 
-    <!-- ── Generator Panel 8: Actions 2 ────────────────────────────────── -->
+    <!-- ── Generator Panel 9: Actions 2 ────────────────────────────────── -->
     <div class="panel" id="gen-panel-actions2">
       <div class="panel-header" role="button" tabindex="0" onclick="togglePanel('gen-panel-actions2')">
         <div class="panel-header-left">
@@ -960,11 +1040,10 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div>
   </div><!-- column 3 end-->  
-
     </div><!-- end tab-gen -->
 
-    <!-- Registry section -->
-    <div id="tab-read" class="tab-section">
+    <!-- Reader section -->
+    <div id="tab1-read" class="tab-section-read">
     <div class="col"> <!-- column 1 -->  
     <!-- ── Reader Panel 1: Actions ──────────────────────────────────── -->
     <div class="panel open" id="read-panel-actions">
@@ -1050,8 +1129,8 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
     </div>
     </div><!-- column 1 end-->  
       <div class="col"><!-- column 2 -->  
-    <!-- ── Reader Panel 4: Data ─────────────────────────────────────── -->
-    <div class="panel open" id="read-panel-data">
+    <!-- ── Reader Panel 4: Data on NFC─────────────────────────────────────── -->
+    <div class="panel" id="read-panel-data">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanel('read-panel-data')">
         <div class="panel-header-left">
           <span class="panel-icon">📋</span>
@@ -1094,8 +1173,56 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
       </div></div></div>
     </div>
 
-    <!-- ── Reader Panel 5: GPS ──────────────────────────────────────── -->
-    <div class="panel open" id="read-panel-gps">
+            <!-- ── Reader Panel 5: Other ────────────────────────────────────── -->
+    <div class="panel" id="read-panel-other">
+      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'read-panel-other')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📝</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.other_card_title">Other Info</div>
+            <div class="panel-subtitle" data-i18n="nfcall.other_card_sub">Optional extra notes</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div class="form-group" id="read-other_card_body">
+          <label for="read-other" data-i18n="nfcall.lbl_other_notes">Notes</label>
+          <textarea id="read-other"></textarea>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- ── Readere Panel 6: Data in Save───────────────────────────────── -->
+    <div class="panel" id="read-panel-save-review">
+      <div class="panel-header" role="button" tabindex="0"  onclick="togglePanel('read-panel-save-review')">
+        <div class="panel-header-left">
+          <span class="panel-icon">📋</span>
+          <div>
+            <div class="panel-title" data-i18n="nfcall.data_save_card_title">Data in Save</div>
+            <div class="panel-subtitle" data-i18n="nfcall.data_save_card_sub">Data stored in Save</div>
+          </div>
+        </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
+      </div>
+      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+  <div class="form-group">
+    <label for="read-where-rw" data-i18n="nfcall.lbl_where">Location</label>
+    <div class="field-row">
+      <input type="text" id="read-where-rw" placeholder="e.g., Gyor" />
+    </div>
+  </div>      
+  <div class="form-group">
+    <label for="read-comment-rw" data-i18n="nfcall.lbl_comment_notes">Comments only in Save</label>
+    <div class="field-row">
+      <input type="text" id="read-comment-rw" />
+    </div>
+  </div>      
+</div></div></div>
+    </div>
+
+    <!-- ── Reader Panel 7: GPS ──────────────────────────────────────── -->
+    <div class="panel" id="read-panel-gps">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'read-panel-gps')">
         <div class="panel-header-left">
           <span class="panel-icon">📡</span>
@@ -1122,65 +1249,12 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
-
-    <!-- ── Reader Panel 6: Other ────────────────────────────────────── -->
-    <div class="panel open" id="read-panel-other">
-      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'read-panel-other')">
-        <div class="panel-header-left">
-          <span class="panel-icon">📝</span>
-          <div>
-            <div class="panel-title" data-i18n="nfcall.other_card_title">Other Info</div>
-            <div class="panel-subtitle" data-i18n="nfcall.other_card_sub">Optional extra notes</div>
-          </div>
-        </div>
-        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
-      </div>
-      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="form-group" id="read-other_card_body">
-          <label for="read-other" data-i18n="nfcall.lbl_other_notes">Notes</label>
-          <textarea id="read-other"></textarea>
-        </div>
-      </div></div></div>
-    </div>
     </div><!-- column 2 end -->  
     </div><!-- end tab-read -->
 
     <!-- Registrator section -->
-    <div id="tab-reg" class="tab-section">
+    <div id="tab2-reg" class="tab-section-reg">
     <div class="col">   <!-- column 1 -->
-    <!-- ── Register Panel 1: Mode + scan ──────────────────────────────── -->
-    <div class="panel open" id="reg-panel-scan">
-      <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-scan')">
-        <div class="panel-header-left">
-          <span class="panel-icon">📡</span>
-          <div>
-            <div class="panel-title" data-i18n="nfcreg.scan_title">Scan</div>
-            <div class="panel-subtitle" data-i18n="nfcreg.scan_sub">Choose a mode and read the tags</div>
-          </div>
-          <span id="rgLiveDot" class="rgLive" style="display:none" data-i18n="nfcall.live">● LIVE</span>
-        </div>
-        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
-      </div>
-      <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="rgToggle" id="regModeToggleMode">
-        <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
-        <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
-        </div>
-        <div class="rgToggle" id="regModeToggleActiveState">
-        <button type="button" data-mode="active" class="active" data-i18n="nfcreg.status_active">Active</button>
-        <button type="button" data-mode="inactive" data-i18n="nfcreg.status_inactive">Inactive</button>
-        </div>
-        <div class="btn-grid cols-2">
-        <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
-        <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
-        </div>
-        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
-        <div class="btn-grid cols-2">
-          <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
-          <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
-        </div>
-      </div></div></div>
-    </div>
   <!-- ── Register Panel 2: Last read ──────────────────────────────── -->
     <div class="panel open" id="reg-panel-read">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-read')">
@@ -1191,6 +1265,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
             <div class="panel-subtitle" data-i18n="nfcreg.last_sub">Most recently read tag</div>
           </div>
         </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
         <div>
@@ -1207,8 +1282,6 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         </div>
       </div></div></div>
     </div>
-      </div><!-- column 1 end --> 
-      <div class="col"> <!-- column 2 --> 
    <!-- ── Register Panel 3: Session list (multi mode) ──────────────────────────────── -->
     <div class="panel open" id="reg-panel-session">
       <div class="panel-header"  role="button" tabindex="0" onclick="togglePanelExcl(event,'reg-panel-session')">
@@ -1220,16 +1293,17 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           </div>
           <span class="badge" id="rgCount">0</span>
         </div>
+        <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
-        <div class="rgList" id="rgListId"></div>
         <div class="btn-grid">
            <button id="reg-save-all-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.save_all" disabled>Save all</button>
            <button id="reg-clear-btn" class="btn btn-secondary" type="button" data-i18n="nfcreg.btn_clear" disabled>Clear list</button>
         </div>
+        <div class="rgList" id="rgListId"></div> 
       </div></div></div>
     </div>
-       </div><!-- column 2 end -->  
+    </div><!-- column 1 end -->  
     </div><!-- end tab-reg -->
   </main>
 
@@ -1249,9 +1323,17 @@ function switchTab(tab) {
   const prev = currentTab;
   currentTab = tab;
   const view = tab === 'pin' ? 'gen' : tab;            // 'pin' re-uses the generator panels
-  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  console.log('currentTab: ', currentTab);
+  console.log('view: ', view);
+  document.querySelectorAll('.tab-section-gen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-section-read').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-section-reg').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-section-gps').forEach(s => s.classList.remove('active'));
+  // document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active')); //
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  document.getElementById('tab-' + view).classList.add('active');
+  document.querySelectorAll('.tab-section-' + view).forEach(s => s.classList.add('active')); //
+  //document.getElementById('tab1-' + view).classList.add('active');
+  if (currentTab === 'gen' || currentTab === 'pin' || currentTab === 'reg') { document.querySelectorAll('.tab-section-gps').forEach(s => s.classList.add('active')); }
   // Other modules listen instead of overriding this function (Reader/Registry stop their NFC scans)
   document.dispatchEvent(new CustomEvent('tab:changed', { detail: { tab, prev } }));
 }
@@ -1316,8 +1398,10 @@ const I18N = {
   "nfcall.gen_ph_search_variety": { en: "Search varieties\u2026", hu: "Keres\u00e9s fajt\u00e1k k\u00f6z\u00f6tt\u2026" },
   "nfcall.gen_ph_custom_variety": { en: "Enter custom variety", hu: "Egyedi fajta megad\u00e1sa" },
   "nfcall.gen_ph_custom_plant": { en: "Enter custom plant name", hu: "Egyedi n\u00f6v\u00e9nyn\u00e9v megad\u00e1sa" },
-  "nfcall.data_card_title": { en: "Data", hu: "Adatok" },
-  "nfcall.data_card_sub": { en: "Data stored", hu: "Mentett adatok" },
+  "nfcall.data_card_title": { en: "Data on NFC", hu: "Adatok az NFC-n" },
+  "nfcall.data_card_sub": { en: "Data stored on NFC", hu: "Mentett adatok az NFC-n" },
+  "nfcall.data_save_card_title": { en: "Data in Save", hu: "Adatok a Ment\u00e9sben" },
+  "nfcall.data_save_card_sub": { en: "Data stored in Save", hu: "Mentett adatok a Ment\u00e9sben" },
   "nfcall.time_type_card_title": { en: "Type and datum", hu: "T\u00edpus \u00e9s d\u00e1tum" },
   "nfcall.time_type_card_sub": { en: "Type and date", hu: "T\u00edpus \u00e9s d\u00e1tum" },
   "nfcall.plantId": { en: "Plant ID", hu: "N\u00f6v\u00e9ny ID" },
@@ -1325,7 +1409,9 @@ const I18N = {
   "nfcall.serialNr": { en: "NFC HW ID", hu: "NFC HW ID" },
   "nfcall.lbl_latin": { en: "Latin Name", hu: "Latin n\u00e9v" },
   "nfcall.lbl_datum": { en: "Date", hu: "D\u00e1tum" },
+  "nfcall.lbl_where": { en: "Location", hu: "Helysz\u00edn" },
   "nfcall.lbl_nfcTyp": { en: "Type", hu: "T\u00edpus" },
+  "nfcall.lbl_nfc": { en: "NFC", hu: "NFC" },
   "nfcall.opt_n": { en: "n \u2013 plant", hu: "n \u2013 n\u00f6v\u00e9ny" },
   "nfcall.opt_o": { en: "o \u2013 graft", hu: "o \u2013 olt\u00e1s" },
   "nfcall.opt_m": { en: "m \u2013 seed", hu: "m \u2013 mag" },
@@ -1465,6 +1551,11 @@ const I18N = {
   "nfcreg.st_removed": { en: "Removed: {s}", hu: "Elt\u00e1vol\u00edtva: {s}" },
   "nfcreg.st_confirm_clear": { en: "Clear all tags from the list?", hu: "T\u00f6rl\u00f6d az \u00f6sszes cimk\u00e9t a list\u00e1b\u00f3l?" },
   "nfcreg.st_unsaved": { en: "You have unsaved tags.", hu: "Vannak nem mentett cimk\u00e9k." },
+  // ── GPS messages ──
+  "nfcall.gps_auto_locked":  { en: "GPS locked ({acc} m)",             hu: "GPS r\u00f6gz\u00edtve ({acc} m)" },
+  "nfcall.gps_auto_timeout": { en: "GPS locked after 30 s ({acc} m)",  hu: "GPS r\u00f6gz\u00edtve 30 mp ut\u00e1n ({acc} m)" },
+  "nfcall.gps_nofix":        { en: "No GPS fix after 30 s",            hu: "30 mp ut\u00e1n sincs GPS jel" },
+  "nfcall.gps_off":          { en: "GPS off",                          hu: "GPS kikapcsolva" },
 };
 
 const LANG_KEY = 'fuvesztar_lang';
@@ -1570,10 +1661,72 @@ function debounce(fn, ms) {
   };
 }
 
+/* GPS packet: 12 bytes -> base64 (16 chars), stored as "L|<base64>|L" */
+function packGps({ lat, lon, alt, acc }) {
+  const v = new DataView(new ArrayBuffer(12));
+  v.setUint32(0, Math.round((lat + 90) * 1e6)); v.setUint32(4, Math.round((lon + 180) * 1e6));
+  v.setUint16(8, Math.min(65535, Math.max(0, Math.round(alt + 1000))));
+  v.setUint16(10, Math.min(65535, Math.max(0, Math.round(acc + 1000))));
+  return btoa(String.fromCharCode(...new Uint8Array(v.buffer)));
+}
+    
+function unpackGps(packet) {                                   // strips the L|…|L wrapper before decoding
+  const m = /^L\|([\s\S]*)\|L$/.exec(packet || ''); if (!m) return null;
+  try {
+    const b = Uint8Array.from(atob(m[1]), c => c.charCodeAt(0)); if (b.length < 12) return null;
+    const v = new DataView(b.buffer);
+    return { lat: (v.getUint32(0) / 1e6 - 90).toFixed(6), lon: (v.getUint32(4) / 1e6 - 180).toFixed(6),
+             alt: v.getUint16(8) - 1000, acc: v.getUint16(10) - 1000 };
+  } catch { return null; }
+}
+
+    /* =====================================================================
+ *  GPS ENGINE – one instance shared by the Generator panel and the Registry toggle
+ * ===================================================================== */
+const GPS_AUTO_MS  = 30000;   // auto mode: lock after 30 s ...
+const GPS_AUTO_ACC = 10;      // ... or as soon as the accuracy is 10 m or better
+const gpsCtl = (() => {
+  let watchId = null, timer = null, hasFix = false, auto = false, packet = '', lastFix = 0;
+  let fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
+  const subs = [];
+  const emit = (type, error) => subs.forEach(f => f(type, { fix, packet, error }));
+  const halt = () => { if (watchId != null) navigator.geolocation.clearWatch(watchId); clearTimeout(timer); watchId = timer = null; };
+  const pack = () => `L|${packGps(fix)}|L`;
+  function lock(type) { halt(); auto = false; if (hasFix) packet = pack(); emit(type); }   // stop + keep the best fix
+
+  document.addEventListener('visibilitychange', () => {        // save battery: stop when the tab is hidden
+    if (document.hidden && watchId != null) { halt(); auto = false; emit('paused'); }
+  });
+
+  return {
+    on: f => subs.push(f),
+    get packet() { return packet; },                           // locked "L|…|L" packet, '' if none
+    running: () => watchId != null,
+    active:  () => watchId != null || packet !== '',           // used for the Registry toggle
+    lastFix: () => lastFix,
+    current: () => packet || (watchId != null && hasFix ? pack() : ''),   // locked packet, else latest fix
+    start({ auto: a = false } = {}) {
+      if (!navigator.geolocation) return emit('unsupported');
+      halt(); packet = ''; hasFix = false; auto = a; lastFix = Date.now();
+      watchId = navigator.geolocation.watchPosition(p => {
+        lastFix = Date.now(); hasFix = true;
+        fix = { lat: p.coords.latitude, lon: p.coords.longitude, alt: p.coords.altitude || 0, acc: p.coords.accuracy };
+        emit('fix');
+        if (auto && fix.acc <= GPS_AUTO_ACC) lock('locked');   // accurate enough -> lock now
+      }, e => { if (e.code === 1) { halt(); auto = false; } emit('error', e); },   // 1 = permission denied
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
+      if (auto) timer = setTimeout(() => lock(hasFix ? 'timeout' : 'nofix'), GPS_AUTO_MS);
+      emit('started');
+    },
+    stop()  { lock('stopped'); },                              // = "Stop & Lock Data"
+    reset() { halt(); packet = ''; hasFix = false; auto = false; emit('reset'); }
+  };
+})();
+
   </script>
   <!-- Script 3: qr localy -->
   <script src="../lib/qrcode.js"></script>
-  
+  <script src="../scripts/configNfcSetup.js"></script>
   <!-- Script 4: new JS Read / write -->
    <script>
   /* =====================================================================
@@ -1591,15 +1744,15 @@ const msg = (k, p) => t('nfcall.' + k, p);                    // msg('key', {par
 const rt  = k => 'nfcreg.' + k;                               // registry keys
 const PAGES = { home: '../Homepage.html', listNfc: 'pages/NfcListPage.html' , listPin: 'pages/PinListPage.html' , listReg: 'pages/RegListPage.html' };   // exact spelling of your real files
 
-/* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api */
-const CFG = {
-  WRITER_URL: 'https://script.google.com/macros/s/AKfycbypnTXrRGz0Xpb1fylxkIAOTMkENY886zG-1ZsHeL_VUcwEll7BCKc1KXNxUqjAAQMX/exec',
-  SECRET: '159753g9d5rt4sdfer7e5z4d6szo89fsef', 
-  SHEET_SOURCE_ID: '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY', 
-  SHEET_SOURCE: 'plant_list',
+/* ── Config ── SECURITY: anything here is public -> rotate SECRET, validate in Apps Script Api -  now done is external js*/
+/*const CFG = {
+  WRITER_URL: 'https://script.google.com/macros/s//exec',
+  SECRET: 'f', 
+  READ_SHEET_SOURCE_ID: 'f', 
+  READ_SHEET_SOURCE: 'plant_list',
   PLANT_Q: "select A, B, C, D, E, F where L = 'Y'",
   PIN_ID_QUERY: '?action=pinLastId',                          // GET that returns {lastId} for the Location saver page
-};
+};*/
 
 /* ── Shared helpers ── */
 const isPh  = (txt, key) => !txt || LANGS.some(l => I18N['nfcall.' + key]?.[l] === txt);   // placeholder in ANY language
@@ -1610,6 +1763,9 @@ const picName = (latin, variety) => `${(latin || '').trim().replace(/\s+/g, '_')
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const normUid = u => String(u || '').toUpperCase().replace(/[:-]/g, '');
 const safeUrl = s => { try { const u = new URL(s); return /^https?:$/.test(u.protocol) ? u.href : null; } catch { return null; } };  // blocks javascript:
+/* GPS packet for EVERY save: the field's packet if it is valid, else the locked packet / latest fix, else '' */
+const PACKET_RE = /^L\|[A-Za-z0-9+\/=]{16}\|L$/;
+const gpsForSave = typed => PACKET_RE.test(typed || '') ? typed : gpsCtl.current();  
 
 const timers = new WeakMap();
 function showError(el, text, type = 'error') {
@@ -1623,26 +1779,8 @@ async function copyText(el, text, emptyKey, okKey, phKey) {
   catch (e) { showError(el, msg('err_copy_fail') + e.message); }
 }
 
-/* GPS packet: 12 bytes -> base64 (16 chars), stored as "L|<base64>|L" */
-function packGps({ lat, lon, alt, acc }) {
-  const v = new DataView(new ArrayBuffer(12));
-  v.setUint32(0, Math.round((lat + 90) * 1e6)); v.setUint32(4, Math.round((lon + 180) * 1e6));
-  v.setUint16(8, Math.min(65535, Math.max(0, Math.round(alt + 1000))));
-  v.setUint16(10, Math.min(65535, Math.max(0, Math.round(acc + 1000))));
-  return btoa(String.fromCharCode(...new Uint8Array(v.buffer)));
-}
-function unpackGps(packet) {                                   // strips the L|…|L wrapper before decoding
-  const m = /^L\|([\s\S]*)\|L$/.exec(packet || ''); if (!m) return null;
-  try {
-    const b = Uint8Array.from(atob(m[1]), c => c.charCodeAt(0)); if (b.length < 12) return null;
-    const v = new DataView(b.buffer);
-    return { lat: (v.getUint32(0) / 1e6 - 90).toFixed(6), lon: (v.getUint32(4) / 1e6 - 180).toFixed(6),
-             alt: v.getUint16(8) - 1000, acc: v.getUint16(10) - 1000 };
-  } catch { return null; }
-}
-
 /* NFC text format: nfcId/plantId/name/variety/latin/type/date/gps/other/ */
-const KEYS = ['nfcId', 'plantId', 'name', 'variety', 'latin', 'type', 'date', 'gps', 'other'];
+const KEYS = ['nfcId', 'plantId', 'name', 'variety', 'latin', 'type', 'date', 'other'];
 function parseNfc(str) {
   const pk = [];
   const safe = str.replace(/L\|([\s\S]*?)\|L/g, (_, c) => `__P${pk.push(c) - 1}__`);   // GPS base64 may contain "/"
@@ -1656,10 +1794,10 @@ function parseNfc(str) {
 
 /* ── Google Sheets (gviz) with sessionStorage cache; {fresh:true} bypasses it ── */
 async function gviz(tq, { fresh = false } = {}) {
-  const key = `${CFG.SHEET_SOURCE_ID}|${CFG.SHEET_SOURCE}|${tq}`;
+  const key = `${CFG.READ_SHEET_SOURCE_ID}|${CFG.READ_SHEET_SOURCE}|${tq}`;
   if (!fresh) { const hit = gvizCacheGet(key); if (hit) return hit; }
-  const r = await fetch(`https://docs.google.com/spreadsheets/d/${CFG.SHEET_SOURCE_ID}/gviz/tq?` +
-                        new URLSearchParams({ tqx: 'out:json', sheet: CFG.SHEET_SOURCE, tq }));
+  const r = await fetch(`https://docs.google.com/spreadsheets/d/${CFG.READ_SHEET_SOURCE_ID}/gviz/tq?` +
+                        new URLSearchParams({ tqx: 'out:json', sheet: CFG.READ_SHEET_SOURCE, tq }));
   if (!r.ok) throw new Error(`Sheets ${r.status}`);
   const m = (await r.text()).match(/setResponse\(([\s\S]*?)\)\s*;?\s*$/);
   if (!m) throw new Error('Unexpected Sheets response');
@@ -1743,11 +1881,11 @@ function downloadQueueAsJson() {                               // not wired to a
 async function initGenerator() {
   const el = id => $('gen-' + id), B = el;
   const F = { nfcId: el('nfcId'), plantId: el('plantId'), name: el('plantName'), variety: el('plantVariety'),
-              latin: el('latin-name'), type: el('nfcTyp-rw'), date: el('datum-rw'), gps: el('gps-rw'), other: el('other-rw') };
-  const MENT = { comment: el('comment-rw') };                  // only goes into Save, never onto the tag
+              latin: el('latin-name'), type: el('nfcTyp-rw'), date: el('datum-rw'), other: el('other-rw') };
+  const MENT = { comment: el('comment-rw') , locationSave: el('where-rw'), gps: el('gps-rw')};                  // only goes into Save, never onto the tag
   const plantSel = el('plant-selector'), varSel = el('name-variety');
   const plantCustom = el('plant-selector-custom'), varCustom = el('name-variety-custom');
-  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment');
+  const typeIn = el('nfcTyp'), dateIn = el('datum'), otherIn = el('other'), commentIn = el('comment'), locationIn= el('where'); 
   const err = el('error-message'), err2 = el('error-message2'), serialEl = el('serialNr');
 
   /* "include" checkboxes: INC[key] sits in front of each review field (ids gen-inc-<key>) */
@@ -1757,10 +1895,10 @@ async function initGenerator() {
   const isIncluded = k => INC[k] ? INC[k].checked : true;
 
   const today = new Date().toLocaleDateString('sv-SE');   // local yyyy-mm-dd
-  let plants = [], gpsPacket = '', nextPlantId = null, watchId = null, tick = null, offlineSave = false;
-  let lastFix = Date.now(), fix = { lat: 0, lon: 0, alt: 0, acc: 0 };
+  let plants = [], nextPlantId = null, offlineSave = false;
   const ids = { nfc: null, pin: null };                        // each page has its own running id
   const mode = () => currentTab === 'pin' ? 'pin' : 'nfc';
+  console.log('mode: ', mode);
 
   /* Buttons that need generated data stay disabled until a plant is chosen */
   const needsData = ['qr-button', 'copy-nfc', 'copy-link', 'copy-pic', 'save-nfc', 'nfc-write-button'];
@@ -1831,7 +1969,7 @@ async function initGenerator() {
     F.latin.value   = row?.LatinName || (customPlant ? F.latin.value : '');
     F.plantId.value = (customPlant || customVar) ? (nextPlantId ?? '') : (row?.Plant_ID ?? '');   // custom -> next free Plant_ID
     F.type.value = typeIn.value; F.date.value = dateIn.value; F.other.value = otherIn.value;
-    F.gps.value = gpsPacket; MENT.comment.value = commentIn.value;
+    MENT.gps.value = gpsCtl.packet; MENT.locationSave.value = locationIn.value; MENT.comment.value = commentIn.value;
   }
 
   /* Format: nfcId/plantId/name/variety/latin/type/date/gps/other/ – an unchecked field keeps its "/" but is empty,
@@ -1851,10 +1989,10 @@ async function initGenerator() {
   }
   const hasSelection = () => F.name.value.trim() !== '';   // true for a selection, a custom name AND after \"Duplicate NFC\"")
   
-
+ 
   /* Each input updates ONLY its own review field (no more overwriting manual edits) */
   const bind = (input, field) => ['input', 'change'].forEach(ev => input.addEventListener(ev, () => { field.value = input.value; renderPreview(); }));
-  bind(typeIn, F.type); bind(dateIn, F.date); bind(otherIn, F.other); bind(commentIn, MENT.comment);
+  bind(typeIn, F.type); bind(dateIn, F.date); bind(otherIn, F.other); bind(commentIn, MENT.comment); bind(locationIn, MENT.locationSave);
   plantCustom.addEventListener('input', debounce(() => { F.name.value    = clean(plantCustom.value); renderPreview(); }, 150));   // clean(): "/" is the separator
   varCustom  .addEventListener('input', debounce(() => { F.variety.value = clean(varCustom.value);   renderPreview(); }, 150));
   Object.values(F).forEach(i => i.addEventListener('input', debounce(renderPreview, 150)));      // review fields are editable
@@ -1886,22 +2024,24 @@ async function initGenerator() {
     const L = k => localStorage.getItem(k) || '';
     F.plantId.value = L('StPlantID'); F.name.value = L('StPlantName'); F.variety.value = L('StVariety');
     F.latin.value = L('StLatinName'); F.type.value = L('StNFCType'); F.date.value = L('StDate');
-    F.gps.value = L('StGPSCPacket'); F.other.value = L('StOtherInfo');
-    ['StCopyState', 'StPlantName', 'StVariety', 'StPlantID', 'StLatinName', 'StDate', 'StNFCType', 'StGPSCPacket', 'StOtherInfo']
+    F.other.value = L('StOtherInfo');
+    ['StCopyState', 'StPlantName', 'StVariety', 'StPlantID', 'StLatinName', 'StDate', 'StNFCType', 'StOtherInfo']
       .forEach(k => localStorage.removeItem(k));               // one-shot hand-over
     renderPreview(); setReady(true); showError(err, msg('err_gen_dupl_nfc_ok'), 'success');
   });
   function clearForm() {
     Object.entries(F).forEach(([k, i]) => { if (k !== 'nfcId') i.value = ''; });     // keep the running id
-    plantCustom.value = varCustom.value = otherIn.value = commentIn.value = MENT.comment.value = '';
+    plantCustom.value = varCustom.value = otherIn.value = commentIn.value = MENT.comment.value = MENT.locationSave.value ='';
     plantCustom.style.display = varCustom.style.display = 'none';
     varSel.replaceChildren(new Option(msg('gen_opt_variety'), ''));
-    typeIn.value = 'n'; dateIn.value = today; gpsPacket = '';
+    typeIn.value = 'n'; dateIn.value = today; 
+    gpsCtl.reset();
     el('nfc-preview').textContent = msg('ph_nfc_preview'); el('link-preview').textContent = msg('ph_link_preview');
     el('pic-preview').textContent = msg('ph_pic_preview'); serialEl.textContent = msg('ph_serialnr_preview');
     ['nfc-size', 'link-size', 'total-size'].forEach(n => el(n).textContent = '0 B');
     allChecks().forEach(c => c.checked = true);
-    document.querySelectorAll('#tab-gen .off, #tab-gen .excluded').forEach(e => e.classList.remove('off', 'excluded'));
+    document.querySelectorAll('#tab1-gen .off, #tab1-gen .excluded').forEach(e => e.classList.remove('off', 'excluded'));
+    document.querySelectorAll('#tab2-gen .off, #tab2-gen .excluded').forEach(e => e.classList.remove('off', 'excluded'));
     setReady(false);
   }
   B('clear-button').addEventListener('click', () => { plantSel.value = ''; clearForm(); });
@@ -1932,15 +2072,16 @@ async function initGenerator() {
   async function saveNfc() {
     if (!hasSelection()) return showError(err, msg('err_gen_no_save'));
     renderPreview();
-    const pos = isIncluded('gps') ? F.gps.value : '', serial = serialEl.textContent;
+    const pos = gpsForSave(MENT.gps.value); MENT.gps.value = pos;     // "Data in Save" shows exactly what is sent
+    const serial = serialEl.textContent;
     const payload = mode() === 'pin'
   ? { key: CFG.SECRET, action: 'pinSave', plantId: F.plantId.value, nfcTyp: F.type.value,
-      datum: F.date.value, nfcCreated: today, nfcPos: pos, other: F.other.value, comment: MENT.comment.value }
+      datum: F.date.value, nfcCreated: today, nfcPos: pos, nfcData: el('nfc-preview').textContent, other: F.other.value, comment: MENT.comment.value, location: MENT.locationSave.value }
   : { key: CFG.SECRET, action: 'nfcSave', nfcId: F.nfcId.value, plantId: F.plantId.value,
           nfcTyp: F.type.value, datum: F.date.value, nfcCreated: today, nfcPos: pos,
           nfcData: el('nfc-preview').textContent, other: F.other.value,
           serialNum: isPh(serial, 'ph_serialnr_preview') ? '' : serial,
-          comment: MENT.comment.value };                      
+          comment: MENT.comment.value , location: MENT.locationSave.value  };                      
     B('save-nfc').disabled = true; showError(err, msg('err_save_start'), 'info');
     try {
       if (offlineSave) {
@@ -2033,37 +2174,45 @@ async function initGenerator() {
   });
 
   /* ── GPS ── */
+    /* ── GPS panel: only the display; the engine is gpsCtl ── */
   const gStatus = el('gpsStatus');
   const setGps = (text, color) => { gStatus.textContent = text; gStatus.style.background = color; gStatus.style.color = '#fff'; };
-  function stopWatch() {
-    if (watchId != null) navigator.geolocation.clearWatch(watchId);
-    clearInterval(tick); watchId = tick = null;
-    el('gpsStartBtn').style.display = 'block'; el('gpsStopBtn').style.display = 'none'; el('liveDot').style.display = 'none';
-  }
-  el('gpsStartBtn').addEventListener('click', () => {
-    if (!navigator.geolocation) return setGps(msg('gps_unsupported'), 'red');
-    stopWatch();
-    el('gpsStartBtn').style.display = 'none'; el('gpsStopBtn').style.display = 'block'; el('liveDot').style.display = 'inline';
-    setGps(msg('gps_fetching'), 'orange');
-    watchId = navigator.geolocation.watchPosition(p => {
-      lastFix = Date.now();
-      fix = { lat: p.coords.latitude, lon: p.coords.longitude, alt: p.coords.altitude || 0, acc: p.coords.accuracy };
-      el('gpsDispLat').textContent = fix.lat.toFixed(6); el('gpsDispLon').textContent = fix.lon.toFixed(6);
-      el('gpsDispAlt').textContent = Math.round(fix.alt) + 'm'; el('gpsDispAcc').textContent = Math.round(fix.acc) + 'm';
-      setGps(msg('gps_updating', { acc: Math.round(fix.acc) }), '#0056b3');
-    }, e => setGps(msg('gps_error') + e.message, 'red'), { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
-    tick = setInterval(() => el('updateTimer').textContent = msg('gps_last_improve', { s: Math.floor((Date.now() - lastFix) / 1000) }), 1000);
+  const showBtns = on => { el('gpsStartBtn').style.display = on ? 'none' : 'block'; el('gpsStopBtn').style.display = on ? 'block' : 'none'; el('liveDot').style.display = on ? 'inline' : 'none'; };
+  let tick = null;
+  const endTick = () => { clearInterval(tick); tick = null; };
+
+  gpsCtl.on((type, d) => {
+    const f = d.fix;
+    switch (type) {
+      case 'started':
+        showBtns(true); setGps(msg('gps_fetching'), 'orange'); endTick();
+        tick = setInterval(() => el('updateTimer').textContent = msg('gps_last_improve', { s: Math.floor((Date.now() - gpsCtl.lastFix()) / 1000) }), 1000);
+        break;
+      case 'fix':
+        el('gpsDispLat').textContent = f.lat.toFixed(6); el('gpsDispLon').textContent = f.lon.toFixed(6);
+        el('gpsDispAlt').textContent = Math.round(f.alt) + 'm'; el('gpsDispAcc').textContent = Math.round(f.acc) + 'm';
+        setGps(msg('gps_updating', { acc: Math.round(f.acc) }), '#0056b3');
+        break;
+      case 'locked': case 'timeout': case 'stopped': case 'nofix':
+        showBtns(false); endTick();
+        if (d.packet) { el('posPacketOut').textContent = d.packet; el('posPacketSize').textContent = `${d.packet.length - 4} B`; MENT.gps.value = d.packet; }
+        el('updateTimer').textContent = msg('gps_locked'); setGps(msg('gps_stopped'), '#333');
+        break;
+      case 'paused':
+        showBtns(false); endTick(); setGps(msg('gps_paused'), '#333');
+        break;
+      case 'reset':
+        showBtns(false); endTick(); MENT.gps.value = '';
+        ['Lat', 'Lon', 'Alt', 'Acc'].forEach(n => el('gpsDisp' + n).textContent = '\u2013');
+        el('posPacketOut').textContent = msg('no_data_locked'); el('posPacketSize').textContent = '0 B';
+        el('updateTimer').textContent = msg('gps_standby'); gStatus.textContent = msg('gps_ready'); gStatus.style.background = ''; gStatus.style.color = '';
+        break;
+      case 'unsupported': setGps(msg('gps_unsupported'), 'red'); break;
+      case 'error': setGps(msg('gps_error') + (d.error?.message || ''), 'red'); break;
+    }
   });
-  el('gpsStopBtn').addEventListener('click', () => {
-    stopWatch();
-    const b64 = packGps(fix); gpsPacket = `L|${b64}|L`;
-    el('posPacketOut').textContent = gpsPacket; el('posPacketSize').textContent = `${b64.length} B`;
-    el('updateTimer').textContent = msg('gps_locked'); setGps(msg('gps_stopped'), '#333');
-    F.gps.value = gpsPacket; renderPreview();
-  });
-  document.addEventListener('visibilitychange', () => {        // save battery: stop GPS when the tab is hidden
-    if (document.hidden && watchId != null) { stopWatch(); setGps(msg('gps_paused'), '#333'); }
-  });
+  el('gpsStartBtn').addEventListener('click', () => gpsCtl.start());   // manual: no auto-lock
+  el('gpsStopBtn').addEventListener('click',  () => gpsCtl.stop());    // Stop & Lock Data
 
   /* ── Initial load LAST: every handler above already works while the Sheet is still answering ── */
   showError(err, ''); plantSel.disabled = true; dateIn.value = today;
@@ -2181,7 +2330,10 @@ function rgRenderList() {
     const s = document.createElement('div'); s.className = 'rgSer'; s.textContent = it.serial;
     const c = document.createElement('div'); c.className = 'rgCon'; c.textContent = it.content || t(rt('no_content'));
     const st1 = document.createElement('div'); st1.className = 'rgCon'; st1.textContent = t(rt('status_' + it.tagStatus));
-    box.append(s, c, st1);
+    const loc1 = document.createElement('div'); loc1.className = 'rgCon'; loc1.textContent = it.locationSave || '–';
+    // const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = it.gps;
+    const gps1 = document.createElement('div'); gps1.className = 'rgCon'; gps1.textContent = it.gps ? '📍' : '–';
+    box.append(s, c, st1, loc1, gps1);
     const d = document.createElement('button'); d.className = 'rgDel'; d.type = 'button'; d.textContent = '\u2715'; d.disabled = busy;
     d.onclick = () => { rgItems.splice(i, 1); rgStatusSet('st_removed', 'info', { s: it.serial }); rgRenderList(); };
     row.append(n, box, d); list.append(row);
@@ -2196,7 +2348,7 @@ const rgShowLast = (serial, content, tagStatus) => {
   /* Content = all text/url records in tag order, joined by " | " */
 const rgContentOf = recs => recs.filter(r => (r.type === 'text' || r.type === 'url') && r.value).map(r => r.value.trim()).filter(Boolean).join(' | ');
 /* Column A = serial number, column B = content, one row per tag */
-const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, nfcData: r.content})) });
+const rgSave = rows => sendToServer({ key: CFG.SECRET, action: 'nfcSerials', rows: rows.map(r => ({ serialNum: r.serial, nfcStatus: r.tagStatus, location: r.locationSave, nfcPos: r.gps, nfcData: r.content})) });
 
 function rgStopScan(silent) {
   rgScan?.abort(); rgScan = null; rgUpdateButtons();
@@ -2217,7 +2369,10 @@ async function rgStartScan() {
 }
 async function rgOnTag(e) {
   if (busy) return;                                            // ignore taps while saving
-  const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message)), tagStatus = rgActive;
+  const serial = (e.serialNumber || '').toUpperCase(), content = rgContentOf(decodeRecords(e.message));
+  let tagStatus = rgActive;
+  const locationSave = $('reg-where').value.trim();
+  const gps = gpsForSave('');          // locked packet, else latest fix, else ''
   if (!serial) return rgStatusSet('st_no_serial', 'warn');
   rgShowLast(serial, content, tagStatus);
   if (navigator.vibrate) navigator.vibrate(80);
@@ -2225,12 +2380,12 @@ async function rgOnTag(e) {
     rgStopScan(true); 
     rgStatusSet('st_read', 'info', { s: serial });
     busy = true; rgUpdateButtons(); rgStatusSet('st_saving');
-    try { await rgSave([{ serial, content, tagStatus}]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
+    try { await rgSave([{ serial, tagStatus, locationSave, gps, content }]); rgStatusSet('st_saved_one', 'success', { s: serial }); }
     catch (er) { console.error(er); rgStatusSet('st_save_fail_single', 'error', { e: er.message || er }); }
     finally { busy = false; rgUpdateButtons(); }
   } else {                                                     // session list
     if (rgItems.some(i => i.serial === serial)) return rgStatusSet('st_dup', 'warn', { s: serial });
-    rgItems.push({ serial, content, tagStatus });
+    rgItems.push({ serial, tagStatus, locationSave, gps, content });
     rgStatusSet('st_added', 'success', { s: serial, n: rgItems.length }); rgRenderList();
   }
 }
@@ -2264,6 +2419,23 @@ function initRegitry() {
   };
   document.querySelectorAll('#regModeToggleActiveState button').forEach(b => b.onclick = () => setActState(b.dataset.mode));
   setActState('active'); 
+    /* GPS toggle: Active = start a fresh fix with auto-lock (30 s or <= 10 m); Inactive = stop and discard */
+  const gpsBtns = document.querySelectorAll('#regModeToggleGsp button');
+  const gpsBox  = $('reg-gps-status');
+  const syncGpsToggle = () => gpsBtns.forEach(b => b.classList.toggle('active', (b.dataset.mode === 'active') === gpsCtl.active()));
+  gpsBtns.forEach(b => b.onclick = () => b.dataset.mode === 'active' ? gpsCtl.start({ auto: true }) : gpsCtl.reset());
+  gpsCtl.on((type, d) => {
+    syncGpsToggle();                                           // also follows the Generator buttons
+    const acc = Math.round(d.fix.acc);
+    gpsBox.className = 'status-msg ' + (type === 'error' || type === 'nofix' ? 'error' : type === 'locked' || type === 'timeout' ? 'success' : 'info');
+    gpsBox.textContent = ({
+      started: msg('gps_fetching'), fix: msg('gps_updating', { acc }),
+      locked: msg('gps_auto_locked', { acc }), timeout: msg('gps_auto_timeout', { acc }), nofix: msg('gps_nofix'),
+      stopped: msg('gps_stopped'), paused: msg('gps_paused'), reset: msg('gps_off'),
+      unsupported: msg('gps_unsupported'), error: msg('gps_error') + (d.error?.message || '')
+    })[type] || '';
+  });
+  syncGpsToggle();
   rgRenderList();
   document.addEventListener('lang:changed', () => { rgStatusSet(...lastStatus); rgRenderList(); });
   document.addEventListener('tab:changed', e => { if (e.detail.tab !== 'reg') rgStopScan(true); });
@@ -2280,5 +2452,49 @@ document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded'
   <script>
 setupLanguageButtons();
   </script>
+
+<!-- Debug panel (paste this before </body>) -->
+<!-- ── Debug console ──────────────────────────────────────────────────────── -->
+<div id="debug-section">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+    <strong style="color:#9cdcfe;font-size:15px;">🛠 Debug Console</strong>
+    <button onclick="document.getElementById('debug-log').replaceChildren()"
+      style="padding:2px 10px;font-size:12px;cursor:pointer;border-radius:4px;border:1px solid #555;background:#2d2d2d;color:#d4d4d4;">Clear</button>
+  </div>
+  <div id="debug-log" style="max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"></div>
+</div>
+<script>
+(function () {
+  if (location.search.includes('debug')) document.getElementById('debug-section').classList.add('show');
+  // Uncaught errors previously never reached your panel – this is how you would have seen bugs 1–4:
+  window.addEventListener('error', e => console.error('Uncaught:', e.message, `(${e.filename?.split('/').pop()}:${e.lineno})`));
+  window.addEventListener('unhandledrejection', e => console.error('Unhandled promise:', e.reason));
+  
+  const log = document.getElementById('debug-log');
+  if (!log) return;
+  function appendEntry(level, args) {
+    const line = document.createElement('div');
+    line.style.borderBottom = '1px solid #333';
+    line.style.padding = '2px 0';
+    const colors   = { log: '#d4d4d4', warn: '#dcdcaa', error: '#f48771' };
+    const prefixes = { log: '[LOG]', warn: '[WARN]', error: '[ERROR]' };
+    line.style.color = colors[level] || '#d4d4d4';
+    const text = args.map(a => {
+      if (a instanceof Error) return a.stack || String(a);
+      if (typeof a === 'object' && a !== null) { try { return JSON.stringify(a,null,2); } catch { return String(a); } }
+      return String(a);
+    }).join(' ');
+    line.textContent = `${prefixes[level]} ${text}`;
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+  }
+  const _l = console.log.bind(console);
+  const _w = console.warn.bind(console);
+  const _e = console.error.bind(console);
+  console.log   = (...a) => { _l(...a);  appendEntry('log',   a); };
+  console.warn  = (...a) => { _w(...a);  appendEntry('warn',  a); };
+  console.error = (...a) => { _e(...a);  appendEntry('error', a); };
+})();
+</script>  
   </body>
 </html>
