@@ -2,7 +2,7 @@
  * Everything here is still PUBLIC: anyone can open this file in the browser. */
 const CFG = {
  // WRITER_URL: 'https://script.google.com/macros/s/AKfycbxUOhbupkL6UtMOv7zLxISSwwjx4nnvIrG0aUkmMmzPYK9t-envsS1e9zVVzoO6_OSS/exec',
-  WRITER_URL: 'https://script.google.com/macros/s/AKfycbz4C9UsB_5NKjLZO4V4hce38QkOupAFklf7sI01dwFmGmADhGZ5GvyEmvlF3K5Kdf7y/exec',
+  WRITER_URL: 'https://script.google.com/macros/s/AKfycbzpbI3uFfhaGisFQh_qZxTsoXTZLS8VpI5iF8h6g4G8bWWFi9fG5FUr3wAu08zVwAIk/exec',
   SECRET: '159753g9d5rt4sdfer7e5z4d6szo89fsef', 
   READ_SHEET_SOURCE_ID: '1QHJzWztssucMlnozk2tV9ym6gLedgDj4Zh3DzCTFWCY', 
   READ_SHEET_SOURCE: 'plant_list',
