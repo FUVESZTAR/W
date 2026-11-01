@@ -691,6 +691,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
         <div class="rgToggle" id="regModeToggleMode">
           <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
           <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
@@ -704,17 +705,16 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <label for="reg-where" data-i18n="nfcall.lbl_where">Location</label>
           <input type="text" id="reg-where" placeholder="e.g., Gyor"/>
         </div>
+        <p class="status-msg" id="reg-gps-status"></p>
         <div class="rgToggle" id="regModeToggleGsp">
            <label data-i18n="nfcall.gps_card_title">GPS Data</label>
            <button id="gps-state-btn1" type="button" data-mode="active" data-i18n="nfcreg.status_active">Active</button>
            <button id="gps-state-btn2" type="button" data-mode="inactive" class="active" data-i18n="nfcreg.status_inactive">Inactive</button>
         </div>
-        <p class="status-msg" id="reg-gps-status"></p>
         <div class="btn-grid cols-2">
           <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
           <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
         </div>
-        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
         <div class="btn-grid cols-2">
           <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
           <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
@@ -1323,8 +1323,8 @@ function switchTab(tab) {
   const prev = currentTab;
   currentTab = tab;
   const view = tab === 'pin' ? 'gen' : tab;            // 'pin' re-uses the generator panels
-  console.log('currentTab: ', currentTab);
-  console.log('view: ', view);
+  //console.log('currentTab: ', currentTab);
+  //console.log('view: ', view);
   document.querySelectorAll('.tab-section-gen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-section-read').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-section-reg').forEach(s => s.classList.remove('active'));
@@ -1898,7 +1898,7 @@ async function initGenerator() {
   let plants = [], nextPlantId = null, offlineSave = false;
   const ids = { nfc: null, pin: null };                        // each page has its own running id
   const mode = () => currentTab === 'pin' ? 'pin' : 'nfc';
-  console.log('mode: ', mode);
+  //console.log('mode: ', mode);
 
   /* Buttons that need generated data stay disabled until a plant is chosen */
   const needsData = ['qr-button', 'copy-nfc', 'copy-link', 'copy-pic', 'save-nfc', 'nfc-write-button'];
