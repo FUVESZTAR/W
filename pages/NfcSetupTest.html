@@ -691,6 +691,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
         <div class="panel-chevron"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
       </div>
       <div class="panel-body"><div class="panel-body-inner"><div class="panel-body-pad">
+        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
         <div class="rgToggle" id="regModeToggleMode">
           <button type="button" data-mode="single" class="active" data-i18n="nfcreg.mode_single">Single (auto-save)</button>
           <button type="button" data-mode="multi" data-i18n="nfcreg.mode_multi">Multiple (session)</button>
@@ -714,7 +715,7 @@ button.btn-danger:hover:not(:disabled){background:#b71c1c}
           <button id="reg-start-btn" class="btn btn-primary" type="button" data-i18n="nfcreg.btn_start">Start reading</button>
           <button id="reg-stop-btn" class="btn btn-danger" type="button" data-i18n="nfcreg.btn_stop" disabled>Stop reading</button>
         </div>
-        <div id="rgStatus" class="rgStatus-box">Ready. Press “Start reading”.</div>
+        
         <div class="btn-grid cols-2">
           <button id="reg-list-reg-btn" class="btn-link" type="button" data-i18n="nfcall.btn_reglist">Registrated NFC List</button>
           <button id="reg-back-btn" class="btn-back" type="button" data-i18n="nfcall.btn_back">← Back</button>
